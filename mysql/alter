@@ -1,1 +1,18 @@
-//alter tables
+RENAME TABLE product TO products;
+
+
+ALTER TABLE products ADD count INT(11) NOT NULL AFTER id;
+
+ALTER TABLE products MODIFY COLUMN count VARCHAR(64);
+
+
+ALTER TABLE products ADD INDEX count_index (count);
+ALTER TABLE products ADD UNIQUE INDEX count_unique (count);
+ALTER TABLE products ADD CONSTRAINT product_category_fk FOREIGN KEY (count) REFERENCES categories (category_id);
+
+ALTER TABLE products DROP INDEX count_index;
+ALTER TABLE products DROP FOREIGN KEY product_category_fk;
+
+ALTER TABLE products DROP COLUMN count;
+
+SHOW INDEX FROM products;
