@@ -1,0 +1,19 @@
+CREATE DATABASE IF NOT EXISTS dbname CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+GRANT ALL PRIVILEGES ON *.* TO ivan@localhost IDENTIFIED BY 'passme' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO ivan@'%' IDENTIFIED BY 'passme' WITH GRANT OPTION;
+
+GRANT USAGE ON *.* TO ivan@localhost;
+GRANT RELOAD,PROCESS ON *.* TO ivan@localhost;
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,GRANT,INDEX,ALTER ON *.* TO ivan@localhost;
+
+SELECT * FROM mysql.user WHERE User='root';
+
+mysql -u root mysql
+UPDATE ivan SET Password=PASSWORD('passme') WHERE User='root';
+FLUSH PRIVILEGES;
+
+mysql -u root mysql
+SET PASSWORD FOR root=PASSWORD('new_password');
+
+
