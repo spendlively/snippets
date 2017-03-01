@@ -2,7 +2,7 @@
 
 //escape &<>" without '
 htmlspecialchars('&<>"\'');
-htmlentities('&<>"\'');
+htmlentities('&<>"\''); //Can escape more simbols than htmlspecialchars
 
 
 
