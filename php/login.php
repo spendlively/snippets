@@ -1,5 +1,7 @@
 <?php
+
 session_start();
+
 try {
 	// Get email address from request body
 	$email = filter_input(INPUT_POST, 'email');
@@ -9,7 +11,6 @@ try {
 
 	// Find account with email address (THIS IS PSUEDO-CODE)
 	$user = User::findByEmail($email);
-
 
 	// Verify password with account password hash
 	if (password_verify($password, $user->password_hash) === false) {

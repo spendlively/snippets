@@ -27,22 +27,10 @@ try {
 		throw new Exception('Password hash failed');
 	}
 
-	// Create user account (THIS IS PSUEDO-CODE)
-	var_dump(email);	
-	var_dump(password);
-	die();	
 	//TODO: saving new user
-	// $user = new User();
-	// $user->email = $email;
-	// $user->password_hash = $passwordHash;
-	// $user->save();
-
-	// //Redirect to login page
-	// header('HTTP/1.1 302 Redirect');
-	// header('Location: /login.php');
 } catch (Exception $e) {
 
-//Report error
+	//Report error
 	header('HTTP/1.1 400 Bad request');
 	echo $e->getMessage();
 }
