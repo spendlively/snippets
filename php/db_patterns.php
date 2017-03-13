@@ -18,22 +18,26 @@ class User{
 
 	public $id;
 	public $name;
-
-	public static function findByName($name){
-		//SELECT * FROM user WHERE name LIKE $name
-		//return new User();
-	}
+	public $age;
 
 	public function __construct($id){
 		//SELECT * FROM user WHERE id = $id
+		//foreach($props as $key => $value){
+		//  $this->$key = $value;
+		//}
+	}
+
+	public static function findByName($name){
+		//SELECT id FROM user WHERE name LIKE $name
+		//return new User($id);
 	}
 
 	public function update(){
-		//UPDATE
+		//UPDATE $this->id, $this->name, $this->age
 	}	
 	
 	public function insert(){
-		//INSERT $this->id, $this->name
+		//INSERT $this->id, $this->name, $this->age
 	}	
 	
 	public function delete(){
@@ -94,4 +98,45 @@ Mapper::update($user);
 ////////////Интегрированный преобразователь//////////
 //////////////////Integrated mapper//////////////////
 /////////////////////////////////////////////////////
-//Нечто среднее
+class User3{
+
+	public $id;
+	public $name;
+	public $age;
+
+	public function __construct($id){
+		//SELECT * FROM user WHERE id = $id
+		//$this->id = $id;
+		//$this->name = $props['name'];
+		//$this->age = $props['age'];
+	}
+
+	public static function findByName($name){
+		//SELECT id FROM user WHERE name LIKE $name
+		//return new User($id);
+	}
+
+	public function update(){
+		//UPDATE $this->id, $this->name, $this->age
+	}	
+	
+	public function insert(){
+		//INSERT $this->id, $this->name, $this->age
+	}	
+	
+	public function delete(){
+		//DELETE
+	}	
+}
+
+$user = new User3(1);
+$user->name = 'Ivan';
+$user->insert();
+
+
+
+/////////////////////////////////////////////////////
+//////////////Отложенная инициализация///////////////
+////////////////Lazy Initialization//////////////////
+/////////////////////////////////////////////////////
+//Данные не выбираются пока не понадобятся
