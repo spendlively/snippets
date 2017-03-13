@@ -1,0 +1,8 @@
+//Поиск медленных запросов
+log-slow-queries = /var/lib/mysql/slow-log
+long_query_time=5
+#long-queries-not-usung-indexes
+
+//Чтение журнала медленных запросов
+mysqldumpslow -help
+
