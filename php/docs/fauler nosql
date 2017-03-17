@@ -1,0 +1,38 @@
+ NOSQL
+    Не реляционные
+    Cluster-friendly
+    Open-source
+    21st century web
+    безсхемные
+
+Модель данных
+    Key-value
+        redis, project voldemort, riak
+        value может быть хоть чем: число. документ, картинка
+    Document (без схемы)
+        масса различных документов, предоставляется в форме json
+        mongodb, couchdb, raven d8
+    column-family
+        Cassandra
+        apache hibase
+
+    Graph
+        Поддерживает acid! :)
+        neo4j
+(Key-value, Document, column-family: aggregate oriented)
+(Key-value, Document, column-family, Graph: schemaless)
+
+RDBMS == acid
+1.1 Atomicity — Атомарность
+1.2 Consistency — Согласованность
+1.3 Isolation — Изолированность
+1.4 Durability — Надежность
+
+NoSQL == BASE
+
+Преимущество NoSQL:
+Версионность
+
+Выбор в пользу NoSQL СУБД:
+	Big amount of data is a big issue
+	Более простая разработка

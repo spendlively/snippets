@@ -1,0 +1,672 @@
+//THIS
+//$this - ссылка на объект из которобо вызван метод
+class A{
+    function foo(){
+	var_dump($this);
+	var_dump(get_class($this));
+    }
+}
+class B{
+    function bar()    {
+        A::foo();
+    }
+}
+$a = new A();
+$b = new B();
+
+$a->foo(); //object(A),				"A"
+A::foo();  //NULL(Notice: Undefined this),	"A"(Notice: Undefined A)
+$b->bar(); //object(B), 			"B"
+B::bar();  //NULL(Notice: Undefined this),	"A"(Notice: Undefined A)
+
+//ПОЛУЧЕНИЕ ИМЕНИ КЛАССА
+//get_class - возвращает имя класса
+class A{
+	public function __construct(){
+		print (get_class($this)); //A
+		print(get_class()); //A
+		print(get_class(NULL)); //A
+	}
+}
+$a = new A();
+
+//ПЕРЕДАЧА ИМЕНИ КЛАССА В ПЕРЕМЕННОЙ
+class SimpleClass{};
+$instance = new SimpleClass();
+$className = 'SimpleClass';
+var_dump($instance = new $className()); //object(SimpleClass)
+
+//ПЕРЕДАЧА ОБЪЕКТА ПО ССЫЛКЕ
+class SimpleClass{};
+$instance = new SimpleClass();
+$assigned = $instance;
+$reference = &$instance;
+
+$instance->var = 'value';
+$instance = null;
+
+var_dump($instance); //null
+var_dump($assigned); //{var: value}
+var_dump($reference); //null
+//$reference --> $instance --> {var: value} <--$assigned
+
+//СПОСОБЫ СОЗДАНИЯ ОБЪЕКТА
+class Test{
+    static public function getStatic(){
+        return new static;
+    }
+    static public function getSelf(){
+        return new self;
+    }
+}
+
+class Child extends Test{}
+
+$obj1 = new Test(); //{}
+$obj2 = new $obj1; //{}
+$obj3 = Test::getStatic(); //{}
+$obj4 = Test::getSelf(); //{}
+$obj5 = Child::getStatic(); //{}
+
+//НАСЛЕДОВАНИЕ И ПЕРЕГРУЗКА
+class A{
+	public function a(){
+		echo "A::a\n";
+	}
+}
+
+class B extends A{
+	public function a(){
+		parent::a();
+	}
+}
+
+$a = new A(); //"A::a"
+$b = new B(); //"A::a"
+$a->a(); //"A::a"
+$a->a(); //"A::a"
+
+//ПОЛУЧЕНИЕ АБСОЛЮТНОГО ИМЕНИ КЛАССА (PHP 5.5+)
+namespace NS {
+    class ClassName {}
+    echo ClassName::class . PHP_EOL;
+}
+
+//ОПРЕДЕЛЕНИЕ СВОЙСТВ ОБЪЕКТА
+//При инициализации свойств недопустимо использование операторов
+//вклюячая присваивание
+class SimpleClass{
+   public $var1 = myConstant;
+   public $var2 = array(true, false);
+   // Это разрешено только в PHP 5.3.0+
+   public $var8 = <<<'EOD'
+hello world
+EOD;
+}
+
+//ВЫЗОВ СТАТИЧЕСКИХ МЕТОДОВ И СВОЙСТВ
+class Foo{
+    public static $var = 'VAR';
+}
+class Bar extends Foo{
+    public function getStatic(){return static::$var;}
+    public function getSelf(){return self::$var;}
+    public function getParent(){return parent::$var;}
+    public static function sGetStatic(){return static::$var;}
+    public static function sGetSelf(){return self::$var;}
+    public static function sGetParent(){return parent::$var;}
+}
+
+var_dump(Bar::getStatic());
+var_dump(Bar::getSelf());
+var_dump(Bar::getParent());
+var_dump(Bar::sGetStatic());
+var_dump(Bar::sGetSelf());
+var_dump(Bar::sGetParent());
+
+$bar = new Bar(); //доступ к статике через объект PHP 5.3.0+
+var_dump($bar::getStatic());
+var_dump($bar::getSelf());
+var_dump($bar::getParent());
+var_dump($bar->getStatic());
+var_dump($bar->getSelf());
+var_dump($bar->getParent());
+var_dump($bar::sGetStatic());
+var_dump($bar::sGetSelf());
+var_dump($bar::sGetParent());
+var_dump($bar->sGetStatic());
+var_dump($bar->sGetSelf());
+var_dump($bar->sGetParent());
+
+//В том числе
+$classname = 'Bar';
+$classname::getStatic();
+
+//ПОЗДНЕЕ СТАТИЧЕСКОЕ СВЯЗЫВАНИЕ
+class A{
+    public static function who(){echo __CLASS__;}
+    public static function test(){self::who();}
+}
+class B extends A{
+    public static function who(){echo __CLASS__;}
+}
+B::test();//А
+
+class A {public static function who(){echo __CLASS__;}
+    public static function test(){static::who();/*псс*/}
+}
+class B extends A{
+	public static function who(){echo __CLASS__;}
+}
+B::test();//B
+
+//ДОСТУП К КОНСТАНТЕ КЛАССА
+class A{
+    const B = 'BBB';
+    function getB(){return self::B;}
+}
+
+var_dump(A::B);//"BBB"
+
+$classname = "A";
+var_dump($classname::B); ////"BBB" (PHP 5.3.0+)
+
+$a = new A();
+var_dump($a->getB());//"BBB"
+
+var_dump($a::B); //"BBB" (PHP 5.3.0+)
+
+var_dump($a->B);//NULL PHP Notice:  Undefined property: A::$B
+
+//A::B = "C";//PHP Parse error:  syntax error
+
+//Перегрузка константы
+class A{
+    const C = 'AAA';
+}
+class B extends A{
+    const C = 'BBB';
+}
+var_dump(B::C); //BBB
+
+//АВТОЗАГРУЗКА КЛАССОВ
+//недоступна в случае использования PHP в командной строке в интерактивном режиме.
+function __autoload($className) {
+    include $className . '.php';
+}
+var_dump($test  = new Test()); //object(Test)#1 (0) {}
+
+//ОБЛАСТИ ВИДИМОСТИ
+class A{
+	public $A1 = "A1";
+	protected $A2 = "A2";
+	private $A3 = "A3";
+	public function aGetA1(){return $this->A1;}
+	public function aGetA2(){return $this->A2;}
+	public function aGetA3(){return $this->A3;}
+}
+
+class B extends A{
+	public function bGetA1(){return $this->A1;}
+	public function bGetA2(){return $this->A2;}
+	public function bGetA3(){return $this->A3;}
+}
+$b = new B();
+$a = new A();
+var_dump($a->aGetA1()); //A1
+var_dump($a->aGetA2()); //A2
+var_dump($a->aGetA3()); //A3
+var_dump($b->aGetA1()); //A1
+var_dump($b->aGetA2()); //A2
+var_dump($b->aGetA3()); //A3
+var_dump($b->bGetA1()); //A1
+var_dump($b->bGetA2()); //A2
+var_dump($b->bGetA3()); //NULL PHP Notice: Undefined property: B::$A3
+
+
+
+//АБСТРАКТНЫЕ КЛАССЫ
+//Класс, который содержит по крайней мере один абстрактный метод, должен быть определен как абстрактный. 
+//Нельзя создать экземпляр абстрактного класса. 
+//Методы, объявленные абстрактными не могут включать реализации.
+//контроль типов (type hint) и количество обязательных аргументов должно быть одинаковым
+//если в дочернем классе указан необязательный параметр, которого нет в сигнатуре абстрактного класса, 
+//то в данном случае конфликта сигнатур не будет. 
+//Это правило также применяется к конструкторам начиная с версии PHP 5.4, ранее сигнатуры конструкторов могли отличаться.
+//норма
+abstract class A{
+	abstract public function test();
+}
+class B extends A{
+	public function test($var = null){}
+}
+//ошибка
+abstract class С{
+	abstract public function test($var = null);
+}
+class В extends С{
+	public function test(){}
+}
+//PHP Fatal error:  Declaration of В::test() must be compatible with С::test($var = NULL)
+
+
+//Если абстрактный метод объявлен как protected, то реализация этого метода должна быть либо protected либо public, но никак не private
+//то есть должна совпадать (или быть менее строгой)
+abstract class E{
+	abstract protected function test();
+}
+class F extends E{
+	private function test($var = null){}
+}
+//PHP Fatal error:  Access level to F::test() must be protected (as in class E) or weaker
+
+//ИНТЕРФЕЙСЫ
+//Все методы, определенные в интерфейсы должны быть публичными, что следует из самой природы интерфейса.
+//Класс должен реализовать все методы, описанные в интерфейсе; иначе произойдет фатальная ошибка
+//До версии PHP 5.3.9 класс не мог реализовывать два интерфейса, которые описывали метод с одинаковым именем, 
+//так как это приводило к неоднозначности. Новые версии PHP позволяют это делать, если методы имеют одинаковую сигнатуру.
+//норм
+interface A{
+	public function test();
+}
+class B implements A{
+	public function test($var = null){}
+}
+//ошибка
+interface С{
+	public function test($var = null);
+}
+class D implements С{
+	public function test(){}
+}
+//PHP Fatal error:  Declaration of D::test() must be compatible with С::test($var = NULL)
+
+//Интерфейсы могут быть унаследованы друг от друга, так же как и классы, с помощью оператора extends.
+//Интерфейсы могут содержать константы. 
+//Константы интерфейсов работают точно так же, как и константы классов, 
+//за исключением того, что они не могут быть перекрыты наследующим классом или интерфейсом.
+interface E{
+    const e = 'Константа интерфейса';
+}
+
+// Выведет: Константа интерфейса
+echo E::e;
+
+//ТРЕЙТЫ PHP 5.4+
+//Невозможно создать самостоятельный экземпляр трейта.
+//Это дополнение к обычному наследованию и позволяет сделать горизонтальную композицию поведения, 
+//то есть применение членов класса без необходимости наследования.
+
+//Приоритет: методы из текущего класса переопределяют методы трейта, которые в свою очередь переопределяют методы из базового класса.
+class Base {
+    public function sayHello() {
+        echo "Hello ";
+    }
+}
+
+trait SayWorld {
+    public function sayHello() {
+        parent::sayHello();
+        echo "World!\n";
+    }
+}
+
+class MyHelloWorld extends Base {
+    use SayWorld;
+}
+
+$o = new MyHelloWorld();
+$o->sayHello();
+//Hello World!
+
+//Несколько трейтов могут быть вставлены в класс путем их перечисления в директиве use, разделяя запятыми.
+
+//Если два трейта вставляют метод с одним и тем же именем, это приводит к фатальной ошибке в случае, если конфликт явно не разрешен.
+//Разрешение конфликта
+trait A {
+    public function smallTalk() {
+        var_dump('a');
+    }
+    public function bigTalk() {
+        var_dump('A');
+    }
+}
+
+trait B {
+    public function smallTalk() {
+        var_dump('b');
+    }
+    public function bigTalk() {
+        var_dump('B');
+    }
+}
+
+class Talker {
+    use A, B {
+        B::smallTalk insteadof A;
+        A::bigTalk insteadof B;
+    }
+}
+
+class Aliased_Talker {
+    use A, B {
+        B::smallTalk insteadof A;
+        A::bigTalk insteadof B;
+        B::bigTalk as talk;
+    }
+}
+$t = new Talker();
+$t->smallTalk(); //b
+$t->bigTalk(); //A
+$at = new Aliased_Talker();
+$at->talk(); //B
+
+//Используя синтаксис оператора as можно также настроить видимость метода в выставке класса.
+trait HelloWorld {
+    public function sayHello() {
+        echo 'Hello World!';
+    }
+}
+class MyClass1 {
+    use HelloWorld { sayHello as protected; }
+}
+class MyClass2 {
+    use HelloWorld { sayHello as private myPrivateHello; }
+}
+
+//Трейты могут использовать другие трейты
+trait Hello {
+    public function sayHello() {
+        echo 'Hello ';
+    }
+}
+
+trait World {
+    public function sayWorld() {
+        echo 'World!';
+    }
+}
+
+trait HelloWorld {
+    use Hello, World;
+}
+
+class MyHelloWorld {
+    use HelloWorld;
+}
+
+$o = new MyHelloWorld();
+$o->sayHello(); //'Hello '
+$o->sayWorld(); //'World!'
+
+//Трейты поддерживают использование абстрактных методов
+
+//Трейты могут определять и статические свойства и статические методы.
+trait Counter {
+    public function inc() {
+        static $c = 0;
+        $c = $c + 1;
+        echo "$c\n";
+    }
+
+    public static function doSomething() {
+        echo 'doSomething';
+    }
+}
+
+class C1 {
+    use Counter;
+}
+
+class C2 {
+    use Counter;
+}
+
+$o = new C1(); $o->inc(); // echo 1
+$p = new C2(); $p->inc(); // echo 1
+C1::doSomething(); //doSomething
+
+//Трейты могут также определять свойства.
+
+//Если трейт определяет свойство, то класс не может определить свойство с таким же именем, иначе будет сгенерирована ошибка. 
+//Это будет ошибка E_STRICT, если определение класса совместимо (такая же область видимости и начальные значения) или фатальная ошибка в ином случае.
+//Разрешение конфликтов
+trait PropertiesTrait {
+    public $same = true;
+    public $different = false;
+}
+
+class PropertiesExample {
+    use PropertiesTrait;
+    public $same = true; // Строгое следование стандартам
+    public $different = true; // Фатальная ошибка
+}
+
+//ПЕРЕГРУЗКА
+class A{
+	private $a = "private";
+	protected $b = "protected";
+	public $c = "public";
+	protected function test(){}
+	static protected function test2(){}
+}
+
+class B extends A{
+	public function __set($name, $value){
+		$this->{$name} = $value;
+		var_dump("create {$name} = {$value}");
+	}
+	public function __get($name){
+		return $name . " is not available";
+	}
+	public function __isset($name){
+		return false;
+	}
+	public function __unset($name){
+		var_dump($name . " can't be unseted");
+	}
+	public function __call($name, $args){
+		var_dump($name);
+		var_dump($args);
+	}
+	static public function __callStatic($name, $args){
+		//must have public visibility and be static
+		var_dump($name);
+		var_dump($args);
+	}
+}
+
+$b = new B();
+
+//Видимость наследованных свойств
+var_dump($b->a); //"a is not available"
+var_dump($b->b); //"b is not available"
+var_dump($b->c); //"public"
+
+$b->d = "qwe"; //"create d = qwe"
+var_dump($b->e); //"e is not available"
+var_dump(isset($b->f)); //false
+unset($b->g); //"g can't be unseted"
+
+//перрегрузка методов
+$b->test("qwe"); //"test", array(qwe)
+$b::test2("qwe", "asd"); //"test2", array(qwe, asd)
+
+//ИТЕРАТОРЫ ОБЪЕКТОВ
+class MyClass{
+    public $var1 = 'value 1';
+    public $var2 = 'value 2';
+    public $var3 = 'value 3';
+    protected $protected = 'protected';
+    private   $private   = 'private';
+
+    function iterateVisible() {
+       foreach($this as $key => $value) {
+           print "$key => $value\n";
+       }
+    }
+}
+
+$a = new MyClass();
+
+foreach($a as $key => $value) {
+    print "$key => $value\n"; //var1 => value 1, var2 => value 2, var3 => value 3
+}
+echo "\n";
+
+$a->iterateVisible();//var1 => value 1, var2 => value 2, var3 => value 3, protected => protected, private => private
+//Для более продвинутой реализации итераторов можно
+//реализовать интерфейсы Iterator или IteratorAggregate либо
+//использовать итераторы SPL
+
+//МАГИЧЕСКИЕ МЕТОДЫ
+//__sleep()
+//выполняется прежде любой операции сериализации. (serialize())
+//предполагается, что будет возвращен массив с именами всех переменных объекта, который должен быть сериализован
+//Если возвращает NULL, то выдается предупреждение E_NOTICE.
+
+//__wakeup()
+//функция unserialize() проверяет наличие метода с "магическим" именем __wakeup(). 
+//Если такой имеется, то он может воссоздать все ресурсы объекта, принадлежавшие ему.
+//например для восстановления любых соединений с базой данных
+
+//__toString()
+//Вызывается при приобразовании в строку
+
+//__invoke()
+//вызывается, когда скрипт пытается выполнить объект как функцию.
+
+//__set_state() PHP 5.1+
+//статический метод вызывается для тех классов, которые экспортируются функцией var_export() 
+class A{
+    public $var1;
+    public static function __set_state($an_array){
+        $obj = new A;
+        $obj->var1 = $an_array['var1'];
+        return $obj;
+    }
+}
+$a = new A;
+$a->var1 = 5;
+
+eval('$b = ' . var_export($a, true) . ';');
+var_dump($b); //object(...)
+
+//__debugInfo() PHP 5.6.0+
+//Этот метод вызывается функцией var_dump(), когда необходимо вывести список свойст объекта. 
+//Если этот метод не определен, тогда будут выведены все public, protected и private свойства объекта.
+class C {
+    private $prop;
+    public function __construct($val) {
+        $this->prop = $val;
+    }
+    public function __debugInfo() {
+        return [
+		'propSquared' => $this->prop * 2,
+        ];
+    }
+}
+var_dump(new C(42));
+
+//var_export - аналогичен var_dump, но возвращает полноценный php-код
+$a = array(1,2,3);
+var_export($a);
+/*
+array (
+  0 => 1,
+  1 => 2,
+  2 => 3,
+)
+*/
+
+//eval — Исполняет код PHP, содержащейся в строке
+
+//FINAL
+//final метод не может быть переопределен
+class BaseClass {
+	final public function test(){}
+}
+//final класс не может быть наследован
+final class BaseClass {}
+
+//КЛОНИРОВАНИЕ ОБЪЕКТА
+//void __clone ( void )
+//По завершении клонирования, если у класса был определен метод __clone(), 
+//то этот метод __clone() вызывается у свежесозданной копии объекта, для возможного изменения всех необходимых свойств.
+class A{
+	public static $count = 0;
+	public function __clone(){
+		var_dump("clone");
+		self::$count++;
+	}
+}
+$a1 = new A();
+$a2 = $a1; //__clone не вызван
+var_dump(A::$count); //0
+$a3 = clone $a1; //"clone"
+var_dump(A::$count); //1
+
+//СРАВНЕНИЕ ОБЪЕКТОВ
+//== два объекта равны, если они содержат одинаковые свойства и одинаковые значения, и являются экземплярами одного и того же класса.
+//=== переменные объектов считаются идентичными тогда и только тогда, когда они ссылаются на один и тот же экземпляр одного и того же класса.
+
+//КОНТРОЛЬ ТИПА
+//В случае передачи аргумента неправильного типа результатом будет фатальная ошибка.
+//Также, контроль типов работает и с функциями
+class MyClass{
+	//Первый параметр должен быть объектом типа OtherClass
+	public function test(OtherClass $otherclass){}
+
+	//Первый параметр должен быть массивом
+	public function test_array(array $input_array){}
+
+	//Первый параметр должен быть итератором
+	public function test_interface(Traversable $iterator) {}
+
+	//Первый параметр должен быть типа callable (колбеком с типом callable PHP 5.4+)
+	public function test_callable(callable $callback, $data) {
+}
+
+//Контроль типов допускает значения NULL:
+function test(stdClass $obj = NULL){}
+test(NULL);
+test(new stdClass);
+
+//ОБЪЕКТЫ И ССЫЛКИ
+/*
+Одним из ключевых моментов объктно-ориентированной парадигмы PHP 5, которой часто обсуждается, является "передача объектов по ссылке по умолчанию". Это не совсем верно. Этот раздел уточняет это понятие используя некоторые примеры.
+
+Ссылка в PHP это псевдоним (алиас), который позволяет присвоить двум переменным одинаковое значение. Начиная с PHP 5 объектная переменная больше не содержит сам объект как значение. Такая переменная содержит только идентификатор объекта, который позволяет найти конкретный объект при обращении к нему. Когда объект передается как аргумент функции, возвращается или присваивается другой переменной, то эти разные переменные не являются псевдонимами (алиасами): они содержат копию идентификатора, который указывает на один и тот же объект.
+*/
+class A {
+    public $foo = 1;
+}  
+
+$a = new A;
+$b = $a;     // $a и $b копии одного идентификатора
+             // ($a) = ($b) = <id>
+$b->foo = 2;
+echo $a->foo."\n"; //2
+
+
+$c = new A;
+$d = &$c;    // $c и $d ссылки
+             // ($c,$d) = <id>
+
+$d->foo = 2;
+echo $c->foo."\n"; //2
+
+$e = new A;
+
+function foo($obj) {
+    // ($obj) = ($e) = <id>
+    $obj->foo = 2;
+}
+
+foo($e);
+echo $e->foo."\n"; //2
+
+//СЕРИАЛИЗАЦИЯ ОБЪЕКТОВ
+//Использование serialize для сериализации объекта сохранит имя класса и все его свойства, однако методы не сохраняются.
+//Для того, чтобы иметь возможность сделать unserialize() для объекта нужно чтобы класс этого объекта был определен заранее.
+

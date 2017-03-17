@@ -1,0 +1,134 @@
+//Внутри функции можно использовать любой корректный PHP-код, в том числе другие функции и даже объявления классов.
+//Функции не обязаны быть определены до их использования, исключая тот случай, когда функции определяются условно, как это показано в двух последующих примерах.
+//Все функции и классы PHP имеют глобальную область видимости - они могут быть вызваны вне функции, даже если были определены внутри и наоборот.
+//PHP не поддерживает перегрузку функции, также отсутствует возможность переопределить или удалить объявленную ранее функцию.
+//Имена функций регистронезависимы, тем не менее, более предпочтительно вызывать функции так, как они были объявлены.
+
+//func_num_args() Возвращает количество аргументов, переданных функции
+int func_num_args ( void )
+
+//func_get_arg() Возвращает элемент из списка аргументов
+mixed func_get_arg ( int $arg_num )
+
+//func_get_args() Возвращает массив, содержащий аргументы функции
+array func_get_args ( void )
+
+//Получение ссылки переменной
+//Начиная с PHP 5, аргументы, передаваемые по ссылке, могут иметь значения по умолчанию.
+function test(&$a){$a = 1;}
+
+//Передача по ссылке
+function qwe(&$a){$a = 1;}
+$a = 2;
+qwe($a); //$a = 1;
+
+function qwe(&$a){$a = 1;}
+$a = 2;
+qwe(&$a); //PHP Fatal error:  Call-time pass-by-reference has been removed
+
+//Значение по умолчанию должно быть константным выражением, а не (к примеру) переменной или вызовом функции/метода класса
+define("A", "a");
+function qwe($a = A){var_dump($a);}
+qwe(); //string(1) "a"
+
+//PHP 5.6 Переменное число аргументов
+function sum(...$numbers) {
+    $acc = 0;
+    foreach ($numbers as $n) {
+        $acc += $n;
+    }
+    return $acc;
+}
+echo sum(1, 2, 3, 4); //10
+
+//Использование при вызове функции
+function add($a, $b) {
+	return $a + $b;
+}
+echo add(...[1, 2])."\n";
+$a = [1, 2];
+echo add(...$a); //3\n3
+
+//Указание типа перед ...
+function total_intervals($unit, DateInterval ...$intervals) {...
+
+//Возврат результата по ссылке
+function &returns_reference(){
+	$someref = "qwe";
+	return $someref;
+}
+$newref =& returns_reference();
+var_dump($newref); //"qwe"
+
+//Если к имени переменной присоединены круглые скобки, PHP ищет функцию с тем же именем, что и результат вычисления переменной, и пытается ее выполнить
+//Переменные функции не будут работать с такими языковыми конструкциями как echo, print, unset(), isset(), empty(), include, require и другими подобными им операторами.
+function foo(){ echo "test"; }
+$func = "foo";
+$func(); //"test"
+
+//Вызов статического метода
+echo Foo::$variable; // Это выведет 'static property'
+$variable = "Variable";
+Foo::$variable();  // Это вызовет $foo->Variable()
+
+//АНОНИМНЫЕ ФУНКЦИИ
+$foo = function($name){
+    echo $name;
+};
+$foo("Hello"); //"Hello"
+
+//НАследование переменной из родительской области видимости
+//Наследуемое значение переменной определяется в момент создания функции,
+$message = "Hello1";
+$foo2 = function () use ($message) {
+    echo $message; 
+};
+$message = "Hello2";
+$foo2(); //"Hello1"
+
+// Наследование по ссылке
+$example = function () use (&$message) {...
+
+//is_callable — Проверяет, может ли значение переменной быть вызвано в качестве функции
+bool is_callable ( callable $name)
+
+//call_user_func — Вызывает пользовательскую функцию, указанную в первом параметре
+function dump($a){ var_dump($a);}
+if(is_callable("dump")){
+	call_user_func("dump", "qwe"); //"qwe"
+	call_user_func("dump", array("qwe", "asd", "zxc")); //array("qwe", "asd", "zxc")
+}
+
+//Вызов метода класса
+class A{
+	public function test($a){var_dump($a);}
+}
+call_user_func(array("A", "test"), array(1,2,3)); //array(1,2,3)
+call_user_func("A::test", array(1,2,3)); //array(1,2,3)
+
+//Вызов замыкания PHP 5.3.0++
+call_user_func(function($a){ var_dump($a); }, "test"); //"test"
+
+//call_user_func_array() Вызывает пользовательскую функцию с массивом параметров
+
+//ПЕРЕМЕННЫЕ ПЕРЕМЕННЫХ
+$a = "hello";
+$$a = "world";
+var_dump("$a ${$a}"); //"hello world"
+var_dump("$a $hello"); //"hello world"
+var_dump("$a $Sa"); //PHP Notice:  Undefined variable: Sa
+
+//2 и более
+$Bar = "a";
+$Foo = "Bar";
+$World = "Foo";
+$Hello = "World";
+$a = "Hello";
+
+echo $a . PHP_EOL; //Hello
+echo $$a . PHP_EOL; //World
+echo $$$a . PHP_EOL; //Foo
+echo $$$$a . PHP_EOL; //Bar
+echo $$$$$a . PHP_EOL; //a
+
+

@@ -1,0 +1,14 @@
+//Создаие объекта с помощью скобок
+class A{public function test(){echo "test";}}
+(new A)->test();
+
+//Проверка является ли параметр callable
+//type hint callable
+function test(){echo "test";}
+function foo(callable $x) {
+	return $x();
+}
+foo("test"); //test
+
+//SQLITE
+

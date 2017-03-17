@@ -1,0 +1,659 @@
+//Явное приведение типа
+$qwe = "qwe";
+var_dump(settype($qwe, "double")); //true
+var_dump($qwe); //float(0)
+
+//Контатенация echo
+echo "qwe", 1; //"qwe"1
+
+//Явное приведение типа с помощью ключевого слова
+( int ), ( integer ) - приведение к integer
+( bool ), ( boolean ) - приведение к boolean
+( float ), ( double ), ( real ) - приведение к float
+( string ) - приведение к string
+( array ) - приведение к array 
+( object ) - приведение к object
+( unset ) - приведение к NULL (PHP 5)
+( binary ) и поддержка префикса b были добавлены в PHP 5.2.1
+
+var_dump((binary)4); //string ”4”
+
+//Строки
+Строки (string) не могут быть размером более 2 Гб
+
+//Апостроф
+echo ‘qwe\’asd\\zxc’; //qwe'asd\zxc
+Позволяют экранировать ‘ и \,- все остальное интерпретируется как есть вместо какого-либо особого поведения.
+
+//Двойные кавычки
+Распознают управляющие последовательности
+\n //новая строка (LF или 0x0A (10) в ASCII)
+\r //возврат каретки (CR или 0x0D (13) в ASCII)
+\t //горизонтальная табуляция (HT или 0x09 (9) в ASCII)
+\v //вертикальная табуляция (VT или 0x0B (11) в ASCII) (с версии PHP 5.2.5)
+\e //escape-знак (ESC или 0x1B (27) в ASCII) (с версии PHP 5.4.4)
+\f //подача страницы (FF или 0x0C (12) в ASCII) (с версии PHP 5.2.5)
+\\ //обратная косая черта
+\$ //знак доллара
+\" //двойная кавычка
+\[0-7]{1,3} //\[0-7]{1,3}
+\x[0-9A-Fa-f]{1,2} //\x[0-9A-Fa-f]{1,2}
+
+var_dump("\a"); //string(2) "\a"
+
+//HEREDOC
+echo <<<QWE
+qwrety
+QWE;
+Перед QWE; ничего быть не должно
+с php 5.3 может использоваться для инициализации свойств класса только если не содержит внутри себя переменные.
+В остальном ведет себя как “”
+
+//Пример использования
+echo <<<EOT
+Меня зовут "$name". Я печатаю $foo->foo.
+Теперь я вывожу {$foo->bar[1]}.
+Это должно вывести заглавную букву 'A': \x41
+EOT;
+
+Выведет:
+Меня зовут "МоеИмя". Я печатаю Foo.
+Теперь, я вывожу Bar2.
+Это должно вывести заглавную букву 'A': A
+
+//Инициализация массива
+var_dump(array(<<<EOD
+foobar!
+EOD
+));
+
+//Начиная с версии 5.3.0, стала возможной инциализация статических переменных и свойств/констант класса с помощью синтаксиса heredoc:
+
+//Пример с двойными кавычками
+echo <<<"FOOBAR"
+Привет, мир!
+FOOBAR;
+
+//nowdoc - тоже самое для одинарных кавычек (ведет себя как ‘qwerty’)
+echo <<<'QWE'
+qwerty
+QWE;
+
+//Перенос строки в консоли \n
+echo "He drank some juice.".PHP_EOL;
+
+//Фигурные скобки {}
+$qwe = "asd";
+$asd = "qwe";
+echo "{${$qwe}}"; //qwe
+
+$qwe = "qwe";
+echo $qwe{0}; //q
+
+$qwe = "qwe";
+$qwe{5} = "a";
+var_dump($qwe); //string(6) "qwe  a"
+
+$qwe = "qwerty";
+var_dump($qwe{10}); 
+PHP Notice:  Uninitialized string offset: 10 in Command line code on line 3
+string(0) ""
+
+$qwe = "qwerty";
+$qwe{-1} = "a";
+var_dump($qwe);
+PHP Warning:  Illegal string offset:  -1 in Command line code on line 3
+string(6) "qwerty"
+
+$qwe = "йцу";
+$qwe[0] = "ф";
+var_dump($qwe); //string(6) "ѹцу"
+
+$qwe = "qwe";
+var_dump($qwe["1"]);
+var_dump($qwe[1.0]);
+var_dump($qwe["1.0"]);
+
+php 5.3:
+string(1) "w"
+string(1) "w"
+string(1) "w"
+
+php 5.4+:
+string(1) "w"
+PHP Notice:  String offset cast occurred in Command line code on line 4
+string(1) "w"
+PHP Warning:  Illegal string offset '1.0' in Command line code on line 5
+string(1) "w"
+
+//Строки могут быть объединены при помощи оператора '.' (точка). Обратите внимание, оператор сложения '+' здесь не работает. 
+
+//Преобразование в строку
+(string), либо функции strval().
+
+echo array(); //Array + notice
+print array(); //Array + notice
+
+var_dump((string)true); //string(1) "1"
+var_dump((string)false); //string(0) ""
+
+Объекты должны преобразовываться в "Object", а ресурсы в "Resource id #1"
+
+//Преобразование строк в числа
+var_dump(1 + "10.5"); //11.5
+var_dump(1 + "-1.3e3"); //-1299
+var_dump(1 + "bob-1.3e3"); //1
+var_dump(1 + "bob3"); //1
+var_dump(1 + "10 Small Pigs"); //11
+var_dump(4 + "10.2 Little Piggies"); //14.2
+var_dump("10.0 pigs " + 1); //11 float
+var_dump("10.0 pigs " + 1.0); //11 float
+
+//Получение кодов символов при преобразовании его к целому как в си невозможно, нужно использовать ord() и chr()
+
+//Преобразование в булев тип
+само значение boolean FALSE //false
+integer 0 (ноль) //false
+float 0.0 (ноль) //false
+пустая строка, и строка "0" //false
+массив без элементов //false
+объект без полей (только для PHP 4) //false
+особый тип NULL (включая неустановленные переменные) //false
+Объекты SimpleXML, созданные из пустых тегов //false
+var_dump((bool) "");        // bool(false)
+var_dump((bool) 1);         // bool(true)
+var_dump((bool) -2);        // bool(true)
+var_dump((bool) "foo");     // bool(true)
+var_dump((bool) 2.3e5);     // bool(true)
+var_dump((bool) array(12)); // bool(true)
+var_dump((bool) array());   // bool(false)
+var_dump((bool) "false");   // bool(true)
+
+//Примеры целых чисел
+$a = 1234; // десятичное число
+$a = -123; // отрицательное число
+$a = 0123; // восьмеричное число (эквивалентно 83 в десятичной системе)
+$a = 0x1A; // шестнадцатеричное число (эквивалентно 26 в десятичной системе)
+$a = 0b11111111; // двоичное число (эквивалентно 255 в десятичной системе)
+
+//Если в восьмеричном integer будет обнаружена неверная цифра (например, 8 или 9), оставшаяся часть числа будет проигнорирована.
+var_dump(01090); // 010 octal = 8 decimal
+
+//Округление
+var_dump(25/7);         // float(3.5714285714286) 
+var_dump((int) (25/7)); // int(3)
+var_dump(round(25/7));  // float(4) 
+
+var_dump((string)false);//string(0) ""
+var_dump((string)true);//string(1) "1"
+var_dump((int)false);//int(0)
+var_dump((integer)true);//int(1)
+
+//При преобразовании из float в integer, число будет округлено в сторону нуля.
+echo (int)2.9; //2
+echo (int)-2.9; //-2
+
+//Если число с плавающей точкой превышает размеры integer результат будет неопределенным
+
+/Сравнение вещественных чисел
+$a = 1.23456789;
+$b = 1.23456780;
+$epsilon = 0.00001;
+if(abs($a-$b) < $epsilon) {
+    echo "true";
+}
+
+//Для проверки на NAN используеится is_nan(), т.к. NAN !== NAN
+
+//МАССИВЫ
+//Массивы в PHP могут содержать ключи ТОЛЬКО типов integer и string одновременно
+$array = array(
+    1    => "a",
+    "1"  => "b", //”1” преобразуется в (int)1
+    1.5  => "c", //1.5 преобразуется в (int)1
+    true => "d", //true преобразуется в (int)1
+);
+var_dump($array); //array(1=>”d”)
+
+//Если ключ не указан, PHP будет использовать предыдущее наибольшее значение ключа типа integer
+$array = array("a", "b", 6 => "c", "d",);
+var_dump($array); //Ключи: 0, 1, 6, 7
+
+//php 5.4+ позволяет прямое разыменование элементов у литерала массива.
+getArray()[1];
+
+//php до 5.4 можно сделать так для получения элемента [1]
+list(, $secondElement) = getArray();
+
+//Удаление элемента массива
+$a = array(1,2,3);
+
+unset($a[2]);
+var_dump($a); //array(0=>1, 1=>2);
+
+$a[] = 3;
+var_dump($a); //array(0=>1, 1=>2, 3=>3);
+
+$a = array_values($a);
+var_dump($a); //array(0=>1, 1=>2, 2=>3);
+
+unset($a);
+var_dump($a); //Notice, NULL
+
+
+$a = array(1,2,3);
+$k = 1;
+var_dump("{$a[$k]}");
+var_dump("$a[$k]");
+
+
+$a = array("one"=>1,"two"=>2,"three"=>3);
+$k = 1;
+var_dump("{$a[one]}"); //1 PHP Notice:  Use of undefined constant one - assumed 'one'
+var_dump("$a[one]"); //1 Норм
+
+
+$a = array(one=>1,two=>2,three=>3); //Use of undefined constant assumed 'one','two','three'
+$k = 1;
+var_dump("{$a[one]}"); //1 норм
+var_dump("$a[one]"); //1 норм
+
+//Преобразование в массив
+var_dump((array)1); //array(0=>1)
+var_dump((array)1.1); //array(0=>1.1)
+var_dump((array)"1"); //array(0=>"1")
+var_dump((array)"a"); //array(0=>"a")
+var_dump((array)true); //array(0=>true)
+var_dump((array)NULL); //array()
+
+$obj = new StdClass();
+$obj->a = "a";
+var_dump((array)$obj); //array("a"=>"a")
+
+$a = array(1, "a"=>"a");
+$obj = (object)$a;
+var_dump($obj);
+//StdClass
+//$obj->0 = 1; //не вызвать по ссылке, только итеративно
+//$obj->a = "a";
+
+//Массивы можно сравнивать при помощи функции array_diff() и операторов массивов.
+
+$a = array("02"=>02);
+var_dump($a); //array("02"=>2)
+
+//Изменение элемента в цикле
+$colors = array("red", "blue", "green");
+foreach ($colors as &$color) {
+    $color = strtoupper($color);
+}
+unset($color); //чтобы последующие записи в $color не меняли последний элемент массива
+var_dump($colors);//array("RED", "BLUR", "GREEN");
+//Массивы копируются по значению
+$a = array(1,2,3);
+$b = $a;
+$b[0] = 10;
+var_dump($a); //array(1,2,3);
+
+//Скопироватоь по ссылке
+$a = array(1,2,3);
+$b = &$a;
+$b[0] = 10;
+var_dump($a); //array(10,2,3);
+
+//Доступ с помощью фигурных скобок {}
+$a = array(1,2,3);
+$a{3} = 4;
+var_dump($a{0}); //1
+var_dump($a); //array(1,2,3,4);
+
+//Преобразование в объект
+$obj = (object) array("1" => "foo");
+var_dump(isset($obj->{"1"})); //bool(false)
+var_dump(key($obj)); //int(1)
+
+//Преобразование в NULL
+$var = 1;
+var_dump(isset($var)); //bool(true)
+$var = NULL;
+var_dump(isset($var)); //bool(false)
+var_dump(is_null($var)); //bool(true)
+
+$var = 1;
+var_dump(isset($var)); //bool(true)
+unset($var); //перенная не удаляется
+var_dump(isset($var)); //bool(false)
+var_dump(is_null($var)); //bool(true) PHP Notice: Undefined variable: var
+
+//Таблица сравнений и преобразований
+http://php.net/manual/ru/types.comparisons.php
+
+//Вывод на символа по его коду
+echo "\x51"; //Q
+
+
+$qwe = 123;
+var_dump((unset)$qwe); //null
+
+//СТРОКОВЫЕ ФУНКЦИИ
+//Экранирование символов в стиле си
+echo addcslashes('foo[ ]', 'A..z'); //\f\o\o\[ \]
+
+//Экранирование символов
+echo addslashes("Ваше имя O'Reilly?"); //Ваше имя O\'Reilly?
+
+//Возвращает символ по его коду
+var_dump(chr(113)); //q
+//Возвращает ASCII-код символа
+var_dump(ord('q')); //113
+
+//Разбивка на чанки
+var_dump(chunk_split("qwerty", 1, "-")); //q-w-e-r-t-y-
+
+//Подсчет количества символов
+var_dump(count_chars("abbccc", 1)); //array("97"=>1, "98"=>2, "99"=>3)
+
+//Преобразует все возможные символы в соответствующие HTML-сущности
+$var = htmlentities("A 'quote' is <b>bold</b>");
+var_dump($var); //A 'quote' is &lt;b&gt;bold&lt;/b&gt;
+var_dump(html_entity_decode($var)); //"A 'quote' is <b>bold</b>"
+
+//Преобразует все возможные символы в соответствующие HTML-сущности
+$var = htmlspecialchars("A 'quote' is <b>bold</b>");
+var_dump($var); //"A 'quote' is &lt;b&gt;bold&lt;/b&gt;"
+var_dump(htmlspecialchars_decode($var)); //"A 'quote' is <b>bold</b>"
+
+//Регистр символов
+var_dump(ucfirst("qwe")); //Qwe
+var_dump(ucfirst("йцу")); //йцу
+var_dump(lcfirst("QWE")); //qWE
+var_dump(lcfirst("ЙЦУ")); //ЙЦУ
+var_dump(ucwords("qwerty asdfgh йцукен")); //"Qwerty Asdfgh йцукен"
+
+//Удалить крайние символы 
+//Если второй параметр не передан, удаляет следующие символы: " ", "\t", "\n", "\r", "\0", "\x0B"
+var_dump(trim(" qwerty ")); //"qwerty"
+var_dump(rtrim(" qwerty ")); //" qwerty"
+var_dump(ltrim(" qwerty ")); //"qwerty "
+
+//Повторение строки указанное количество раз
+var_dump(str_repeat("1", 5)); //11111
+
+//Перемешивание символов в строке
+var_dump(str_shuffle("qwerty"));
+
+//Разбиение строки в массив
+var_dump(str_split("qwerty", 3)); //array("qwe", "rty");
+
+//Удаление тэгов
+var_dump(strip_tags("<a>qwerty</a><br><br/>")); //qwerty
+
+//Разворачивает строку
+var_dump(strrev('12345')); //54321
+
+//Переносит строку по указанному количеству символов
+echo wordwrap("123 456 789", 5, "<br />\n");
+//123<br />
+//456<br />
+//789
+
+//Возвращает позицию первого вхождения подстроки
+var_dump(stripos("qwerty", "RTY")); //int(3)
+var_dump(stripos("qwerty", "RTY", 4)); //false
+var_dump(strpos("qwerty", "rty")); //int(3)
+var_dump(strpos("qwerty", "rty", 4)); //false
+//Ищет позицию последнего вхождения подстроки
+var_dump(strrpos("qwerty", "rty")); //int(3)
+var_dump(strripos("qwerty", "RTY", 4)); //false
+
+//Возвращает подстроку
+var_dump(strstr("qwerty", "rty")); //"rty"
+var_dump(stristr("qwerty", "RTY")); //"rty"
+var_dump(strstr("qwerty", "rty", 1)); //"qwe"
+
+//strtr
+$trans = array("hello" => "hi");
+echo strtr("hi all, I said hello", $trans); //hi all, I said hi
+
+//substr
+echo substr("qwerty", 1, 4); //wert
+//Функции для работы с массивами
+
+//СОРТИРОВКИ
+//SORT
+$a = array("в", "б", "а");
+var_dump(sort($a)); //true
+var_dump($a); //array(а, б, в)
+
+//Обычная сортировка
+$a = array("ccc", "bbb", "aaa");
+var_dump(sort($a, SORT_REGULAR)); //true
+var_dump($a); //array(aaa, bbb, ccc)
+
+//Сортировка чисел
+$a = array("11", "1", "2");
+var_dump(sort($a, SORT_NUMERIC)); //true
+var_dump($a); //array(1, 2, 11)
+
+//Сортировка строк
+$a = array("11", "1", "2");
+var_dump(sort($a, SORT_STRING)); //true
+var_dump($a); //array(1, 11, 2)
+
+//Без учета регистра
+$a = array("a", "B", "c");
+var_dump(sort($a, SORT_STRING | SORT_FLAG_CASE)); //true
+var_dump($a); //array(a, B, c)
+
+//Сортировка в обратном порядке
+$a = array("а", "б", "в");
+var_dump(rsort($a)); //true
+var_dump($a); //array(в, б, а)
+
+//Сортировка по ключам
+$a = array("c"=>"a", "b"=>"b", "a"=>"c");
+var_dump(ksort($a)); //true
+var_dump($a); //array("a"=>"c", "b"=>"b", "c"=>"a");
+
+//Сортировка по ключам в обратном порядке
+$a = array("a"=>"c", "b"=>"b", "c"=>"a");
+var_dump(krsort($a)); //true
+var_dump($a); //array("c"=>"a", "b"=>"b", "a"=>"c");
+
+//Использование пользовательской функции
+function cmp($a, $b){
+    if ($a == $b)return 0;
+    return ($a < $b) ? -1 : 1;
+}
+$a = array(3, 2, 1);
+usort($a, "cmp");
+var_dump($a); //array(1,2,3)
+
+//Использование пользовательской функции для сортировки ассоциаливного массива
+function cmp2($a, $b) {
+    if ($a == $b)return 0;
+    return ($a < $b) ? -1 : 1;
+}
+$a = array('a' => 3, 'b' => 2, 'c' => 1);
+uasort($a, 'cmp2');
+var_dump($a); //array("c"=>1, "b"=>2, "a"=>3);
+
+//uksort - пользовательская функция для сортировки по ключам
+
+//Сортировка нескольких массивов или многомерный массив
+$a1 = array(8,7,6,5);
+$a2 = array(4,3,2,1);
+$a3 = array($a1, $a2);
+array_multisort($a1, $a2);
+array_multisort($a3, SORT_DESC);
+var_dump($a1);//array(5,6,7,8)
+var_dump($a2);//array(1,2,3,4)
+var_dump($a3);//array(array(8,7,6,5),array(4,3,2,1))
+
+//Возвращает массив в обратном порядке
+$a = array(1,"a",array(3));
+var_dump(array_reverse($a)); //array(array(3),"a",1);
+
+//Перемешивание массива
+$a = array(1,2,3);
+shuffle($a);
+var_dump($a); //array(неизвестный порядок)
+
+
+//Полезные функции
+//Изменение регистра ключей массива
+array array_change_key_case ( array $array [, int $case = CASE_LOWER ] )
+
+//Разбиение массива на части
+array array_chunk ( array $array , int $size [, bool $preserve_keys = false ] )
+
+//Возвращает колонку многомерного массива по ключу
+array array_column ( array $array , mixed $column_key [, mixed $index_key = null ] )
+
+//Возвращает массив из ключей и значений
+array array_combine ( array $keys , array $values )
+
+//Возвращает количество значений массива
+array array_count_values ( array $array )
+
+//Возвращает массив заполненный значинием value для всех ключей keys
+array array_fill_keys ( array $keys , mixed $value )
+
+//Возвращает массив заполненный значинием value для всех индексов с 1 по 3
+$b = array_fill(1, 3, $value);
+
+//Возвращает массив отфильтрованный с помощью callback-функции
+function odd($var){ return($var & 1);}
+print_r(array_filter(array(1,2,3,4,5), "odd")); //array(0=>1,2=>3,4=>5)
+
+//Меняет местами ключи с их значениями в массиве
+print_r(array_flip(array("k"=>"v"))); //array(v=>k)
+
+//Проверяет, присутствует ли в массиве указанный ключ или индекс
+var_dump(array_key_exists("first", array("first"=>"value")));//true
+
+//Возвращает ключи массива
+$a = array("blue", "red", "green", "blue", "blue");
+print_r(array_keys($a));//array(0,1,2,3,4)
+print_r(array_keys($a, "blue"));//array(0,3,4)
+
+//Применяет callback-функцию ко всем элементам указанных массивов
+//Возводит в квадрат
+function cube($n){return($n * $n * $n);}
+$a = array(1, 2, 3, 4, 5);
+$b = array_map("cube", $a);
+print_r($b);//array(1,8,27,64,125)
+
+
+
+//Сливает один или большее количество массивов
+//числовые ключи будут перенумерованы!
+print_r(array_merge(array(1,2,3), array(4,5))); //array(1,2,3,4,5)
+
+//Рекурсивное слияние двух или более массивов
+//значения одного массива присоединяются в конец другого
+$a1 = array("key" => array("value1"), "value2");
+$a2 = array("key" => array("value3"), "value4");
+print_r(array_merge_recursive($a1, $a2)); //array(key=>array(value1, value3), value2, value4)
+
+//Извлекает последний элемент массива
+$a = array(1,2,3,4,5);
+print_r(array_pop($a)); //5
+print_r($a); //array(1,2,3,4)
+
+//Возвращает произведение значений массива
+print_r(array_product(array(1,2,3))); //6
+
+//Добавляет один или несколько элеметов в конец массива
+$a = array(1);
+var_dump(array_push($a, 2, 3)); //int 3
+print_r($a); // array(1,2,3)
+
+//Выбирает одно или несколько случайных значений из массива
+$a = array(1,2,3,4,5);
+var_dump(array_rand($a)); //int
+var_dump(array_rand($a, 2)); //array
+
+//итеративно применяет callback-функцию callback к элементам массива array и, таким образом, сводит массив к единственному значению.
+$a = array(1,2,3,4,5);
+function test($var){ return $var + 1; }
+var_dump(array_reduce($a, "test")); // int(15)
+var_dump($a); // int(15)
+
+//Замена элементов массива элементами других переданных массивов
+print_r(array_replace(array("qwe", "asd", "zxc"), array("111"), array(3=>"qwe"))); //array(111,asd,zxc,qwe)
+
+//Осуществляет поиск данного значения в массиве и возвращает соответствующий ключ в случае удачи
+var_dump(array_search("asd", array("qwe"=>"asd"))); //qwe
+
+
+//ОБРЕЗКА МАССИВОВ
+print_r(array_slice(array(1,2,3,4,5), 2, 1));//array(0=>3)
+print_r(array_slice(array(1,2,3,4,5), 2, 1, true));//array(2=>3)
+
+//SPLICE может принимать только переменную по ссылке???????????
+$a = array(1,2,3,4,5);
+print_r(array_splice($a, 2, 1));//array(0=>3)
+print_r($a);//array(0=>3)
+$a = array(1,2,3,4,5);
+print_r(array_splice($a, 2, 1, array(7)));//array(0=>7)
+print_r($a);//array(0=>3)
+
+//Вычисляет сумму значений массива
+print_r(array_sum(array(1,2,3))); //6
+
+//Убирает повторяющиеся значения из массива
+print_r(array_unique(array(1,2,3,3,3,4,5))); //array(1,2,3,4,5)
+
+//Добавляет один или несколько элементов в начало массива
+$a = array(3,4,5);
+print_r(array_unshift($a, 1, 2)); //5
+print_r($a); //array(1,2,3,4,5)
+
+//Выбирает все значения массива и возвращает индексированный массив значений.
+print_r(array_values(array("a"=>"a", "b"=>"b")));//array(a,b)
+
+//Применяет заданную пользователем функцию к каждому элементу массива
+function test(&$var){ $var .= "!"; }
+$a = array("a", "b", "c");
+print_r(array_walk($a, "test")); //1
+print_r($a); //array(a!, b!, c!)
+
+//Создает массив, содержащий названия переменных и их значения
+$city  = "San Francisco";
+$state = "CA";
+$event = "SIGGRAPH";
+$location_vars = array("city", "state");
+$result = compact("event", "nothing_here", $location_vars);
+print_r($result); //array(event=>SIGGRAPH, city => San Francisco, state => CA)
+
+//Проверяет, присутствует ли в массиве значение
+var_dump(in_array("qwe", array("asd", "qwe"))); //true
+
+//Присваивает переменным из списка значения подобно массиву
+list($bar) = array("abcde");
+var_dump($bar); //"abcde"
+list($bar) = "abcde";
+var_dump($bar); // NULL
+
+//Создает массив, содержащий диапазон элементов
+foreach (range(1, 5) as $number) {
+    echo $number; //12345
+}
+
+//Хождение по массиву
+$transport = array('foot', 'bike', 'car', 'plane');
+$mode = current($transport); // $mode = 'foot';
+$mode = next($transport);    // $mode = 'bike';
+$mode = current($transport); // $mode = 'bike';
+$mode = prev($transport);    // $mode = 'foot';
+$mode = end($transport);     // $mode = 'plane';
+$mode = current($transport); // $mode = 'plane';
+$mode = key($transport);     // $mode = 3;
+
+//Возвращает текущую пару ключ/значение
+$foo = array("Robert" => "Bob", "Seppo" => "Sepi");
+print_r(each($foo)); //array(0=>Robert, key=>Robert, 1=>Bob, value=>Bob)
+print_r(each($foo)); //array(0=>Seppo, key=>Seppo, 1=>Sepi, value=>Sepi)
+
+
