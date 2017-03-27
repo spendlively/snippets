@@ -2,7 +2,7 @@
 
 //GET
 $curl = curl_init('http://ya.ru');
-curl_exec($curl);
+$content = curl_exec($curl);
 curl_close($curl);
 
 
@@ -10,8 +10,25 @@ curl_close($curl);
 //GET with headers
 $curl = curl_init('http://ya.ru');
 curl_setopt($curl, CURLOPT_HEADER, true);
-curl_exec($curl); // выполняем запрос curl
+$content = curl_exec($curl);
 curl_close($curl);
+
+
+
+//GET with options
+$curl = curl_init('http://ya.ru');
+curl_setopt_array($curl, array(
+    CURLOPT_RETURNTRANSFER => true,   // return web page
+    CURLOPT_HEADER         => false,  // don't return headers
+    CURLOPT_FOLLOWLOCATION => true,   // follow redirects
+    CURLOPT_MAXREDIRS      => 10,     // stop after 10 redirects
+    CURLOPT_ENCODING       => "",     // handle compressed
+    CURLOPT_USERAGENT      => "test", // name of client
+    CURLOPT_AUTOREFERER    => true,   // set referrer on redirect
+    CURLOPT_CONNECTTIMEOUT => 120,    // time-out on connect
+    CURLOPT_TIMEOUT        => 120,    // time-out on response
+));
+$content = curl_exec($curl);
 
 
 
@@ -32,6 +49,6 @@ curl_setopt($curl, CURLOPT_POSTFIELDS, 'action=login&imembername=valenok&ipasswo
 curl_setopt($curl, CURLOPT_COOKIEJAR, "my_cookies.txt");
 curl_setopt($curl, CURLOPT_COOKIEFILE, "my_cookies.txt");
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-$result = curl_exec($curl); // выполняем запрос curl
+$content = curl_exec($curl); // выполняем запрос curl
 curl_close($curl);
 
