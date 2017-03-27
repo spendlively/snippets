@@ -1,0 +1,44 @@
+Удаленная отладка
+
+1. Проброс порта
+ssh -R 9003:localhost:9003 root@192.168.20.171
+
+2. Настйройка xdebug в .htaccess
+php_value xdebug.remote_enable 1
+php_value xdebug.remote_port 9003
+
+3. Настройка xdebug в phpStorm
+file -> settings -> php -> debug 
+	xdebug
+		Debug port = 9003
+		checkbox can accept external connect
+
+4. Запуск прослушивания порта xdebug phpStorm'ом
+	run -> Start listen for php debug connections
+
+5. Запуск приложения в браузере
+http://127.0.0.1:80?XDEBUG_SESSION_START=123456
+
+6. 
+
+Локальная отладка
+1. Настрока веб-сервера в phpStorm
+file -> Settings -> Deployment
+	name = serverName
+	Web server root url = http://127.0.0.1:80
+
+2. Настройка конфигурации отладки в phpStorm
+	Run -> Edit Configurations
+		+ Php Web Application
+			name = server-debug-config-name
+			browser = chrome или firefox (по выбору)
+			Server ...
+				name = server-map-name
+				host = 127.0.0.1
+				port = 80
+				Validate remote environment
+					Deployment server = serverName
+					validate
+				apply
+			apply
+3. Запуск SHIFT + F9 либо SHIFT + ALT + F9 (с выбором конфига)

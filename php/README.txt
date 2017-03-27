@@ -16,3 +16,8 @@ PHP
 - Работа со строками
 - Работа с массивами
 
+
+https://wwphp-fb.github.io/faq/
+http://www.phptherightway.com/#security
+Modern PHP
+
