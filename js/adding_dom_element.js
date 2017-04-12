@@ -52,3 +52,18 @@ var last = document.body.children[1];
 document.body.insertBefore(last, first);
 
 
+
+//Множественная вставка
+//Не работает в Firefox до версии 8
+elem.insertAdjacentHTML(where, "<ul><li>1</li><li>2</li><li>5</li></ul>");
+// where:
+// 'beforeBegin' - перед elem
+// 'afterBegin' - внутрь elem, в самое начало
+// 'beforeEnd' - внутрь elem, в конец
+// 'afterEnd' - после elem
+//Создаёт текстовый узел из строки text и вставляет его в указанное место относительно elem.
+elem.insertAdjacentText(where, text)
+
+
+
+//DocumentFragment
