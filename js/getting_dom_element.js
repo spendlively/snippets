@@ -8,10 +8,10 @@ document.body;
 
 
 //Ссылки на соседние элементы
-// firstChild
-// childNodes
+// children
 // firstChild
 // lastChild
+// childNodes
 // parentNode
 // nextSibling
 

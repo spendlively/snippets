@@ -61,9 +61,25 @@ elem.insertAdjacentHTML(where, "<ul><li>1</li><li>2</li><li>5</li></ul>");
 // 'afterBegin' - внутрь elem, в самое начало
 // 'beforeEnd' - внутрь elem, в конец
 // 'afterEnd' - после elem
-//Создаёт текстовый узел из строки text и вставляет его в указанное место относительно elem.
-elem.insertAdjacentText(where, text)
+//Вставить текст
+elem.insertAdjacentText(where, text);
+//Вставить элемент
+elem.insertAdjacentElement(where, newElem);
 
 
 
 //DocumentFragment
+//Дочерние элементы вставятся а сам DocumentFragment удалится
+var fragment = document.createDocumentFragment();
+fragment.appendChild(node);
+ul.appendChild(fragment);
+
+
+
+//Вставка чего угодно куда угодно
+//append/prepend, before/after, replaceWith
+// node.append(...nodes) – вставляет nodes в конец node,
+// node.prepend(...nodes) – вставляет nodes в начало node,
+// node.after(...nodes) – вставляет nodes после узла node,
+// node.before(...nodes) – вставляет nodes перед узлом node,
+// node.replaceWith(...nodes) – вставляет nodes вместо node.
