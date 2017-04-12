@@ -7,6 +7,16 @@ document.body;
 
 
 
+//Ссылки на соседние элементы
+// firstChild
+// childNodes
+// firstChild
+// lastChild
+// parentNode
+// nextSibling
+
+
+
 //6 основных методов для поиска
 // getElementById (везде)
 // getElementsByName (везде)
@@ -22,9 +32,9 @@ document.getElementById("123");
 
 
 
-//Поиск по классу
-//Не поддерживается в IE8
-document.getElementsByClassName('article');
+//Поиск по имени
+document.getElementsByName("age");
+element.getElementsByName("age");
 
 
 
@@ -35,9 +45,9 @@ element.getElementsByTagName("div");
 
 
 
-//Поиск по имени
-document.getElementsByName("age");
-element.getElementsByName("age");
+//Поиск по классу
+//Не поддерживается в IE8
+document.getElementsByClassName('article');
 
 
 
@@ -52,6 +62,12 @@ element.querySelector('ul > li:last-child');
 element.querySelector(':hover');
 
 
+
+
+
+////////////////////////////////////////////////////////////////
+///////////////////////ДОПОЛНИТЕЛЬНО////////////////////////////
+////////////////////////////////////////////////////////////////
 
 //Проверка удовлетворяет ли элемент селектору (false/true)
 //Не поддерживается в IE8
