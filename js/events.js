@@ -32,7 +32,7 @@ element.detachEvent("on" + event, handler);
 event.stopPropagation();//препятствует продвижению события, но на текущем элементе все обработчики отработают
 event.stopImmediatePropagation();//предотвращает всплытие и останавливает обработку событий на текущем элементе
 event.preventDefault();//предотвращение обработки по умолчанию (например переход по ссылке)
-return false;
+// return false;
 
 
 
