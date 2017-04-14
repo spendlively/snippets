@@ -33,6 +33,8 @@ Admin.prototype.constructor = Admin;
 
 var admin = new Admin('Вася');
 admin.login();
+//console.log( admin instanceof Admin );
+//console.log( admin instanceof User );
 
 
 
