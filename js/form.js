@@ -1,23 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>TEST</title>
-</head>
-<body>
 
- <form name="my" action="/">
- 	<fieldset name="set">
- 		<input name="one" value="1" autofocus>
- 		<input name="two" value="2">
- 	</fieldset>
- 	<select name="mySelect" multiple>
-     	<option value="myOption1" selected>Option 1</option>
-     	<option value="myOption2">Option 2</option>
- 	</select>	
- </form>
-
-<script>
-
+//Поиск в DOM
+// <form name="my" action="#">
+// 	<fieldset name="set">
+// 		<input name="one" value="1" autofocus>
+// 		<input name="two" value="2">
+// 	</fieldset>
+// 	<select name="mySelect" multiple>
+//     	<option value="myOption1" selected>Option 1</option>
+//     	<option value="myOption2">Option 2</option>
+// 	</select>	
+// </form>
 var form1 = document.forms.my;
 var form2 = document.forms[0];
 var input1 = form1.elements.one;
@@ -67,14 +59,11 @@ input1.onpaste = function(){
 
 
 
+
+
 //Отправка формы
 form1.onsubmit = function(){
 	alert('Форма не отправится');
 	return false;
 };
 // form1.submit();
-
-</script>
-
-</body>
-</html>
