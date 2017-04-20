@@ -6,22 +6,29 @@ var win1 = window.open("http://ya.ru");
 
 
 
+//Open window with simple text
+var win2 = window.open("javascript:'win2'", "win2", "width=200,height=200");
+
+
+
+
+
 //Open blank window and document.write
-var win2 = window.open("about:blank", "win2", "width=200,height=200");
-win2.document.write("win2");
+var win3 = window.open("about:blank", "win3", "width=200,height=200");
+win3.document.write("win3");
 
 
 
 
 
 // Open blank window and append html
-var win3 = window.open('/', 'win3', 'width=600,height=400');
-win3.onload = function() {
+var win4 = window.open('/', 'win4', 'width=200,height=200');
+win4.onload = function() {
 
-	var div = win3.document.createElement('div'),
-		body = win3.document.body;
+	var div = win4.document.createElement('div'),
+		body = win4.document.body;
 
-	div.innerHTML = 'win3'
+	div.innerHTML = 'win4'
 
 	body.append(div);
 }
