@@ -1,6 +1,6 @@
 
 //Assert
-describe("pow (возведение в степень)", function() {
+describe("Pow (возведение в степень)", function() {
 
 	it("2 ^ 3 = 8", function() {
 		chai.assert.equal(pow(2, 3), 8);
@@ -14,9 +14,9 @@ describe("pow (возведение в степень)", function() {
 
 
 //Вложенный describe
-describe("возведение в степень", function() {
+describe("Возведение в степень", function() {
 
-	describe("pow", function() {
+	describe("pow()", function() {
 
 		it("3 ^ 4 = 81", function() {
 			chai.assert.equal(pow(3, 4), 81);
@@ -27,7 +27,7 @@ describe("возведение в степень", function() {
 
 
 //Функции до и после
-describe("pow", function() {
+describe("Pow", function() {
 
 	before(function() { console.log("before"); });
 	after(function() { console.log("after"); });
@@ -42,6 +42,37 @@ describe("pow", function() {
 	it("3 ^ 4 = 81", function() {
 		chai.assert.equal(pow(3, 4), 81);
 	});
+});
+
+
+
+//Тестирование асинхронного кода
+describe("Async", function() {
+
+    it("3 ^ 4 = 81 (Success)", function(done) {
+
+        setTimeout(function(){
+            if(pow(3, 4) === 81){
+                done();
+            }
+            else{
+                done('Error!')
+            }
+        }, 1000);
+    });
+
+    it("3 ^ 4 = 82 (Failure)", function(done) {
+
+        setTimeout(function(){
+            // throw new Error('Error!');
+            if(pow(3, 4) === 82){
+                done();
+            }
+            else{
+                done('Error!')
+            }
+        }, 1000);
+    });
 });
 
 
