@@ -47,30 +47,21 @@ describe("Pow", function() {
 
 
 //Тестирование асинхронного кода
-describe("Async", function() {
+//Успех - done()
+//Неудача - done("Error) или throw new Error("Error")
+describe("test", function() {
 
-    it("3 ^ 4 = 81 (Success)", function(done) {
+    it("2 ^ 3 = 8 (success)", function(done) {
 
         setTimeout(function(){
-            if(pow(3, 4) === 81){
-                done();
-            }
-            else{
-                done('Error!')
-            }
+            done(chai.assert.equal(pow(2, 3), 8));
         }, 1000);
     });
 
-    it("3 ^ 4 = 82 (Failure)", function(done) {
+    it("2 ^ 3 = 9 (failure)", function(done) {
 
         setTimeout(function(){
-            // throw new Error('Error!');
-            if(pow(3, 4) === 82){
-                done();
-            }
-            else{
-                done('Error!')
-            }
+            done(chai.assert.equal(pow(2, 3), 9));
         }, 1000);
     });
 });
@@ -84,3 +75,4 @@ describe("Async", function() {
 // assert.notEqual, assert.notStrictEqual – проверки, обратные двум предыдущим.
 // assert.isTrue(value) – проверяет, что value === true
 // assert.isFalse(value) – проверяет, что value === false
+
