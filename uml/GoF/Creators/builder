@@ -1,0 +1,45 @@
+class Calendar
+--
+public $data
+public $taskManager
+--
+protected function __construct
+public static function getInstance
+public function __construct
+
+
+
+
+
+abstract class Builder
+--
+--
+public function addDay
+public function addEvent
+
+
+
+
+
+class TaskManager extends Builder
+--
+public $calendar
+public $currentDate
+--
+public function __construct
+
+
+
+
+$calendar = new Calendar(new TaskManager());
+
+$calendar->taskManager->addDay(date('Y-m-d'));
+$calendar->taskManager->addEvent('task1', date('h:i:s'));
+$calendar->taskManager->addEvent('task2', date('h:i:s', strtotime("+1 hour")));
+
+$calendar->taskManager->addDay(date('Y-m-d', strtotime("+1 day")));
+$calendar->taskManager->addEvent('task1', date('h:i:s'));
+$calendar->taskManager->addEvent('task2', date('h:i:s', strtotime("+1 hour")));
+$calendar->taskManager->addEvent('task3', date('h:i:s', strtotime("+2 hour")));
+
+print_r($calendar->data);

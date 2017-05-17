@@ -1,0 +1,24 @@
+class Tree
+class Sea
+class Mountain
+
+
+
+
+class LandshaftStore
+--
+public $tree
+public $sea
+public $mountain
+--
+public function __construct
+public function getLandshaft
+
+
+
+
+
+$landshaftStore = new LandshaftStore(new Tree(), new Sea(), new Mountain());
+$landshaft = $landshaftStore->getLandshaft('tree');
+
+print_r($landshaft);

@@ -1,0 +1,122 @@
+<<Interface>>
+interface Pizza
+--
+--
+public function prepare()
+
+
+
+
+
+<<Interface>>
+interface IngridientsFactory
+--
+--
+public function prepareIngridients()
+
+
+
+
+class NYIngridientsFactory implements IngridientsFactory
+--
+public $ingridients
+--
+public function __construct()
+public function prepareIngridients()
+
+
+
+
+                                                                    class ChicagoIngridientsFactory implements IngridientsFactory
+                                                                    --
+                                                                    public $ingridients
+                                                                    --
+                                                                    public function __construct()
+                                                                    public function prepareIngridients()
+
+
+
+
+
+
+
+class CheesePizza implements Pizza
+--
+public $ingridient
+--
+public function __construct()
+public function prepare()
+
+
+
+
+                                                                                class ClamPizza implaments Pizza
+                                                                                --
+                                                                                public $ingridient
+                                                                                --
+                                                                                public function __construct()
+                                                                                public function prepare()
+
+
+
+
+                                                                                class PepperoniPizza implamants Pizza
+                                                                                --
+                                                                                public $ingridient
+                                                                                --
+                                                                                public function __construct()
+                                                                                public function prepare()
+
+
+
+
+
+abstract class PizzaStore
+--
+--
+public function createPizza()
+
+
+
+
+
+class NYPizzaStore extends PizzaStore
+--
+public $pizzaIngridientFactory
+--
+public function __construct()
+public function createPizza()
+
+
+
+
+
+                                                                                    class ChicagoPizzaStore extends PizzaStore
+                                                                                    --
+                                                                                    public $pizzaIngridientFactory
+                                                                                    --
+                                                                                    public function __construct()
+                                                                                    public function createPizza()
+
+
+
+
+
+class PizzaStoreMaker
+--
+--
+public function createStore
+
+
+
+return new NYIngridientsFactory()
+return new NYPizzaStore()
+
+
+
+$pizzaStoreMaker = new PizzaStoreMaker();
+$nyPizzaStore = $pizzaStoreMaker->createStore('ny');
+$cheesePizza = $nyPizzaStore->createPizza('cheese');
+
+
+

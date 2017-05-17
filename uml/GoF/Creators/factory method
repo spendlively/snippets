@@ -1,0 +1,70 @@
+abstract class Pizza
+--
+public $ingridients
+--
+public function prepare()
+public function act1()
+public function act2()
+public function act3()
+
+
+
+
+
+
+class NYStyleCheesePizza extends Pizza
+--
+public $ingridients
+--
+
+
+
+
+
+class NYStyleClamPizza extends Pizza
+--
+public $ingridients
+--
+
+
+
+class NYStylePepperoniPizza extends Pizza
+--
+public $ingridients
+--
+
+
+
+
+
+
+abstract class PizzaStore
+--
+--
+public function createPizza()
+
+
+
+
+
+class NYPizzaStore extends PizzaStore
+--
+--
+public function createPizza()
+
+
+return new CheesePizza()
+return new ClamPizza()
+return new PepperoniPizza()
+
+
+
+
+//Создание объекта-фабрики
+$nyPizzaStore = new NYPizzaStore();
+
+//Создание объектов "пицца"
+$cheesePizza = $nyPizzaStore->createPizza('cheese');
+$clamPizza = $nyPizzaStore->createPizza('clam');
+$pepperoniPizza = $nyPizzaStore->createPizza('pepperoni');
+
