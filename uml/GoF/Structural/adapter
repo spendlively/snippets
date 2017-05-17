@@ -1,0 +1,68 @@
+<<Interface>>
+Duck
+--
+--
+public function quack()
+public function fly()
+
+
+
+
+class MallardDuck implements Duck
+--
+--
+public function quack()
+public function fly()
+
+
+
+
+
+
+
+<<Interface>>
+Turkey
+--
+--
+public function gobble()
+
+
+
+
+
+
+
+class WildTurkey implements Turkey
+--
+--
+public function gobble()
+public function fly()
+
+
+
+
+
+
+
+
+class TurkeyAdapter implements Duck
+--
+public $turkey
+--
+public function __construct()
+public function quack()
+public function fly()
+
+
+
+
+
+
+
+$duck = new MallardDuck();
+$turkeyAdapter = new TurkeyAdapter(new WildTurkey());
+
+$duck->quack();
+$turkey->gobble();
+$turkeyAdapter->quack();
+

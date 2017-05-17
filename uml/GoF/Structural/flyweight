@@ -1,0 +1,55 @@
+<<Interface>>
+Tree
+--
+--
+public function display()
+
+
+
+
+class Oak implements Tree
+--
+--
+public function display()
+
+
+
+
+abstract class TreeManader
+--
+--
+public function setCoords()
+public function displayTrees()
+
+
+
+
+class OakManager extends TreeManader
+--
+public $coords
+public $tree
+--
+public function __construct()
+
+
+
+
+
+
+$oakManager = new OakManager(new Oak());
+$oakManager->setCoords(array(
+    array(
+        "longitude" => 14.2345,
+        "latitude"  => 56.3456,
+    ),
+    array(
+        "longitude" => 15.2345,
+        "latitude"  => 55.3456,
+    ),
+));
+
+$oakManager->displayTrees();
+
+
+
+

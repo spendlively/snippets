@@ -1,0 +1,69 @@
+<<Interface>>
+Coffee
+--
+--
+public function getCost()
+
+
+
+class Espresso implements Coffee
+--
+public $cost
+--
+public function getCost()
+
+
+
+class Kapuchino  implements Coffee
+--
+public $cost
+--
+public function getCost()
+
+
+
+
+
+
+
+abstract class Condiments implements Coffee
+--
+--
+public function getCost()
+
+
+
+class HasMilk extends Condiments
+--
+public $coffee
+--
+public function __construct
+public function getCost()
+
+
+
+class HasSugar extends Condiments
+--
+public $coffee
+--
+public function __construct()
+public function getCost()
+
+
+
+
+
+
+$espressoWithMilk = new HasMilk(new Espresso());
+$kapuchinoWithMilk = new HasMilk(new Kapuchino());
+$kapuchinoWithMilkWithSugar = new HasSugar($kapuchinoWithMilk);
+
+echo $espresso->getCost();
+echo $kapuchino->getCost();
+echo $espressoWithMilk->getCost();
+echo $kapuchinoWithMilk->getCost();
+echo $kapuchinoWithMilkWithSugar->getCost();
+
+
+
+
