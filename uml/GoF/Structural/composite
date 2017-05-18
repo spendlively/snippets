@@ -1,0 +1,88 @@
+class MenuIterator
+--
+public $menu
+public $cursor
+--
+public function __construct()
+public function next()
+public function hasNext()
+
+
+
+
+
+abstract class MenuComponent
+--
+--
+public function add()
+public function remove()
+public function printMenu()
+public function getIterator()
+
+
+
+
+
+
+
+class MenuItem extends MenuComponent
+--
+public $name
+--
+public function __construct()
+public function printMenu()
+
+
+
+
+
+
+
+class Menu extends MenuComponent
+--
+public $name
+public $menuComponents
+--
+public function __construct()
+public function add()
+public function remove()
+public function printMenu()
+public function getIterator()
+
+
+
+
+
+Главное меню
+    Напитки
+        Алкогольные
+            Пиво
+            Вино
+        Безалкогольные
+            Чай
+            Компот
+
+$menu = new Menu('Главное меню');
+
+$drinks = new Menu('Напитки');
+
+$alc = new Menu('Алкогольные');
+$alc->add(new MenuItem("Пиво"));
+$alc->add(new MenuItem("Вино"));
+
+$notAlc = new Menu('Безалкогольные');
+$notAlc->add(new MenuItem("Чай"));
+$notAlc->add(new MenuItem("Компот"));
+
+$drinks->add($alc);
+$drinks->add($notAlc);
+
+$menu->add($drinks);
+
+$menu->add(new MenuItem('Первое'));
+$menu->add(new MenuItem('Второе'));
+
+$menu->printMenu();
+
+
+

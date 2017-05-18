@@ -1,0 +1,36 @@
+<<interface>>
+Icon
+--
+--
+public function displayImage()
+
+
+
+
+class ImageComponent implements Icon
+--
+public $url
+public $file
+--
+public function __construct()
+public function downloadImage()
+public function displayImage()
+
+
+
+
+class ImagePreview implements Icon
+--
+public $image
+public $preview
+--
+public function __construct()
+public function getPreview()
+public function displayImage()
+
+
+
+
+$image = new ImageComponent('/url/to/image.jpg');
+$imagePreview = new ImagePreview($image);
+$imagePreview->displayImage();

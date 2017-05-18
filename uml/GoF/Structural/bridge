@@ -1,0 +1,73 @@
+abstract class RemoteControl
+--
+public $tv
+--
+public function __construct()
+public function on()
+public function off()
+public abstract function setChanel()
+
+
+
+
+class PDU1 extends RemoteControl
+--
+--
+public function setChanel()
+
+
+
+
+class PDU2 extends RemoteControl
+--
+--
+public function setChanel()
+public function prevChanel()
+
+
+
+
+
+
+
+
+abstract class TV
+--
+--
+public function on()
+public function off()
+public abstract function setChanel()
+
+
+
+
+class TV1 extends TV
+--
+--
+public function setChanel()
+
+
+
+
+class TV2 extends TV
+--
+--
+public function setChanel()
+public function prevChanel()
+
+
+
+
+
+$pdu1 = new PDU1(new TV1());
+$pdu2 = new PDU2(new TV2());
+
+$pdu1->on();
+$pdu1->setChanel(1);
+$pdu1->off();
+
+$pdu2->on();
+$pdu2->setChanel(1);
+$pdu2->setChanel(2);
+$pdu2->prevChanel();
+$pdu2->off();

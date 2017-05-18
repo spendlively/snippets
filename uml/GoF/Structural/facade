@@ -1,0 +1,61 @@
+class TV
+--
+--
+public function on()
+public function off()
+public function setChanel()
+
+
+
+
+class Stereo
+--
+--
+public function on()
+public function off()
+public function tuneVolume()
+
+
+
+
+
+class Lights
+--
+--
+public function on()
+public function off()
+
+
+
+
+
+
+
+<<interface>>
+MovieControl
+--
+--
+public function beginWatching()
+public function stopWatching()
+
+
+
+
+
+class MovieWatcher implements MovieControl
+--
+public $tv
+public $stereo
+public $lights
+--
+public function __construct()
+public function beginWatching()
+public function stopWatching()
+
+
+
+
+
+$movieWatcher = new MovieWatcher(new TV(), new Stereo(), new Lights());
+$movieWatcher->beginWatching();
+$movieWatcher->stopWatching();
