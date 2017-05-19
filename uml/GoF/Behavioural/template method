@@ -1,0 +1,55 @@
+abstract class Drink
+--
+--
+public function boilWater()
+public function pourInCup()
+abstract public function brew()
+abstract public function addCondiments()
+public function hook()
+public function prepareDrink()
+
+
+
+
+
+
+
+class Coffee
+--
+--
+public function brew()
+public function addCondiments()
+
+
+
+
+
+
+
+class Tea
+--
+--
+public function brew()
+public function addCondiments()
+public function hook()
+
+
+
+
+
+$coffee = new Coffee();
+$coffee->prepareDrink();
+
+$tea = new Tea();
+$tea->prepareDrink();
+
+/*
+//Drink
+public function prepareDrink(){
+      $this->boilWater();
+      $this->pourInCup();
+      $this->brew();
+      $this->addCondiments();
+      $this->hook();
+}
+*/

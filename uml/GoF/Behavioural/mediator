@@ -1,0 +1,80 @@
+<<interface>>
+Object
+--
+--
+public function check()
+public function action()
+
+
+
+
+
+class Ring implements Object
+--
+public $mediator
+--
+public function __construct()
+public function check()
+public function action()
+
+
+
+
+class Calendar implements Object
+--
+public $mediator
+--
+public function __construct()
+public function check()
+public function action()
+
+
+
+
+
+class Lamp implements Object
+--
+public $mediator
+--
+public function __construct()
+public function check()
+public function action()
+
+
+
+
+
+
+class Boiler implements Object
+--
+public $mediator
+--
+public function __construct()
+public function check()
+public function action()
+
+
+
+
+
+
+
+class Mediator
+--
+public $clock
+public $calendar
+public $lamp
+public $boiler
+public $ringEvent
+public $weekendEvent
+public $lightEvent
+public $boilEvent
+--
+public function __construct()
+public function action()
+
+
+
+
+$madiator = new Mediator();
+$madiator->action();

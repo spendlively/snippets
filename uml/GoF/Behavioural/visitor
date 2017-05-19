@@ -1,0 +1,57 @@
+class Item
+--
+public $name
+protected $price
+--
+public function __construct()
+public function getInfo()
+
+
+class Shop
+--
+public $items
+--
+public function addItem()
+public function getItems()
+
+
+
+
+class Visiter
+--
+--
+public function getInfo()
+
+
+
+
+
+class Traverser
+--
+public $visiter
+public $shop
+--
+public function __construct()
+public function displayStat()
+
+
+
+
+
+$shop = new Shop();
+
+$shop->addItem(new Item("Monitor", 5500));
+$shop->addItem(new Item("Keyboard", 250));
+$shop->addItem(new Item("Mouse", 250));
+$shop->addItem(new Item("Computer", 10000));
+
+$manager = new Traverser($shop);
+$manager->displayStat();
+
+/*
+public function displayStat(){
+    foreach($this->shop->getItems() as $i => $item){
+        $this->visiter->getInfo($item);
+    }
+}
+*/

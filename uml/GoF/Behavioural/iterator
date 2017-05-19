@@ -1,0 +1,46 @@
+<<interface>>
+IIterator
+--
+--
+public function first()
+public function last()
+public function prev()
+public function next()
+public function getElement()
+
+
+
+
+
+class MyIterator
+--
+public $collection
+public $cursor
+--
+public function __construct
+public function first()
+public function last()
+public function prev()
+public function next()
+public function getElement()
+
+
+
+
+
+
+
+
+$collection = array(1,2,3,4,5,6,7);
+
+$iterator = new MyIterator($collection);
+
+try{
+    echo $iterator->first()."<br>";
+    echo $iterator->next()."<br>";
+    echo $iterator->prev()."<br>";
+    echo $iterator->last()."<br>";
+    echo $iterator->next()."<br>";
+} catch(Exception $e){
+    echo $e->getMessage()."<br>";
+}

@@ -1,0 +1,182 @@
+<<interface>>
+State
+--
+--
+public function insertQuarter()
+public function ejectQuarter()
+public function turnCrunk()
+
+
+
+
+class NoQuarterState implements State
+--
+public $machine
+--
+public function __construct()
+public function insertQuarter()
+public function ejectQuarter()
+public function turnCrunk()
+
+
+
+
+
+class HasQuarterState implements State
+--
+public $machine
+--
+public function __construct()
+public function insertQuarter()
+public function ejectQuarter()
+public function turnCrunk()
+
+
+
+
+
+
+
+class SoldState implements State
+--
+public $machine
+--
+public function __construct()
+public function insertQuarter()
+public function ejectQuarter()
+public function turnCrunk()
+
+
+
+
+class GumballMachine
+--
+public $soldOutState
+public $noQuarterState
+public $hasQuarterState
+public $soldState
+public $currentState
+public $count
+--
+public function __construct()
+public function insertQuarter()
+public function ejectQuarter()
+public function turnCrunk()
+public function releaseBall()
+
+
+
+
+
+class GumballMachine {
+
+    //объект должен хранить ссылки на объекты-состаяния
+    public $soldOutState        = null;
+    public $noQuarterState      = null;
+    public $hasQuarterState     = null;
+    public $soldState           = null;
+
+    public $currentState        = null;
+    public $count               = 0;
+
+    public function __construct($numberGumballs){
+
+        $this->count = (int)$numberGumballs;
+
+        //В объект-состояние передаем ссылку на автомат
+        //иначе методы объекта-состояния не смогут изменить
+        //текуott состояние автомата
+        $this->soldOutState     = new SoldOutState($this);
+        $this->noQuarterState   = new NoQuarterState($this);
+        $this->hasQuarterState  = new hasQuarterState($this);
+        $this->soldState        = new SoldState($this);
+
+    }
+
+    //Теперь видно, насколько прост и понятен стал алгоритм
+    //в котором вызываются методы автомата
+    //Вся работа теперь происходит в объектах State
+    public function insertQuarter() {
+
+        $this->currentState->insertQuarter();
+    }
+
+    public function ejectQuarter() {
+
+        $this->currentState->ejectQuarter();
+    }
+
+    public function turnCrunk() {
+
+        $this->currentState->turnCrunk();
+    }
+
+    public function releaseBall() {
+
+        echo "Возьмите шарик!<br>";
+
+        if($this->count != 0){
+            $this->count--;
+        }
+    }
+}
+
+
+
+class GumballMachine {
+
+    public $soldOutState        = null;
+    public $noQuarterState      = null;
+    public $hasQuarterState     = null;
+    public $soldState           = null;
+    public $currentState        = null;
+    public $count               = 0;
+
+    public function __construct($numberGumballs){
+
+        $this->count = (int)$numberGumballs;
+
+        //В объект-состояние передаем ссылку на автомат
+        //иначе методы объекта-состояния не смогут изменить
+        //текуott состояние автомата
+        $this->soldOutState     = new SoldOutState($this);
+        $this->noQuarterState   = new NoQuarterState($this);
+        $this->hasQuarterState  = new hasQuarterState($this);
+        $this->soldState        = new SoldState($this);
+
+    }
+
+    //Теперь видно, насколько прост и понятен стал алгоритм
+    //в котором вызываются методы автомата
+    //Вся работа теперь происходит в объектах State
+    public function insertQuarter() {
+
+        $this->currentState->insertQuarter();
+    }
+
+    public function ejectQuarter() {
+
+        $this->currentState->ejectQuarter();
+    }
+
+    public function turnCrunk() {
+
+        $this->currentState->turnCrunk();
+    }
+
+    public function releaseBall() {
+
+        echo "Возьмите шарик!<br>";
+
+        if($this->count != 0){
+            $this->count--;
+        }
+    }
+}
+
+
+$machine = new GumballMachine();
+$machine->insertQuarter();
+$machine->turnCrunk();
+$machine->releaseBall();
+$machine->ejectQuarter();
