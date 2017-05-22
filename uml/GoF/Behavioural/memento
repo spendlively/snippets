@@ -1,0 +1,31 @@
+class GameObject
+--
+--
+public function getCurrentState()
+public function restoreState()
+
+
+
+
+
+
+
+
+class State
+--
+public $state
+--
+public function __construct()
+
+
+
+
+
+
+$object = new GameObject();
+
+//Сохранение
+$save = $object->getCurrentState();
+
+//Восстановление
+$object = $object->restoreState($save->state);

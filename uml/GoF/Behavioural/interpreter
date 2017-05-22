@@ -1,0 +1,98 @@
+
+
+<<interface>>
+Expression
+--
+--
+public function interpret()
+
+
+
+
+
+class Interpreter implements Expression
+--
+public $expressions
+--
+public function __construct()
+public function interpret()
+public function run()
+
+
+
+
+class Go implements Expression
+--
+--
+public function interpret()
+
+
+class Turn_left implements Expression
+--
+--
+public function interpret()
+
+
+
+
+
+class Turn_right implements Expression
+--
+--
+public function interpret()
+
+
+
+
+class Stop implements Expression
+--
+--
+public function interpret()
+
+
+
+
+
+
+
+class Sequence implements Expression
+--
+--
+public function interpret()
+
+
+
+
+
+
+class Equals implements Expression
+--
+--
+public function interpret()
+
+
+
+
+
+
+class _If implements Expression
+--
+--
+public function interpret()
+
+
+
+
+
+
+$code = '
+    go,
+    turn_right,
+    go,
+    tl=10,
+    if(tl) turn_left,
+    go,
+    stop
+';
+$interpreter = new Interpreter();
+$interpreter->run($code);

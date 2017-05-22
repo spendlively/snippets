@@ -1,0 +1,111 @@
+abstract class Character
+--
+public $weapon
+--
+abstract public function fight()
+public function setWeapon()
+
+
+
+
+
+
+
+
+class King extends Character
+--
+--
+public function fight()
+
+
+class Queen extends Character
+--
+--
+public function fight()
+
+
+
+class Knight extends Character
+--
+--
+public function fight()
+
+
+
+class Troll extends Character
+--
+--
+public function fight()
+
+
+
+
+
+
+
+<<interface>>
+WeaponBehavior
+--
+--
+public function useWeapon()
+
+
+
+
+class SwordBehavior implements WeaponBehavior
+--
+--
+public function useWeapon()
+
+
+
+class KnifeBehavior implements WeaponBehavior
+--
+--
+public function useWeapon()
+
+
+
+class BowAndArrowBehavior implements WeaponBehavior
+--
+--
+public function useWeapon()
+
+
+
+class AxeBehavior implements WeaponBehavior
+--
+--
+public function useWeapon()
+
+
+
+
+
+
+
+
+$king = new King();
+$king->setWeapon(new SwordBehavior());
+
+$knight = new Knight();
+$knight->setWeapon(new BowAndArrowBehavior());
+
+$queen = new Queen();
+$queen->setWeapon(new KnifeBehavior());
+
+$queen = new Troll();
+$queen->setWeapon(new AxeBehavior());
+
+//Понеслась...
+$king->fight();
+$queen->fight();
+$troll->fight();
+$knight->fight();
+
+
+
+
+
+
+

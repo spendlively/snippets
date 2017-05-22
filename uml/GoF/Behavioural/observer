@@ -1,0 +1,88 @@
+<<interface>>
+ISender
+--
+--
+public function registerObserver()
+public function remoteObserver()
+public function notifyObservers()
+
+
+
+
+class Sender implements ISender
+--
+public $observers
+--
+public function registerObserver()
+public function remoteObserver()
+public function notifyObservers()
+
+
+
+
+
+
+abstract class Observer
+--
+public $date
+public $name
+--
+public function update()
+public function getName()
+public function getUpdate()
+
+
+
+
+
+
+
+class Person extends Observer
+--
+public $name
+--
+public function __construct()
+
+
+
+
+class Company extends Observer
+--
+public $name
+--
+public function __construct()
+
+
+
+
+
+
+
+$sender = new Sender();
+
+$clients = array(
+    new Person("Client1"),
+    new Person("Client2"),
+    new Company("Client3")
+);
+
+foreach($clients as $client){
+    $sender->registerObserver($client);
+}
+
+$sender->notifyObservers();
+
+
+foreach($clients as $i=>$client){
+    echo $client->getUpdate()."<br>";
+}
+
+sleep(5);
+
+$sender->remoteObserver($clients[0]);
+
+$sender->notifyObservers();
+
+foreach($clients as $i=>$client){
+    echo $client->getUpdate()."<br>";
+}

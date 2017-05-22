@@ -1,0 +1,50 @@
+class Handler
+--
+public $successor
+--
+public function handle()
+
+
+
+
+class DownloadHandler extends Handler
+--
+public $url
+--
+public function __construct()
+public function handle()
+
+
+
+
+class TrimmerHandler extends Handler
+--
+--
+public function handle()
+
+
+
+
+class PreviewHandler extends Handler
+--
+--
+public function handle()
+
+
+
+
+
+$handler = new Handler();
+
+$urls = array(
+    "http://www.test.ru/photo1.jpg",
+    "http://www.test.ru/photo2.jpg",
+    "http://www.test.ru/photo3.jpg",
+);
+
+foreach($urls as $url){
+
+    $handler->handle($url);
+}
+
+

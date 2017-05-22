@@ -1,0 +1,99 @@
+<<interface>>
+Comand
+--
+--
+public function execute()
+public function undo()
+
+
+
+class Light
+--
+--
+public function on()
+public function off()
+
+
+
+
+class Radio
+--
+--
+public function on()
+public function off()
+
+
+
+
+
+class LightOnComand implements Comand
+--
+public $light
+--
+public function __construct()
+public function execute()
+public function undo()
+
+
+
+
+class LightOffComand implements Comand
+--
+public $light
+--
+public function __construct()
+public function execute()
+public function undo()
+
+
+
+
+class RadioOnComand implements Comand
+--
+public $radio
+--
+public function __construct()
+public function execute()
+public function undo()
+
+
+
+class RadioOffComand implements Comand
+--
+public $radio
+--
+public function __construct()
+public function execute()
+public function undo()
+
+
+
+
+class RemoteControl
+--
+public $command
+--
+public function setComand()
+public function executeComand()
+public function undoComand()
+
+
+
+
+
+
+$lightOnComand = new LightOnComand(new Light());
+$lightOffComand = new LightOffComand(new Light());
+
+$radioOnComand = new RadioOnComand(new Radio());
+$radioOffComand = new RadioOffComand(new Radio());
+
+$rm = new RemoteControl();
+
+$rm->setComand($lightOnComand);
+$rm->executeComand();
+$rm->undoComand();
+
+$rm->setComand($radioOnComand);
+$rm->executeComand();
+$rm->undoComand();
