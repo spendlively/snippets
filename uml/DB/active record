@@ -1,0 +1,17 @@
+class User
+--
+public $id
+public $name
+public $age
+--
+public function __construct()
+public static function findByName()
+public function update()
+public function insert()
+public function delete()
+
+
+
+$user = new User(1);
+$user->name = 'Ivan';
+$user->insert();

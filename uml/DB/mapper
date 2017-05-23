@@ -1,0 +1,25 @@
+class User
+--
+public $id
+public $name
+--
+public function __construct()
+
+
+
+class Mapper
+--
+--
+public static function findByName()
+public static function findById()
+public static function update()
+public static function insert()
+public static function delete()
+
+
+
+$user = Mapper::findByName('Ivan');
+$user->name = 'Petr';
+Mapper::update($user);
+
+
