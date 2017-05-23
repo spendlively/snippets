@@ -1,0 +1,36 @@
+page controller - контроллер страниц
+
+Определение: объект или несколько объектов (объект + хелперы), 
+кот. обрабатывает запрос к конкретной веб-странице
+или выполнение конкретного действия на веб-странице
+
+Обязанности:
+ - проанализировать Url, извлечь данные
+ - создать объекты модели, вызвать методы
+ - определить представление, передать результат работы модели
+
+
+
+
+class ProductController
+--
+--
+public function pageAction()
+
+
+
+class ProductModel
+--
+--
+public function getData()
+
+
+
+class ProductView
+--
+--
+public function show()
+
+
+$controller = new ProductController();
+$controller->pageAction();
