@@ -1,0 +1,20 @@
+
+
+Transform view - представление с преобразованием
+
+Определение: представление, которое поочередно обрабатывает элементы данных
+домена и преобразует их в HTML-код
+
+Сделать это можно например с помощью XSLT
+
+class Model
+--
+--
+public function getXmlData()
+
+
+
+class Transformer
+--
+--
+public function transformXmlData()

@@ -1,0 +1,24 @@
+Template view - представление по шаблону
+
+Определение: преобразует резульат выполнения запроса в формат HTML,
+путем внедрения маркеров в HTML-страницу
+
+class Model
+--
+--
+public function getTitle()
+public function getText()
+
+
+
+
+<!DOCTYPE html>
+<?php $model = new Model(); ?>
+<html>
+<head>
+	<title><?= $model->getTitle(); ?></title>
+</head>
+<body>
+	<p><?= $model->getText(); ?></p>
+</body>
+</html>
