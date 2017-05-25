@@ -1,0 +1,24 @@
+
+Application Controller - Контроллер приложения
+
+Точка централизованного управления порядком отображения 
+интерфейсных экранов и потоком функций приложения.
+
+
+Логика:
+ - Фронт контроллер определяет контроллер приложения на основе URL
+ - Запрашивает у него команду, выполняет ее
+ - Запрашивает у него вьюшку и рендерит ее
+
+
+
+
+
+//ExternalController
+$applicationController = $this->getApplicationController($_SERVER['REQUEST_URI']);
+
+$command = $applicationController->getCommand();
+$command->execute();
+
+$page = $applicationController->getPage();
+return $page->render();
