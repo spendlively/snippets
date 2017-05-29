@@ -1,0 +1,17 @@
+
+/*Использование переменных и last_insert_id*/
+SET @id = NULL;
+
+START TRANSACTION;
+
+INSERT INTO `book`
+(`id`, `name`, `desc`) VALUES
+( @id, 'Название',  'Описание');
+
+SET @id = (SELECT LAST_INSERT_ID());
+
+INSERT INTO `order`
+(`id`, `id_book`, `price`) VALUES
+(NULL, @id, 1000);
+
+COMMIT;
