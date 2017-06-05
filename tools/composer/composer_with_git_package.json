@@ -1,0 +1,25 @@
+{
+  "require": {
+    "php": ">=5.3.0",
+    "Gis": "1"
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "Gis",
+        "version": "1",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/spendlively/2gis.git",
+          "reference": "master"
+        }
+      }
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "Gis": "vendor/"
+    }
+  }
+}

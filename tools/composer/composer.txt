@@ -1,0 +1,118 @@
+////////////////////////////////////////
+///////////Установка composer///////////
+////////////////////////////////////////
+apt-get install composer
+
+
+
+/////////////////////////////////////////
+////////////////require//////////////////
+/////////////////////////////////////////
+//Загрузка из packagist.org
+//Из конфига
+{
+    "require": {
+        "monolog/monolog": "1.0.*"
+    }
+}
+
+
+
+/////////////////////////////////////////
+////////////////autoload/////////////////
+/////////////////////////////////////////
+//Использование автозагрузчика
+require __DIR__ . '/vendor/autoload.php';
+
+//Добавление неймспейса Acme в автолодер
+{
+    "autoload": {
+        "psr-4": {"Acme\\": "src/"}
+    }
+}
+
+//Добавление неймспейса на лету
+$loader = require __DIR__ . '/vendor/autoload.php';
+$loader->addPsr4('Acme\\Test\\', __DIR__);
+
+//Создаие собственного пакета
+{
+  "name": "spendlively/hello-world",
+  "version": "0.0.1"
+}
+
+
+
+/////////////////////////////////////////
+//////////////repositories///////////////
+/////////////////////////////////////////
+//Подгрузка пакета из github к себе в vendor
+{
+    "name": "my/project",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/spendlively/test"
+        }
+    ],
+    "require": {
+        "spendlively/test": "dev-master"
+    }
+}
+
+//Composer, VCS, PEAR
+
+
+/////////////////////////////////////////
+//////////////////config/////////////////
+/////////////////////////////////////////
+{
+    "config": {
+    }
+}
+
+
+
+
+/////////////////////////////////////////
+///////////////////CLI///////////////////
+/////////////////////////////////////////
+//Создание файла composer.json
+composer init
+--name: Name of the package.
+--description: Description of the package.
+--author: Author name of the package.
+--type: Type of package.
+--homepage: Homepage of the package.
+--require: Package to require with a version constraint. Should be in format foo/bar:1.0.0.
+--require-dev: Development requirements, see --require.
+--stability (-s): Value for the minimum-stability field.
+--license (-l): License of package.
+--repository:
+
+//Загрузка/установка/разрешение зависимостей
+composer install
+
+//Обновление все пакеты / некоторые пакеты
+composer update
+composer update vendor/package vendor/package2
+
+//Добавить пакет в composer.json
+composer require vendor/package:dev-master vendor/package2:2.*
+
+//Удалить пакет
+composer remove vendor/package
+
+//Проверка локальныйх изменений
+composer status
+
+//Редактирование конфига
+composer config
+
+//Создание нового проекта на основе существующего пакета
+//Эквивалент git clone
+composer create-project doctrine/orm path 2.2.*
+composer create-project --stability="dev" zendframework/skeleton-application ./
+
+//Очистка кэша
+composer clear-cache

@@ -1,0 +1,14 @@
+{
+  "autoload": {
+    "psr-0": {
+      "MyNamespace": "vendor/"
+    },
+    "classmap": [
+      "classmap/",
+      "classmap/class.myclass.php"
+    ],
+    "files": [
+      "files/db_connect.php"
+    ]
+  }
+}
