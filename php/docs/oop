@@ -152,7 +152,8 @@ class B extends A{
 }
 B::test();//А
 
-class A {public static function who(){echo __CLASS__;}
+class A {
+    public static function who(){echo __CLASS__;}
     public static function test(){static::who();/*псс*/}
 }
 class B extends A{
