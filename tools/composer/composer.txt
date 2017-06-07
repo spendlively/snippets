@@ -1,7 +1,10 @@
 ////////////////////////////////////////
 ///////////Установка composer///////////
 ////////////////////////////////////////
+//Глобально
 apt-get install composer
+//Локально
+https://getcomposer.org/download/
 
 
 
@@ -99,6 +102,8 @@ composer update vendor/package vendor/package2
 
 //Добавить пакет в composer.json
 composer require vendor/package:dev-master vendor/package2:2.*
+//Создать новый файл composer.json
+composer require
 
 //Удалить пакет
 composer remove vendor/package
@@ -112,7 +117,22 @@ composer config
 //Создание нового проекта на основе существующего пакета
 //Эквивалент git clone
 composer create-project doctrine/orm path 2.2.*
+//Zend Framework 2
 composer create-project --stability="dev" zendframework/skeleton-application ./
+//Yii 2
+php composer.phar global require "fxp/composer-asset-plugin:^1.2.0"
+php composer.phar create-project yiisoft/yii2-app-basic basic 2.0.*
+php composer.phar create-project yiisoft/yii2-app-advanced advanced 2.0.*
 
 //Очистка кэша
 composer clear-cache
+
+//Поиск пакетов
+composer search -N log
+
+//Информация о пакете
+composer show monolog/monolog
+
+//Ввод github токена
+composer config -g github-oauth.github.com <токен>
+

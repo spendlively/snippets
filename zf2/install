@@ -1,0 +1,10 @@
+
+//Установка skeleton приложения
+composer create-project --stability="dev" zendframework/skeleton-application ./
+
+//Установка только фреймворка
+php composer.phar search -N "zendframework/zendframework"
+php composer.phar require zendframework/zendframework
+//или
+php composer.phar install zendframework/zendframework
+
