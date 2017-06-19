@@ -1,0 +1,7 @@
+//Генерация карты классов
+/vendor/bin/classmap_generator.php
+
+cd /path/to/files/
+php /path/to/classmap_generator.php -w 
+
+
