@@ -1,7 +1,47 @@
+//Ссылки
+//Аутентификация zendframework
+https://samsonasik.wordpress.com/2012/10/23/zend-framework-2-create-login-authentication-using-authenticationservice-with-rememberme/
+
+//zendframework шпаргалка cheatsheet
+http://zf2cheatsheet.com/#service
+https://samsonasik.wordpress.com/2013/01/02/zend-framework-2-cheat-sheet-service-manager/
+http://zendframework2.de/cheat-sheet.html
+http://webcache.googleusercontent.com/search?q=cache:DJfViyedOWYJ:zendframework2.de/cheat-sheet.html+&cd=3&hl=ru&ct=clnk&gl=ru
+
+
+
 //Генерация карты классов
 /vendor/bin/classmap_generator.php
 
 cd /path/to/files/
 php /path/to/classmap_generator.php -w 
+
+
+
+
+
+//Работа с БД
+
+
+
+
+
+//Переменные ZF2
+$zf2Path - путь к библиотеке ZF2 (init_autoloader.php)
+config 
+
+
+
+//Методы контроллера
+init() - 
+onBootstrap() - 
+
+
+//Контроллеры
+AbstractActionController 
+AbstractRestfullController - 1 адрес для CRUD
+
+//Router
+part: child_routes - вложенные роуты у 
 
 
