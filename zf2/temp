@@ -1,6 +1,13 @@
+//ZF2 презентации
+https://www.slideshare.net/zfconf/presentations
+
+
+
 //Ссылки
 //Аутентификация zendframework
 https://samsonasik.wordpress.com/2012/10/23/zend-framework-2-create-login-authentication-using-authenticationservice-with-rememberme/
+
+
 
 //zendframework шпаргалка cheatsheet
 http://zf2cheatsheet.com/#service
@@ -12,17 +19,8 @@ http://webcache.googleusercontent.com/search?q=cache:DJfViyedOWYJ:zendframework2
 
 //Генерация карты классов
 /vendor/bin/classmap_generator.php
-
 cd /path/to/files/
 php /path/to/classmap_generator.php -w 
-
-
-
-
-
-//Работа с БД
-
-
 
 
 
@@ -37,11 +35,8 @@ init() -
 onBootstrap() - 
 
 
+
 //Контроллеры
 AbstractActionController 
-AbstractRestfullController - 1 адрес для CRUD
-
-//Router
-part: child_routes - вложенные роуты у 
-
+AbstractRestfullController - адрес для CRUD
 
