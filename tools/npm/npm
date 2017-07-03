@@ -1,0 +1,170 @@
+//////////////////////////////////////////////////////////////
+//////////////////Установка nodejs и npm//////////////////////
+//////////////////////////////////////////////////////////////
+sudo apt-get update && sudo apt-get -y upgrade
+
+//nodejs 4.x
+curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+//nodejs 6.x
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+
+
+//////////////////////////////////////////////////////////////
+/////////////////////Обновление npm///////////////////////////
+//////////////////////////////////////////////////////////////
+sudo npm install npm@latest -g
+npm -v
+
+
+
+//////////////////////////////////////////////////////////////
+/////////////////////////Информация///////////////////////////
+//////////////////////////////////////////////////////////////
+//Хелп
+npm help
+npm help search
+//Какие модули установлены в системе
+npm ls
+
+
+
+//////////////////////////////////////////////////////////////
+////////////////////////Поиск модулей/////////////////////////
+//////////////////////////////////////////////////////////////
+//https://www.npmjs.com/
+//https://nodejsmodules.org/
+npm search express //npm s express
+
+
+
+////////////////////////////////////////////////////////////
+//////////////////////Создание пакета npm///////////////////
+////////////////////////////////////////////////////////////
+//package.json
+{
+    "name": "modulename",
+    "version": "0.0.1"
+}
+//или
+npm init
+//npm adduser //npm addu
+npm publish //npm pu
+
+
+
+////////////////////////////////////////////////////////////
+/////////////////////Установка модуля///////////////////////
+////////////////////////////////////////////////////////////
+npm install //Установка всех dependencies
+npm install express //npm i express
+npm install https://github.com/expressjs/express.git //Последняя версия expressjs
+
+var express = require('express');
+supermodule();
+
+//Перед установкой npm ищет каталог node_modules
+//в ".", потом в "../", "../../", "../../../" и т.д.
+//либо npm ищет файл package.json
+
+
+
+////////////////////////////////////////////////////////////
+/////////////////////Обновление модулей/////////////////////
+////////////////////////////////////////////////////////////
+npm update //npm up
+
+
+
+////////////////////////////////////////////////////////////
+/////////////////////Удаление модулей///////////////////////
+////////////////////////////////////////////////////////////
+npm remove express //npm r express
+npm prune //Удаление лишних модулей, которых нет в зависимостях
+
+
+
+////////////////////////////////////////////////////////////
+///////////////Некоторые поля package.json//////////////////
+////////////////////////////////////////////////////////////
+//devDependencies
+Если модуль указан в dependencies, его devDependencies не установятся.
+devDependencies модуля можно установить выполнив "npm i" в папке самого модуля.
+
+//keywords
+Ключевые слова для npm search
+
+//repository
+Информационное поля, где хранятся исходники (Существенной роли не играет)
+
+//mail
+Файл, который подключается при require('modulename');
+
+//script
+Команды, который выполняются при некоторых действиях с пакетом
+
+//bin
+Скрипты в т.ч. для установки глобально
+
+
+
+////////////////////////////////////////////////////////////
+////////////////////Глобальные модули///////////////////////
+////////////////////////////////////////////////////////////
+- используются для системных нужд, утилиты
+- ставятся в стандартную системную директорию
+- файлы из "bin" в package.json будут поставлены по системному пути
+- глобальный пакет НЕ БУДЕТ найден если указать require('express')
+npm -g i express
+npm -g up express
+npm -g up
+npm -g remove express
+
+
+
+//Версионирование
+ - version Must match version exactly
+ - >version Must be greater than version
+ - >=version etc
+ - <version
+ - <=version
+ - ~version "Approximately equivalent to version" See semver
+ - ^version "Compatible with version" See semver
+ - 1.2.x 1.2.0, 1.2.1, etc., but not 1.3.0
+ - http://... See 'URLs as Dependencies' below
+ - * Matches any version
+ - "" (just an empty string) Same as *
+ - version1 - version2 Same as >=version1 <=version2.
+ - range1 || range2 Passes if either range1 or range2 are satisfied.
+ - git... See 'Git URLs as Dependencies' below
+ - user/repo See 'GitHub URLs' below
+ - tag A specific version tagged and published as tag See npm-tag
+ - path/path/path See Local Paths below,
+
+ //Примеры
+{
+    "dependencies": {
+        "foo" : "1.0.0 - 2.9999.9999",
+        "bar" : ">=1.0.2 <2.1.2",
+        "baz" : ">1.0.2 <=2.3.4",
+        "boo" : "2.0.1",
+        "qux" : "<1.0.0 || >=2.3.1 <2.4.5 || >=2.5.2 <3.0.0",
+        "asd" : "http://asdf.com/asdf.tar.gz",
+        "til" : "~1.2",
+        "elf" : "~1.2.3",
+        "two" : "2.x",
+        "thr" : "3.3.x",
+        "lat" : "latest",
+        "dyl" : "file:../dyl"
+    }
+}
+
+
+
+//Центральный репозитарий
+//registry.npmjs.org
+//registry.npmjs.org/supermodule/
+
