@@ -1,0 +1,17 @@
+
+//Установка
+//gulp нужно ставить и локально и глобально
+//чтобы подключать через require
+//и для доступа к команде gulp
+sudo npm install gulp-cli -g
+npm install gulp -D
+touch gulpfile.js
+gulp --help
+
+
+
+//Использование локального gulp
+export PATH=./node_modules/.bin:$PATH
+export PATH=../node_modules/.bin:$PATH
+export PATH=../../node_modules/.bin:$PATH
+gulp
