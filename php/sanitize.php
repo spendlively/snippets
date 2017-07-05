@@ -1,5 +1,12 @@
 <?php
 
+
+//Экранирование символов для командной строки
+$escapedCommand = escapeshellcmd("cat /etc/hosts");
+shell_exec($escapedCommand);
+
+
+
 //escape &<>" without '
 htmlspecialchars('&<>"\'');
 htmlentities('&<>"\''); //Can escape more simbols than htmlspecialchars

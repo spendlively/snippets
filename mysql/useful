@@ -1,0 +1,6 @@
+
+//Создание клона таблицы
+CREATE TABLE newTable LIKE oldTable;
+INSERT INTO newTable SELECT * FROM oldTable;
+//или
+CREATE TABLE newTable SELECT * FROM oldTable

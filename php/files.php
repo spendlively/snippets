@@ -70,6 +70,7 @@ var_dump(feof(fopen('/tmp/test.txt', 'w')));
 
 //Get file into array
 var_dump(file('/tmp/test.txt'));
+var_dump(file('http://google.com/'));
 
 //Output the file by filename
 readfile('/tmp/test.txt');
@@ -90,3 +91,9 @@ $df = tmpfile();
 
 //delete the file
 unlink('/tmp/test.txt');
+
+//get directory files
+$f1 = scandir('/tmp');
+$f2 = glob('*.php');
+$f3 = glob('*.{php,txt}', GLOB_BRACE);
+$f4 = glob('/tmp/a*.jpg');
