@@ -1,4 +1,9 @@
 
+//Поиск плагинов для gulpjs
+http://gulpjs.com/plugins/
+
+
+
 //Установка
 //gulp нужно ставить и локально и глобально
 //чтобы подключать через require
@@ -15,3 +20,17 @@ export PATH=./node_modules/.bin:$PATH
 export PATH=../node_modules/.bin:$PATH
 export PATH=../../node_modules/.bin:$PATH
 gulp
+
+
+
+//Просмотр существующих задач
+//gulp --tasks
+
+
+
+//Завершение работы
+//gulp.task должен вернуть
+// - callback
+// - Промис
+// - Поток
+
