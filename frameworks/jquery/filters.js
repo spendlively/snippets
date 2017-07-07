@@ -44,9 +44,9 @@ $("a[target!=_blank]").css("background-color", "#9bff70");
 //все кнопки на странице.
 $(":button").css("font-weight","bold");
 //все элементы "checkbox".
-var count = $(":checkbox").length;
+$(":checkbox").length;
 //только отмеченные флажки или переключатели
-var count = $("input:checked").length;
+$("input:checked").length;
 //элементы форм, находящиеся в неактивном состоянии
 $("input:disabled").val("disabled");
 //элементы форм, находящиеся в активном состоянии
