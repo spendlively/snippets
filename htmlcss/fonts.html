@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fonts</title>
+    <style>
+        /* Абсолютный размер */
+        body{
+            font-size: 20px;
+            background: #eee;
+        }
+
+        /* Относительный размер */
+        p.font-size-em{
+            font-size: 0.8em;
+            /*font-size: 80%;*/
+        }
+
+        /* Заглавный регистр */
+        p.text-transform-upper{
+            text-transform: uppercase;
+            /*text-transform: lowercase;*/
+            /*text-transform: capitalize;*/
+        }
+
+        /* С красной строки */
+        p.text-indent{
+            text-indent: 30px;
+        }
+
+        /* Отступы */
+        p.spacing{
+            line-height: 40px;
+            word-spacing: 20px;
+            letter-spacing: 5px;
+
+            /* Обратить текст */
+            /*letter-spacing: -20px;*/
+            /*text-align: center;*/
+        }
+
+        /* Тень */
+        p.text-shadow{
+            text-shadow: 0 1px 2px #eee;
+            /* 0 - Отступ по горизонтали*/
+            /* 1px - Отступ по вертикали*/
+            /* 2px - Размытие */
+            /* #eee - Цвет тени */
+
+            /* Несколько теней */
+            /*text-shadow: 0 1px 2px #eee, 3px 3px 3px #f00;*/
+        }
+
+        /* qwerty */
+        p.qwerty{
+            text-indent: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Абсолютный размер -->
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut blanditiis cumque deleniti distinctio dolores earum eligendi eum ex ipsam laboriosam, maiores modi nostrum quas quo repellat soluta, tenetur vero voluptatum.</p>
+
+<!-- Относительный размер -->
+<p class="font-size-em">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut blanditiis cumque deleniti distinctio dolores earum eligendi eum ex ipsam laboriosam, maiores modi nostrum quas quo repellat soluta, tenetur vero voluptatum.</p>
+
+<!-- Заглавный регистр -->
+<p class="text-transform-upper">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut blanditiis cumque deleniti distinctio dolores earum eligendi eum ex ipsam laboriosam, maiores modi nostrum quas quo repellat soluta, tenetur vero voluptatum.</p>
+
+<!-- С красной строки -->
+<p class="text-indent">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut blanditiis cumque deleniti distinctio dolores earum eligendi eum ex ipsam laboriosam, maiores modi nostrum quas quo repellat soluta, tenetur vero voluptatum.</p>
+
+<!-- Отступы -->
+<p class="spacing">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut blanditiis cumque deleniti distinctio dolores earum eligendi eum ex ipsam laboriosam, maiores modi nostrum quas quo repellat soluta, tenetur vero voluptatum.</p>
+
+<!-- Тень -->
+<p class="text-shadow">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut blanditiis cumque deleniti distinctio dolores earum eligendi eum ex ipsam laboriosam, maiores modi nostrum quas quo repellat soluta, tenetur vero voluptatum.</p>
+
+<!-- qwerty -->
+<p class="qwerty">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut blanditiis cumque deleniti distinctio dolores earum eligendi eum ex ipsam laboriosam, maiores modi nostrum quas quo repellat soluta, tenetur vero voluptatum.</p>
+</body>
+</html>
