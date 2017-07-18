@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transform</title>
+    <style>
+        body{
+            background: url(./img/light_noise_diagonal.png);
+            font: 1em 'PT Sans', Tahoma, Arial;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.3);
+            width: 150px;
+            height: 100px;
+            margin: 50px;
+            line-height: 100px;
+            text-align: center;
+            font-size: 1em;
+            color: #fff;
+            border: 1px solid #fff;
+            border-radius: 8px;
+        }
+
+        .container-2d{
+
+            /* transform */
+            /* translate(axisX, axisY) - перемещение объекта */
+            /* rotate(angle) - вращение объекта относительно центра */
+            /* scale(2) - масштаб (увеличить в 2 раза) */
+            /* skewX(angle), skewY(angle) - скос в грарусах */
+            transform: translate(30px) rotate(30deg);
+
+            /* transform-origin */
+            /* Поворот относительно левого верхнего угла */
+            /*transform-origin: top left;*/
+            /*transform-origin: 50% 30%;*/
+
+            /*-webkit-transition: translate(30px) rotate(30deg);*/
+            /*-moz-transition: translate(30px) rotate(30deg);*/
+            /*-ms-transition: translate(30px) rotate(30deg);*/
+            /*-o-transition: translate(30px) rotate(30deg);*/
+        }
+
+        .container-3d{
+
+            transform: rotateY(60deg);
+            /*transform: rotateX(60deg);*/
+            /*transform: rotateZ(60deg);*/
+        }
+
+        .wrapper{
+            perspective: 500px;
+            /* Размеры перспективы */
+            width: 200px;
+            height: 100px;
+        }
+
+        .rotate-3d{
+
+            /* 1 - включить ось */
+            /* 0 - выключить ось */
+            /* -1 - включить ось с отрицательными значениями */
+            /* n - увеличить значение в n раз */
+            transform: rotate3d(1,1,1,60deg);
+            /*transform: rotateX(60deg);*/
+            /*transform: rotateZ(60deg);*/
+        }
+    </style>
+</head>
+<body>
+
+<div class="container container-2d">2D transform</div>
+
+<div class="container container-3d">3D transform</div>
+
+<div class="wrapper"><div class="container container-3d">Perspective</div></div>
+
+<div class="wrapper"><div class="container rotate-3d">Rotate 3d</div></div>
+
+</body>
+</html>
