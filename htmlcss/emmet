@@ -1,0 +1,49 @@
+
+////////////////////////////////////////////////
+/////////////Автозаполнение EMMET///////////////
+////////////////////////////////////////////////
+// #page>div.logo+ul#navigation>li*5>a{Item $}
+<div id="page">
+    <div class="logo"></div>
+    <ul id="navigation">
+        <li><a href="">Item 1</a></li>
+        <li><a href="">Item 2</a></li>
+        <li><a href="">Item 3</a></li>
+        <li><a href="">Item 4</a></li>
+        <li><a href="">Item 5</a></li>
+    </ul>
+</div>
+
+
+
+//////////////////////////////////////////////////
+///////////////////////HTML///////////////////////
+//////////////////////////////////////////////////
+! + tab
+html:5
+html:5>div
+html:xt
+html:xs
+select+
+link:favicon
+ul#nav>li*a[href=item-$]
+.item
+lorem10
+
+
+
+//////////////////////////////////////////////////
+//////////////////////CSS/////////////////////////
+//////////////////////////////////////////////////
+bg+ //background
+@f+ //font-face
+bdrs //borders
+pos:a+t20+l10+m10-10-15-10+p50+w300+h200;
+position: absolute;
+top: 20px;
+left: 10px;
+margin: 10px 10px 10px 10px;
+padding: 50px;
+width: 300px;
+height: 200px;
+
