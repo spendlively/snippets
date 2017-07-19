@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gradient</title>
+    <style>
+
+        body{
+            background: url(./img/subtlenet2.png);
+            font: 1em Tahoma, Atial;
+            text-transform: uppercase;
+        }
+
+        .container{
+            width: 400px;
+            height: 300px;
+            float: left;
+            margin: 40px;
+            background: #999;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+
+            border-radius: 5px;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.6);
+        }
+
+        .container1{
+            background-image: -webkit-linear-gradient(#333, #bbb);
+        }
+        .container2{
+            background-image: -webkit-linear-gradient(45deg, #333, #bbb);
+        }
+        .container3{
+            background-image: -webkit-linear-gradient(right top, #333, #bbb);
+        }
+        .container4{
+            background-image: -webkit-linear-gradient(right top, #333 30%, #55b2ff 50%);
+        }
+        .container5{
+            background-image: -webkit-radial-gradient(#aaa 30%, #333 70%, #bbb 100%);
+        }
+        .container6::after{
+            content: '';
+            width: 400px;
+            height: 300px;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.3s;
+            background: -webkit-radial-gradient(transparent, rgba(0,0,0,0.7));
+        }
+        .container6:hover::after{
+            opacity: 0;
+        }
+        .container7::after{
+            content: '';
+            width: 400px;
+            height: 300px;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.3s;
+            background-image: -webkit-repeating-linear-gradient(-45deg, rgba(0,0,0,0.3) 4px, rgba(0,0,0,0.3) 8px, transparent 8px, transparent 12px);
+        }
+        .container7:hover::after{
+            opacity: 0;
+        }
+        .container8::after{
+            content: '';
+            width: 400px;
+            height: 300px;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.3s;
+            /* Перечисление градиентов */
+            background-image: -webkit-repeating-linear-gradient(-45deg, rgba(0,0,0,0.3) 4px, rgba(0,0,0,0.3) 8px, transparent 8px, transparent 12px), -webkit-repeating-linear-gradient(45deg, rgba(0,0,0,0.3) 4px, rgba(0,0,0,0.3) 8px, transparent 8px, transparent 12px);
+        }
+        .container8:hover::after{
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container container1"></div>
+<div class="container container2"></div>
+<div class="container container3"></div>
+<div class="container container4"></div>
+<div class="container container5"></div>
+<div class="container container6">
+    <!-- Сервис с разными картинками -->
+    <img src="http://lorempixel.com/400/300/city/" alt="">
+</div>
+<div class="container container7">
+    <img src="http://lorempixel.com/400/300/city/" alt="">
+</div>
+<div class="container container8">
+    <img src="http://lorempixel.com/400/300/city/" alt="">
+</div>
+
+</body>
+</html>
