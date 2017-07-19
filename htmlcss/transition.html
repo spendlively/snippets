@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transition</title>
+    <style>
+
+        body{
+            background: url(./img/subtlenet2.png);
+            font: 1em Tahoma, Atial;
+            text-transform: uppercase;
+        }
+
+        .nav{
+            list-style: none;
+            padding: 0;
+            margin: 30px;
+            width: 50px;
+            opacity: 0.5;
+
+            /* Плавно-меняющаяся прозрачность */
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        .nav:hover{
+            opacity: 1;
+        }
+
+        /* Прячем li */
+        .nav li{
+            height: 50px;
+            width: 50px;
+            overflow: hidden;
+
+            /* Плавно выдвигающееся меню */
+            transition: width 0.2s ease-in-out, height 0.2s ease-in-out 0.2s;
+        }
+
+        .nav li:hover{
+            height: 174px;
+            width: 200px;
+        }
+
+        .nav li a{
+            display: block;
+            width: 200px;
+            height: 40px;
+            line-height: 40px;
+            background: #bbb;
+            margin: 1px;
+            color: #ffffff;
+            padding-left: 15px;
+            cursor: pointer;
+
+            /* Плавно-меняющийся цвет */
+            /* Свойство для которого создается плавный переход */
+            transition-property: all;
+            /* Продолжительность */
+            transition-duration: 0.4s;
+            /* Фунция анимации */
+            transition-timing-function: ease-in-out;
+            /* Задержка анимации */
+            transition-delay: 0.1s;
+
+            /* Сокращение */
+            /*transition: background 0.4s ease-in-out 0.1s;*/
+        }
+
+        .nav li a:hover{
+            background: #2fc5ff;
+        }
+
+        .nav li a:first-child{
+            font-size: 1.1em;
+            height: 50px;
+            line-height: 50px;
+            position: relative;
+            text-indent: 36px;
+        }
+
+        .nav li a:first-child::before{
+            content: '';
+            position: absolute;
+            display: block;
+            height: 32px;
+            width: 32px;
+            top: 9px;
+            left: 9px;
+        }
+
+        .main-menu a:first-child::before{
+            background: url(./img/home.png) center no-repeat;
+        }
+        .settings a:first-child::before{
+            background: url(./img/settings.png) center no-repeat;
+        }
+        .link a:first-child::before{
+            background: url(./img/link.png) center no-repeat;
+        }
+        .search a:first-child::before{
+            background: url(./img/search.png) center no-repeat;
+        }
+    </style>
+</head>
+<body>
+
+<ul class="nav">
+    <li class="main-menu">
+        <a href="">Main Menu</a>
+        <a href="">Products</a>
+        <a href="">Store</a>
+        <a href="">Forum</a>
+    </li>
+    <li class="settings">
+        <a href="">Settings</a>
+        <a href="">Account</a>
+        <a href="">Notifications</a>
+        <a href="">Display</a>
+    </li>
+    <li class="link">
+        <a href="">Link</a>
+        <a href="">Embed</a>
+        <a href="">Short link</a>
+        <a href="">Full link</a>
+    </li>
+    <li class="search">
+        <a href="">Search</a>
+        <a href="">Item 2</a>
+        <a href="">Item 3</a>
+        <a href="">item 4</a>
+    </li>
+</ul>
+
+</body>
+</html>

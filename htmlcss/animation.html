@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animation</title>
+    <style>
+        body{
+            background: url(./img/light_noise_diagonal.png);
+            font: 1em 'PT Sans', Tahoma, Arial;
+        }
+
+        a{
+            color: #3f4c56;
+            font-weight: lighter;
+        }
+
+        @keyframes spin{
+            from{
+                transform: rotate(0deg);
+            }
+            to{
+                transform: rotate(360deg);
+            }
+        }
+
+        .square1{
+            width: 40px;
+            height: 40px;
+            background: #333;
+            margin: 20px;
+            box-shadow: 0 0 4px rgba(0,0,0,0.4);
+
+            /* Обязательные свойства */
+            animation-name: spin;
+            animation-duration: 2s;
+
+            /* Замедление анимации: linear, ease-in, ease-out, ease-in-out, cubic-bezier(0,0,0,0) */
+            /* Редактор изингов: https://matthewlein.com/ceaser/ */
+            animation-timing-function: linear;
+            /* Задержка перед началом анимации */
+            animation-delay: 1s;
+            /* Необязательные свойства */
+            /* Количество анимаций: число или infinite */
+            animation-iteration-count: infinite;
+            /* Направление анимации: normal, reverse, alternate */
+            animation-direction: alternate;
+
+            /* Сокращение (в перечисленном порядке) */
+            /*animation: spin 2s linear 1s infinite alternate;*/
+        }
+
+        .square1:hover{
+            /* Приостановка анимации */
+            animation-play-state: paused;
+        }
+
+        .container{
+            width: 200px;
+            height: 30px;
+            border: 3px solid #fff;
+            background: #999999;
+            border-radius: 7px;
+            overflow: hidden;
+            margin: 40px;
+            box-shadow: 0 3px 4px rgba(0,0,0,0.3);
+        }
+
+        .bar{
+            height: 30px;
+            width: 400px;
+            background: repeating-linear-gradient(45deg, rgba(255,255,255,0.9) 0, rgba(255,255,255,0.9) 5px, transparent 5px, transparent 10px);
+        }
+
+        .bar1{
+            animation: slide1 5s linear infinite;
+        }
+
+        .bar2{
+            animation: slide2 3s linear infinite;
+        }
+
+        @keyframes slide1 {
+            0%{
+                margin-left: 0;
+            }
+            100%{
+                margin-left: -100%;
+            }
+        }
+
+        @keyframes slide2 {
+            0%{
+                margin-left: 0;
+            }
+            50%{
+                opacity: 0;
+            }
+            100%{
+                margin-left: -100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="square1"></div>
+
+<div class="container">
+    <div class="bar bar1"></div>
+</div>
+
+<div class="container">
+    <div class="bar bar2"></div>
+</div>
+
+<h2><a href="https://daneden.github.io/animate.css/">Готовые анимации</a></h2>
+<h2><a href="http://www.adobe.com/ru/products/edge-animate.html">Edge Animate CC. Создание интерактивного и
+    анимированного веб-контента</a></h2>
+
+</body>
+</html>
