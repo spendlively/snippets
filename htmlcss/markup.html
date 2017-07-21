@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Markup</title>
+    <link rel="stylesheet" href="./examples/normalize.css">
+    <style>
+
+        *{
+            transition: all 0.5s;
+            /* Включить ширину паддингов в ширину элемента */
+            box-sizing: border-box;
+        }
+
+        body{
+            background: url(./img/light_noise_diagonal.png);
+            font: 1em 'PT Sans', Tahoma, Arial;
+        }
+
+        /* CSS Grid
+        =========================================================*/
+
+        .container{
+            width: 940px;
+            margin: 0 auto;
+        }
+
+        .row{
+            margin-bottom: 20px;
+        }
+
+        .row:after{
+            content: '';
+            display: block;
+            height: 0;
+            visibility: hidden;
+            clear: both;
+        }
+
+        [class*='span']{
+            float: left;
+            display: inline;
+            margin-right: 20px;
+        }
+
+        [class*='span']:last-child{
+            margin-right: 0;
+            /*float: right;*/
+        }
+
+        /* 940-20*11 */
+        .span1 {width: 60px;}
+        .span2 {width: 140px;}
+        .span3 {width: 220px;}
+        .span4 {width: 300px;}
+        .span5 {width: 380px;}
+        .span6 {width: 460px;}
+        .span7 {width: 540px;}
+        .span8 {width: 620px;}
+        .span9 {width: 700px;}
+        .span10 {width: 780px;}
+        .span11 {width: 860px;}
+        .span12 {width: 940px;}
+
+        .offset1 {margin-left: 60px;}
+        .offset2 {margin-left: 140px;}
+        .offset3 {margin-left: 220px;}
+        .offset4 {margin-left: 300px;}
+        .offset5 {margin-left: 380px;}
+        .offset6 {margin-left: 460px;}
+        .offset7 {margin-left: 540px;}
+        .offset8 {margin-left: 620px;}
+        .offset9 {margin-left: 700px;}
+        .offset10 {margin-left: 780px;}
+        .offset11 {margin-left: 860px;}
+        .offset12 {margin-left: 940px;}
+
+        /* Main
+        =========================================================*/
+
+        .header{
+            margin-top: 20px;
+        }
+
+        .header h1{
+            font-weight: bold;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.8);
+        }
+
+        .search{
+            margin-top: 40px;
+        }
+
+        .search input{
+            width: 100%;
+            height: 30px;
+        }
+
+        .slider{
+            height: 250px;
+            background: url(https://static.pexels.com/photos/505517/pexels-photo-505517.jpeg);
+            background-size: cover;
+            box-shadow: 0 5px 5px rgba(0,0,0,0.2);
+        }
+
+        .thumb img{
+            box-shadow: 0 5px 5px rgba(0,0,0,0.2);
+        }
+
+        .slidebar{
+            padding-top: 30px;
+        }
+
+        .slidebar nav ul{
+            padding: 0;
+            margin: 0;
+            box-shadow: 0 5px 5px rgba(0,0,0,0.2);
+            list-style: none;
+        }
+
+        .slidebar nav ul li a{
+            text-decoration: none;
+            color: #eeeeee;
+            background: #bbbbbb;
+            display: block;
+            width: 140px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            margin-bottom: 1px;
+        }
+
+        .slidebar nav ul li a:hover{
+            background: #aaaaaa;
+        }
+
+        .content{
+            padding: 0 20px;
+            margin-bottom: 80px;
+        }
+
+        .footer{
+            color: #444444;
+            text-align: center;
+            border-top: 1px dashed #888;
+            padding: 40px 0;
+        }
+
+        /* responsive CSS Grid
+        =========================================================*/
+        @media only screen and (max-width: 939px){
+
+            .containder{
+                width: 300px;
+            }
+
+            .span1,.span2,.span3,.span4,.span5,.span6,.span7,.span8,.span9,.span10,.span11,.span12{
+                width: 300px;
+            }
+
+            .slidebar,.thumb{
+                display: none;
+            }
+
+            .slider{
+                height: 150px;
+                background: url(https://static.pexels.com/photos/505517/pexels-photo-505517.jpeg) no-repeat;
+                background-size: cover;
+            }
+
+            .header h1{
+                position: relative;
+                font-weight: normal;
+            }
+
+            .header h1:after{
+                content: 'Mobile';
+                position: absolute;
+                bottom: -25px;
+                left: 0;
+                font-size: 0.7em;
+                font-style: italic;
+                color: #666666;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!--
+.container>
+.row>.header.span3>h1{CSS Grid}^.search.span3.offset6>input:text^^
+.row>.slider.span12^
+.row>.thumb.span2*6>ph140^^
+.row>.slidebar.span2>nav>ul>li*6>a{Item $}^^^^.content.span10>h2>lorem5^p*5>lorem70^^^
+.row>.footer.span12>small>lorem5
+-->
+
+<div class="container">
+    <div class="row">
+        <div class="header span3">
+            <h1>CSS Grid</h1>
+        </div>
+        <div class="search span3 offset6"><input type="text" name="" id=""></div>
+    </div>
+    <div class="row">
+        <div class="slider span12"></div>
+    </div>
+    <div class="row">
+        <div class="thumb span2">
+            <img src="http://placehold.it/140x100">
+        </div>
+        <div class="thumb span2">
+            <img src="http://placehold.it/140x100">
+        </div>
+        <div class="thumb span2">
+            <img src="http://placehold.it/140x100">
+        </div>
+        <div class="thumb span2">
+            <img src="http://placehold.it/140x100">
+        </div>
+        <div class="thumb span2">
+            <img src="http://placehold.it/140x100">
+        </div>
+        <div class="thumb span2">
+            <img src="http://placehold.it/140x100">
+        </div>
+    </div>
+    <div class="row">
+        <div class="slidebar span2">
+            <nav>
+                <ul>
+                    <li><a href="">Item 1</a></li>
+                    <li><a href="">Item 2</a></li>
+                    <li><a href="">Item 3</a></li>
+                    <li><a href="">Item 4</a></li>
+                    <li><a href="">Item 5</a></li>
+                    <li><a href="">Item 6</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="content span10">
+            <h2>Lorem ipsum dolor sit amet.</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae mollitia placeat possimus quia quos repudiandae
+                voluptate voluptatem voluptatibus? Beatae cum excepturi explicabo, ipsam maxime nemo nostrum nulla numquam optio
+                porro quidem quisquam. Aliquid amet aut dicta eveniet expedita explicabo fugiat illum iste itaque iure magnam
+                minus numquam officiis optio quisquam quo recusandae rem sapiente sequi sint soluta tenetur veniam veritatis,
+                voluptates voluptatibus. Aliquam aspernatur dolorum et illum nulla perspiciatis ullam.</p>
+            <p>Ad amet consectetur cupiditate debitis delectus dolorem dolores ducimus ea eaque eius eos ipsa ipsum magni
+                molestias nostrum numquam, quam qui, quia quo quod repellat sed sint tempora tempore totam vel veniam
+                voluptates! Accusantium aut, dolores doloribus nam nesciunt quaerat quasi quisquam tempora vel veniam! Ab atque,
+                blanditiis consequatur dignissimos dolorem, doloremque ea eius incidunt magni nesciunt nobis non quis reiciendis
+                repellendus saepe sint totam ullam unde ut veniam voluptas!</p>
+            <p>Aliquid animi architecto aut commodi consectetur corporis cum cumque cupiditate dolorem dolores earum esse facere
+                incidunt ipsam iusto, laborum laudantium libero maiores maxime minus molestias nulla omnis perspiciatis
+                provident qui quia, quis repudiandae sed sequi soluta tempore ullam ut velit. A assumenda beatae consectetur
+                cumque cupiditate deserunt eum illum, ipsa ipsam iure labore natus officia optio perferendis quae quis sint vero
+                voluptate. A dignissimos ipsum sequi tempora vel voluptatibus voluptatum.</p>
+            <p>A aliquam aperiam at autem culpa delectus deleniti distinctio dolorem dolorum eius esse et eveniet hic in itaque,
+                labore molestiae nam natus nesciunt nulla obcaecati officia perspiciatis porro praesentium quae quaerat quam
+                quia repellendus sequi soluta sunt tempora temporibus unde veniam veritatis vero voluptates? Accusamus cum
+                debitis ea, eius est harum, id impedit labore magni molestias nulla optio possimus quia quod sit, soluta ut?
+                Expedita illo laboriosam minima pariatur quae.</p>
+            <p>Ab assumenda error neque obcaecati, optio sapiente. Amet asperiores assumenda cum eaque exercitationem non
+                obcaecati odit rerum. Accusantium aspernatur at consequatur deserunt dolorem eaque, maiores minus porro
+                provident rerum sed temporibus ut voluptate. Aut dolores excepturi harum hic illum incidunt inventore laborum
+                maiores molestias mollitia nostrum, odio praesentium quaerat quasi quidem quis sit tenetur unde! Adipisci
+                aperiam at autem, consequuntur, deleniti, dolorem esse exercitationem facere nemo quos repellat sed ullam.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="footer span12">
+            <small>Lorem ipsum dolor sit amet.</small>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+</body>
+</html>

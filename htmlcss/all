@@ -1,0 +1,101 @@
+
+//Включить ширину паддингов в ширину элемента
+*{
+    box-sizing: border-box;
+}
+
+
+
+//Удаление маркеров ul
+ul{
+    list-style: none;
+}
+
+
+
+//Масштабирование изображеня с сохранением пропорций
+//чтобы ширина или высота равнялась ширине или высоте блока
+background-size: cover;
+//чтобы картинка целиком поместилась внутрь блока. */
+background-size: contain;
+
+
+
+//Цвет с прозрачностью
+.block{
+    background: rgba(0,0,0,0.5);
+}
+
+
+
+//Заглавные буквы
+p{
+    text-transform: uppercase;
+    /*text-transform: lowercase;*/
+    /*text-transform: capitalize;*/
+}
+
+
+
+//Медиазапросы
+//Ширина экрана меньше 939 пикселей
+@media only screen and (max-width: 939px){}
+//Ширина экрана не меньше 940 пикселей
+@media only screen and (min-width: 940px){}
+
+
+
+//Тень
+.button{
+    box-shadow:
+        0 3px 20px rgba(0,0,0,0.25),
+        inset 0 2px 0 rgba(255,255,255,0.6),
+        0 2px 0 rgba(0,0,0,0.1),
+        inset 0 0 20px rgba(0,0,0,0.1);
+}
+
+
+
+//Треугольник
+.triangle-up{
+    width: 0;
+    height: 0;
+    border-bottom: 100px solid #000;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////АНИМАЦИЯ/////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//Трансформация элемента
+.container-2d{
+    transform: translate(30px) rotate(30deg);
+}
+
+
+
+//Плавное изменение свойств
+.block{
+    transition: opacity 0.2s ease-in-out;
+}
+
+
+
+//Анимация
+@keyframes spin{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
+.block{
+    /*animation: spin 2s linear 1s infinite alternate;*/
+}
+.block:hover{
+    animation-play-state: paused;
+}

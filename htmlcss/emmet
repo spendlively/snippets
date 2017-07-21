@@ -16,6 +16,18 @@
 
 
 
+//Переход на уровень вверх (^)
+.container>.header+.middle>.block1^.footer
+<div class="container">
+    <div class="header"></div>
+    <div class="middle">
+        <div class="block1"></div>
+    </div>
+    <div class="footer"></div>
+</div>
+
+
+
 //////////////////////////////////////////////////
 ///////////////////////HTML///////////////////////
 //////////////////////////////////////////////////

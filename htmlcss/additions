@@ -1,0 +1,46 @@
+
+//Поддержка селекторов css3 в старых браузерах ([class*='span'])
+Selectivizr
+http://selectivizr.com/
+
+
+
+//Авто перезагрузка страницы
+LivePage
+https://livepage.mikerogers.io/
+https://mikerogers.io/2016/07/03/why-im-charging-for-livepage.html+
+
+
+
+//Что-то типо ресета, но без обнуления значений
+normalize.css
+
+
+
+//Обои
+http://www.vladstudio.com/wallpaper/?symbols_color3
+
+
+
+//Caniuse
+http://caniuse.com
+
+
+
+//CSS3 Patterns Gallery
+http://lea.verou.me/css3patterns/
+
+
+
+//Наборы шрифтов
+https://www.fontsquirrel.com/
+
+
+
+//Готовые анимации
+https://daneden.github.io/animate.css/
+
+
+
+//Edge Animate CC. Создание интерактивного и анимированного веб-контента
+http://www.adobe.com/ru/products/edge-animate.html
