@@ -9,6 +9,10 @@
             font: 1em 'PT Sans', Tahoma, Arial;
         }
 
+        /********************************************************************************/
+        /*******************************Крутящийся квадратик*****************************/
+        /********************************************************************************/
+
         @keyframes spin{
             from{
                 transform: rotate(0deg);
@@ -48,6 +52,10 @@
             /* Приостановка анимации */
             animation-play-state: paused;
         }
+
+        /********************************************************************************/
+        /*************************************Слайдеры***********************************/
+        /********************************************************************************/
 
         .container{
             width: 200px;
@@ -94,12 +102,66 @@
                 margin-left: -100%;
             }
         }
+
+        /********************************************************************************/
+        /***********************************Прелоудеры***********************************/
+        /********************************************************************************/
+        .round1, .round1:after, .round1:before{
+            border-radius: 50%;
+            border: 3px solid transparent;
+        }
+
+        .round1:after, .round1:before{
+            position: absolute;
+            content: '';
+        }
+
+        .round1{
+            width: 150px;
+            height: 150px;
+            border-top-color: #bac900;
+            position: relative;
+            animation: spin 1s linear infinite;
+            margin: 15px;
+        }
+
+        .round1:after{
+            top: 7px;
+            bottom: 7px;
+            left: 7px;
+            right: 7px;
+            border-top-color: #00abd4;
+            animation: spin 2s linear infinite;
+        }
+
+        .round1:before{
+            top: 17px;
+            bottom: 17px;
+            left: 17px;
+            right: 17px;
+            border-top-color: #ff1400;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin{
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
     </style>
 </head>
 <body>
 
+<!--Крутящийся квадратик-->
 <div class="square1"></div>
 
+
+
+<!--Слайдеры-->
 <div class="container">
     <div class="bar bar1"></div>
 </div>
@@ -107,6 +169,11 @@
 <div class="container">
     <div class="bar bar2"></div>
 </div>
+
+
+
+<!--Прелоудеры-->
+<div class="round1"></div>
 
 </body>
 </html>
