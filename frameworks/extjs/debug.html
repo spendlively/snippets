@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Debug</title>
+    <link rel="stylesheet" href="src/ext-all.css">
+    <script src="src/ext-all-debug-w-comments.js"></script>
+    <script>
+
+        //Инициализация простого приложения без Ext.application
+        Ext.onReady(function(){
+
+            //Дебаг стандартных классов extjs
+            Ext.define('BufferInfo', {
+                override: 'Ext.panel.Panel',
+                render: function() {
+                    debugger;
+                    this.callParent(arguments);
+                }
+            });
+
+            Ext.create('Ext.panel.Panel', {
+                html: 'TEST',
+                renderTo: Ext.getBody()
+            });
+
+        });
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

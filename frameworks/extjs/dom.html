@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM</title>
+    <link rel="stylesheet" href="src/ext-all.css">
+    <script src="src/ext-all-debug-w-comments.js"></script>
+    <style>
+        #main{
+            width: 100px;
+            height: 100px;
+        }
+
+        .child{
+            background: #000000;
+        }
+    </style>
+    <script>
+
+        Ext.onReady(function(){
+
+            //QUERY
+            //Возвращает массив dom элементов по селектору
+            var query = Ext.query('#main.default .child');
+            console.log(query); //[HTMLDivElement]
+//            //Ext.query(selector/xpath, [HTMLElement], ["select"||"simple"], [single=true])
+
+
+
+            //SELECT
+            //Возвращает объект Ext.dom.CompositeElementLite
+            var select = Ext.select('#main.default .child');
+            select.removeCls('select-class');
+            select.addCls('select-class');
+            select.applyStyles("width: 150px; height: 150px;");
+            select.applyStyles("background:#B5B8C8;");
+            console.log(select); //Ext.CompositeElementLite/Ext.CompositeElement
+//            //Ext.select(String/HTMLElement, [unique:bool], [root:HTMLElement/String])
+
+
+
+            //GET
+            //Возвращает Ext.dom.Element или null по id
+            var get = Ext.get('child-id');
+            get.getAttribute('class');
+            get.applyStyles("background:#FF00FF;");
+            get.removeCls('get-class');
+            get.addCls('get-class');
+            console.log(get); //Ext.dom.Element или null
+//            //Ext.get(String/HTMLElement/Ext.Element);
+
+
+
+            //FLY
+            //Возвращает объект содержащий domElement
+            var fly = Ext.fly('main');
+            console.log(fly);
+
+
+
+            //GETCMP
+            //Возвращает объект компонента по id
+            Ext.create('Ext.panel.Panel', {
+                id: 'component-id',
+                renderTo: 'child-id',
+                html: 'My component',
+                listeners: {
+                    afterrender: function(){
+
+                        var cmp = Ext.getCmp('component-id');
+                        console.log(cmp);
+                    }
+                }
+            });
+        });
+
+
+    </script>
+</head>
+<body>
+
+<div class="wrap">
+    <div id="main" class="default">
+        <div id="child-id" class="child"></div>
+    </div>
+</div>
+
+</body>
+</html>

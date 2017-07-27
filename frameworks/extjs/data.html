@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DATA</title>
+    <link rel="stylesheet" href="src/ext-all.css">
+    <script src="src/ext-all-debug-w-comments.js"></script>
+    <script>
+
+        Ext.onReady(function(){
+
+            //Инициализация класса модели
+            Ext.define('User', {
+                extend: 'Ext.data.Model',
+                fields: ['id', 'name', 'age'],
+                proxy: {
+                    type: 'rest',
+                    url : '/users.php',
+                    reader: {
+                        type: 'json',
+                        root: 'users'
+                    }
+                }
+            });
+
+            //Создание объекта
+            var user = Ext.create('User', {
+                name: 'Konstantin',
+                age : 29
+            });
+
+
+            //Получение свойства name
+            user.get('name');
+
+            //Изменение свойства name
+            user.set('name', 'Ivan');
+
+            //Сохранение объекта (POST /users.php)
+            user.save({
+                success: function(user) {
+                    console.log(user.getId());
+                }
+            });
+
+            //Получение объекта модели (GET /users.php/1)
+            var User = Ext.ModelMgr.getModel('User');
+            User.load(1, {
+                success: function(user) {
+                    console.log(user.get('name'));
+                }
+            });
+
+            //Сообщение proxy уничтожить объект
+            user.destroy({
+                success: function() {}
+            });
+
+            //STORE
+            //Создание store на основе model с автозагрузкой
+            var store = Ext.create('Ext.data.Store', {
+                model: 'User',
+                proxy: {
+                    type: 'ajax',
+                    url: '/users.php',
+                    reader: {
+                        type: 'json',
+                        root: 'users'
+                    }
+                },
+                autoLoad: true //автозагрузка (GET /users.json)
+            });
+
+            //Загрузка объектов (GET /users.json)
+            store.load({
+                params: {
+                    group: 3,
+                    type: 'user'
+                },
+                callback: function(records, operation, success) {
+                    console.log(records)
+                    // do something after the load finishes
+                },
+                scope: this
+            });
+
+            //Создание store с сортировкой и фильтрацией
+            var store = Ext.create('Ext.data.Store', {
+                model: 'User',
+                sorters: [{
+                    property: 'age',
+                    direction: 'DESC'
+                },{
+                    property: 'firstName',
+                    direction: 'ASC'
+                }],
+
+                filters: [{
+                    property: 'firstName',
+                    value: /Ed/
+                }]
+            });
+
+            //Фильтрация
+            store.filter('eyeColor', 'Brown');
+
+            //Сортировка
+            store.sort('height', 'ASC');
+
+            //Добавить сортировщик
+            store.sorters.add(new Ext.util.Sorter({
+                property : 'shoeSize',
+                direction: 'ASC'
+            }));
+            store.sort();
+
+            //Добавление модели в store
+            store.add(
+                {name: 'Konstantin', age : 29},
+                {name: 'Roman', age : 30}
+            );
+
+            //Поиск модели в store по полю name
+            var field = 'name';
+            var value = 'Konstantin';
+            store.findRecord(field, value, null, null, null, true);
+
+            //Поиск id модели в store по полю name
+            store.find('name', 'Konstantin', null, null, null, true);
+
+        });
+
+
+    </script>
+</head>
+<body>
+
+
+</body>
+</html>

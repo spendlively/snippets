@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Initialization</title>
+    <link rel="stylesheet" href="src/ext-all.css">
+    <script src="src/ext-all-debug-w-comments.js"></script>
+    <script>
+
+        //Инициализация простого приложения без Ext.application
+        Ext.onReady(function(){
+
+            Ext.create('Ext.panel.Panel', {
+                html: 'TEST',
+                renderTo: Ext.getBody()
+            });
+
+        });
+
+
+
+
+
+        //Инициализация приложения Ext.application в существующем HTML
+        Ext.onReady(function(){
+
+            Ext.application({
+                name: 'MyApp',
+                launch: function(){
+                    console.log("test");
+                }
+            });
+
+        });
+
+
+
+
+
+        //Инициализация с созданием viewport
+        Ext.onReady(function(){
+
+            var childPanel = Ext.create('Ext.panel.Panel', {
+                title: 'Child Panel 1',
+                html: 'A Panel'
+            });
+
+            Ext.create('Ext.container.Viewport', {
+                items: [childPanel]
+            });
+
+        });
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
