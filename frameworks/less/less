@@ -1,0 +1,144 @@
+//////////////////////////////////////////////////////////////
+///////////////////////Функции less///////////////////////////
+//////////////////////////////////////////////////////////////
+//Смещение цвета (комплементарный цвет - цвет со смещением 180 град)
+@complementary-color: spin(rgb(110, 27, 255), 180);
+
+//Осветление и отемнение
+@color: lighten(red, 50%); // светлее red на 50%
+@color: darken(blue, 25%);
+
+//Насыщенность
+@color: saturate(green, 20%); // green насыщеннее на 20%
+@color: desaturate(blue, 50%); // blue бледнее на 50%
+
+
+
+
+
+//////////////////////////////////////////////////////////////
+//////////////////////////Вложение////////////////////////////
+//////////////////////////////////////////////////////////////
+//Вложенные CSS правила
+//.super
+//.super a
+//.super a span
+.super {
+    color: #ffffff;
+    a {
+        text-decoration: none;
+            span {
+                font-size: 1em;
+            }
+        }
+    }
+}
+
+//Скоращение CSS классов
+//.super-red
+//.super-blue
+.super {
+    &-red { color: red; }
+    &-blue { color: blue; }
+}
+
+
+
+
+
+//////////////////////////////////////////////////////////////
+///////////////////////////Примеси////////////////////////////
+//////////////////////////////////////////////////////////////
+.white { color: white; } //Примесь
+.white() { color: white; } //Невыводимая примесь
+.text { .white; } //Скобки необязательно
+.text { .white(); }
+
+//Примеси с параметрами
+.paint(@color){
+    background-color: @color;
+}
+.monster-happy {
+    .paint(@green);
+}
+
+//Значение по умолчанию
+.resize(@width: 150px){
+    width: @width;
+}
+
+//Несколько параметров
+.resize(@width; @height){
+    width: @width;
+    height: @height;
+}
+
+//Примесь по шаблону
+@red: #ff4136;
+.paint(@color) {
+    background-color: @color;
+}
+.paint(light; @color) {
+    background-color: lighten(@color, 20%);
+}
+.monster-light {
+    .paint(light; @red);
+}
+
+//Примесь с шаблоном по умолчанию
+.transform(decrease; @size) {
+    width: @base-size - @size;
+    height: @base-size - @size;
+}
+.transform(@_; @size) {
+    background-color: @red;
+}
+
+
+
+
+
+//////////////////////////////////////////////////////////////
+///////////////////////////Условия////////////////////////////
+//////////////////////////////////////////////////////////////
+//Операции сравнения
+< <= > >= =
+
+//Внешняя переменная
+.paint() when (@type = good){}
+.paint() when (@type = good){}
+
+//Проверка типов
+iscolor(@param))
+isnumber(@param))
+isstring(@param))
+iskeyword(@param))
+isurl(@param))
+
+.magic(@parameter) when (iscolor(@parameter)){
+    background-color: @parameter;
+}
+
+.magic(@parameter) when (isnumber(@parameter)){
+    width: @parameter;
+    height: @parameter;
+}
+
+
+
+
+
+//////////////////////////////////////////////////////////////
+////////////////////////////Циклы/////////////////////////////
+//////////////////////////////////////////////////////////////
+.mixin(@n) when (@n < 4) {
+    .text-@{n} { }
+
+    .mixin(@n + 1);
+}
+.mixin(3);
+
+//.text-1 {}
+//.text-2 {}
+//.text-3 {}
+
