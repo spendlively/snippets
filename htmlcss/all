@@ -6,10 +6,26 @@
 
 
 
-//Удаление маркеров ul
+//Списки
 ul{
+    /* Удаление маркеров ul */
     list-style: none;
+
+    /* Положение маркера (по умолчанию outside) */
+    list-style-position: inside;
+
+    /* Геометрия маркера */
+    list-style-type: square;
+
+    /* Картинка */
+    list-style-image: url(./img/tick.png);
 }
+
+
+
+//Пробелы между словами
+//Весь текст в одну строку
+white-space: nowrap
 
 
 

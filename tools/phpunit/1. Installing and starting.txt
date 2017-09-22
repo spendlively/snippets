@@ -1,0 +1,91 @@
+/////////////////////////////////////////////////
+///////////////////Установка/////////////////////
+/////////////////////////////////////////////////
+//Зависимости
+php --ini
+sudo apt-get install php-dom
+sudo apt-get install php-xdebug
+
+//Установка приложения
+//composer.json
+{
+	"require-dev": {
+		"phpunit/phpunit": "^5.5"
+	},
+	"autoload": {
+		"psr-4": {
+			"TDD\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"TDD\\TEST\\": "tests/"
+		}	
+	}
+}
+php composer.phar install
+vendor/bin/phpunit --version
+mkdir src
+mkdir tests
+
+
+
+
+
+/////////////////////////////////////////////////
+////////////////Запуск тестов////////////////////
+/////////////////////////////////////////////////
+//Все тесты в каталоге
+vendor/bin/phpunit tests
+//Конкретный файл
+vendor/bin/phpunit tests/ReceiptTest.php
+//1 метод
+vendor/bin/phpunit tests --filter=testSum
+vendor/bin/phpunit tests --filter=ReceiptTest::testSum
+//Тесты на основе конфига phpunit.xml
+vendor/bin/phpunit
+//Конкретный testsuite из phpunit.xml
+vendor/bin/phpunit --testsuite=app
+vendor/bin/phpunit --testsuite=app --filter=testSum
+
+//phpunit.xml для генерации отчета о покрытии кода
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpunit
+	colors="true"
+    processIsolation="false"
+	stopOnFailure="false"
+	syntaxCheck="false"
+	>
+	<php>
+  		<ini name="memory_limit" value="-1"/>
+  		<ini name="apc.enable_cli" value="1"/>
+	</php>
+	<testsuites>
+  		<testsuite name="app">
+    		<directory>./tests</directory>
+  		</testsuite>
+  		<testsuite name="receipt">
+    		<directory>./tests</directory>
+    		<exclude>./tests/ReceiptItems.php</exclude>
+  		</testsuite>  		
+	</testsuites>
+	<filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+	</filter>
+    <logging>
+        <log
+            type="coverage-html"
+            target="./tmp/coverage/html/"
+            charset="UTF-8"
+            highlight="true"
+            lowUpperBound="60"
+            highLowerBound="90"
+        />
+        <log
+            type="coverage-clover"
+            target="./tmp/coverage/clover.xml"
+        />
+    </logging>
+</phpunit>

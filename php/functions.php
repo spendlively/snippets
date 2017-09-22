@@ -25,3 +25,5 @@ highlight_string('<?php phpinfo(); ?>');
 
 
 
+//Форматирование чисел (7 знаков после запятой)
+$scale = number_format($scale, 7, ".", "");

@@ -1,0 +1,157 @@
+
+///////////////////////////////////////
+/////////Создание Mock-объекта/////////
+///////////////////////////////////////
+
+Моск объект - изолированный объект-пародия,
+для которого указываются, какие методы и что должны возвращать.
+
+//1. getMock
+$mock = $this->getMock('MyClass');
+$this->assertInstanceOf('MyClass', $mock);
+
+public function getMock(
+    $originalClassName, // название оригинального класса, для которого будет создан Mock объект
+    $methods = array(), // в этом массиве можно указать какие именно методы будут подменены
+    array $arguments = array(), // аргументы, передаваемые в конструктор
+    $mockClassName = '', // можно указать имя Mock класса
+    $callOriginalConstructor = true, // отключение вызова __construct()
+    $callOriginalClone = true, // отключение вызова __clone()
+    $callAutoload = true // отключение вызова __autoload()
+);
+
+null в качестве второго аргумента значения приведет к тому, что будет возвращен Mock объект вообще без подмен.
+
+//2. getMockBuilder - chain-стиль
+$mock = $this->getMockBuilder('MyClass')
+    ->setMethods(null)
+    ->setConstructorArgs(array())
+    ->setMockClassName('')
+    // отключив вызов конструктора, можно получить Mock объект "одиночки"
+    ->disableOriginalConstructor()
+    ->disableOriginalClone()
+    ->disableAutoload()
+    ->getMock(); //возвращает инстанс mock-объекта
+
+//3. Дополнительно
+ - getMockClass() — создает Mock класс и возвращает его название в виде строки
+ - getMockForAbstractClass() — возвращает Mock объект абстрактного класса, в котором подменены все абстрактные методы.
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//////////////////////////////Возможности//////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+1. Указание методов, которые будут переопределены:
+$mock = $this->getMock('MyClass', array('methodOne', 'methodTwo'));
+
+2. Проверка, что метод будет вызван (единожды)
+$mock->expects($this->once())->method->('methodOne');
+$mock->start();
+Success если при вызове start() произойдет однократный вызов methodOne()
+
+3. Проверка, что метод будет вызван в нужном порядке
+$mock->expects($this->at(0))->method->('methodOne');
+$mock->expects($this->at(1))->method->('methodTwo');
+$mock->start();
+Success если при вызове start() произойдет сначало вызов methodOne() а затем methodTwo().
+Еще в expects(): any(), never(), atLeastOnce() и exactly($count)
+
+4. Эмуляция возвращаемого значения
+$mock->expects($this->at(0))->method->('methodOne')->will($this->returnValue(1));
+Еще в will(): returnValue($value), $value;returnArgument($index), returnSelf(), returnValueMap($map), returnCallback($callback), throwException($exception), onConsecutiveCalls().
+
+5. Проверка аргументов, указанных при вызове подмененного метода
+$mock->expects($this->once()) ->method('methodOne') ->with($this->greaterThan(25)) ->will($this->returnValue(1));
+$this->assertEquals(1, $mock->methodOne(30));
+В with могут быть любые ассерты.
+Аргументы в with можно комбинировать с помощью Все перечисленные конструкции можно комбинировать при помощи логических конструкций logicalAnd(), logicalOr(), logicalNot() и logicalXor():
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
+////////////////////////////////Примеры////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
+class Receipt
+{
+	public function total($items = [], $coupon) {
+		return 10.00;
+	}
+
+	public function tax($amount, $tax) {
+		return 1.00;
+	}
+
+	public function postTaxTotal($items, $tax, $coupon) {
+		$subtotal = $this->total($items, $coupon);
+		return $subtotal + $this->tax($subtotal, $tax);
+	}
+}
+
+//Stub
+class ReceiptTest extends TestCase
+{
+	public function testPostTaxTotal()
+	{
+	    //Генерируем мок-объект
+		$Receipt = $this->getMockBuilder('TDD\Receipt')
+			->setMethods(['tax', 'total'])
+			->getMock();
+
+        //Эмулируем результат, чтобы метод total вернул 10.00
+		$Receipt->method('total')
+			->will($this->returnValue(10.00));
+
+        //Эмулируем результат, чтобы метод tax вернул 10.00
+		$Receipt->method('tax')
+			->will($this->returnValue(1.00));
+
+        //Запускаем тестирование
+		$result = $Receipt->postTaxTotal([1,2,5,8], 0.20, null);
+		$this->assertEquals(11.00, $result);
+	}
+}
+
+//Mock
+class ReceiptTest extends TestCase
+{
+	public function testPostTaxTotal()
+	{
+		$items = [1,2,5,8];
+		$tax = 0.20;
+		$coupon = null;
+
+		//Генерируем мок-объект
+		//Указываем методы, которые будут эмулироваться
+		//Остальные методы останутся как у исходного класса
+		$Receipt = $this->getMockBuilder('TDD\Receipt')
+			->setMethods(['tax', 'total'])
+			->getMock();
+
+        //Проверяем, что метод total:
+        //будет вызван 1 раз
+        //в него будут переданы параметры равные $items и $coupon
+        //Эмулируем результат равный 10.00
+		$Receipt->expects($this->once()) //будет вызван 1 раз
+			->method('total')
+			->with($items, $coupon)
+			->will($this->returnValue(10.00));
+
+        //Проверяем, что метод tax:
+        //будет вызван 1 раз
+        //в него будут переданы параметры равные 10.00 и $tax
+        //Эмулируем результат равный 1.00
+		$Receipt->expects($this->once())
+			->method('tax')
+			->with(10.00, $tax)
+			->will($this->returnValue(1.00));
+
+        //Запускаем тестирование
+		$result = $Receipt->postTaxTotal([1,2,5,8], 0.20, null);
+		$this->assertEquals(11.00, $result);
+	}
+}

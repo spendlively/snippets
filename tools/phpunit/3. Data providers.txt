@@ -1,0 +1,53 @@
+///////////////////////////////////////////
+/////////Использование провайдеров/////////
+///////////////////////////////////////////
+
+//Троекратное тестирование метода testTotal
+//на основе данных, которые возвращает provideTotal
+
+class Receipt
+{
+	public function total($items = [])
+	{
+		return array_sum($items);
+	}
+}
+
+class ReceiptTest extends TestCase
+{
+	public function setUp()
+	{
+		$this->Receipt = new Receipt();
+	}
+
+	public function tearDown()
+	{
+		unset($this->Receipt);
+	}
+
+	/**
+	 * @dataProvider provideTotal
+	 */
+	public function testTotal($items, $expected)
+	{
+		$output = $this->Receipt->total($items);
+		$this->assertEquals(
+			$expected,
+			$output,
+			"When summing the total should equal {$expected}"
+		);
+	}
+
+	public function provideTotal()
+	{
+		return [
+			[[1,2,5,8], 16],
+			"error message" => [[-1,2,5,8], 14],
+			[[1,2,8], 11],
+		];
+	}
+}
+
+//Выбор данных провайдера из консоли
+vendor/bin/phpunit --filter=testTotal#1
+vendor/bin/phpunit --filter=testTotal#1-2

@@ -1,0 +1,42 @@
+///////////////////////////////////////////
+//////////////////ЭКСЕПШНЫ/////////////////
+///////////////////////////////////////////
+
+use \BadMethodCallException;
+
+class Receipt
+{
+	public function total(array $items = [], $coupon)
+	{
+		if ($coupon > 1.00) {
+			throw new BadMethodCallException('Coupon must be less than or equal to 1.00');
+		}
+		$sum = array_sum($items);
+		if (!is_null($coupon)) {
+			return $sum - ($sum * $coupon);
+		}
+		return $sum;
+	}
+}
+
+class ReceiptTest extends TestCase
+{
+	public function setUp()
+	{
+		$this->Receipt = new Receipt();
+	}
+
+	public function tearDown()
+	{
+		unset($this->Receipt);
+	}
+
+	public function testTotalException()
+	{
+		$input = [0,2,5,8];
+		$coupon = 1.20;
+		//Проверка, что будет выброшен эксепшн BadMethodCallException
+		$this->expectException('BadMethodCallException');
+		$this->Receipt->total($input, $coupon);
+	}
+}

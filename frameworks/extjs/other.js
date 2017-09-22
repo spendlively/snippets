@@ -1,3 +1,9 @@
+//Форматирвоание числа 3 в строку 3.000
+Ext.util.Format.number(3, '0.000');
+
+
+
+
 
 //Callback при загрузке класса
 Ext.define('Test', {
