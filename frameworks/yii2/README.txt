@@ -164,6 +164,37 @@ class Comments extends ActiveRecord{}
 
 
 //////////////////////////////////////////////////////////////////////////
+//////////////////////////Active Record: связи////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//Связи в ActiveRecord
+class Product extends ActiveRecord
+{
+    public function getCategories()
+    {
+        return $this->hasOne(Category::className(), ['category_field' => 'product_field']);
+    }
+}
+
+class Category extends ActiveRecord
+{
+    public function getProducts()
+    {
+        return $this->hasMany(Product::className(), ['product_field' => 'category_field']);
+    }
+}
+
+//Ленивая загрузка
+$category = Category::findOne(694);
+$products = $category->products; //getProducts()
+
+//Жадная загрузка
+$categories = Category::find()->with('products')->all();
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
 ////////////////////////////////Paginator/////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 //http://localhost:8888/index.php?r=site/paginator
@@ -296,6 +327,51 @@ class Hello extends Widget
 use app\components\Hello;
 ?>
 <h1><?= Hello::widget(['message' => 'Hello, World!']); ?></h1>
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+/////////////////////////////////ВИДЖЕТЫ2/////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//Класс виджета
+//components/MyWidget.php
+class MyWidget extends \yii\base\Widget
+{
+    public $name;
+
+    public function init()
+    {
+        parent::init();
+
+        if($this->name === null) $this->name = 'Guest';
+        ob_start();
+    }
+
+    public function run()
+    {
+        //return "<h1>Hello, $this->name!</h1>";
+        return $this->render('my', [
+            'name' => $this->name,
+            'content' => mb_strtoupper(ob_get_clean(), 'utf-8'),
+        ]);
+    }
+}
+
+//Шаблон виджета
+//components/views/my.php
+<p><?= $content; ?></p>
+<h1>Hello, <?= $name; ?>!</h1>
+
+//Шаблон экшна
+<?php echo MyWidget::widget(); ?>
+
+<?php echo MyWidget::widget(['name' => 'Ivan']); ?>
+
+<?php MyWidget::begin(['name' => 'Ivan']); ?>
+<p>user text</p>
+<?php MyWidget::end(); ?>
 
 
 
