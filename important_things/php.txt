@@ -1,0 +1,54 @@
+
+1. Профессиональное программирование на php (то что нужно делать всегда)
+    - следование psr (автозагрузка, кодирование)
+    - модульность composer
+    - tdd phpUnit
+    - автоматическое документирование
+    - безопасность и криптография
+    - отладка (xdebug) и профилирование (xhprof)
+    - линтеры и проверка качества кода
+    - автогенерация кода по типу emmet
+    - активное использование SPL
+    - явная типизация php7
+    - профессиональное использование эксепшнов
+    - модные функции: деструктуризация, массивы, строки, датавремя
+    - использование знаний о том как работает php
+    - solid, di, Inversion of Control (IoC)
+    - паттерны
+       - orm
+       - gof
+       - Delegation
+       - Service Locator
+       - Repository
+       - Registry
+       - Object pool
+       - Multiton
+       - Model-View-ViewModel (MVVM)
+       - Hierarchical model–view–controller (HMVC)
+    - Psr logger
+2. Базовые знание по php
+3. Инструменты и сервисы для php
+    - Twig, Smarty
+    - Doctrine, Dbal
+    - PostgreSQL
+    - Reddis, Memcached
+    - RabbitMQ
+    - Mongo
+    - Xdebug, Xhprof
+    - Docker
+    - SphixSearch, Elastic Search
+    - Cassandra
+    - GraphQL
+4. Типичные задачи в php
+    - Загрузка файлов
+    - Хранение сессий субд
+5. Как не надо делать с обоснованием
+6. План, для быстрого погружения в новый фреймворк/инструмент/проект
+7. Фундаментальные знания
+    - Сети
+    - DDD
+    - Операционная система
+    - Английский язык
+8. Ссылки которые нужно периодически перечитавать
+ - http://designpatternsphp.readthedocs.io/ru/latest/README.html
+ - https://habrahabr.ru/post/337692/
