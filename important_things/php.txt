@@ -32,6 +32,7 @@
        - Model-View-ViewModel (MVVM)
        - Hierarchical model–view–controller (HMVC)
     - Psr logger
+    - Git
 2. Базовые знание по php
 3. Инструменты и сервисы для php
     - Twig, Smarty
