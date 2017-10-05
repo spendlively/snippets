@@ -119,3 +119,5 @@
  - https://habrahabr.ru/post/337692/
  - IoC на PHP https://habrahabr.ru/post/132084/
  - Autowiring
+ - MySQL
+    - http://www.mysql.ru/docs/man/InnoDB_locking_reads.html
