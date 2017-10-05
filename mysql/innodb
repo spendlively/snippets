@@ -63,4 +63,3 @@
  2. Read commited               1                       1               0                       0
  3. Repeatable read (default)   1                       1               1                       0
  4. Serializable                1                       1               1                       1
-
