@@ -4,7 +4,7 @@
 /////////////////////////////////////////////////////////////////
 - Atomicity - Атомарность
    - транзакции
-- Consistency - изолированность
+- Consistency - согласованность
 - Isolation - изолированность
    - блокировки
    - MVCC - multiversion concurrency control
