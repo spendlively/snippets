@@ -1,0 +1,11 @@
+
+INSERT INTO da_dev_opt (id, id_node, id_param, value)
+SELECT
+    NULL id,
+    dc_device.id id_node,
+    '82' id_param,
+    '1' value
+FROM da_slave ds
+INNER JOIN da_cat dc_device ON dc_device.id = ds.id_node
+INNER JOIN da_cat dc_port ON dc_port.id = dc_device.id_parent
+INNER JOIN da_port dp ON dp.id_node = dc_port.id AND dp.id_proto = 11
