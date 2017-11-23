@@ -108,6 +108,4 @@ JIT используется в реализациях Java, JavaScript, .NET Fr
 /**
  * @TODO
 **/
-//JIT-компилятор
 //Оптимизация Apache (Worker MPM, ...)
-//LLVM
