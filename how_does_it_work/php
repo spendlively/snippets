@@ -109,3 +109,4 @@ JIT используется в реализациях Java, JavaScript, .NET Fr
  * @TODO
 **/
 //Оптимизация Apache (Worker MPM, ...)
+//password_hash password_verify

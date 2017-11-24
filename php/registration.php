@@ -27,6 +27,11 @@ try {
 		throw new Exception('Password hash failed');
 	}
 
+	//verify password
+    if(password_verify($password, $passwordHash)){
+	    echo "Password is verified";
+    }
+
 	//TODO: saving new user
 } catch (Exception $e) {
 
