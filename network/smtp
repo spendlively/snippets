@@ -11,10 +11,10 @@ ESMTP (Extended Simple Mail Transfer Protocol)
 
 
 //Стек TCP/IP
-Прикладной: HTTP, SMTP, DNS, FTP
-Транспортный: TCP, UDP
-Сетевой: IP, ICMP
-Сетевых интерфейсов: ETHERNET, WIFI, DSL
+ - Прикладной: HTTP, SMTP, POP3, IMAP, DNS, FTP
+ - Транспортный: TCP, UDP
+ - Сетевой: IP, ICMP
+ - Сетевых интерфейсов: ETHERNET, WIFI, DSL
 
 
 //Транспортные протоколы
