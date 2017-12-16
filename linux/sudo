@@ -1,0 +1,5 @@
+
+//Установка sudo и добавление пользователя в группу sudo
+apt-get install update
+apt-get install sudo
+usermod -a -G sudo spendmail

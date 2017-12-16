@@ -1,0 +1,23 @@
+
+
+//Отправка почты
+//с сервера 192.168.1.103
+//через сервер mail.spendmail.ru
+//от spendlively@spendmail.ru
+//на spendlively@mail.ru
+
+telnet mail.spendmail.ru 25
+helo 192.168.1.103
+mail from: spendlively@spendmail.ru
+rcpt to: spendlively@mail.ru
+data
+Subject: test subject from telnet
+Текст письма,
+а в конце письма одну точку в строке, чтобы закончить
+.
+
+quit
+
+
+
+

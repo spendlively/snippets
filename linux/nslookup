@@ -1,0 +1,5 @@
+
+
+//Просмотр mx-записей сервера
+nslookup -type=mx google.com
+
