@@ -1,0 +1,124 @@
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////ССЫЛКИ ПО PHP////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+Как прочитать большой файл средствами PHP (не грохнув при этом сервак)
+https://habrahabr.ru/post/345024/
++
+    http://php.net/manual/ru/function.fread.php
+
+
+
+Руководство по написанию защищённых PHP-приложений в 2018-м
+https://habrahabr.ru/company/mailru/blog/344696/
+
+
+
+mysqlnd — проводник между PHP и MySQL
+https://habrahabr.ru/company/mailru/blog/234125/
+
+
+
+Регулярные выражения для самых маленьких
+https://habrahabr.ru/company/badoo/blog/343310/
+
+
+
+PHP жив. PHP 7 на практике
+https://habrahabr.ru/company/avito/blog/338140/
+
+
+
+Чистый код на PHP
+https://habrahabr.ru/company/mailru/blog/336788/
+
+
+
+Виртуальная Машина PHP 7
+https://habrahabr.ru/company/badoo/blog/327068/
+
+
+
+$PHP не нужен*
+https://habrahabr.ru/post/326284/
+
+
+
+Трамплин вызова магических функций в PHP 7
+https://habrahabr.ru/company/mailru/blog/311068/
+
+
+
+Обзор расширения OPCache для PHP
+https://habrahabr.ru/company/mailru/blog/310054/
+
+
+
+Массивы в РНР 7: хэш-таблицы
+https://habrahabr.ru/company/mailru/blog/308240/
+
+
+
+Подробно об объектах и классах в PHP
+https://habrahabr.ru/company/mailru/blog/255237/
+
+
+
+Разбор вызовов функций в PHP
+https://habrahabr.ru/company/mailru/blog/250861/
+
+
+
+PHP и различные виды NoSQL
+https://habrahabr.ru/post/214647/
+
+
+
+Безумный PHP. Фьюри код
+https://habrahabr.ru/post/259865/
+
+
+
+PhpStorm — повышаем производительность (клавиатурные сокращения). Часть 1
+https://habrahabr.ru/post/212077/
+
+
+
+
+
+
+
+
+//Про крупные компании
+AMA. Avito. Backend
+https://habrahabr.ru/company/avito/blog/339996/
+
+
+
+WhatsApp, что внутри?
+https://habrahabr.ru/company/bringo/blog/339224/
+
+
+
+Как получить оффер в Badoo в день собеседования. Часть вторая, для PHP-разработчика
+https://habrahabr.ru/company/badoo/blog/330558/
+
+
+
+Спроси backend-разработчиков Badoo. Часть 1. Платформа
+https://habrahabr.ru/company/badoo/blog/317442/
+
+
+
+Архитектура растущего проекта на примере ВКонтакте
+https://habrahabr.ru/post/322562/
+
+
+
+Руководство по собеседованию на вакансию PHP-программиста
+https://habrahabr.ru/post/230805/
+
+
+
+
