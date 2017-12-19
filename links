@@ -3,6 +3,7 @@
 /////////////////////////////////////ССЫЛКИ ПО PHP////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+//Как работает PHP
 Как прочитать большой файл средствами PHP (не грохнув при этом сервак)
 https://habrahabr.ru/post/345024/
 +
@@ -80,9 +81,28 @@ https://habrahabr.ru/post/259865/
 
 
 
+
+
+
+
+//PHPSTORM
 PhpStorm — повышаем производительность (клавиатурные сокращения). Часть 1
 https://habrahabr.ru/post/212077/
 
+PhpStorm — повышаем производительность (плагины и темы оформления). Часть 2
+https://habrahabr.ru/post/212153/
+
+Продуктивное использование PHPStorm
+https://habrahabr.ru/post/157409/
+
+PhpStorm: Tips and tricks. Часть 1
+https://habrahabr.ru/post/263239/
+
+Начинаем работать в JetBrains PhpStorm
+https://habrahabr.ru/post/209254/
+
+Доступен PhpStorm 2017.3
+https://habrahabr.ru/company/JetBrains/blog/343474/
 
 
 
