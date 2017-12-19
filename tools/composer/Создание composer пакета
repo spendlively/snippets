@@ -64,3 +64,6 @@
 
  - em
         *text*
+
+ - img
+        ![alt text](http://url/to/img.png)
