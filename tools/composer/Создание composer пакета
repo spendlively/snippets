@@ -1,0 +1,66 @@
+
+//composer.json
+{
+    "name": "vendor/name",
+    "type": "library",
+    "description": "Description for this package",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vendor\\Name\\": "src/"
+        }
+    }
+}
+
+ - В папке src хранятся все нужные для работы пакета файлы
+ - Рекомендуется рядом с папкой src сделать папку tests, и покрыть библиотеку тестами
+ - Далее вся папка, в которой лежит composer.json, должна быть закоммичена на Github
+
+
+
+//Добавление репозитория на packagist
+ - регистрируемся
+ - Submit Package -> указать URL репозитория
+
+
+
+//Версионирование
+ - Версионировать надо согласно системе semver (https://semver.org/)
+ - А указывать версии пакетов, используя тэги в системе контроля версий.
+
+
+
+//Формат файла README.md
+ - h1
+        # text
+
+ - h2
+        ## text
+
+ - h3
+        ### text
+
+ - p
+        text
+
+ - pre
+        ...
+        код
+        ...
+
+ - a[href=url]{text}
+        [text](url)
+
+ - ul > a[href=url]{text}
+        * [text](url)
+        * [text](url)
+        * [text](url)
+
+ - strong
+        **text**
+
+ - em
+        *text*
