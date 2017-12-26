@@ -1,0 +1,114 @@
+
+///////////////////////////////////////////////////////
+///////////////////////ПОДКЛЮЧЕНИЕ/////////////////////
+///////////////////////////////////////////////////////
+
+//Подключение USB to TTL к SIM800L
+TTL TXD -> RXD SIM800L
+TTL RXD -> TXD SIM800L
+TTL GND -> GND SIM800L
+TTL +5V -> 5VIN SIM800L
+
+//Определение USB-устройства
+lsusb
+    Bus 003 Device 010: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port
+
+//USB-порт
+ls -la /dev/tty [tab]
+    /dev/ttyUSB0
+
+//или
+dmesg | grep tty
+
+//Последовательный порт, проброшенный через USB
+sudo stty -F /dev/ttyUSB0
+    speed 9600 baud; line = 0;
+    -brkint -imaxbel
+
+//Попробуем скопировать текстовый файл в порт
+sudo cp /etc/hosts /dev/ttyUSB0
+    На плате моргнет синий светодиод
+
+//Примем что-нибудь обратно в комп
+cat /dev/ttyUSB0
+
+
+
+
+
+//////////////////////////////////////////////////
+/////////////////////MINICOM//////////////////////
+//////////////////////////////////////////////////
+minicom - программа связи через последовательный порт с интерфейсом основанным на меню
+
+//Установка
+sudo apt install minicom
+
+//Настрока
+sudo minicom -s
+    Serial port setup
+        A - ввести имя USB-порта -> ENTER
+        E - ввести скорость порта (9600) -> C -> ENTER
+        ENTER
+    Save setup as dfl (default) -> ENTER
+    Exit
+
+//Горячие клавиши
+Справка: CTRL-A Z
+Конфигурация: CTRL-A O
+Инициализация модема: CTRL-A M
+Выход: CTRL-A Q
+
+//Отправка СМС
+at
+    ok
+AT+CMGF=1
+    ok
+AT+CPIN="0000"
+    error
+AT+CSMP?
+    ok
+    +CSMP: 17,255,0,0
+AT+CMGS="+79232375741"
+Hello world! ctrl+z
+
+//Чтение СМС
+AT+CMGL=?
+AT+CMGL="ALL"
+
+
+
+
+
+//////////////////////////////////////////////////
+///////////////////////GAMMU//////////////////////
+//////////////////////////////////////////////////
+//https://xakep.ru/2015/04/07/195-sms/
+//Установка
+sudo apt install gammu
+
+//Настройка
+gammu-config (~/.gammurc)
+
+nano ~/.bash_profile
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+//Отправка сообщения
+echo "Hello mtf" | gammu sendsms TEXT +79232375741
+echo "привет Мир !" | gammu sendsms TEXT +79232375741 -unicode
+echo "Привет, Дениска!" | gammu sendsms TEXT +79618715106 -unicode
+
+//Чтение сообщений
+sudo gammu getallsms
+
+
+
+
+
+//////////////////////////////////////////////////
+///////////////////////Почитать///////////////////
+//////////////////////////////////////////////////
+- FTDI
+- UART / COM
+- USB TO TTL
