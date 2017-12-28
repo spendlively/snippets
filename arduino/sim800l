@@ -95,12 +95,79 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 //Отправка сообщения
-echo "Hello mtf" | gammu sendsms TEXT +79232375741
-echo "привет Мир !" | gammu sendsms TEXT +79232375741 -unicode
-echo "Привет, Дениска!" | gammu sendsms TEXT +79618715106 -unicode
+echo "Hello from gamma" | gammu sendsms TEXT +79232375741
+echo "Привет, я SIM800L!" | gammu sendsms TEXT +79232375741 -unicode
 
 //Чтение сообщений
 sudo gammu getallsms
+
+
+
+
+
+////////////////////////////////////////////////////
+/////////ОТПРАВКА СМС С МОДЕМА HUAWEI E173//////////
+////////////////////////////////////////////////////
+//Подключение к /dev/ttyUSB0 9600
+minicom -s
+
+//Проверка
+at
+
+//Разблокировка
+AT^CARDLOCK="59503872"
+or
+AT^CARDLOCK="49121250"
+or
+AT^CARDLOCK="56309848"
+or
+AT^CARDLOCK="40545050"
+
+//Отправка СМС
+AT+CSCS="GSM"
+AT+CMGF=1
+AT+CMGS="+79232375741"
+Text <CTRL> + z
+
+//gammu
+gammu-config
+echo "Привет, я SIM800L (Beeline ZTE)!" | gammu sendsms TEXT +79232375741 -unicode
+
+
+
+
+
+
+////////////////////////////////////////////////////
+///////////КОДЫ МОДЕМОВ ДЛЯ РАЗБЛОКИРОВКИ///////////
+////////////////////////////////////////////////////
+//Megafon 4g black huawei E392
+IMEI 		861230010137173
+flash code 	46195670
+v1 code 	47557950
+v2 code 	41944057
+v201 code 	20996403
+
+//Megafon 3g white huawei E173
+IMEI 		352216043517438
+flash code 	59503872
+v1 code 	49121250
+v2 code 	56309848
+v201 code 	40545050
+
+//Megafon 4g white huawei M100-3
+IMEI 		862926028394982
+flash code 	54270150
+v1 code 	58524024
+v2 code 	81227944
+v201 code 	98083690
+
+//Beeline 3g black zte mf667
+IMEI 		355397053782000
+flash code 	48623932
+v1 code 	58911381
+v2 code 	37040792
+v201 code 	21678951
 
 
 
