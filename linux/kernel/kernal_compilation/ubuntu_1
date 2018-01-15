@@ -1,0 +1,52 @@
+
+//Сборка ядра в debian
+
+//https://www.youtube.com/watch?v=fM2BpDLuK2k&t=627s
+
+apt-get update
+apt-get upgrade
+
+apt-get install kernel-package libncurses5-dev fakeroot wget bzip2
+//kernel-package - сохранить установленную локальную версию
+
+cp linux-2.6.39.4.tar.bz2 /usr/src/
+cd /usr/src/
+tar xjf linux-2.6.39.4.tar.bz2
+
+ln -s linux-2.6.39.4 linux
+
+cd /usr/src/linux
+
+//Копируем файл текущей конфигурации
+cp /boot/config-`uname -r` ./.config
+
+//Конфигурация ядра
+//Нужен ncurses
+make menuconfig
+//Обновит .config (переименует старый .config в .config.old)
+
+//Сборка ядра
+//Нужен kernel-package
+make-kpkg clean
+//fakeroot для симуляции root окружения, без необходимости реального root доступа
+//создаёт фиктивное окружение суперпользователя
+//После --append-to-version=, можно написать любое название, какое Вам угодно, но оно должно начинаться со знака минус (-) и не иметь пробелов.
+//--initrd - собрать с initramfs (initrd)
+fakeroot make-kpkg --initrd --append-to-version=-custom kernel-image kernel_headers
+
+//Установка пакета
+cd /use/src/
+dpkg -i linux-2.6.39.4-custom_2.6.39...
+dpkg -i linux-headers-2.6.39.4-custom...
+
+//Создание образа initramfs
+sudo update-initramfs -c -k 2.6.39.4-custom
+
+//Обновление загрузчика
+sudo update-grub
+
+shutdown -r now
+
+uname -r
+
+
