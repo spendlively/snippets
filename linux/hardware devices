@@ -1,0 +1,36 @@
+
+//cpu
+cat /proc/cpuinfo
+
+//motherboard
+sudo dmidecode -t 2
+sudo dmidecode  | grep -A4 '^Base Board Information'
+cat /sys/devices/virtual/dmi/id/board_{vendor,name,version}
+dmesg | grep DMI:
+sudo dmidecode --string baseboard-product-name
+
+//pci
+lspci
+
+//all
+sudo dmidecode | more
+sudo lshw
+
+
+
+
+
+/////////////////////////////////////////////////////////////
+/////////////////////////////GUI/////////////////////////////
+/////////////////////////////////////////////////////////////
+sudo apt-get install hardinfo
+sudo hardinfo
+
+sudo add-apt-repository ppa:atareao/atareao
+sudo apt update
+sudo apt install cpu-g
+sudo CPU-G
+
+lshw-gtk – Graphical frontend for lshw command
+
+PerlMon
