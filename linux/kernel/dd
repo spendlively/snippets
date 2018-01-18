@@ -1,0 +1,4 @@
+
+//Creating a file with size 10Mb
+dd if=/dev/zero of=output bs=10M count=1
+

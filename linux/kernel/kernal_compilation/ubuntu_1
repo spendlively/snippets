@@ -50,3 +50,21 @@ shutdown -r now
 uname -r
 
 
+
+
+//Ошибки
+install -p    -o root -g root  -m  644 REPORTING-BUGS                  /tmp/kernel/linux-4.14.13/debian/linux-headers-4.14.13-custom/usr/share/doc/linux-headers-4.14.13-custom/
+install: не удалось выполнить stat для 'REPORTING-BUGS': Нет такого файла или каталога
+debian/ruleset/targets/headers.mk:40: ошибка выполнения рецепта для цели «debian/stamp/install/linux-headers-4.14.13-custom»
+make[1]: *** [debian/stamp/install/linux-headers-4.14.13-custom] Ошибка 1
+make[1]: выход из каталога «/tmp/kernel/linux-4.14.13»
+debian/ruleset/local.mk:102: ошибка выполнения рецепта для цели «kernel_headers»
+make: *** [kernel_headers] Ошибка 2
+
+Решается путем редактирования файла /usr/share/kernel-package/ruleset/targets/headers.mk
+Изменив строку
+$(install_file) REPORTING-BUGS $(DOCDIR)/
+на условную конструкцию
+	test ! -f REPORTING-BUGS                        || \
+	   $(install_file) REPORTING-BUGS            $(DOCDIR)/
+

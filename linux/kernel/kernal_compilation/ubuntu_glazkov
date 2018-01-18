@@ -1,0 +1,60 @@
+
+//https://www.youtube.com/watch?v=k_I2Csx1gbI&index=5&t=639s&list=PLcKxUCx1n5OxUKnUaNod912Yxy-XnDTs8
+
+//Обновление
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get dist-upgrade
+
+
+
+//Пакет с исходниками
+sudo apt-get install linux-source
+//либо скачать с kernel.org
+
+
+//Установить все зависимости для пакета packagename (apt-get install)
+//sudo apt-get build-dep packagename
+sudo apt-get build-dep linux
+
+
+
+//утилита для сборки ядра Linux в пакеты Debian
+//позволяет создать debian-пакет с ядром (kernel-image) одной командой -- «make-kpkg kernel_image»
+//С его помощью также можно получить пакет с заголовочными файлами ядра (kernel-headers)
+//на вопрос о конфиге kernel-img.conf ответить "сохранить установленную локальную версию"
+sudo apt-get install kernel-package
+
+
+
+//developer's libraries for ncurses
+sudo apt-get install libncurses5-dev
+
+
+
+cd /usr/src
+tar -xjf linux-source-3.19.0.tar.bz2
+cd linux-source-3.19.0.tar.bz2
+
+
+
+//Конфигурирование ядра
+sudo make menuconfig
+
+
+
+//Создание deb-пакета с ядром
+//j - сколько ядер участвуют в компиляции + 1
+sudo fakeroot make-kpkg -j 5 --initrd --append-to-version=-custom kernel_image kernel_headers
+
+
+
+//Установка пакета с ядром и initramfs
+cd ../
+sudo dpkg -i linux-image-3.19.8-ckt10-custum_3.19.18-ckt10-custum-10.00.Custom_amd64.deb
+sudo dpkg -i linux-headers-3.19.8-ckt10-custum_3.19.18-ckt10-custum-10.00.Custom_amd64.deb
+
+
+
+//Обновление загрузчика grub
+sudo update-grub2
