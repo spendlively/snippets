@@ -1,0 +1,16 @@
+
+//Using xclip
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+
+
+
+//Using xsel
+alias pbcopy='xsel --clipboard --input'
+alias pbpaste='xsel --clipboard --output'
+
+
+
+//Usage
+echo "qwerty" | pbcopy
+pbpaste
