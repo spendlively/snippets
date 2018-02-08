@@ -1,13 +1,22 @@
 
+/////////////////////////////////////////////
+////////////pbcopy over xcel/////////////////
+/////////////////////////////////////////////
+//install
+sudo apt-get install xclip -y
+sudo nano ~/.bashrc
+
 //Using xclip
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 
-
+OR
 
 //Using xsel
 alias pbcopy='xsel --clipboard --input'
 alias pbpaste='xsel --clipboard --output'
+
+
 
 
 
