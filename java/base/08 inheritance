@@ -1,0 +1,35 @@
+Вызов конструктора родителя
+Test(a, b, c, d){
+  super(a, b, c);
+  this.d = d;
+}
+
+Вызов свойства или метода суперкласса
+super.i = 1;
+
+Порядок вызова конструкторов
+C extends B extends A
+A, B, C
+
+Дочерний класс пожет переопределять, а может перегружать метод суперкласса
+
+Класс Object является суперклассом для всех других классов в java
+
+Ссылочная переменная на Object может ссылаться еа объект любого класса в т.ч. массив
+
+Методы класса Object
+Final:
+Class<?> getClass() - получает класс объекта
+void notify() 
+void notifyAll()
+void wait()
+void wait(long msec)
+void wait(long msec, int nsec)
+
+Не final:
+Object clone()
+boolean equals(Object object)
+void finalize()
+int hashCode()
+String toString()
+

@@ -1,0 +1,43 @@
+В java нет foreach
+
+Перебор коллекции
+int[] nums = {1, 2, 3};
+for(int i: nums){
+  System.out.println(i);
+}
+
+Перебор многомерного массива
+int[][] nums = {{1, 2, 3}};
+for(int i[]: nums){
+  for(int j: i){
+    System.out.println(j);
+  }
+}
+
+Аналог goto с помощью меток и break:
+boolean t = true; 
+first: { 
+  second: { 
+    third: { 
+      System.out.println("до break."); 
+      if(t) break second; 
+      // выход из блока second      
+      System.out.println("не выполнится");
+    }     
+    System.out.println("не выполнится"); 
+  }
+  System.out.println("следует за second."); 
+}
+
+Мeтки с использование continue:
+outer: for (int i=O; i<lO; i++) {
+  for(int j=O; j<lO; j++) {
+    if(j > i) { 
+      System.out.println(); 
+      continue outer; 
+      Systern.out.print(" "+ (i * j)); 
+    } 
+    Systern.out.println(); 
+  }
+}
+
