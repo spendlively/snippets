@@ -1,0 +1,23 @@
+
+Указание, что метод кидает исключение
+void throwOne() throws IllegalAccessException {
+    throw new IllegalAccessException("дeмoнcтpaция");
+}
+
+Опепатор finally обозначает блок кода, который будет выполнен по завершении блоков try/catch если брошено исключение, даже если в блоке catch вызван return.
+try{
+  throw new Exception("test");
+} catch (Exception e) {
+  return null;
+} finally {
+  System.out.println("Перед return");
+}
+
+Список проверяемых и непроверяемых (нужно объявлять в throws) исключений
+
+Цепочки исключений - дополнительное исключение кидается вслед за основным, чтобы указать причину возникновения первого.
+Пример...
+
+Перехват нескольких исключений
+catch(ArithmeticException | ArrayindexOutOfBoundsException е) {}
+
