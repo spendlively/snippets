@@ -1,0 +1,56 @@
+
+//Перечисления
+Перечисления реализованы в виде классов
+
+enum Apple {
+    Jonathan, GoldenDel, RedDel, Winesap, Cortland
+}
+
+Apple ap;
+ap = Apple.Jonathan;
+
+if(ap == Apple.Jonathan){}
+
+//В switch имя класса не указывается
+switch(ар){
+    case Jonathan:
+    //...
+    case Winesap:
+    //...
+}
+
+
+При выводе константы отображается ее имя
+System.out.print(Apple.RedDel); //RedDel
+
+
+Статические методы
+values() - возвращает массив констант
+valueOf() - возвращает константу
+
+Apple all[] = Apple.values();
+for(Apple a : all){
+	System.out.println(a);
+}
+
+//можно: for(Apple a : Apple.values()){...}
+
+Apple ap;
+ap = Apple.valueOf("Jonathan");
+System.out.println(ap);
+
+Дополнительные возможности
+ - можно определить конструктор (вызывается каждый раз при создании константы перечислимого типа)
+ - добавление переменных экземпляров и методов
+ - реализация интерфейсов
+
+Ограничения:
+ - перечисление не может наследоваться от другого класса
+ - перечисление не может быть супреклассом
+
+Методы объекта
+ordinal() - возвращает порядковый номер с 0
+compareTo(a) - сравнитьпорядковый номер
+ap.equals(ap2) - сравнить на равенство
+
+

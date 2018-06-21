@@ -1,0 +1,55 @@
+
+//Character
+Character c = new Character(char c);
+c.charValue();
+
+/Boolean
+Boolean b = new Boolean(boolean b);
+Boolean b = new Boolean(String s);
+b.booleanValue();
+
+//Числовые типы
+Byte()
+Short()
+Integer()
+Long()
+Float()
+Double()
+
+//Методы
+Ьуtе ЬyteValue()
+double doubleValue()
+float floatValue()
+int intValue()
+long longValue()
+short shortValue()
+
+
+
+Начиная с JDK5 поддерживается автоупаковка и автораспаковка.
+Автоматическое преобразование int в Integer и обратно.
+
+//Автоупаковка
+Integer iOb = 100;
+
+//Автораспаковка
+int i = iOb;
+
+System.out.println(i + " " + iOb);
+
+
+
+//Автораспаковка и ...
+static int foo(Integer v){
+    return v;
+}
+//автоупаковка
+Integer iOb = foo(100);
+
+
+//Упаковка и распаковка
+++iOb;
+iOb2 = iOb + (iOb/3);
+
+
+
