@@ -1,0 +1,235 @@
+
+2 вида потоков ввода-вывода
+1. поток ввода-вывода байтов
+2. поток ввода-вывода символов
+
+
+
+//Чтение символов из консоли
+import java.io.*;
+
+class BRRead {
+  public static void main(String args[]) throws IOException {
+    char c;
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    System.out.println("Enter characters, 'q' to quit.");
+    do {
+      c = (char) br.read();
+      System.out.println(c);
+    } while(c != 'q');
+  }
+}
+
+
+
+//Чтение символьных строк
+BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+String str;
+System.out.println("Enter lines of text.\nEnter 'stop' to quit.");
+do {
+  str = br.readLine();
+  System.out.println(str);
+} while(!str.equals("stop"));
+
+
+
+//Запись с помощью PrintWriter
+PrintWriter pw = new PrintWriter(System.out, true);
+pw.println("This is a string");
+
+
+
+//Чтение файла посимвольно
+int i;
+FileInputStream fin = null;
+
+// First, confirm that a file name has been specified.
+if(args.length != 1) {
+  System.out.println("Usage: ShowFile filename");
+  return;
+}
+
+// The following code opens a file, reads characters until EOF
+// is encountered, and then closes the file via a finally block.
+try {
+  fin = new FileInputStream(args[0]);
+
+  do {
+    i = fin.read();
+    if(i != -1) System.out.print((char) i);
+  } while(i != -1);
+
+} catch(FileNotFoundException e) {
+  System.out.println("File Not Found.");
+} catch(IOException e) {
+  System.out.println("An I/O Error Occurred");
+} finally {
+  // Close file in all cases.
+  try {
+    if(fin != null) fin.close();
+  } catch(IOException e) {
+    System.out.println("Error Closing File");
+  }
+}
+
+
+
+//Использование try для автоматического освобождения ресурса
+try(FileInputStream fin = new FileInputStream(args[0])) {
+  do {
+    i = fin.read();
+    if(i != -1) System.out.print((char) i);
+  } while(i != -1);
+
+} catch(FileNotFoundException e) {
+  System.out.println("File Not Found.");
+} catch(IOException e) {
+  System.out.println("An I/O Error Occurred");
+}
+
+
+
+//Несколько ресурсов
+try (FileInputStream fin = new FileInputStream(args[0]);
+     FileOutputStream fout = new FileOutputStream(args[1]))
+{
+  do {
+    i = fin.read();
+    if(i != -1) fout.write(i);
+  } while(i != -1);
+
+} catch(IOException e) {
+  System.out.println("I/O Error: " + e);
+}
+
+
+
+//Апплеты
+ - не гнуждаются в методе main()
+ - запускаются из совместимого с java браузера
+ - утилита для проверки: appletviewer index.html
+
+//SimpleApplet.java
+import java.awt.*;
+import java.applet.*;
+public class SimpleApplet extends Applet {
+  public void paint(Graphics g) {
+    g.drawString("A Simple Applet", 20, 20);
+  }
+}
+
+//index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<applet code="SimpleApplet" width=200 height=60>
+</applet>
+</body>
+</html>
+
+//Запуск
+appletviewer index.html
+
+
+
+//Модификаторы доступа transient и volatile
+//transient
+ - если переменнаяобъявлена как transient
+ее значение не должно сохраняться, когда сохраняется объект
+class T{
+    transient int а; //не сохранится
+    int b; //сохранится
+}
+
+//volatile
+ - всегда использовать главную копию переменной
+ - модификатор доступа volatile сообщает компилятору, что переменная
+ может быть неожиданно изменена в других частях программы
+
+
+
+//instanceof
+A a = new A();
+if(a instanceof A){}
+
+
+
+//Модификатор доступа strictfp
+ - Объявляя класс, метод или и нтерфейс с модификатором доступа
+strictfp , можно гарантировать, что вычисления с плавающей точкой будут
+выполняться с требованием округления некоторых промежуточных результатов вычислений,
+как в java 1
+ - если пометить класс, все методы модифицируются как strictfp
+
+
+
+//Платформенно-ориентированные методы
+ - для запуска программ написанных на другом языке
+b интегрированных с java c помощью интерфейса JNI
+(Java Native Interface)
+ - чтобы объявить платформенно-независимый метод следует
+предварить его имя модификатором native, но не определять тело мтода
+ - объявление метода meth реализованного на языке c
+public native int meth();
+
+
+
+//assert
+ - если условие равно false, будет сгенерирован exception AssertionError
+assert n > 0;
+
+ - Чтобы разрешить проверку утверждений во время выполнения,
+следует указать параметр -еа в командной строке
+java -еа AssertDemo
+
+ - отключение утверждений
+java -da AssertDemo
+ - отключение для конкретного пакета
+java -da:MyPack AssertDemo
+
+
+
+//Импорт статических членов класса или интерфейса
+import static java.lang.Math.sqrt;
+import static java.lang.Math.pow;
+
+//теперь можно вызывать sqrt и pow без указания класса Math
+sqrt()
+pow()
+
+//Импорт всех статических свойств
+import static java.lang.Math.*
+
+
+
+//Вызов перегружаемых конструкторов по ссылке this
+ - вызов одного конструктора из другого
+
+class MyClass {
+  int a;
+  int b;
+
+  MyClass(int i, int j) {
+    a = i;
+    b = j;
+  }
+
+  MyClass(int i) {
+    this(i, i);
+  }
+}
+
+
+
+//Компактные профили java API
+ - на этапе компиляции пожно указать компилятору использовать
+компактную версию java API для сокращения размера библиотеки
+ - обозначения compact1, compact2, compact3
+ - каждый последующий включает в себя предыдущий
+ - пример компиляции
+javac -profile compact2 Test.java
+
