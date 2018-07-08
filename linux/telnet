@@ -1,5 +1,5 @@
 
-
+//SMTP
 //Отправка почты
 //с сервера 192.168.1.103
 //через сервер mail.spendmail.ru
@@ -20,4 +20,10 @@ quit
 
 
 
+
+
+//HTTP
+telnet mim54.ru 80
+GET / HTTP/1.1
+Host: mim54.ru
 
