@@ -1,0 +1,178 @@
+
+//Теория
+При объявлении экземпляра обобщенного типа,
+аргумент, передаваемый в качестве параметра типа,
+должен относиться к ссылочному типу, но ни в коем случае
+не к примитивному типу наподобие int или char.
+
+
+
+
+
+//Обобщения, простой пример
+class Gen<T> {
+  T ob;
+
+  Gen(T o) {
+    ob = o;
+  }
+
+  T getob() {
+    return ob;
+  }
+
+  void showType() {
+    System.out.println(ob.getClass().getName());
+  }
+}
+
+Gen<Integer> iOb = new Gen<Integer>(88);
+Gen<String> strOb = new Gen<String>("Generics Test");
+
+
+
+
+
+//Обобщения с 2-мя параметрами
+class TwoGen<T, V> {
+  T ob1;
+  V ob2;
+
+  TwoGen(T o1, V o2) {
+    ob1 = o1;
+    ob2 = o2;
+  }
+
+  void showTypes() {
+    System.out.println(ob1.getClass().getName());
+    System.out.println(ob2.getClass().getName());
+  }
+}
+
+TwoGen<Integer, String> tgObj = new TwoGen<Integer, String>(88, "Generics");
+tgObj.showTypes();
+
+
+
+
+
+//Ограниченные типы
+class Stats<T extends Number> {
+  T[] nums;
+
+  Stats(T[] o) {
+    nums = o;
+  }
+
+  double average() {
+    //...
+  }
+}
+
+Integer inums[] = { 1, 2, 3, 4, 5 };
+Stats<Integer> iob = new Stats<Integer>(inums);
+double v = iob.average();
+
+Double dnums[] = { 1.1, 2.2, 3.3, 4.4, 5.5 };
+Stats<Double> dob = new Stats<Double>(dnums);
+double w = dob.average();
+
+
+
+
+
+//Метасимвольные аргументы <?>
+class Stats<T extends Number> {
+  T[] nums;
+
+  Stats(T[] o) {
+    nums = o;
+  }
+
+  double average() {//...}
+
+  boolean sameAvg(Stats<?> ob) {
+    if(average() == ob.average())
+      return true;
+
+    return false;
+  }
+}
+
+Integer inums[] = { 1, 2, 3, 4, 5 };
+Stats<Integer> iob = new Stats<Integer>(inums);
+double v = iob.average();
+
+Double dnums[] = { 1.1, 2.2, 3.3, 4.4, 5.5 };
+Stats<Double> dob = new Stats<Double>(dnums);
+double w = dob.average();
+
+if(iob.sameAvg(dob))
+  System.out.println("are the same.");
+else
+  System.out.println("differ.");
+
+Метасимвольные аргументы могут быть ограничены почти таким же образом,
+как и параметры типов.
+
+Ограничивать метасимвольный аргумент особенно важно
+при создании обобщенного типа, оперирующего иерархией классов.
+
+public void foo(Coords <? extends ThreeD> с){...}
+
+
+
+
+
+//Обобщенный метод
+public <T extends Comparable<T>, V extends T> boolean isIn(T x, V[] y) {
+    for(int i=0; i < y.length; i++)
+        if(x.equals(y[i])) return true;
+
+    return false;
+}
+
+Integer nums[] = { 1, 2, 3, 4, 5 };
+if(isIn(2, nums)){
+  System.out.println("2 is in nums");
+}
+
+
+
+
+
+//Обобщенный конструктор
+class GenCons {
+  private double val;
+
+  <T extends Number> GenCons(T arg) {
+    val = arg.doubleValue();
+  }
+}
+
+GenCons test = new GenCons(100);
+GenCons test2 = new GenCons(123.5);
+
+
+
+
+
+//Обобщенный интерфейс
+interface MinMax<T extends Comparable<T>> {
+  T min();
+}
+
+class MyClass<T extends Comparable<T>> implements MinMax<T> {
+  T[] vals;
+
+  MyClass(T[] o) { vals = o; }
+
+  public T min() {//...}
+}
+
+Integer inums[] = {3, 6, 2, 8, 6 };
+Character chs[] = {'b', 'r', 'p', 'w' };
+
+MyClass<Integer> iob = new MyClass<Integer>(inums);
+MyClass<Character> cob = new MyClass<Character>(chs);
+

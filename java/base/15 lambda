@@ -1,0 +1,110 @@
+
+Для лпределения лямбда функции необожимо определить функциональный интерфейс
+ - интерфейс с одним абстрактным методом (без реализации по умолчанию) с подходящей сигнатурой
+
+
+
+
+
+//Простой пример
+interface MyNumber {
+  double getValue();
+}
+MyNumber myNum = () -> 123.45;
+
+
+
+
+
+//Захват переменной
+ - при захвате переменной недопустимо ее изменение до или после определения лямбды
+interface MyFunc {
+  int func(int n);
+}
+
+int num = 10;
+MyFunc myLambda = (n) ->  {
+  int v = num + n;
+  return v;
+};
+
+
+
+
+
+//Пример с обобщениями
+interface SomeFunc<T> {
+  T func(T t);
+}
+
+SomeFunc<String> reverse = (str) ->  {
+  String result = "";
+  int i;
+
+  for(i = str.length()-1; i >= 0; i--)
+    result += str.charAt(i);
+
+  return result;
+};
+System.out.println("Lambda reversed is " + reverse.func("Lambda"));
+
+
+
+
+
+//Использование в качестве аргумента
+stringOp(() ->  123.45, inStr);
+
+
+
+
+
+//Выбрасывание исключения
+interface DoubleNumericArrayFunc {
+  double func(double[] n) throws EmptyArrayException;
+}
+
+DoubleNumericArrayFunc average = (n) ->  {
+      throw new EmptyArrayException();
+}
+
+average.func(values));
+
+
+
+
+
+//Передача статического метода
+interface StringFunc {
+  String func(String n);
+}
+
+class MyStringOps {
+  static String strReverse(String str) {...}
+}
+
+//main
+static String stringOp(StringFunc sf, String s) {
+    return sf.func(s);
+}
+
+String inStr = "Lambdas add power to Java";
+    String outStr;
+    outStr = stringOp(MyStringOps::strReverse, inStr);
+
+
+
+
+
+//Встроенные интерфейсы
+import java.util.function.Function;
+
+Function<Integer, Integer> factorial = (n) ->  {
+    int result = 1;
+    for(int i=1; i <= n; i++)
+        result = i * result;
+    return result;
+};
+
+System.out.println("The factoral of 3 is " + factorial.apply(3));
+System.out.println("The factoral of 5 is " + factorial.apply(5));
