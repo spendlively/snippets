@@ -1,0 +1,211 @@
+
+//Установка JDK 9
+sudo apt-get update
+sudo apt-cache search openjdk
+sudo apt-get install openjdk-9-jdk openjdk-9-jre openjdk-9-jre-headless
+
+java -version
+javac -version
+
+
+
+
+
+//Установка Android Studio
+Скачать, распаковать
+cd ~/Загрузки/android-studio/bin/
+sudo ./studio.sh
+
+ 
+
+
+
+//Первый запуск
+Configure -> SDK Manager
+SDK Platforms
+ - SDK выше 4.0
+SDK Tools
+// - Android Support Library //не было в списке
+ - Android Support Repository
+ - Google Play Services 
+// - Google Repository //не было в списке
+// - Google USB Driver //не было в списке
+
+
+
+
+
+//Создание первого приложения
+Empty Activity
+
+//Ошибка рендеринга
+//API 21 -> API 19 //не делал, стоит 28
+
+//Ошибка
+Failed to find Build Tools revision 27.0.3
+//Кликнул
+Install Build Tools 27.0.3 and sync project
+
+
+
+
+
+//Структура проекта
+app
+    manifests - манифест приложения
+    java - код приложения и тесты
+    res - ресурсы
+        drawable - изображения
+        layout - макеты экрана (activity_main.xml)
+        menu - меню приложения
+        values - файлы с описанием стилей в виде ктроковых констант
+            strings.xml - описание строковых констант например app_name
+            styles.xml - ссылка на файл стилей
+    Gradle Scripts - инструкции для автоматической сборки
+
+
+
+
+
+//Установка виртуального устройства
+Tools -> AVD Manager
+Create Virtual Device
+    - создание или выбор устрофства (размер и разрешения)
+    - выбор API (28)
+
+
+
+
+
+//Элементы экрана и их свойства
+Activity
+ - одно из окон приложения, м/у которыми переключается приложение
+Layout
+ - файл описания всех view
+View
+ - компонент приложения (пр. кнопка)
+ViewGroup
+Дизайн приложения хранится в res/layout/activity_main.xml
+
+
+
+
+
+MainActivity extends ActionBarActivity
+ - ActionBarActivity добавляет на экран панель ActionBar (свойства)
+
+
+
+
+
+//Горячие клавиши
+Alt + Enter - добавить класс в секцию импорт
+Ctrl + Space - если нажать после точки, покажет доступные методы
+
+//Все горячие клавиши
+http://www.fandroid.info/goryachie-klavishi-hotkeys-v-android-studio/
+
+
+
+
+
+//Исправление отображения в режиме Design
+//Ошибка: Failed to find style 'coordinatorLayoutStyle' in current theme
+//Gradle Scripts -> build.gradle (Module App)
+//Исправляем строчки
+compileSdkVersion 27
+targetSdkVersion 27
+implementation 'com.android.support:appcompat-v7:27.1.1'
+implementation 'com.android.support:design:27.1.1'
+
+
+
+
+
+//Добавление идентификатора (activity_main.xml)
+android:id="@+id/myText"
+ - "+" означает, что это новый ресурс и он должен добавиться в R.java после билда
+ - можно также добавить id через вкладку properties
+
+//Обращение из кода (onCreate)
+TextView myTextView = (TextView) findViewById(R.id.myText);
+myTextView.setText("New text!");
+
+
+
+
+
+//Создание обработчика кнопки (MainActivity.onCreate)
+//Способ 1
+//Получение объекта кнопки
+FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+//Создание обработчика события OnClickListener
+fab.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            .setAction("Action", null).show();
+    }
+});
+
+Id кнопки
+activity_main.xml -> FloatingActionButton -> android:id
+
+
+
+
+
+//Создание обработчика кнопки (MainActivity.onCreate)
+//Способ 2
+//1. Реализуем интейрфейс View.OnClickListener
+implements View.OnClickListener
+
+//2. Метод onClick
+@Override
+public void onClick(View view){
+    textview.setText("asd");
+}
+
+//3. Передаем обработчик
+btn.setOnClickListener(this);
+
+
+
+
+
+//Создание обработчика кнопки (MainActivity.onCreate)
+//Способ 3
+//activity_main.xml
+android.onClick="clickButton"
+
+//В коде
+public void clickButton(View view){
+    textview.setText("asd");
+}
+
+
+
+
+
+//Всплывающее сообщение
+//MainActivity.this можно заменить на this
+Toast toast = Toast.makeText(MainActivity.this, "Привет", Toast.LENGTH_LONG);
+//toast.setGravity(gravity.CENTER, 0, 0); //показать в центре экрана
+toast.show();
+
+//Показать картинку
+Toast toast = Toast.makeText(MainActivity.this, "Привет", Toast.LENGTH_LONG);
+LinearLayout toastImage = {LinearLayout} toast.getView();
+ImageView imageView = new ImageView(MainActivity.this);
+imageView.setImageResource(R.drawable.logo);
+toast.addView(imageView, 0);
+toast.show();
+
+
+
+
+
+//Вывод лога
+//Log log = new Log("Тэг", "Сообщение");
+Log.d("Тэг", "Сообщение");
