@@ -3,13 +3,20 @@
 //////////////////////////////////////////////////////////////////////////
 //install composer
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
 //install yii plugins
 php composer.phar global require "fxp/composer-asset-plugin:^1.2.0"
 //install yii basic
+php composer.phar create-project --prefer-dist yiisoft/yii2-app-basic basic
+php composer.phar create-project --prefer-dist yiisoft/yii2-app-basic ./
+//latest development version
+php composer.phar create-project --prefer-dist --stability=dev yiisoft/yii2-app-basic basic
+php composer.phar create-project --prefer-dist --stability=dev yiisoft/yii2-app-basic ./
+//speific version
 php composer.phar create-project yiisoft/yii2-app-basic basic 2.0.12
+php composer.phar create-project yiisoft/yii2-app-basic ./ 2.0.12
 //install yii advanced
 php composer.phar create-project yiisoft/yii2-app-advanced advanced 2.0.12
 
@@ -20,8 +27,10 @@ php composer.phar create-project yiisoft/yii2-app-advanced advanced 2.0.12
 //////////////////////////////////////////////////////////////////////////
 ///////////////////////////////Конфиги////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
+//Исправление ошибки "cookieValidationKey must be configured with a secret key"
 //config/web.php
 cookieValidationKey
+
 //www/config/db.php
 //Префикс для таблиц db
 'tablePrefix' => 'pref_'
@@ -37,6 +46,12 @@ cookieValidationKey
 http://localhost:8888/index.php?r=site/index
 site - контроллер SiteController.php
 index - экшн actionIndex()
+
+//Тест контроллера
+public function actionHello()
+{
+    return 'Hello world!';
+}
 
 //Контроллер - controllers/SiteController.php
 //http://localhost:8888/index.php?r=site/hello&name=vasya
