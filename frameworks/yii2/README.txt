@@ -47,7 +47,11 @@ http://localhost:8888/index.php?r=site/index
 site - контроллер SiteController.php
 index - экшн actionIndex()
 
-//Тест контроллера
+//Несколько слов
+site/blog-post
+actionBlogPost
+
+//Простой тест контроллера
 public function actionHello()
 {
     return 'Hello world!';
@@ -65,6 +69,65 @@ public function actionHello($name = "World")
 //Представление - views/site/hello.php
 //Содержимое будет выведено в views/layouts/main.php в <?= $content ?>
 <h1>Hello, <?= $name; ?>!</h1>
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////Вложенные контроллеры///////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//URL
+http://localhost:8888?r=admin/user/index
+
+//Контроллер
+/controllers/admin/UserController.php
+namespace app\controllers\admin;
+
+//Вьюшка
+/views/admin/user/index.php
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+///////////////////////////////LAYOUT/////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//Кастомный шаблон глобально
+//config/web.php => views/layouts/basic.php
+'layout' => 'basic',
+
+//Кастомный шаблон локально
+//Для всего контроллера
+public $layout = 'basic';
+//Для конкретного экшна
+$this->layout = 'basic';
+
+//Подключение css и js
+//assets/AppAsset.php
+public $basePath = '@webroot';
+public $baseUrl = '@web';
+public $css = [
+    'css/site.css',
+];
+public $js = [
+];
+public $depends = [
+    'yii\web\YiiAsset',
+    'yii\bootstrap\BootstrapAsset',
+];
+
+//Подключение assets в шаблоне
+use app\assets\AppAsset;
+AppAsset::register($this);
+
+//Разметка assets в шаблоне (можно посмотреть в views/layouts/main.php)
+$this->beginPage()
+$this->head()
+$this->beginBody()
+$this->endBody()
+$this->endPage()
 
 
 
