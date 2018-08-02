@@ -1,0 +1,18 @@
+
+//Создание подключения к mysql
+Database (Открыть вкладку справа)
+    +
+        Data Source
+            Mysql
+
+Заполнить поля
+ - host
+ - database
+ - user
+ - password
+
+Download missing driver
+
+Test Connection
+
+Apply
