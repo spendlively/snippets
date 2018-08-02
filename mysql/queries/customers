@@ -1,0 +1,109 @@
+Имеется таблица покупателей customer (id, name)
+А также таблица продаж sale (id, cust_id, date, summ_pay)
+Необходимо:
+а) Вывести лучшего покупателя.
+б) Вывести лучших покупателей за каждый месяц.
+
+
+
+
+
+
+
+
+
+DROP TABLE IF EXISTS customer;
+CREATE TABLE customer (
+id INT(11) NOT NULL AUTO_INCREMENT,
+name VARCHAR(63),
+PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO customer (id, name) VALUES
+  (NULL, 'Ivanov'),
+  (NULL, 'Petrov'),
+  (NULL, 'Sidorov');
+
+DROP TABLE IF EXISTS sale;
+CREATE TABLE sale (
+id INT(11) NOT NULL AUTO_INCREMENT,
+cust_id INT(11) NOT NULL,
+date datetime NOT NULL,
+summ_pay decimal(19,5) NOT NULL,
+PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO sale (id, cust_id, date, summ_pay) VALUES
+  (NULL, 1, '2018-01-01 12:00:00', 11),
+  (NULL, 1, '2018-01-02 12:00:00', 31),
+  (NULL, 1, '2018-01-03 12:00:00', 21),
+  (NULL, 1, '2018-02-01 12:00:00', 12),
+  (NULL, 1, '2018-02-02 12:00:00', 32),
+  (NULL, 1, '2018-02-03 12:00:00', 22),
+  (NULL, 1, '2018-03-01 12:00:00', 13),
+  (NULL, 1, '2018-03-02 12:00:00', 33),
+  (NULL, 1, '2018-03-03 12:00:00', 23),
+
+  (NULL, 2, '2018-01-01 12:00:00', 101),
+  (NULL, 2, '2018-01-02 12:00:00', 301),
+  (NULL, 2, '2018-01-03 12:00:00', 201),
+  (NULL, 2, '2018-02-01 12:00:00', 102),
+  (NULL, 2, '2018-02-02 12:00:00', 302),
+  (NULL, 2, '2018-02-03 12:00:00', 202),
+  (NULL, 2, '2018-03-01 12:00:00', 103),
+  (NULL, 2, '2018-03-02 12:00:00', 303),
+  (NULL, 2, '2018-03-03 12:00:00', 203),
+
+  (NULL, 3, '2018-01-01 12:00:00', 51),
+  (NULL, 3, '2018-01-02 12:00:00', 41),
+  (NULL, 3, '2018-01-03 12:00:00', 61),
+  (NULL, 3, '2018-02-01 12:00:00', 52),
+  (NULL, 3, '2018-02-02 12:00:00', 42),
+  (NULL, 3, '2018-02-03 12:00:00', 62),
+  (NULL, 3, '2018-03-01 12:00:00', 53),
+  (NULL, 3, '2018-03-02 12:00:00', 43),
+  (NULL, 3, '2018-03-03 12:00:00', 63);
+
+
+
+
+//Лучший покупатель
+SELECT
+  c.name,
+  sum(summ_pay)
+FROM customer c
+  INNER JOIN sale s ON s.cust_id = c.id
+GROUP BY c.name
+ORDER BY summ_pay DESC
+LIMIT 1
+
+
+
+
+
+//Лучший покупатель за каждый месяц
+SELECT
+  name,
+  max(sum)
+FROM (
+ SELECT
+   c.name,
+   month(date) month,
+   sum(summ_pay) sum
+ FROM customer c
+   INNER JOIN sale s ON s.cust_id = c.id
+ GROUP BY c.name, month(date)
+) t
+GROUP BY month
+
+//Вложенный запрос
+//Локальные максимумы покупателей по месяцам
+SELECT
+  c.name,
+  month(date) month,
+  sum(summ_pay) sum
+FROM customer c
+  INNER JOIN sale s ON s.cust_id = c.id
+  GROUP BY c.name, month(date)
+
+

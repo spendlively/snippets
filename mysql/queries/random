@@ -1,0 +1,10 @@
+//Выбрать 10 случайных записей.
+//Запрос вида select * from table order by rand() limit 10 не подойдет, т.к. очень тяжелый
+
+SET @i:=(SELECT CEIL(RAND() * (SELECT MAX(id) FROM currency_course)));
+
+SELECT
+  *,
+  @i i
+FROM currency_course
+WHERE id = @i;
