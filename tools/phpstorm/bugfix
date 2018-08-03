@@ -1,0 +1,11 @@
+//Багфикс горячих клавишь в русской раскладке
+1. Клонируем репозиторий в папку ~/fix/:
+git clone https://github.com/zheludkovm/LinuxJavaFixes.git fix
+
+2. Открываем конфиг приложения:
+nano /opt/PhpStorm/bin/phpstorm64.vmoptions
+
+3. Добавляем в него строку с фиксом:
+-javaagent:/home/spendlively/fix/build/LinuxJavaFixes-1.0.0-SNAPSHOT.jar
+
+4. Если phpStorm переустанавливается, то импортировать старые настройки нельзя
