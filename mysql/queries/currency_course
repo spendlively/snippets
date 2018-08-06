@@ -70,6 +70,23 @@ FROM currency_course t1
     ON t1.currency = t2.currency AND t1.date < t2.date
 WHERE t2.date is NULL
 
+//ИЛИ
+
+SELECT
+    t1.*
+FROM currency_course t1,
+(
+    SELECT
+        currency,
+        MAX(date) date
+    FROM currency_course
+    GROUP BY currency
+) t2
+WHERE t1.currency = t2.currency
+AND t1.date = t2.date
+
+
+
 
 
 //Выбрать максимальные курсы по каждой валюте по месяцам
@@ -80,6 +97,7 @@ SELECT
 FROM currency_course
 GROUP BY currency, month(date)
 ORDER BY date
+
 
 
 
