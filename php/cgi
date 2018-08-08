@@ -1,0 +1,48 @@
+
+///////////////////////////////////////////////////////
+/////////Запуск PHP-скрипта как CGI-приложения/////////
+///////////////////////////////////////////////////////
+
+//Настройка apache
+//Конфиг apache /etc/apache2/sites-available/cgi.conf
+<VirtualHost 127.0.0.5:80>
+
+        # Директория со скриптами, которые вызываются по url /cgi-bin/
+        ScriptAlias "/cgi-bin/" "/home/spendlively/vhosts/cgi/"
+
+        ServerName cgi.loc
+        ServerAlias www.cgi.loc
+        ServerAdmin webmaster@localhost
+        DocumentRoot /home/spendlively/vhosts/cgi/
+
+        <Directory /home/spendlively/vhosts/cgi/ >
+                AllowOverride All
+                Options +FollowSymLinks +Indexes +ExecCGI
+                Order deny,allow
+                Require all granted
+        </Directory>
+</VirtualHost>
+
+
+
+
+
+//Исполняемый php-файл
+///home/spendlively/vhosts/cgi/index.cgi
+#!/usr/bin/env php
+<?php
+
+echo "Content-Type: text/plain\n\n";
+echo "Hello, world!\n";
+
+var_dump(getenv());
+var_dump(file_get_contents('php://input'));
+
+
+
+
+
+//URL адрес в браузере
+http://cgi.loc/cgi-bin/index.cgi
+//или
+http://cgi.loc/cgi-bin/
