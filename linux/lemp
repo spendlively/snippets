@@ -1,0 +1,42 @@
+////////////////////////////////////////////////////
+////////////////////УСТАНОВКА///////////////////////
+////////////////////////////////////////////////////
+sudo apt-get update
+sudo apt-get install nginx php7.0-fpm
+
+
+
+////////////////////////////////////////////////////
+////////////////////КОНФИГУРАЦИЯ////////////////////
+////////////////////////////////////////////////////
+//Определение на каком сокете работает сервер php-fpm
+//Конфиг /etc/php/7.0/fpm/pool.d/www.conf
+listen = /run/php/php7.0-fpm.sock
+
+//Конфиг виртуального хоста nginx /etc/nginx/sites-available/test.conf
+server {
+    listen 8888;
+    server_name test.loc www.test.loc;
+
+    #ZF 3
+    #root /home/spendlively/vhosts/zf_nginx_fpm/ZendSkeletonApplication/public;
+
+    #Yii2
+    root /home/spendlively/vhosts/yii/new/basic/web;
+
+    index index.html index.htm index.php;
+
+    location / {
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass   unix:/run/php/php7.0-fpm.sock;
+        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include        fastcgi_params;
+    }
+}
+
+//Включение хоста
+sudo ln -s /etc/nginx/sites-available/test.conf /etc/nginx/sites-enabled/
+
