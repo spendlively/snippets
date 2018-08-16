@@ -1,0 +1,188 @@
+<?php
+
+//Установка
+composer require --dev phpunit/phpunit
+vendor/bin/phpunit
+mkdir tests
+//Структура папки tests должна быть аналогичной структуре папки src
+
+
+
+
+
+//Пример 1
+//Тест класса MyFirst
+class MyFirstTest extends PHPUnit\Framework\TestCase
+{
+    public function testSould_Execute()
+    {
+        $this->assertEquals(1, 1);
+    }
+}
+
+//Выполнение теста
+./vendor/bin/phpunit tests/MyFirstTest.php
+
+//Фильтр по имени метода
+./vendor/bin/phpunit --filter Should tests
+
+//Запуск с файлом инициализации
+./vendor/bin/phpunit --bootstrap tests/bootstrap.php tests
+
+//Файл конфигурации phpunit.xml
+./vendor/bin/phpunit --configuration phpunit.xml
+//Либо просто (phpunit.xml подгрузится автоматически)
+./vendor/bin/phpunit
+//Иногда в git кладут phpunit.xml.dist
+
+
+
+
+
+//Если если метод не имеет теста phpunit выведет R (Risky test)
+//Чтобы так не происходило, можно пометить тест как незавершенный
+$this->markTestIncomplete();
+
+
+
+
+
+//Пометки
+. - Ok
+F - Fail
+E - Error
+R - Risky
+W - Warning
+
+
+
+
+
+//Инициелизация данных перед тестами
+public function setUp(){}
+
+//Очистка данных после тестов
+public function tearDown()(){}
+
+
+
+
+
+//Провайдеры
+class MyFirstTest extends PHPUnit\Framework\TestCase
+{
+    /**
+     * @dataProvider ordersAndSumDataProvider
+     */
+    public function testShould($orders, $sum, $expected)
+    {
+        $discounter = new Discounter();
+        $discount = $discounter->getDiscount($orders, $sum);
+
+        $this->assertEquals($expected, $discount);
+    }
+
+    public function ordersAndSumDataProvider()
+    {
+        return [
+            [10, 10, 20],
+            [20, 20, 20],
+            [30, 30, 60],
+        ];
+    }
+}
+
+
+
+
+
+//Проверку на Exception можно и предпочтительно делать в аннотации
+/**
+ * @expectedException App\Exception\InvalidArgumentException
+ */
+
+
+
+
+
+//Моки и Стабы
+//Стаб (есть только метод createMock)
+public function test()
+{
+    $itemRepository = $this->createMock(ItemRepository::class);
+
+    //Имитируем метод hasItemId
+
+    //1. Возвращаем true
+    $itemRepository
+        ->method('hasItemId')
+        ->willReturn(true);
+
+    //2. Возвращаем первый аргумент
+    $itemRepository
+        ->method('hasItemId')
+        ->willReturn($this->returnArgument(0));
+
+    //3. Возвращаем по карте
+    $map = [
+        ['a', 'b', 'c'],
+        ['d', 'f', 'g'],
+    ];
+    $itemRepository
+        ->method('hasItemId')
+        ->willReturn($this->returnValueMap(0));
+
+    var_dump($itemRepository->hasItemById(['a', 'b']));
+
+    //4. Кидаем исключение из стаба
+    $itemRepository
+        ->method('hasItemId')
+        ->will($this->throwException(new \Exception()));
+
+    $cartService = new CartService($itemRepository);
+    //...
+
+    return true;
+}
+
+
+
+
+
+//Мок
+public function test($orderId)
+{
+    //ARRANGE
+    $itemRepository = $this->createMock(ItemRepository::class);
+
+    //Имитируем метод hasItemId
+
+    //1. Возвращаем true
+    $itemRepository
+        ->method('hasItemId')
+        ->willReturn(true);
+
+    //Тестирование поведения
+    //Задача проверить что
+    $itemRepository
+        //метод вызвался единогжды
+        ->expects($this->once())
+        ->method('save')
+        //с параметром $orderId
+        ->with($this->equals($orderId));
+
+    $cartService = new CartService($itemRepository);
+
+    //ACT
+    $isSuccess = $cartService->addToCart($orderId);
+
+    //ASSERT
+    $this->assertEquals(true, $isSuccess);
+}
+
+
+
+
+
+//Code Coverage
+
