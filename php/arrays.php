@@ -28,3 +28,37 @@ usort($names, function($a, $b) use ($priorities){
 });
 
 var_dump($names);die();
+
+
+
+
+
+//array_reduce - average from array of objects
+$ratesSum = array_reduce($rates, function ($carry, $rate) {
+
+    if (!$rate instanceof Rate) {
+        throw new WrongClassException();
+    }
+
+    $carry += $rate->getRate();
+
+    return $carry;
+}, 0);
+
+$averageRate = $ratesSum / count($rates);
+
+
+
+
+//array_sum(array_map()) - average from array of objects
+$ratesSum = array_sum(
+    array_map(
+        function(Rate $rate): float
+        {
+            return $rate->getRate();
+        },
+        $rates
+    )
+);
+$averageRate = $ratesSum / count($rates);
+
