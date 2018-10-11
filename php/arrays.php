@@ -1,5 +1,16 @@
 <?php
 
+//Функции для работы с коллекциями в функциональном стиле
+//array_flip
+//array_filter
+//array_sum
+//array_map
+//array_reduce
+//array_walk
+
+
+
+
 ////////////////////////////////////////////////////
 ///Sorting array by another array with filtering////
 ////////////////////////////////////////////////////
