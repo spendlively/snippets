@@ -1,0 +1,19 @@
+
+//test.cpp
+#include<iostream>
+using namespace std;
+int main()
+{
+    cout << "Hello, world!" << endl;
+}
+
+
+
+//Компилиция
+g++ -c test.cpp
+//и линковка
+g++ test.o -o test
+./test
+
+//Или
+g++ test.cpp -o test
