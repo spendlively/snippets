@@ -1,0 +1,13 @@
+
+//Динамическое выделение памяти объекту
+MyClass *p;
+p = new MyClass;
+p->show();
+delete p;
+
+p = new MyClass(1);
+p->show();
+delete p;
+
+
+

@@ -1,0 +1,10 @@
+
+//Объявление объктов после объявления класса
+class SimpleClass {
+public:
+    int n;
+} obj1, obj2;
+
+
+
+
