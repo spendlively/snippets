@@ -1,0 +1,14 @@
+
+//Кириллица
+setlocale(LC_All, "Rus");
+cout << "Привет" << endl;
+
+
+
+
+
+//sizeof - размер в байтах
+for(int i = 0; i < sizeof(arr) / sizeof(int); i++){}
+//или
+for(int i = 0; i < sizeof(arr) / sizeof(arr[0]); i++){}
+

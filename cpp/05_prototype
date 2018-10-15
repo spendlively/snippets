@@ -1,0 +1,15 @@
+
+//Прототип
+//Чтобы функция увидела функцию, описанную ниже, нужен прототип
+int sum()(int a, int b);
+
+int main()
+{
+    cout << foo(1, 2) << endl;
+    return 0;
+}
+
+int sum()(int a, int b)
+{
+    return a + b;
+}
