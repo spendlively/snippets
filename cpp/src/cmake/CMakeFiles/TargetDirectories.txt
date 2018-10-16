@@ -1,0 +1,3 @@
+/home/spendlively/hdd/home/spendlively/ubuntu_18.04/vhosts/snippets/snippets/cpp/src/cmake/CMakeFiles/rebuild_cache.dir
+/home/spendlively/hdd/home/spendlively/ubuntu_18.04/vhosts/snippets/snippets/cpp/src/cmake/CMakeFiles/hello.dir
+/home/spendlively/hdd/home/spendlively/ubuntu_18.04/vhosts/snippets/snippets/cpp/src/cmake/CMakeFiles/edit_cache.dir
