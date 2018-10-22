@@ -1,6 +1,7 @@
 #include <iostream>
 #include "headers/simple.h"
 #include "headers/objects.h"
+#include "headers/arrays.h"
 
 using namespace std;
 
@@ -12,12 +13,17 @@ int main() {
     simple();
 
     /////////////////////////////////
-    //////////////Объект/////////////
+    /////////////Массивы/////////////
+    /////////////////////////////////
+    arrays();
+
+    /////////////////////////////////
+    //////////////Объекты////////////
     /////////////////////////////////
     objects();
 
     return 0;
 }
 
-//g++ main.cpp simple.cpp objects.cpp -o test
+//g++ main.cpp simple.cpp objects.cpp arrays.cpp -o test
 
