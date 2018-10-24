@@ -4,7 +4,7 @@
 //и не принимает параметров
 void(*fooPointer)();
 
-fooPointer = foo1; //void foo1(){...}
+fooPointer = foo; //void foo(){...}
 fooPointer();
 
 
