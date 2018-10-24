@@ -1,0 +1,8 @@
+
+//Указатель на функцию,
+//которая возвращает void
+//и не принимает параметров
+void(*fooPointer)();
+
+fooPointer = foo1; //void foo1(){...}
+fooPointer();
