@@ -23,4 +23,7 @@ void baz(string (*barPointer)())
 ...
 string(*barPointer)();
 barPointer = bar;
+
 baz(barPointer);
+//или просто
+baz(bar);
