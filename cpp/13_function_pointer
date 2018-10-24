@@ -6,3 +6,21 @@ void(*fooPointer)();
 
 fooPointer = foo1; //void foo1(){...}
 fooPointer();
+
+
+
+
+
+//Передача указателя на функцию в качестве параметра
+string bar()
+{
+    return "bar";
+}
+void baz(string (*barPointer)())
+{
+    cout << barPointer() << " from baz" << endl;
+}
+...
+string(*barPointer)();
+barPointer = bar;
+baz(barPointer);

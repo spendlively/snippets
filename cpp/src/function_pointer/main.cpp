@@ -2,14 +2,19 @@
 
 using namespace std;
 
-void foo1()
+void foo()
 {
-    cout << "foo1" << endl;
+    cout << "foo" << endl;
 }
 
-string foo2()
+string bar()
 {
-    return "foo2";
+    return "bar";
+}
+
+void baz(string (*barPointer)())
+{
+    cout << barPointer() << " from baz" << endl;
 }
 
 int main()
@@ -19,10 +24,10 @@ int main()
      * которая возвращает void
      * и не принимает параметров
      */
-    void(*foo1Pointer)();
+    void(*fooPointer)();
 
-    foo1Pointer = foo1;
-    foo1Pointer();
+    fooPointer = foo;
+    fooPointer();
 
 
 
@@ -31,10 +36,17 @@ int main()
      * которая возвращает строку
      * и не принимает параметров
      */
-    string(*foo2Pointer)();
+    string(*barPointer)();
 
-    foo2Pointer = foo2;
-    cout << foo2Pointer() << endl;
+    barPointer = bar;
+    cout << barPointer() << endl;
+
+
+
+    /**
+     * Передача указателя на функцию в функцию
+     */
+    baz(barPointer);
 
     return 0;
 }
