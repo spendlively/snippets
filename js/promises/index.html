@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--Функция переданная в new Promise вызывается срвзу же,-->
+<!--<script src="01_func_runs_after_new.js"></script>-->
+
+<!--Исключение в "new Promise" вызовет reject, как если бы весь код функции был обрамлен try/catch-->
+<!--<script src="02_exception_in_new.js"></script>-->
+
+<!--Кидать throw new Error в onResolve не надо, оно поймается только в следующем обработчике error-->
+<!--<script src="03_exception_in_then.js"></script>-->
+
+<!--promise.then() всегда возвращает promise-->
+<!--<script src="04_return_another_promise.js"></script>-->
+
+<!--Обработчик reject тоже возвращает успешно завершенное обещание-->
+<!--<script src="05_catch_returns_success_promise.js"></script>-->
+
+<!--Прием, возвращающий отклоненное обещание с заданным значением-->
+<!--<script src="06_promise_reject.js"></script>-->
+
+<!--Promise.all запускает несколько паралельно-->
+<!--<script src="07_promise_all.js"></script>-->
+
+<!--Promise.resolve возвращает обещание, которое успешно завершено с переданным значением-->
+<script src="08_promise_resolve.js"></script>
+</body>
+</html>
