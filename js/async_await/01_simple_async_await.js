@@ -47,6 +47,7 @@
          * 2. ожидает ответа,
          * 3. возобновляет выполнение функции async
          * 4. возвращет полученное значение
+         * 5. используется только в async функциях
          */
         const a = await resolveAfterSecond(10);
         const b = await resolveAfterSecond(20);
