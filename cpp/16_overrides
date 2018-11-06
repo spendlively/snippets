@@ -1,0 +1,96 @@
+
+////////////////////////////////////////////////////////
+/////////////////Перегрузка операторов//////////////////
+////////////////////////////////////////////////////////
+//Оператор сравнения
+class Test{
+public:
+
+    int x = 0;
+
+    //По ссылке, чтобы не копировать объект
+    bool operator ==(const Test & other){
+        return this->x == other.x;
+    }
+
+    bool operator !=(const Test & other){
+        return this->x != other.x;
+    }
+}
+
+
+
+
+
+//Оператор сложения
+Test operator +(const Test & other){
+    Test test;
+    test.x = this->x + other.x;
+    return test;
+}
+...
+Test a, b, c;
+c = a + b;
+
+
+
+
+
+//Оператор инкремент (префиксная форма)
+//возвращаем ссылку на текущий объект
+Test & operator ++(){
+    this->x++;
+    return *this;
+}
+...
+Test a;
+++a;
+
+
+
+
+
+//Оператор инкремент (постфиксная форма)
+//int value нужен чтобы компилятор понял, что это постфиксная форма
+Test & operator ++(int value){
+    Test temp(*this);
+    this->x++;
+    return temp;
+}
+...
+Test a, b;
+b = a++;
+
+
+
+
+
+//Декремент
+Test & operator --(){
+    this->x--;
+    return *this;
+}
+...
+Test & operator --(int value){
+    Test temp(*this);
+    this->x--;
+    return temp;
+}
+
+
+
+
+
+//Перегрузка оператора индексирования []
+class Test{
+public:
+    int & operator[](int index){
+        return arr[index];
+    }
+
+private:
+    int arr[5]{1, 2, 3, 4, 5};
+}
+...
+Test a;
+a[0];
