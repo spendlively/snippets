@@ -1,0 +1,36 @@
+
+//Основные классы для работы с потоками
+//fstream
+ - универсальный класс для записи и чтения данных в файл/ из файла
+//ifstream
+ - отвечает за чтение данных из файла
+//ofstream
+ - отвечает за сохронение данных в файл
+
+
+
+
+
+//ofstream
+ofstream fout;
+fout.open("filename.txt", ofstream::app);
+if(fout.is_open()) fout << "Данные" << endl;
+fout.close();
+
+
+
+
+
+//ifstream
+ifstream fin;
+fin.open("test.txt");
+if(fin.is_open()){
+    string str;
+    while(!fin.eof()){
+        str = "";
+        getline(fin, str);
+        cout << str << endl;
+    }
+}
+
+
