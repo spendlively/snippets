@@ -1,0 +1,37 @@
+
+ifconfig
+ip addr
+
+
+netstat -ie
+netstat -s
+netstat -tuna
+netstat -ntulp
+
+
+
+wget
+iftop
+nload
+vnstat, vnstat -h, vnstat -d
+
+
+
+
+ping6
+traceroute
+tracepath
+
+
+netcat
+
+
+//Посмотреть
+telnet win7 -> apache
+telnet win7 -> php -S 0.0.0.0:80
+
+ping
+ping6
+
+traceroute
+tracepath
