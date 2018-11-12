@@ -1,37 +1,53 @@
 
+//Конфигурация
 ifconfig
 ip addr
 
-
+//Соединения
 netstat -ie
 netstat -s
 netstat -tuna
 netstat -ntulp
+netstat -netulap
+//STATE!!!
 
-
-
-wget
+//Соединения
 iftop
 nload
 vnstat, vnstat -h, vnstat -d
 
-
-
-
-ping6
-traceroute
-tracepath
-
-
-netcat
-
-
-//Посмотреть
+//HTTP
 telnet win7 -> apache
 telnet win7 -> php -S 0.0.0.0:80
 
+//IP
 ping
 ping6
 
+//Трассировка
 traceroute
+ * * * - машрутизатор не отвечает
 tracepath
+tracepath ya.ru
+
+//Firewall
+iptables -L
+
+//Маршрутизация
+route -n
+netstat -r
+
+//Порты
+nmap
+zenmap
+nc -v -n -z -w 1 192.168.20.107 50-100
+
+//nc
+netcat
+//http клиент
+nc -v ya.ru 80
+//http сервер
+nc -l -v -p 80
+//сканер портов
+nc -v -n -z -w 1 192.168.20.107 50-100
+

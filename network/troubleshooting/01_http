@@ -40,10 +40,10 @@ ENTER
 netstat -netulap | grep :80
 
 //2. Сервер окно 2
-sudo nc -l 80
+sudo nc -l -v -p 80
 
 //3. Клиент
-cat index.html | nc 192.168.20.107 80
+nc -v 192.168.20.107 80
 
 //4. Сервер окно 1 (появилось ли соединение)
 netstat -netulap | grep :80
