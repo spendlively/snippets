@@ -3,7 +3,10 @@
 iptables [опции] [-t таблица] [-Команда][цепочка][критерии отбора] [-j действие]
 
 //Примеры
-iptables -L
+//Блокировка пингов
+sudo iptables -A INPUT -p icmp -j DROP
+sudo iptables --line-numbers -L
+sudo iptables -D INPUT 1
 
 
 
