@@ -1,2 +1,185 @@
 
-//https://likegeeks.com/linux-iptables-firewall-examples/
+//Синтаксис
+iptables [опции] [-t таблица] [-Команда][цепочка][критерии отбора] [-j действие]
+
+//Примеры
+iptables -L
+
+
+
+//////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////ПАРАМЕТРЫ/////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+//1
+//Опции
+-v, --verbose - выводить дополнительную информацию.
+-x, --exact выводить точные значения счётчиков
+-n, --numeric не делать преобразования из IP адреса в имя
+--line-numbers выводить номера правил в цепочке
+-c, --set-counters установить значения счётчиков при добавлении правила в цепочку
+
+
+
+//2
+//Таблицы
+filter: правила фильтрации пакетов (INPUT, FORWARD. OUTPUT)
+nat: описание правил NAT (PREROUTING, POSTROUTING, OUTPUT)
+mangle: внесение изменений в заголовки пакетов (PREROUTING, POSTROUTING, INPUT, FORWARD, OUTPUT)
+
+
+
+//3
+//Команды
+-A --append — добавить правило в конец цепочки
+    iptables -A INPUT -s 10.10.100.100 -j ACCEPT
+
+-D --delete — удалить правило
+    iptables -D INPUT 1
+    iptables -D INPUT --dport 80 -j DROP
+
+-R --replace — заменить правило
+    iptables -R INPUT 1 -s 192.168.0.1 -j DROP
+
+-I --insert — вставить правило в указанное место в цепочке
+    iptables -I INPUT 1 --dport 80 -j ACCEPT
+
+-L --list — показать список правил
+    iptables -L
+    iptables -L INPUT
+
+-F --flush — очистить цепочку или таблицу
+    iptables -F INPUT
+
+-Z --zero — обнулить счётчики
+    iptables -Z INPUT
+
+-N --newchain — создать цепочку пользователя
+    iptables -N allowed
+
+-X --deletechain — удалить цепочку пользователя
+    iptables -X allowed
+
+-P --policy — установить политику по умолчанию
+    iptables -P INPUT DROP
+
+
+
+//4
+//Цепочки
+PREROUTING
+POSTROUTING
+FORWARD
+INPUT
+OUTPUT
+
+
+
+//5
+//Критерии отбора
+//Общие критерии
+-p — определяет протокол
+    -p tcp
+    -p ! icmp
+
+-s — определяет IP источника
+    -s 192.168.0.1
+    -s 10.10.100.0/24
+    -s ! 10.10.100.0/255.255.255.0
+
+-d — определяет IP назначения
+    -d 192.168.0.1
+    -d 10.10.100.0/24
+    -d ! 10.10.100.0/255.255.255.0
+
+-i — определяет входной интерфейс
+    -i ! eth0
+    -i ppp+
+    -i ! eth1
+
+-o — определяет выходной интерфейс
+    -o eth0
+    -o ppp+
+    -o ! eth1
+
+-f — определяет фрагменты фрагментированного пакета
+    -f !
+    -f
+
+//Неявные критерии
+//TCP критерии:
+    --sport — порт источника
+    --sport 1024:65535
+    --sport 80
+    --sport ! www
+
+--dport — порт назначения
+    --dport 1024:65535
+    --dport 80
+    --dport ! www
+
+--tcp-flags — определение TCP флагов
+    --tcp-flags SYN,ACK,FIN SYN
+
+--syn — запрос на соединение
+    --syn
+    ! --syn
+
+//UDP критерии:
+--sport — порт источника
+    --sport 1024:65535
+    --sport 21
+
+--dport — порт назначения
+    --dport 1024:65535
+    --dport 21
+
+//ICPM критерии:
+--icmp-type — определяет тип ICMP-пакета
+    --icmp-type echo-request
+    iptables -p icmp --help - список всех типов ICMP пакетов
+
+//Явные критерии
+limit - ограничивает количество срабатываний правила
+    --limit-burst 1
+    --limit 1/s
+    -p tcp --dport 80 -m limit --limit 1/s --limit-burst 4 -j ACCEPT
+
+mac – позволяет использовать MAC адреса в качестве критерия отбора пакетов
+multiport – позволяет использовать в качестве параметра несколько портов
+state – определяет состояния пакетов
+
+
+
+//6
+//Действия и переходы
+ACCEPT — принять пакет
+DROP — сбрасывает пакет
+REJECT — сбрасывает пакет с сообщением об ошибке
+RETURN — возврат из цепочки.
+LOG — помещает информацию в журнальные файлы
+
+
+
+
+
+//Порядок прохождения транзитных пакетов
+mangle (PREROUTING)
+nat (PREROUTING)
+mangle (FORWARD)
+filter (FORWARD)
+mangle (POSTROUTING)
+nat (POSTROUTING)
+
+//Порядок прохождения пакетов предназначенных для приложения
+//Вход
+mangle (PREROUTING)
+nat (PREROUTING)
+mangle (INPUT)
+filter (INPUT)
+//Выход
+mangle (OUTPUT)
+nat (OUTPUT)
+filter (OUTPUT)
+mangle (POSTROUTING)
+nat (POSTROUTING)
+
