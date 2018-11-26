@@ -24,7 +24,7 @@ sudo iptables -D INPUT 1
 
 
 //2
-//Таблицы
+//Таблицы (если не указана таблица, используется таблица filter)
 filter: правила фильтрации пакетов (INPUT, FORWARD. OUTPUT)
 nat: описание правил NAT (PREROUTING, POSTROUTING, OUTPUT)
 mangle: внесение изменений в заголовки пакетов (PREROUTING, POSTROUTING, INPUT, FORWARD, OUTPUT)
