@@ -8,6 +8,9 @@ sudo iptables -A INPUT -p icmp -j DROP
 sudo iptables --line-numbers -L
 sudo iptables -D INPUT 1
 
+//Блокировка исходящих пакетов на mail.ru
+sudo iptables -A OUTPUT -d 217.69.139.201 -j REJECT
+
 
 
 //////////////////////////////////////////////////////////////////////////////////
