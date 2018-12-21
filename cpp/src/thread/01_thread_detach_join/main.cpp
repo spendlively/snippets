@@ -34,7 +34,7 @@ int main()
     //Т.е. где стоит join, в том месте основной потом и будет ждать завершения параллельного
     th.join();
 
-    return 0; 
+    return 0;
 }
 
 //g++ -pthread main.cpp -o main && ./main
