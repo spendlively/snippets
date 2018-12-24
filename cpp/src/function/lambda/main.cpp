@@ -43,7 +43,6 @@ int main() {
     /**
      * 3. Передача лямбды с параметрами
      */
-//    function<int(int, int)> sum = [](int a, int b) -> int {
     function<int(int, int)> sum = [](int a, int b){
         return a + b;
     };
@@ -52,7 +51,17 @@ int main() {
 
 
     /**
-     * 4. Захват контекста
+     * 4. Явное указание типа возвращаемого значения ( -> int )
+     */
+    function<int(int, int)> sum2 = [](int a, int b) -> int {
+        return a + b;
+    };
+    Launcher(sum2, 1, 2);
+
+
+
+    /**
+     * 5. Захват контекста
      */
     int value = 123;
     //Начиная с c++ 14 можно использовать auto
@@ -64,7 +73,7 @@ int main() {
 
 
     /**
-     * 5.  Тип возвращаемого значения
+     * 6.  Тип возвращаемого значения
      */
     auto f3 = [](){
         return 1;
