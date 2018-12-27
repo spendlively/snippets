@@ -1,0 +1,53 @@
+//Roman Brovko
+//Основы java (35)
+https://www.youtube.com/watch?v=_jXDPfUKm58&list=PLwwk4BHih4fi8LTppXzTrCBgMJjC7FX7t
+//Java SE (87)
+https://www.youtube.com/watch?v=tjpNAe7Kjp4&list=PLwwk4BHih4fgfgsvO97FI3mTWja43k4Gh
+//Java EE (93)
+https://www.youtube.com/watch?v=OQVTyjPzzeo&list=PLwwk4BHih4fjstwgKAHPAuUcjpRUiRh5k
+//Spring (178)
+https://www.youtube.com/watch?v=M4w6b2pENWU&list=PLwwk4BHih4fho6gmaAwdHYZ6QQq0aE7Zi
+//Все плейлисты
+https://www.youtube.com/channel/UCiwYG9Bnxfaipnp5ckCSlQw/playlists?shelf_id=2&sort=dd&view=50&app=desktop
+
+
+//Онлайн уроки по Java
+//Advanced Java - Concurrency (5)
+https://www.youtube.com/watch?v=g7ynfDFoCL4&list=PL6jg6AGdCNaXo06LjCBmRao-qJdf38oKp&index=2
+//Advanced Java - Collections (5)
+https://www.youtube.com/watch?v=-S_huEuNJiU&list=PL6jg6AGdCNaWtTjsYJ9t0VaITpIZm4pMt
+//Advanced Java - Generics (3)
+https://www.youtube.com/watch?v=MniNZsyjH9E&list=PL6jg6AGdCNaX1yIJpX4sgALBTmTVc_uOJ
+
+
+//Java Trener
+//Особенности Java (21)
+https://www.youtube.com/watch?v=PPP6qJ-ql_0&list=PLSx6j6l70HPomStHjfE8irPNdVPiLHyo6
+
+
+//Уроки Java
+//Уроки по Java (200)
+https://www.youtube.com/watch?v=uXMTq81jG7Y&list=PL786bPIlqEjRDXpAKYbzpdTaOYsWyjtCX
+//Spring (94) - платные видео
+//Java EE (188) - платные видео
+//Hibernate (44) - платные видео
+//JPA + Hibernate (52) - платные видео
+//JUnit (14) - платные видео
+//Maven (24) - платные видео
+
+
+//alishev
+//Java для начинающих (51)
+https://www.youtube.com/watch?v=ziOQ8wkmnSE&list=PLAma_mKffTOSUkXp26rgdnC0PicnmnDak
+//Java EE для начинающих (10)
+https://www.youtube.com/watch?v=V6W-AfjWVaQ&list=PLAma_mKffTOTTFqIkLXgHqVuL6xJhb0mr
+
+
+//Devcolibri
+//Java для начинающих (33)
+https://www.youtube.com/watch?v=9Yz3unV4NDw&list=PLIU76b8Cjem48KXIy83YIm-QM6SwvzjQd
+
+
+//1000+ часов видео по Java на русском
+https://habr.com/company/golovachcourses/blog/215275/
+
