@@ -1,0 +1,55 @@
+
+/////////////////////////
+/////////WINDOWS/////////
+/////////////////////////
+//Перевести 3G модем в режим "только модем" в Windows
+//Для модемов E155x, E175x и аналогичных
+AT^U2DIAG=0
+
+//Для модемов E367, E352, E392, E353, E171, E3131 (420s) и аналогичных
+AT^SETPORT="A1,A2;1,2,3"
+
+
+
+
+
+/////////////////////////
+//////////LINUX//////////
+/////////////////////////
+//Перевод 3g модема в режим "только модем" в Linux
+usb_modeswitch \
+-v DefaultVendor \
+-p DefaultProduct \
+-V TargetVendor \
+-P TargetProduct \
+-M "16-ричная строка инициализации модема"
+
+
+//Описание
+1. DefaultVendor и DefaultProduct - это vid и pid в режиме "составное устройство"
+2. TargetVendor и TargetProduct - это vid и pid в режиме "только модем"
+3. 16-ричная строка инициализации - MessageContent - команда для смены режима его работы
+
+
+//Пример:
+usb_modeswitch -v 12d1 -p 155b -V 12d1 -P 1506 \
+-M "55534243123456780000000000000011062000000100000000000000000000"
+
+
+//Можно поискать нужную 16-ричную строку инициализации по базам usb_modeswitch
+//Файл (MessageContent.txt)
+
+
+//Проверка MessageContent
+Чтобы проверить правильность MessageContent, попробуйте выполнить команду:
+usb_modeswitch -v DefaultVendor -p DefaultProduct -V TargetVendor -P TargetProduct -M "16-ричная строка инициализации модема"
+например:
+usb_modeswitch -v 12d1 -p 155b -V 12d1 -P 1506 -M "55534243123456780000000000000011062000000100000000000000000000"
+после чего (сделав паузу), выполните команду:
+lsusb
+и проверьте, соответствуют ли vid и pid модема найденным Вами значениям TargetVendor и TargetProduct.
+Если да, то найденная Вами 16-ричная строка - правильная.
+
+
+//Про команду usb_modeswitch
+http://linux.mixed-spb.ru/asterisk/dongle_app3.php#usb_modeswitch_init
