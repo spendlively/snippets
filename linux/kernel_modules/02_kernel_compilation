@@ -1,0 +1,33 @@
+
+////////////////////////////////////////////////////////////////
+//////////////////////////СБОРКА ЯДРА///////////////////////////
+////////////////////////////////////////////////////////////////
+
+//Установка
+sudo apt-get update
+sudo apt-get install libncurses5-dev //нужен для make menuconfig
+sudo apt-get install libelf-dev //для make
+
+
+
+
+
+//Скачивание и распаковка исходников
+//Исходники ядра (Ссылка под желтой кнопкой)
+//https://www.kernel.org/
+wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.20.2.tar.xz
+tar -xf linux-4.20.2.tar.xz
+cd linux-4.20.2/
+
+//Создание файла с конфигурацией по умолчанию (.config)
+make defconfig
+
+//Настройка конфигурации ядра в тексовом режиме
+make menuconfig
+
+//Сборка
+make -j 3
+
+//Собранный файл
+Kernel: arch/x86/boot/bzImage
+

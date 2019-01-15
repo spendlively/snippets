@@ -1,0 +1,28 @@
+
+
+//1. исходники простого модуля умеющего загружаться и выгружаться
+src/02_simple_kernel_module/module.c
+
+
+
+//2. Makefile
+src/02_simple_kernel_module/Makefile
+
+
+
+//3. Утилиты
+//Список загруженных модулей
+lsmod
+- в левой колонке модули, которые загружены в ядро
+- в правой колонке модули, которые зависят от модулей в левой колонке
+lsmod | grep my_module
+
+//Загрузка модуля в ядро
+sudo insmod my_module.ko
+
+//Выгрузка модуля из ядра
+sudo rmmod my_module
+
+
+
+Makefile
