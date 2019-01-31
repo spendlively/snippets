@@ -1,0 +1,120 @@
+
+/////////////////////////////////////////////////////////
+////////////////////Установка и тест/////////////////////
+/////////////////////////////////////////////////////////
+
+//Установка
+curl https://get.docker.com > /tmp/install.sh
+chmod +x /tmp/install.sh
+/tmp/install.sh
+
+//Добавление пользователя в группу docker
+sudo usermod -aG docker
+sudo service docker restart
+//без sudo не заработало
+
+//Запуск неинтерактивного контейнера и удаление
+sudo docker run debian echo "Hello World"
+sudo docker ps -a
+sudo docker rm -v $(sudo docker ps -aq -f status=exited)
+
+//Запуск интерактивного контейнера test и bash в нем
+sudo docker run -it --name test --hostname test debian bash
+echo "hello"
+exit
+sudo docker rm -v $(sudo docker ps -aq -f status=exited)
+
+//Запуск контейнера cowsay
+sudo docker run -it --name cowsay --hostname cowsay debian bash
+apt-get update
+apt-get install -y cowsay fortune
+/usr/games/fortune | /usr/games/cowsay
+exit
+
+//Сохранение образа cowsay
+sudo docker commit cowsay test/cowsayimage
+sudo docker rm -v $(sudo docker ps -aq -f status=exited)
+
+//Запуск контейнера из сохраненного образа
+sudo docker run test/cowsayimage /usr/games/cowsay "Moo"
+
+//Просмотр и удаление образов
+//Контейнеры должны быть остановлены
+//Образы с зависимостями удаляются последними
+sudo docker images
+sudo docker rmi fb24d020527e
+
+
+/////////////////////////////////////////////////////////
+//////////////////////Dockerfile/////////////////////////
+/////////////////////////////////////////////////////////
+
+mkdir cowsay
+cd cowsay
+touch Dockerfile
+
+nano Dockerfile
+FROM debian:wheezy
+RUN apt-get update && apt-get install -y cowsay fortune
+COPY test.sh /
+ENTRYPOINT ["/test.sh"]
+
+//Создание образа на основе Dockerfile
+sudo docker build -t test/test-dockerfile .
+//Появятся образы test/test-dockerfile и debian
+sudo docker images
+
+//Запуск контейнера
+sudo docker run test/test-dockerfile
+
+//Удаление
+sudo docker rm -v $(sudo docker ps -aq -f status=exited)
+sudo docker images
+//Удаление образа по имени test/test-dockerfile
+sudo docker rmi test/test-dockerfile
+//Удаление образа debian по id (по имени debian не удалился)
+sudo docker rmi 00000
+
+
+
+/////////////////////////////////////////////////////////
+/////////////////ZendFramework Skeleton//////////////////
+/////////////////////////////////////////////////////////
+//https://github.com/zendframework/ZendSkeletonApplication
+
+mkdir /tmp/zf/
+cd /tmp/zf/
+
+git clone https://github.com/zendframework/ZendSkeletonApplication.git
+cd ZendSkeletonApplication/
+
+//sudo docker build -t test/zf .
+//sudo docker run -d -v .:/var/www -it test/zf bash
+
+sudo docker rm -v $(sudo docker ps -aq -f status=exited)
+
+sudo curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+
+sudo chmod +x /usr/local/bin/docker-compose
+
+  ports:
+   - "8080:80"
+  volumes:
+   - .:/var/www
+
+
+
+
+/////////////////////////////////////////////////////////
+//////////////////////Управление/////////////////////////
+/////////////////////////////////////////////////////////
+
+//Информация
+//Запущенные контейнеры
+sudo docker ps -a
+//Все контейнеры
+sudo docker ps -a
+//Удалить контейнер с id 0000000000000
+sudo docker rm -v 0000000000000
+//Удалить все exited
+sudo docker rm -v $(sudo docker ps -aq -f status=exited)
