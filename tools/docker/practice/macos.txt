@@ -1,0 +1,18 @@
+
+//Скачать
+https://hub.docker.com/editions/community/docker-ce-desktop-mac
+
+//Поиск образа
+http://registry.hub.docker.com
+
+//Запуск контейнера
+docker run -v /hostdir/:/containerdir/ -p 80 -it --name isms-dev mattrayner/lamp bash
+//-p 80 - проброс 80 порта контейнера
+//docker ps - чтобы узнать куда проброшен порт
+
+//Установка пакетов на хостовой машине
+apt update
+apt install inetutils-ping net-tools nano mc nmap
+
+//Запуск остановленного контейнера
+docker exec -it isms bash
