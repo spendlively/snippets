@@ -3,7 +3,7 @@
 Целое           int     1
 Вещественное    float   1.5
 Строка          str     'hello', "world"
-Логический тип  bool    true, false
+Логический тип  bool    True, False (с большой буквы)
 Список          list    [1, 1.5, true, 'hello']
 Словарь         dict    {'a': 123, 'b': 456}
 Кортеж          tuple   (1, 2, 3, 4)
