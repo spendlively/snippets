@@ -1,0 +1,70 @@
+
+# if elseif else
+a,b = map(int, input('a,b = ').split())
+if a > b:
+    print('a > b')
+elif a < b:
+    print('a < b')
+else:
+    print('a = b')
+
+
+# while
+a = 1
+while(a <= 5):
+    print(a)
+    a += 1
+
+
+# обход всех цифр числа
+x = 12345 # 5 4 3 2 1
+while x>0:
+    print(x%10)
+    x //= 10
+
+
+# перевод в 2-ичную систему счисления
+x = 8
+lst = []
+while x>0:
+    lst.insert(0,x%2)
+    x //= 2
+print(lst) # [1,0,0,0]
+
+
+# алгоритм евклида (поиск наибольшего общего делителя)
+a=10
+b=90
+while a!=b:
+    if a>b:
+        a=a-b
+    else:
+        b=b-a
+print(a)
+
+
+# более эффективная реализация алгоритма евклида
+a,b = 10,90
+while b>0:
+    a,b = b,a%b
+print(a)
+
+
+# break continue else
+i = 0
+while True:
+    i += 1
+    if i<5:
+        continue
+    else:
+        break
+print(i)
+
+
+# else - выполняется если while не был прерван командой break
+i = 0
+while i<10:
+    i += 1
+else:
+    print('else')
+print(i)
