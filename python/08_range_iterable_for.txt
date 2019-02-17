@@ -1,0 +1,69 @@
+
+# range
+# генерация последовательности
+# 5 цифр от 0
+list(range(5)) # [0,1,2,3,4]
+
+# 4 цифры от 1 (4 = 5 - 1)
+list(range(1, 5)) # [1, 2, 3, 4]
+
+# 5 цифр от 1 до 10 с шагом 1
+list(range(1, 11, 1)) # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# сумма арифметической прогрессии
+sum(range(3)) # 3 = 1 + 2
+
+# групповое присваивание
+a,b,c = range(1,4)
+print(a,b,c) # 1 2 3
+
+# работа с объектом range
+r = range(1,11)
+print(len(r))
+print(r[0])
+
+
+
+# итерируемые объекты
+# итерирование объекта range
+i = iter(range(1,3))
+print(next(i))
+print(i.__next__())
+# print(next(i)) - ошибка
+
+# итерирование списка
+i = iter([1,2,3])
+print(next(i))
+
+# итерирование строки посимвольно
+i = iter('abc')
+print(next(i))
+
+
+
+# for
+# for range
+for i in range(10):
+    print(i)
+
+
+# генерация случайных чисел
+#from random import randint
+for i in range(1, 6):
+    print(randint(1, 100), end=' ')
+
+
+# обход списка по значению
+for i in [1,2,3]:
+    print(i)
+
+
+# обход списка по индексу
+a = [1,2,3]
+for i in range(len(a)):
+    print(i, a[i])
+
+
+# обход строк
+for i in 'abc':
+    print(i)
