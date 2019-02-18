@@ -1,0 +1,6 @@
+from string import printable
+
+for a1 in printable:
+    for a2 in printable:
+        for a3 in printable:
+            print(a1,a2,a3)
