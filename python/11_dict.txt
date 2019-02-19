@@ -1,0 +1,85 @@
+
+# dict - словарь
+# неупорядоченная коллекция произвольных элементов с доступом по ключу
+# ассоциативный массив
+
+# создание
+a = {
+    'one': 1,
+    'two': 2,
+    'three': 3,
+}
+b = dict(one=1, two=2, three=3)
+c = dict([['one', 1], ['two', 2], ['three', 3]])
+d = dict.fromkeys(['one', 'two', 'three'], 1) # 1 - default
+e = dict()
+f = {}
+print(a,b,c,d,e,f)
+
+
+# ключом могут быть
+# - строка
+# - число
+
+# ключом НЕ могут быть изменяемые типы объектов
+# - список
+
+
+# индекс
+a['one']
+a[1]
+# если обратиться по несуществующему индексу будет ошибка
+
+
+# добавление
+a = {}
+a[1] = 1
+print(a)
+
+
+# удаление, длина
+a = {1:1, 2:2, 3:3}
+del a[3]
+print(a, len(a))
+
+
+# поиск ключа в словаре
+a = {1: 'one', 2: 'two', 3: 'three'}
+print(1 in a, 2 not in a, 4 in a)
+
+
+# обход в цикле
+a = {1: 'one', 2: 'two', 3: 'three'}
+for key in a:
+    print(key, a[i])
+
+
+# методы
+a = {1: 'one', 2: 'two', 3: 'three'}
+a.get(1) #
+a.get(4) # None
+a.get(4, 'No such key') # 'No such key'
+a.setdefault(5) # 5: None
+a.setdefault(6, 1000) # 6: 1000
+a.setdefault(1) # ничего не изменит
+a.popitem() # возвращает и удаляет случайную пару
+a.clear()
+
+a = {1: 'one', 2: 'two', 3: 'three'}
+for key in a.keys():
+    print(key) # 1 2 3
+
+for value in a.values():
+    print(value) # one two three
+
+for item in a.items():
+    print(item) # (1, 'one') ... (кортежи)
+# или так
+for key,value in a.items():
+    print(key, value) # 1 key, ...
+
+
+# сортировка при обходе
+a = {'c': 3, 'b': 2, 'a': 1}
+for i in sorted(a):
+    print(i, a[i]) # a b c
