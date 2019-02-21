@@ -1,0 +1,17 @@
+
+# функции не могут быть объявлены после вызова
+# функцию можно переопределить объявив 2ой раз
+# по умолчанию функция возвращает return None
+
+def sum(x,y):
+    return x+y
+
+print(sum(5,10))
+
+
+# возврат нескольких значений (кортеж (1,2  ))
+def squareAndPerimeter(a,b):
+    return a*b, 2*(a+b)
+
+square, perimeter = squareAndPerimeter(5, 10)
+print(square, perimeter )
