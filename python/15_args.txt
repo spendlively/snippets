@@ -39,3 +39,52 @@ baz(1,2,3)
 baz(11,b=22,c=33)
 baz(111,c=333,b=222)
 baz(1111,b=2222)
+
+
+
+# оператор *
+# инициализация переменных
+a, b, *c = [1, 2, 3, 4, 5]
+print(a, b, c)
+
+
+# передача аргументов в функцию
+def foo(a, b, c, d):
+    print(a, b, c, d)  # 1 2 3 4
+
+
+a = (1, 2, 3, 4)
+foo(*a)
+
+
+def bar(*args):
+    print(args)  # (1, 2, 3, 4, 5)
+
+
+a, b, c, d, e = 1, 2, 3, 4, 5
+bar(a, b, c, d, e)
+
+
+# передача именованных аргементов
+def baz(**kwargs):
+    print(kwargs)  # {'a': 1, 'b': 2, 'c': 3}
+
+    for key, value in kwargs.items():
+        print(key, value)
+
+
+baz(a=1, b=2, c=3)
+
+
+# комбинирование
+def test(*args, **kwargs):
+    print(args)  # (1, 2, 3)
+    print(kwargs)  # {'a': 4, 'b': 5, 'c': 6}
+
+
+test(1, 2, 3, a=4, b=5, c=6)
+
+# пример
+print(1, 2, 3, sep=",", end=".\n")  # 1,2,3.
+print(*[1, 2, 3], sep=",", end=".\n")  # 1,2,3.
+
