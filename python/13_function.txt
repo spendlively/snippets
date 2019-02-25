@@ -15,3 +15,13 @@ def squareAndPerimeter(a,b):
 
 square, perimeter = squareAndPerimeter(5, 10)
 print(square, perimeter )
+
+
+
+# пустая функция
+def empty_function():
+    pass
+
+empty_function()
+
+
