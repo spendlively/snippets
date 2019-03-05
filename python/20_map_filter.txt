@@ -1,0 +1,54 @@
+# MAP
+# map возвращает итератор
+a = [-3,-2,-1,0,1,2,3]
+b = map(abs, a)
+for i in b:
+    print(i)
+
+c = list(map(abs, a))
+print(c)
+
+
+# costom function
+def foo(x):
+    return x**2
+
+a = [-3,-2,-1,0,1,2,3]
+c = list(map(foo, a))
+print(c)
+
+
+# method instead of function
+a = ['my', 'name', 'is', 'tom']
+print(list(map(str.upper, a)))
+
+
+# reverse the strings using lambda
+a = ['my', 'name', 'is', 'tom']
+print(list(map(lambda x: x[::-1], a)))
+
+
+# string to int via input
+a = map(int, input().split())
+print(list(a))
+
+
+
+# filter
+# remove negative numbers
+def positive(x):
+    return x > 0
+
+a = [1, -2, 3, -4, 5, -6, 7, -8, 9]
+print(list(filter(positive, a)))
+
+
+# example with dictionary
+d = {
+    'a': 1,
+    'b': 2,
+    'c': 3,
+    'd': 4,
+}
+print(list(filter(lambda x: d[x] > 2, d)))
+# ['c', 'd']
