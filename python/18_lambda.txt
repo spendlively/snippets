@@ -1,0 +1,34 @@
+# простой return
+test = lambda : 'hello'
+print(test())
+
+
+# один аргумент
+f = lambda x : x**2
+print(f(2))
+
+
+# несколько аргументов
+sum = lambda a,b : a+b
+print(sum(1,2))
+
+
+# if
+ispos = lambda x : True if x>0 else False
+print(ispos(1), ispos(-1))
+
+
+# сортировка по последней цифре
+l = [9, 78, 456, 123]
+l.sort(key=lambda x: x%10)
+print(l) # [123, 456, 78, 9]
+
+
+# график функции y = k*x + b
+def linear(k,b):
+    return lambda x: x*k+b
+
+graph1 = linear(2,5)
+print(graph1(2))
+print(graph1(3))
+print(graph1(4))

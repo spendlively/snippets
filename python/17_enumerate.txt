@@ -1,0 +1,12 @@
+a = [1,2,3,4,5]
+b = (1,2,3,4,5)
+c = 'abcdef'
+
+for key,value in enumerate(a):
+    print(key,value)
+
+for key,value in enumerate(b):
+    print(key,value)
+
+for key,value in enumerate(c):
+    print(key,value)
