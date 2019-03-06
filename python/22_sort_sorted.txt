@@ -24,8 +24,21 @@ print(sorted(a, reverse=True))
 
 
 # кастомная сортировка
-def foo(x, y):
-    return x > y
+# сортировка по последные цифре
+def foo(x):
+    return x % 10
 
 
 print(sorted(a, key=foo))
+
+
+# сортировка по 2-м критериям
+def bar(x):
+    return x % 10, x // 10 % 10
+
+
+print(sorted(a, key=bar))
+
+# сортировка без учета регистра
+a = ['ZZZ', 'aaa', 'BBB', 'www']
+print(sorted(a, key=str.lower))
