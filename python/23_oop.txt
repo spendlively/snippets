@@ -1,0 +1,56 @@
+############################
+# Simple class
+############################
+class Test:
+    x = 0
+    y = 0
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def get_x(self):
+        return "X = {0}".format(self.x)
+
+    @classmethod
+    def create(cls, x, y):
+        return cls(x, y)
+
+    @staticmethod
+    def get_y(self):
+        return "Y = {0}".format(self.y)
+
+
+test1 = Test(1, 2)
+print(test1.get_x())
+print(test1.get_y(test1))
+
+test2 = Test.create(3, 4)
+print(test2.get_x())
+print(test2.get_y(test2))
+
+
+# obj.__class__.__name__
+
+
+
+
+############################
+# Наследование
+############################
+class Parent1:
+    def parent_method(self):
+        print('parent 1')
+
+
+class Parent2:
+    def parent_method(self):
+        print('parent 2')
+
+
+class Child(Parent1, Parent2):
+    pass
+
+
+child = Child()
+child.parent_method()  # parent 1
