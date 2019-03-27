@@ -1,0 +1,197 @@
+
+//Установка
+npm init
+//enter enter enter ...
+npm i webpack --save-dev
+//чтобы можно было закускать webpack из консоли
+npm i webpack-cli --save-dev
+//типо browsersync для webpack
+npm i webpack-dev-server --save-dev
+//webpack-dev-server --mode development --open
+//модуль для определения абсолютного пути для файла сборки
+npm i path --save-dev
+//babel для поддержки старыми браузерами (перегонка кода)
+npm i babel-core babel-loader babel-preset-env babel-preset-stage-3 --save-dev
+
+
+
+
+//Важное
+По умолчанию webpack 4 не требует файл webpack.config.js
+По умолчанию считается:
+ - скрипты лежат в папке src/,
+ - точкой входа считается файл src/index.js
+ - код собирается в файл dist/main.js
+
+
+
+
+//import
+ - импорт из установленного модуля производится без пути: import $ from 'jquery'
+ - импорт из собственного модуля производится с указанием пути: import avg from './avg'
+
+
+
+
+//Описание команды для сборки и др. в файле package.json
+"scripts" : {
+    "build" : "webpack"
+}
+//npm run build
+
+
+
+
+//Режимы сборки
+//production сборка - с минификацией файлов
+webpack --mode production
+//develop сборка - ускоряет процесс сборки
+webpack --mode development
+//Автоматическая сборка с прослушкой файлов
+webpack-dev-server --mode development --open
+
+
+
+
+//Минимальный конфиг webpack.config.js (повторяет дефолтные настройки)
+let path = require('path');
+
+let conf = {
+    //Путь до файла с точкой входа
+    entry: "./src/index.js",
+    //Путь куда сохранить файл сборки
+    output: {
+        //должен быть абсолютным
+        //path.resolve() резолвит разделители
+        path: path.resolve(__dirname, "./dist/"),
+        filename: "main.js"
+    }
+};
+
+module.exports = conf;
+
+
+
+
+//Дополнительно
+let conf = {
+    output: {
+        //Относительная ссылка на файл которая будет подставляться из браузера
+        //Чтобы webpack-wev-server знал откуда брать временный файл сборки
+        //В браузере сконкатенируется с filename = dist/main.js
+        //В браузере код будет работать безх папки dist
+        publicPath: 'dist/'
+    },
+    devServer: {
+        //Чтобы видеть ошибки в браузере не заходя в консоль
+        overlay: true
+    }
+};
+
+
+
+
+//Babel - для поддержки новых стандартов старыми браузерами,
+//babel транслирует код в старые стандарты
+//файл .babelrc
+{
+    //Указываю babel-preset-env и babel-preset-stage-3
+    "presets": [
+        "env",
+        "stage-3"
+    ]
+}
+
+//файл webpack.config.js
+let conf = {
+    module: {
+        //Описание правил, с какими файлами, что делать
+        rules: [
+            {
+                //скормить все файлы .js babel-loader'у
+                test: /\.js$/,
+                loader: "babel-loader",
+                //необязательно, чтобы не перегонять скачанные модули через babel заново
+                exclude: "/node_modules/"
+            }
+        ]
+    }
+};
+
+
+
+
+//Source map
+let conf = {
+    ...
+};
+
+module.exports = (env, options) => {
+
+    let production = options.mode === 'production';
+
+    //conf.devtool = production ? 'source-map' : 'eval-sourcemap';
+    conf.devtool = production ? false : 'eval-sourcemap';
+
+    return conf;
+};
+
+
+
+
+//CSS - распространение css в файлах js
+//1. Хранить css в js и потом вставлять код css в тэг head в тэге style
+npm i style-loader css-loader --save-dev
+let conf = {
+    module: {
+        //Описание правил, с какими файлами, что делать
+        rules: [
+            {
+                //скормить все файлы .css babel-loader'у
+                test: /\.css$/,
+                use: [
+                    //считавает данные из файла и возвращает их в корректном виде без интерпретации
+                    "style-loader",
+                    //хранит css в js и потом вставляет код css в тэг head
+                    "css-loader"
+                ]
+            }
+        ]
+    }
+};
+
+//2. можно также подключить css файл прямо в js файле
+import './css/style.css';
+
+//3. Извлечение css с помощью ExtractTextPlugin
+npm i extract-text-webpack-lugin@next
+//@next чтобы подключить бета версию поддерживающую bootstrap 4
+let ExtractTextPlugin = require("extract-text-webpack-plugin");
+let conf = {
+    module: {
+        //Описание правил, с какими файлами, что делать
+        rules: [
+            {
+                //скормить все файлы .css babel-loader'у
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader"
+                })
+            }
+        ]
+    },
+    plugins: [
+        new ExtractTextPlugin("style.css");
+    ]
+
+};
+//Не забудьте добавить файл dist/style.css в index.html
+
+
+
+
+//Схема подключения scss, less и т.д....
+ - установить loader
+ - подключить loader в module -> rules
+ - и т.д.
