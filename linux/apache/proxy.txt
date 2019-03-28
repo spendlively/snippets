@@ -1,0 +1,31 @@
+
+//Установка модулей apache
+sudo a2enmod proxy
+sudo a2enmod proxy_http
+sudo a2enmod proxy_ajp
+sudo a2enmod rewrite
+sudo a2enmod deflate
+sudo a2enmod headers
+sudo a2enmod proxy_balancer
+sudo a2enmod proxy_connect
+sudo a2enmod proxy_html
+
+
+
+//Конфигурация виртуального хоста
+//Все запросы на 127.0.0.1:8084 проксируются на http://192.168.8.74:8081/
+sudo nano /etc/apache2/sites-available/proxy.conf
+
+<VirtualHost *:8084 >
+        ServerName proxy.loc
+        ProxyPass / http://192.168.8.74:8081/
+        ProxyPassReverse / http://192.168.8.74:8081/
+</VirtualHost>
+
+sudo a2ensite proxy.conf
+
+
+
+
+//Перезагрузка
+sudo service apache2 restart
