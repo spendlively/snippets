@@ -1,10 +1,10 @@
-function apply(left, right){
+function assign(left, right){
 
     for(let prop in right){
         if (!right.hasOwnProperty(prop)) continue
 
         left[prop] = typeof(right[prop]) === "object" && typeof(left[prop]) === "object"
-            ? apply(left[prop], right[prop])
+            ? assign(left[prop], right[prop])
             : right[prop]
     }
 
@@ -14,4 +14,4 @@ function apply(left, right){
 let one = {a: {b: {c: {d: 'd1', e: 'e'}}}}
 let two = {a: {b: {c: {d: 'd2', f: 'f'}}}}
 
-console.log(apply(one, two))
+console.log(assign(one, two))
