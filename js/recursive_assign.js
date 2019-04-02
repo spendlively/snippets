@@ -1,9 +1,13 @@
+function isObject (value) {
+    return value && typeof value === 'object' && value.constructor === Object;
+}
+
 function assign(left, right){
 
     for(let prop in right){
         if (!right.hasOwnProperty(prop)) continue
 
-        left[prop] = typeof(right[prop]) === "object" && typeof(left[prop]) === "object"
+        left[prop] = isObject(right[prop]) && isObject(left[prop])
             ? assign(left[prop], right[prop])
             : right[prop]
     }
