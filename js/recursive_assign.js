@@ -15,7 +15,7 @@ function assign(left, right){
     return left
 }
 
-let one = {a: {b: {c: {d: 'd1', e: 'e'}}}}
-let two = {a: {b: {c: {d: 'd2', f: 'f'}}}}
-
-console.log(assign(one, two))
+// let one = {a: {b: {c: {d: 'd1', e: 'e'}}}}
+// let two = {a: {b: {c: {d: 'd2', f: 'f'}}}}
+//
+// console.log(assign(one, two))
