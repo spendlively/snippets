@@ -1,0 +1,41 @@
+
+Задача классификации одежды (Fashion MNIST в Keras)
+
+
+Архитектура НС
+ - модель: Sequential - последовательные слои
+ - 2 слоя входной и выходной
+ - полносвязная НС: все нейроны текущего слоя
+соединены со всеми нейронами предыдущего слоя
+ - функции активации: ReLU и SoftMax
+
+Входные значения
+ - интенсивность пиксела в изображении (оттенок серого 0-255 отдельного пиксела)
+ - количество значений: 784 (28*28 пикселов)
+
+Входной слой
+ - 800 нейронов (можно менять), по 784 входа в каждый нейрон
+
+Выходной слой
+ - 10 нейронов (по количеству классов одежды), по 800 входов в каждый нейрон,
+(количество нейронов предыдущего слоя)
+ - вероятность того, что на изображении данный предмет одежды [0-1]
+
+
+Этапы обучения НС
+ - загрузка и подготовка данных
+ - определение структуры НС
+ - компиляция (оптимизатор, функция ошибки, метрики качества)
+ - обучение НС
+ - распозначание данных
+
+
+//Ссылки
+Набор данных Fashion MNIST
+https://www.youtube.com/redirect?redir_token=bGaG0osEwz6056wwIZeR2kQ6xPR8MTU1ODQ5NzI3N0AxNTU4NDEwODc3&event=video_description&v=GKpVjx_b1Z4&q=https%3A%2F%2Fgithub.com%2Fzalandoresearch%2Ffashion-mnist
+
+Решение
+https://www.youtube.com/redirect?redir_token=bGaG0osEwz6056wwIZeR2kQ6xPR8MTU1ODQ5NzI3N0AxNTU4NDEwODc3&event=video_description&v=GKpVjx_b1Z4&q=https%3A%2F%2Fgithub.com%2Fsozykin%2Fdlpython_course%2Fblob%2Fmaster%2Fintroduction%2Ffashion_mnist_dense.ipynb
+
+Ноутбук с полным кодом решения на платформе Google Colab
+https://www.youtube.com/redirect?redir_token=bGaG0osEwz6056wwIZeR2kQ6xPR8MTU1ODQ5NzI3N0AxNTU4NDEwODc3&event=video_description&v=GKpVjx_b1Z4&q=https%3A%2F%2Fcolab.research.google.com%2Fdrive%2F1le7ZWeBnuiufwyN9BVP4QUAZeRg-bTyr
