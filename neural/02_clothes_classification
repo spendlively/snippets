@@ -90,10 +90,22 @@ f(x) = max(0, x)
 
 //Ссылки
 Набор данных Fashion MNIST
-https://www.youtube.com/redirect?redir_token=bGaG0osEwz6056wwIZeR2kQ6xPR8MTU1ODQ5NzI3N0AxNTU4NDEwODc3&event=video_description&v=GKpVjx_b1Z4&q=https%3A%2F%2Fgithub.com%2Fzalandoresearch%2Ffashion-mnist
+https://github.com/zalandoresearch/fashion-mnist
 
 Решение
-https://www.youtube.com/redirect?redir_token=bGaG0osEwz6056wwIZeR2kQ6xPR8MTU1ODQ5NzI3N0AxNTU4NDEwODc3&event=video_description&v=GKpVjx_b1Z4&q=https%3A%2F%2Fgithub.com%2Fsozykin%2Fdlpython_course%2Fblob%2Fmaster%2Fintroduction%2Ffashion_mnist_dense.ipynb
+https://github.com/sozykin/dlpython_course/blob/master/introduction/fashion_mnist_dense.ipynb
 
 Ноутбук с полным кодом решения на платформе Google Colab
-https://www.youtube.com/redirect?redir_token=bGaG0osEwz6056wwIZeR2kQ6xPR8MTU1ODQ5NzI3N0AxNTU4NDEwODc3&event=video_description&v=GKpVjx_b1Z4&q=https%3A%2F%2Fcolab.research.google.com%2Fdrive%2F1le7ZWeBnuiufwyN9BVP4QUAZeRg-bTyr
+https://colab.research.google.com/drive/1le7ZWeBnuiufwyN9BVP4QUAZeRg-bTyr
+
+
+==========================================================================================
+
+
+//Проблема переобучения
+
+
+
+==========================================================================================
+
+
