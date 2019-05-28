@@ -52,3 +52,11 @@ d = {
 }
 print(list(filter(lambda x: d[x] > 2, d)))
 # ['c', 'd']
+
+
+# reduce
+from functools import reduce
+
+rng = range(1, 7)
+value = reduce(lambda x, y: x * y, rng)
+value = reduce(lambda x, y: x * y, rng, 10)

@@ -1,0 +1,4 @@
+//Логирование
+except Exception as e:
+    logging.error('Got Exception %s %s', "one", "two", exc_info=e)
+

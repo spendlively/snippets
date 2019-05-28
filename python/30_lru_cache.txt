@@ -1,0 +1,11 @@
+
+# lru_cache
+from functools import lru_cache
+
+# @lru_cache(maxsize=None) # без ограничений
+@lru_cache(maxsize=256)
+def power_of_2(a):
+    return 2 ** a
+
+print(power_of_2(100))
+print(power_of_2.cache_info())

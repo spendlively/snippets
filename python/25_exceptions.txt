@@ -1,4 +1,15 @@
+//Виды ошибок
+ - Syntax error
+ - Exception
 
+//1 exception
+try:
+    1 / 0
+except ZeroDivisionError:
+    print('ZeroDivisionError')
+
+
+//2 exceptions
 try:
     1 / 0
     '42' + 10
@@ -6,6 +17,7 @@ except (ZeroDivisionError, TypeError):
     print('Error')
 
 
+//operator as
 try:
     1 / 0
     '42' + 10
@@ -13,6 +25,7 @@ except (ZeroDivisionError, TypeError) as e:
     print(type(e), e)
 
 
+//3 except
 try:
     exception = Exception('spam', 'eggs')
     raise exception
@@ -22,5 +35,16 @@ except TypeError:
     print('TypeError')
 except Exception as e:
     print(e)
+
+
+
+//Custom exception
+class MyException(Exception):
+    pass
+
+try:
+    raise MyException()
+except MyException:
+    print('MyException caught')
 
 

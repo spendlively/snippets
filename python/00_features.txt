@@ -35,3 +35,58 @@ def foo(a,b):
     print(a,b)
 
 foo(1,b=2)
+
+
+# Сравнение в строку
+10 < 11 < 12
+
+
+# В python нету switch/case
+
+
+# Тернарный оператор
+result = 'True' if 1 < 2 else 'False'
+
+
+# Общепринятый codestyle
+# Имена переменных
+snake_case
+# Имена класса
+CamelCase
+
+
+# Форматирование строки с помощью %
+arr = [1, 2, 3]
+'Like printf %s' % arr
+
+'%s %%s' % 12
+
+
+# Форматирование строки с помощью format()
+"{1} {0} {1}'.format(1, 2)
+
+'{:.2f}'.format(1.2345)
+'%.2f' % 1.2345
+
+
+# Форматирование строки с помощью f''
+value = 123
+f'text: {value!r}'
+
+
+# Вложенные функции
+# Область видимости как в js
+def one(x):
+    def two(y):
+        return x * y
+    return two
+
+one(2)(3) # 6
+
+
+# Аргументы переднные в коммандной строке
+# import sys
+print(sys.argv)
+a,b,c = sys.argv
+if not (b.isdigit() and c.isdigit()):
+    print('not valid')
