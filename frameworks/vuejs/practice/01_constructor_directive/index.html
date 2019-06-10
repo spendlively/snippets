@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="https://unpkg.com/vue"></script>
+
+<div id="app" title="qwerty">
+    {{ message }}
+</div>
+
+<div id="app-2">
+  <span v-bind:title="message">
+    Наведи на меня курсор на пару секунд,
+    чтобы увидеть динамически связанное значение title!
+  </span>
+</div>
+
+<div id="app-3">
+    <span v-if="seen">Сейчас меня видно</span>
+</div>
+
+<div id="app-4">
+    <ol>
+        <li v-for="todo in todos">
+            {{ todo.text }}
+        </li>
+    </ol>
+</div>
+
+<div id="app-5">
+    <p>{{ message }}</p>
+    <button v-on:click="reverseMessage">Перевернуть сообщение</button>
+</div>
+
+<div id="app-6">
+    <p>{{ message }}</p>
+    <input v-model="message">
+</div>
+
+<script>
+    ////////   1   ///////////
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!'
+        }
+    })
+
+    setTimeout(function(){
+        window.app.message = 'Hello Vue!!!!!'
+    }, 1000)
+
+
+    /////////   2   ///////////
+    var app2 = new Vue({
+        el: '#app-2',
+        data: {
+            message: 'Вы загрузили эту страницу: ' + new Date().toLocaleString()
+        }
+    })
+
+    setTimeout(function(){
+        window.app2.message = 'новое значение'
+    }, 1000)
+
+
+    /////////////   3   ////////////
+    var app3 = new Vue({
+        el: '#app-3',
+        data: {
+            seen: true
+        }
+    })
+
+
+    setTimeout(function(){
+        app3.seen = false
+    }, 1000)
+
+
+    /////////////   4   ////////////
+    var app4 = new Vue({
+        el: '#app-4',
+        data: {
+            todos: [
+                { text: 'Изучить JavaScript' },
+                { text: 'Изучить Vue' },
+                { text: 'Создать что-нибудь классное' }
+            ]
+        }
+    })
+
+    setTimeout(function(){
+        app4.todos.push({ text: 'Profit' })
+    }, 1000)
+
+
+    ///////   5   ////////
+    var app5 = new Vue({
+        el: '#app-5',
+        data: {
+            message: 'Привет, Vue.js!'
+        },
+        methods: {
+            reverseMessage: function () {
+                this.message = this.message.split('').reverse().join('')
+            }
+        }
+    })
+
+
+    /////   6   ///////
+    var app6 = new Vue({
+        el: '#app-6',
+        data: {
+            message: 'Привет, Vue!'
+        }
+    })
+
+</script>
+
+
+</body>
+</html>

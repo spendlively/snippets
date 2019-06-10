@@ -1,0 +1,13 @@
+
+//Конструктор
+var app = new Vue({
+    el: '#app',
+    data: {
+        message: 'Hello Vue!'
+    }
+})
+
+
+//Директива
+v-bind
+ - дерективы имеют префикс v-
