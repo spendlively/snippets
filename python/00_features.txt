@@ -90,3 +90,10 @@ print(sys.argv)
 a,b,c = sys.argv
 if not (b.isdigit() and c.isdigit()):
     print('not valid')
+
+
+# Многострочный комментарий
+'''qwe
+asd
+zxc'''
+ 
