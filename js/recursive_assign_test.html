@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <!-- подключаем стили Mocha, для отображения результатов -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.css">
+
+    <!-- подключаем библиотеку Mocha -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.js"></script>
+
+    <!-- настраиваем Mocha: предстоит BDD-тестирование -->
+    <script>
+        mocha.setup('bdd');
+    </script>
+
+    <!-- подключаем chai -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/2.0.0/chai.js"></script>
+</head>
+
+<body>
+
+<!-- Что тестируем	 -->
+<script src="recursive_assign.js"></script>
+
+<!-- Тесты -->
+<script>
+
+    describe("NULL", function () {
+
+        var left = {a: null}
+        var right = {a: {a: 1}}
+        var properResult = {a: {a: 1}}
+        it(`assign(${JSON.stringify(left)}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+        var left = {a: {a: 1}}
+        var right = {a: null}
+        var properResult = {a: null}
+        it(`assign(${JSON.stringify(left)}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+    });
+
+    describe("STRING", function () {
+
+        var left = {a: 'string'}
+        var right = {a: {a: 1}}
+        var properResult = {a: {a: 1}}
+        it(`assign(${JSON.stringify(left)}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+        var left = {a: {a: 1}}
+        var right = {a: 'string'}
+        var properResult = {a: 'string'}
+        it(`assign(${JSON.stringify(left)}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+    });
+
+    describe("NUMBER", function () {
+
+        var left = {a: 0}
+        var right = {a: {a: 1}}
+        var properResult = {a: {a: 1}}
+        it(`assign(${JSON.stringify(left)}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+        var left = {a: {a: 1}}
+        var right = {a: 0}
+        var properResult = {a: 0}
+        it(`assign(${JSON.stringify(left)}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+    });
+
+    describe("ARRAY", function () {
+
+        var left = {a: [1,2,3]}
+        var right = {a: {a: 1}}
+        var properResult = {a: {a: 1}}
+        it(`assign(${JSON.stringify(left)}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+        var left = {a: {a: 1}}
+        var right = {a: [1,2,3]}
+        var properResult = {a: [1,2,3]}
+        it(`assign(${JSON.stringify(left)}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+    });
+
+    describe("UNDEFINED", function () {
+
+        var left = {a: undefined}
+        var right = {a: {a: 1}}
+        var properResult = {a: {a: 1}}
+        it(`assign(${JSON.stringify(left)}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+        var left = {a: {a: 1}}
+        var right = {a: undefined}
+        var properResult = {a: undefined}
+        it(`assign(${JSON.stringify(left)}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+    });
+
+    describe("BOOLEAN", function () {
+
+        var left = {a: true}
+        var right = {a: {a: 1}}
+        var properResult = {a: {a: 1}}
+        it(`assign(${JSON.stringify(left)}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+        var left = {a: {a: 1}}
+        var right = {a: true}
+        var properResult = {a: true}
+        it(`assign(${JSON.stringify(left)}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+    });
+
+    describe("DATE", function () {
+
+        var left = {a: new Date()}
+        var right = {a: {a: 1}}
+        var properResult = {a: {a: 1}}
+        it(`assign(${JSON.stringify(left)}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+        var left = {a: {a: 1}}
+        var right = {a: new Date()}
+        var properResult = {a: new Date()}
+        it(`assign(${JSON.stringify(left)}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+    });
+
+    describe("REGEXP", function () {
+
+        var left = {a: /\w+/}
+        var right = {a: {a: 1}}
+        var properResult = {a: {a: 1}}
+        it(`assign({a: /\w+/}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+        var left = {a: {a: 1}}
+        var right = {a: /\w+/}
+        var properResult = {a: /\w+/}
+        it(`assign(${JSON.stringify(left)}, {a: /\w+/} = {a: /\w+/}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+    });
+
+    describe("ERROR", function () {
+
+        var left = {a: Error}
+        var right = {a: {a: 1}}
+        var properResult = {a: {a: 1}}
+        it(`assign({a: Error}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+        var left = {a: {a: 1}}
+        var right = {a: Error}
+        var properResult = {a: Error}
+        it(`assign(${JSON.stringify(left)}, {a: Error}) = {a: Error}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+    });
+
+    describe("SYMBOL", function () {
+
+        var smbl = Symbol("test")
+        var left = {a: smbl}
+        var right = {a: {a: 1}}
+        var properResult = {a: {a: 1}}
+        it(`assign({a: Symbol("test")}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+        var left = {a: {a: 1}}
+        var right = {a: smbl}
+        var properResult = {a: smbl}
+        it(`assign(${JSON.stringify(left)}, {a: Symbol("test")}) = {a: Symbol("test")}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+    });
+
+    describe("FUNCTION", function () {
+
+        var foo = function(x){return x}
+        var left = {a: foo}
+        var right = {a: {a: 1}}
+        var properResult = {a: {a: 1}}
+        it(`assign({a: function(x){return x}}, ${JSON.stringify(right)}) = ${JSON.stringify(properResult)}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+        var left = {a: {a: 1}}
+        var right = {a: foo}
+        var properResult = {a: foo}
+        it(`assign(${JSON.stringify(left)}, {a: function(x){return x}}) = {a: function(x){return x}}`, function () {
+            chai.expect(assign(left, right)).to.eql(properResult);
+        });
+
+    });
+</script>
+
+<!-- Вывод результатов -->
+<div id="mocha"></div>
+
+<!-- Запуск -->
+<script>
+    mocha.run();
+</script>
+</body>
+
+</html>

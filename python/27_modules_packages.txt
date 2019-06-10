@@ -1,0 +1,38 @@
+//Модули
+fib.py
+def fib():
+    pass
+
+test.py
+import fib
+
+fib.fib()
+
+
+//Проверка откуда запущен файл
+# __main__ - имя главного модуля
+def main():
+    pass
+
+if __name__ == '__main__':
+    main()
+
+
+//Packages
+Для создания пакета нужно
+ - поместить файлы в отдельную папку
+ - создать в ней файл __init__.py
+ - интерпретатор будет считать такйю папку - пакетом
+
+Импорт модуля из пакета
+from pckg_name import file_name
+
+Если в файле __init__.py указать:
+from .package_name import file_name
+то можно импортиорвать так:
+import file_name
+
+
+Просмотр что есть в модуле
+import sys
+dir(sys)

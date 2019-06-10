@@ -1,0 +1,78 @@
+//Декораторы
+//Декоратор - функция, в которую будет передана полозовательская функция
+
+//Пример без декоратора
+def decorator(foo):
+    def wrapper():
+        print('Decorator text')
+        foo()
+    return wrapper
+
+def bar():
+    print('Function text')
+
+bar = decorator(bar)
+bar()
+
+
+//Пример с декоратором
+def decorator_foo(foo):
+    def wrapper():
+        print('Decorator text')
+        foo()
+    return wrapper
+
+@decorator_foo
+def another():
+    print('Function text')
+
+another()
+
+
+//Декоратор с параметрами
+def decorator(foo):
+    def wrapper(*args, **kwargs):
+        print(args, kwargs)
+        return foo(*args, **kwargs)
+    return wrapper
+
+@decorator
+def bar(a, b):
+    return a + b
+
+print(bar(1, 2))
+print('===================')
+print(bar(a=1, b=2))
+
+
+//Функция возвращаюащая декоратор
+def gen_dec(x):
+    def decorator(foo):
+    ...
+    return decorator
+
+@gen_dec(42)
+def foo():
+    pass
+
+
+# Хороший тон - использовать functools.wraps над враппером,
+# wraps передает декорируемой функции значения,
+# кот. были в исходной функции
+# C wraps: итоговая sum = <function __main__.sum(a,b)>
+# Без wraps: итоговая sum = <function __main__.gen_dec.<locals>.decorator.<locals>.wrapper()>
+from functools import wraps
+
+def gen_dec(x):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            return x + func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+@gen_dec(10)
+def sum(a, b):
+    return a + b
+
+print(sum(1, 2))  # 13

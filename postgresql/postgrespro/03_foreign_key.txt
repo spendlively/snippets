@@ -1,0 +1,20 @@
+
+CREATE TABLE cities (
+        city     varchar(80) primary key,
+        location point
+);
+
+CREATE TABLE weather (
+        city      varchar(80) references cities(city),
+        temp_lo   int,
+        temp_hi   int,
+        prcp      real,
+        date      date
+);
+
+INSERT INTO weather VALUES ('Berkeley', 45, 53, 0.0, '1994-11-28');
+
+ОШИБКА:  INSERT или UPDATE в таблице "weather" нарушает ограничение внешнего
+  ключа "weather_city_fkey"
+ПОДРОБНОСТИ:  Ключ (city)=(Berkeley) отсутствует в таблице "cities".
+

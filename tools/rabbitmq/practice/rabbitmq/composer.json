@@ -1,0 +1,12 @@
+{
+    "name": "root/sitepoint",
+    "authors": [
+        {
+            "name": "spendlively",
+            "email": "spendlively@mail.ru"
+        }
+    ],
+    "require": {
+        "php-amqplib/php-amqplib": ">=2.6.1"
+    }
+}

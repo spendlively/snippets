@@ -1,0 +1,31 @@
+# With .. as
+# With .. as гарантирует, что если призойдет ошибка, критические функции 100% сработают.
+# Используется для оборачивания выполнения блока инструкций менеджером контекста.
+# В примере файл будет закрыт, если во время выполнения произойдет ошибка.
+# Если with..as что-то открыывает, он это гарантированно закрывает.
+
+with open("test.txt", "a") as f:
+    # если тут произойдет ошибка, файл все равно закроется
+    f.write("Строка\n")
+
+
+# Еще пример использования контекстного менеджера
+from contextlib import contextmanager
+
+@contextmanager
+def managed_res(*args):
+    print(args)
+    yield map(lambda x: x * 2, args)
+    print('Closed', args)
+
+with managed_res(1, 2, 3) as g:
+    print(list(g))
+    print("Leaving")
+
+print('Left')
+
+# (1, 2, 3)
+# [2, 4, 6]
+# Leaving
+# Closed (1, 2, 3)
+# Left

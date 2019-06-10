@@ -1,0 +1,56 @@
+createdb mydb
+/usr/local/pgsql/bin/createdb mydb
+//создать бд с именем пользователя
+createdb
+
+dropdb mydb
+
+psql mydb
+
+SELECT pgpro_version();
+SELECT current_date;
+\h
+\q
+\?
+
+//Пошаговый режим, паузы м/у командами
+psql -s mydb
+
+\i basics.sql
+
+CREATE TABLE weather ( city varchar(80), temp_lo int, -- минимальная температура дня temp_hi int, -- максимальная температура дня prcp real, -- уровень осадков date date );
+
+int, smallint, real, double precision, char(N), varchar(N), date, time, timestamp и interval
+
+DROP TABLE weather;
+
+INSERT INTO weather VALUES ('San Francisco', 46, 50, 0.25, '1994-11-27');
+
+INSERT INTO cities VALUES ('San Francisco', '(-194.0, 53.0)');
+
+INSERT INTO weather (city, temp_lo, temp_hi, prcp, date) VALUES ('San Francisco', 43, 57, 0.0, '1994-11-29');
+
+INSERT INTO weather (date, city, temp_hi, temp_lo) VALUES ('1994-11-29', 'Hayward', 54, 37);
+
+COPY weather FROM '/home/user/weather.txt';
+
+SELECT * FROM weather;
+
+SELECT city, temp_lo, temp_hi, prcp, date FROM weather;
+
+SELECT city, (temp_hi+temp_lo)/2 AS temp_avg, date FROM weather;
+
+SELECT * FROM weather WHERE city = 'San Francisco' AND prcp > 0.0;
+
+SELECT * FROM weather ORDER BY city;
+
+SELECT * FROM weather ORDER BY city, temp_lo;
+
+SELECT DISTINCT city FROM weather;
+
+SELECT * FROM weather, cities WHERE city = name;
+
+SELECT * FROM weather INNER JOIN cities ON (weather.city = cities.name);
+
+UPDATE weather SET temp_hi = temp_hi - 2, temp_lo = temp_lo - 2 WHERE date > '1994-11-28';
+

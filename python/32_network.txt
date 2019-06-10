@@ -1,0 +1,108 @@
+
+// GET запрос
+import http.client
+
+HOST = 'httpbin.org'
+
+connection = http.client.HTTPConnection(HOST, port=80)
+connection.request('GET', '/')
+response = connection.getresponse()
+body = response.read().decode()
+
+print(response.status, response.reason, body)
+
+
+
+
+
+// GET JSON
+import http.client
+import json
+from pprint import pprint
+
+HOST = 'httpbin.org'
+
+connection = http.client.HTTPConnection(HOST, port=80)
+connection.request('GET', '/get')
+response = connection.getresponse()
+
+# json.loads - json to object (JSON.decode)
+res = json.loads(response.read().decode())
+
+# json.dumps - object to json (JSON.stringify)
+str_headers = json.dumps(res['headers'])
+
+pprint(res)
+pprint(res['url'])
+pprint(json.dumps(res['headers']))
+
+
+
+
+
+// POST JSON WITH PARAMETERS
+import http.client
+import json
+from pprint import pprint
+
+connection = http.client.HTTPConnection(host='httpbin.org', port=80)
+
+headers = {'Content-Type': 'application/json'}
+request_data = json.dumps({
+    'key': 'value'
+})
+
+connection.request('POST', '/post', request_data, headers=headers)
+response = connection.getresponse()
+res = json.loads(response.read().decode())
+
+pprint(res)
+
+
+
+
+
+//HTTP SERVER
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+
+class MyHandler(BaseHTTPRequestHandler):
+
+    def do_GET(self):
+        print('In GET request')
+
+        self.send_response(200)
+        self.send_header('Content-Type', 'text-plain')
+        self.end_headers()
+
+        self.wfile.write('Hello, World!'.encode())
+
+
+httpd = HTTPServer(('localhost', 8080), MyHandler)
+
+print('Starting...')
+
+try:
+    httpd.serve_forever()
+except KeyboardInterrupt:
+    print('Bye!')
+
+
+
+
+
+// БИБЛИОТЕКА requests
+# sudo pip3 install aiohttp
+
+import requests
+
+# response = requests.request('GET', 'http://httpbin.org/get')
+response = requests.get('http://httpbin.org/get')
+
+print(response.json())
+
+
+
+
+
+// БИБЛИОТЕКА aiohttp
