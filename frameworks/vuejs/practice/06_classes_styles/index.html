@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+<!--1-->
+<div
+    id="ex1"
+    class="static"
+    v-bind:class="{ active: isActive, 'text-danger': hasError }"
+>TEST 1</div>
+
+
+
+<!--2-->
+<div
+        id="ex2"
+        class="static"
+        v-bind:class="classObject"
+>TEST 2</div>
+
+
+
+<!--3-->
+<div id="ex3" v-bind:class="classObject">TEST 3</div>
+
+
+
+<!--4-->
+<div id="ex4" v-bind:class="[activeClass, errorClass]">TEST 4</div>
+
+
+
+<!--5-->
+<div id="ex5" v-bind:class="[isActive ? activeClass : '', errorClass]">TEST 5</div>
+
+
+
+<!--6-->
+<div id="ex6" v-bind:class="[{ active: isActive }, errorClass]">TEST 6</div>
+
+
+
+<!--7-->
+<my-component id="ex7" v-bind:class="{ active: isActive }"></my-component>
+<!--foo bar active-->
+
+
+
+<!--8-->
+<div id="ex8" v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">INLINE STYLES 1</div>
+
+
+
+<!--9-->
+<div id="ex9" v-bind:style="styleObject">INLINE STYLES 2</div>
+
+
+
+<!--10-->
+<div id="ex10" v-bind:style="[baseStyles, overridingStyles]">INLINE STYLES 3</div>
+
+<script src="js.js"></script>
+
+</body>
+</html>
