@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+<h3 id="el1">{{ a }}</h3>
+
+<h3 id="el2">{{ a }}</h3>
+
+<script>
+
+/////////////   1   ///////////////
+var data = { a: 1 },
+    vm = new Vue({
+        el: '#el1',
+        data: data
+    })
+
+setTimeout(() => {
+    console.log(vm.a === data.a) //true
+}, 1000)
+
+setTimeout(() => {
+    vm.a = 2
+}, 2000)
+
+setTimeout(() => {
+    data.a = 3
+}, 3000)
+
+
+
+
+
+/////////////   2   ///////////////
+var vm2 = new Vue({
+    el: '#el2',
+    data: {
+        a: 1
+    },
+    created: function () {
+        // `this` указывает на экземпляр vm
+        console.log('1. created (a=' + this.a + ')')
+    },
+    beforeMount: function () {
+        console.log('2. beforeMount')
+    },
+    mounted: function () {
+        console.log('3. mounted')
+    },
+    beforeUpdate: function () {
+        console.log('4. beforeUpdate')
+    },
+    updated: function () {
+        console.log('5. updated')
+    },
+    beforeDestroy: function () {
+        console.log('6. beforeDestroy')
+    },
+    destroyed: function () {
+        console.log('7. destroyed')
+    }
+})
+vm2.a = 2
+setTimeout(() => {
+    vm2.$destroy()
+}, 100)
+
+</script>
+</body>
+</html>

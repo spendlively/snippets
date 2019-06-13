@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--<script src="https://unpkg.com/vue"></script>-->
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+<h1>Интерполяции</h1>
+<h4>Текст:</h4>
+<span id="vm1">Сообщение: {{ msg }}</span><br><br>
+
+
+
+<h4>Сырой HTML:</h4>
+<p>Директива v-html: <span id="vm2" v-html="rawHtml"></span></p>
+<!--Содержимое тега span будет заменено значением свойства rawHtml-->
+<!-- Результат: <p>Директива v-html: <span id="vm2"><span style="color: red">Текст должен быть красным.</span></span></p>-->
+
+
+
+<h4>Аттрибуты:</h4>
+<div id="vm3" v-bind:class="dynamicCls"><button v-bind:disabled="isButtonDisabled">Кнопка</button></div>
+<!--<div id="vm3" class="qwerty"><button disabled="disabled">Кнопка</button></div>-->
+
+
+
+<h4>JS выражения:</h4>
+<div id="vm4">
+    <p>{{ number + 1 }}</p>
+    <p>{{ ok ? 'YES' : 'NO' }}</p>
+    <p>{{ message.split('').reverse().join('') }}</p>
+</div>
+
+
+
+
+<h1>Директивы</h1>
+<p id="vm5" v-if="seen">Сейчас меня видно</p>
+
+<h4>Аргументы:</h4>
+<p id="vm6">
+    <a v-bind:href="url">v-bind:href = {{ url }}</a><br>
+    <button v-on:click="doSomething">v-on:click</button>
+</p>
+
+
+<h4>Динамические аргументы:</h4>
+
+<p id="vm7">
+    <a v-bind:[attributename]="url">v-bind:[attributename] = {{url}}</a><br>
+    <button v-on:[eventname]="doSomething">v-on:click</button><br>
+    <input type="text" v-on:[event2name]="onfocus">
+</p>
+
+
+<h4>Модификаторы:</h4>
+    <form id="vm8" v-on:submit.prevent="onSubmit">
+        <input type="submit" value="Submit">
+    </form>
+</p>
+
+
+<h4>Сокращения:</h4>
+<div id="vm9">
+    <strong>v-bind</strong>
+    <!-- полный синтаксис -->
+    <p><a v-bind:href="url">v-bind:href</a></p>
+
+    <!-- сокращённая запись -->
+    <p><a :href="url">:href</a></p>
+
+    <!-- сокращённая запись с динамическим именем аргумента (2.6.0+) -->
+    <p><a :[key]="url">:[key]</a></p>
+</div>
+
+<div id="vm10">
+    <strong>v-on</strong>
+    <!-- полный синтаксис -->
+    <p><a v-on:click="doSomething">v-on:click</a></p>
+
+    <!-- сокращённая запись -->
+    <p><a @click="doSomething">@click</a></p>
+
+    <!-- сокращённая запись с динамическим именем события (2.6.0+) -->
+    <p><a @[event]="doSomething">@[event]</a></p>
+</div>
+
+<script>
+
+/////////////   1   ///////////////
+var vm1 = new Vue({
+    el: '#vm1',
+    data: {
+        msg: 'vm1 msg'
+    }
+})
+
+/////////////   2   ///////////////
+var vm2 = new Vue({
+    el: '#vm2',
+    data: {
+        rawHtml: '<span style="color: red">Текст должен быть красным.</span>'
+    }
+})
+
+/////////////   3   ///////////////
+var vm3 = new Vue({
+    el: '#vm3',
+    data: {
+        dynamicCls: 'qwerty',
+        isButtonDisabled: true
+        // isButtonDisabled: false
+    }
+})
+// Если значением isButtonDisabled будет null, undefined или false,
+// то атрибут disabled не добавится в элемент <button>.
+
+/////////////   4   ///////////////
+var vm4 = new Vue({
+    el: '#vm4',
+    data: {
+        number: 1,
+        ok: true,
+        message: 'Test'
+    }
+})
+
+/////////////   5   ///////////////
+var vm5 = new Vue({
+    el: '#vm5',
+    data: {
+        seen: true
+    }
+})
+
+/////////////   6   ///////////////
+var vm6 = new Vue({
+    el: '#vm6',
+    data: {
+        url: 'http://ya.ru'
+    },
+    methods: {
+        doSomething: function(){
+            alert('doSomething')
+        }
+    }
+})
+
+/////////////   7   ///////////////
+var vm7 = new Vue({
+    el: '#vm7',
+    data: {
+        attributename: 'href',
+        url: 'http://ya.ru',
+        eventname: 'click',
+        event2name: 'focus'
+    },
+    methods: {
+        doSomething: function(){
+            alert('doSomething')
+        },
+        onfocus: function(){
+            console.log('onfocus')
+        }
+    }
+})
+
+/////////////   8   ///////////////
+var vm8 = new Vue({
+    el: '#vm8',
+    data: {
+
+    },
+    methods: {
+        onSubmit: function(){
+            alert('onSubmit prevented')
+        }
+    }
+})
+
+/////////////   9   ///////////////
+var vm9 = new Vue({
+    el: '#vm9',
+    data: {
+        key: 'href',
+        url: 'http://ya.ru'
+    }
+})
+
+/////////////   10   ///////////////
+var vm10 = new Vue({
+    el: '#vm10',
+    data: {
+        event: 'click'
+    },
+    methods: {
+        doSomething: function(){
+            alert('doSomething')
+        }
+    }
+})
+</script>
+</body>
+</html>
