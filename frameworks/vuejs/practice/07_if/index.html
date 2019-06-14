@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+<!--1-->
+<div id="e1">
+    <h1 v-if="awesome">Vue восхитителен!</h1>
+    <h1 v-else>О, нет 😢</h1>
+</div>
+
+
+
+<!--2-->
+<template id="e2" v-if="ok">
+    <h1>Заголовок</h1>
+    <p>Абзац 1</p>
+    <p>Абзац 2</p>
+</template>
+
+
+
+<!--3-->
+<div id="e3">
+    <div v-if="Math.random() > 0.5">
+        Сейчас меня видно
+    </div>
+    <div v-else>
+        А теперь — нет
+    </div>
+</div>
+
+
+
+<!--4-->
+<div id="e4">
+    <h1 v-if="val === 1">111</h1>
+    <h1 v-else-if="val === 0">000</h1>
+    <h1 v-else>???</h1>
+</div>
+
+
+
+<!--5-->
+<!--Key нужен чтобы Vue не переиспользовала компоненты-->
+<div id="e5">
+    <template v-if="loginType === 'username'">
+        <label>Имя пользователя</label>
+        <input placeholder="Введите имя пользователя" key="username-input">
+    </template>
+    <template v-else>
+        <label>Email</label>
+        <input placeholder="Введите адрес email" key="email-input">
+    </template>
+</div>
+
+
+
+<!--6-->
+<!--Элемент всегда находится в DOM-->
+<!--меняется лишь свойство display-->
+<h1 id="e6" v-show="ok">Привет!</h1>
+
+
+
+
+<script src="js.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+<!--1-->
+<div id="example-1">
+    <button v-on:click="counter += 1">+1</button>
+    <p>Кнопка выше была нажата {{ counter }} раз</p>
+</div>
+
+
+
+<!--2-->
+<div id="example-2">
+    <!-- `greet` — это название метода, определённого ниже -->
+    <button v-on:click="greet">Поприветствовать</button>
+</div>
+
+
+
+<!--3-->
+<div id="example-3">
+    <button v-on:click="say('hi')">Скажи hi</button>
+    <button v-on:click="say('what')">Скажи what</button>
+</div>
+
+
+
+<!--4-->
+<button id="ex4" v-on:click="warn('Форма не может быть отправлена.', $event)">
+    Отправить
+</button>
+
+
+
+<!--5-->
+<!--Модификаторы событий-->
+<!--event.preventDefault() или event.stopPropagation()-->
+<!-- событие click не будет всплывать дальше -->
+<!--<a v-on:click.stop="doThis"></a>-->
+
+<!-- событие submit больше не будет перезагружать страницу -->
+<!--<form v-on:submit.prevent="onSubmit"></form>-->
+
+<!-- модификаторы можно объединять в цепочки -->
+<!--<a v-on:click.stop.prevent="doThat"></a>-->
+
+<!-- и использовать без указания метода-обработчика -->
+<!--<form v-on:submit.prevent></form>-->
+
+<!-- можно отслеживать события в режиме capture, т.е. событие, нацеленное -->
+<!-- на внутренний элемент, обрабатывается здесь до обработки этим элементом -->
+<!--<div v-on:click.capture="doThis">...</div>-->
+
+<!-- вызов обработчика только в случае наступления события непосредственно -->
+<!-- на данном элементе (то есть не на дочернем компоненте) -->
+<!--<div v-on:click.self="doThat">...</div>-->
+
+<!-- Событие click сработает только 1 раз -->
+<!--<a v-on:click.once="doThis"></a>-->
+
+<!-- по умолчанию событие scroll (при прокрутке) произойдёт -->
+<!-- незамедлительно, вместо ожидания окончания `onScroll`  -->
+<!-- на случай, если там будет `event.preventDefault()`     -->
+<!--<div v-on:scroll.passive="onScroll">...</div>-->
+
+<!-- вызвать `vm.submit()` только если `key` будет `Enter` -->
+<!--<input v-on:keyup.enter="submit">-->
+
+<!--<input v-on:keyup.page-down="onPageDown">-->
+<!--<input v-on:keyup.13="submit">-->
+<!--.enter-->
+<!--.tab-->
+<!--.delete (ловит как «Delete», так и «Backspace»)-->
+<!--.esc-->
+<!--.space-->
+<!--.up-->
+<!--.down-->
+<!--.left-->
+<!--.right-->
+
+<!--// позволит использовать `v-on:keyup.f1`-->
+<!--Vue.config.keyCodes.f1 = 112-->
+
+<!--.ctrl-->
+<!--.alt-->
+<!--.shift-->
+<!--.meta-->
+<!--На клавиатурах Apple клавиша meta отмечена знаком ⌘-->
+
+<div id="ex5">
+    <input v-on:keyup.enter="submit" placeholder="Press Enter">
+</div>
+
+
+
+<!--6-->
+<div id="ex6">
+    <!-- сработает, даже если Alt или Shift также нажаты -->
+    <button @click.ctrl="onClick">A</button>
+
+    <!-- сработает, только когда нажат Ctrl и не нажаты никакие другие клавиши -->
+    <button @click.ctrl.exact="onCtrlClick">B</button>
+
+    <!-- сработает, только когда не нажаты никакие системные модификаторы -->
+    <button @click.exact="onClick">C</button>
+</div>
+
+
+
+
+
+
+
+
+<script src="js.js"></script>
+
+</body>
+</html>

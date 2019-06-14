@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+<!--1-->
+<ul id="e1">
+    <li v-for="item in items">
+        {{ item.message }}
+    </li>
+</ul>
+
+
+
+<!--2-->
+<ul id="e2">
+    <li v-for="(item, index) in items">
+        {{ parentMessage }} - {{ index }} - {{ item.message }}
+    </li>
+</ul>
+
+
+
+<!--3 (of)-->
+<ul id="e3">
+    <li v-for="item of items">
+        {{ item.message }}
+    </li>
+</ul>
+
+
+
+<!--4-->
+<ul id="v-for-object" class="demo">
+    <li v-for="value in object">
+        {{ value }}
+    </li>
+</ul>
+
+
+
+<!--5-->
+<ul id="v-for-object2" class="demo">
+    <li v-for="(value, name) in object">
+        {{ name }}: {{ value }}
+    </li>
+</ul>
+
+
+
+<!--6-->
+<ul id="v-for-object3" class="demo">
+    <li v-for="(value, name, index) in object">
+        {{ index }}. {{ name }}: {{ value }}
+    </li>
+</ul>
+
+
+
+<!--7-->
+<!--Чтобы подсказать Vue, как отслеживать идентичность каждого элемента, -->
+<!--что позволит переиспользовать и перемещать существующие элементы,-->
+<!--укажите уникальный атрибут key для каждого элемента-->
+<div id="e7">
+    <div v-for="item in items" v-bind:key="item.id">
+        {{ item.message }}
+    </div>
+</div>
+
+
+
+<!--8-->
+<ul id="el8">
+    <li v-for="item in items">{{ item.message }}</li>
+</ul>
+
+
+<!--9-->
+<div id="el9">
+    <span v-for="n in 10">{{ n }} </span>
+</div>
+
+
+<!--10-->
+<div id="todo-list-example">
+    <form v-on:submit.prevent="addNewTodo">
+        <label for="new-todo">Добавить задачу</label>
+        <input
+                v-model="newTodoText"
+                id="new-todo"
+                placeholder="Например, покормить кота"
+        >
+        <button>Добавить</button>
+    </form>
+    <ul>
+        <li
+                is="todo-item"
+                v-for="(todo, index) in todos"
+                v-bind:key="todo.id"
+                v-bind:title="todo.title"
+                v-on:remove="todos.splice(index, 1)"
+        ></li>
+    </ul>
+</div>
+
+
+
+
+
+<script src="js.js"></script>
+
+</body>
+</html>
