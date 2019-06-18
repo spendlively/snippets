@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+<!--1-->
+<!--v-model игнорирует начальное значение атрибутов value, checked или selected-->
+
+<!--1. текст и многострочный текста используют свойство value и событие input;-->
+<!--2. чекбоксы и радиокнопки используют свойство checked и событие change;-->
+<!--3. выпадающие списки используют свойство value и событие change.-->
+
+<!--Интерполяция внутри textarea (<textarea>{{text}}</textarea>) не будет-->
+
+<h1>Работа с формами</h1>
+<div id="e1">
+
+    <div>
+        <input v-model="message" placeholder="отредактируй меня">
+        <p>Введённое сообщение: {{ message }}</p>
+    </div>
+
+    <div>
+        <span>Введённое многострочное сообщение:</span>
+        <p style="white-space: pre-line;">{{ message }}</p>
+        <br>
+        <textarea v-model="message" placeholder="введите несколько строчек"></textarea>
+    </div>
+
+    <div>
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">{{ checked }}</label>
+    </div>
+</div>
+
+<div id="e2" class="demo">
+    <input type="checkbox" id="jack" value="Джек" v-model="checkedNames">
+    <label for="jack">Джек</label>
+    <input type="checkbox" id="john" value="Джон" v-model="checkedNames">
+    <label for="john">Джон</label>
+    <input type="checkbox" id="mike" value="Майк" v-model="checkedNames">
+    <label for="mike">Майк</label>
+    <br>
+    <span>Отмеченные имена: {{ checkedNames }}</span>
+</div>
+
+<div id="e3">
+    <input type="radio" id="one" value="Один" v-model="picked">
+    <label for="one">Один</label>
+    <br>
+    <input type="radio" id="two" value="Два" v-model="picked">
+    <label for="two">Два</label>
+    <br>
+    <span>Выбрано: {{ picked }}</span>
+</div>
+
+<div id="e4">
+    <select v-model="selected">
+        <option disabled value="">Выберите один из вариантов</option>
+        <option>А</option>
+        <option>Б</option>
+        <option>В</option>
+    </select>
+    <span>Выбрано: {{ selected }}</span>
+</div>
+
+<div id="e5">
+
+    <select v-model="selected" multiple>
+        <option>А</option>
+        <option>Б</option>
+        <option>В</option>
+    </select>
+    <br>
+    <span>Выбрано: {{ selected }}</span>
+</div>
+
+<div id="e6">
+
+    <select v-model="selected">
+        <option v-for="option in options" v-bind:value="option.value">
+            {{ option.text }}
+        </option>
+    </select>
+    <span>Выбрано: {{ selected }}</span>
+</div>
+
+
+
+<h1>Cвязывание значений</h1>
+<div id="e7">
+    <!-- `picked` получает строковое значение "a" при клике -->
+    <input type="radio" v-model="picked" value="a">
+    <span>{{picked}}</span>
+
+    <!-- `toggle` может иметь значение true или false -->
+    <input type="checkbox" v-model="toggle">
+    <span>{{toggle}}</span>
+
+    <!-- `selected` при выборе первого пункта становится равным строке "abc" -->
+    <select v-model="selected">
+        <option value="abc">ABC</option>
+    </select>
+    <span>{{selected}}</span>
+
+</div>
+
+
+<div id="e8">
+    <input
+            type="checkbox"
+            v-model="toggle"
+            true-value="да"
+            false-value="нет"
+    >
+    <span>{{toggle}}</span>
+</div>
+
+
+<div id="e9">
+    <input type="radio" v-model="pick" v-bind:value="a"> <span>{{pick}}</span>
+</div>
+
+<div id="e10">
+    <select v-model="selected">
+        <!-- инлайновый объект с данными -->
+        <option v-bind:value="{ number: 123 }">123</option>
+    </select>
+    <span>{{selected}}</span>
+</div>
+
+
+<h1>Модификаторы</h1>
+<div id="e11">
+
+    <div>
+        <p>.lazy: чтобы использовать для синхронизации событие change вместо input</p>
+        <!-- синхронизируется по событию "change", а не "input" -->
+        <input v-model.lazy="msg" ><span>{{msg}}</span>
+    </div>
+
+    <div>
+        <p>.number: приведение к числу</p>
+        <input v-model.number="age" type="number"><span>{{age}}</span>
+    </div>
+
+    <div>
+        <p>.trim: обрезка пробелов</p>
+        <input v-model.trim="msg2"><span>{{msg2}}</span>
+    </div>
+
+</div>
+
+
+<script src="js.js"></script>
+
+</body>
+</html>
