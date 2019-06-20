@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+<!--1-->
+<div id="components-demo">
+    <button-counter></button-counter>
+    <button-counter></button-counter>
+    <button-counter></button-counter>
+</div>
+<p>каждая изменяет свой собственный, отдельный count</p>
+
+<div>
+    Так как компоненты это переиспользуемые экземпляры Vue,
+    то они принимают те же опции что и new Vue, такие как
+    <ul>
+        <li>data,</li>
+        <li>computed, </li>
+        <li>watch, </li>
+        <li>methods, </li>
+        <li>хуки жизненного цикла.</li>
+    </ul>
+</div>
+
+<!--2-->
+<h1>Передача данных в дочерние компоненты через входные параметры</h1>
+<div id="e2">
+    <blog-post title="My journey with Vue"></blog-post>
+    <blog-post title="Blogging with Vue"></blog-post>
+    <blog-post title="Why Vue is so fun"></blog-post>
+</div>
+
+
+<!--3-->
+<h2>Массив записей</h2>
+<div id="e3">
+    <blog-post
+        v-for="post in posts"
+        v-bind:key="post.id"
+        v-bind:title="post.title"
+    ></blog-post>
+</div>
+
+
+<!--4-->
+<div id="e4">
+    <blog-post2
+        v-for="post in posts"
+        v-bind:key="post.id"
+        v-bind:post="post"
+    ></blog-post2>
+</div>
+
+
+<script src="js.js"></script>
+
+</body>
+</html>
