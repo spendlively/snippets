@@ -1,4 +1,9 @@
 
+//Аутентификация и вход с сохранением кук в файле
+wget -d https://192.168.101.61/auth/login/check --keep-session-cookies --save-cookies=cookies.txt --no-check-certificate --post-data="username=administrator&password1=passme"
+wget -d https://192.168.101.61 --keep-session-cookies --load-cookies=cookies.txt --no-check-certificate
+
+
 //Копирование для локального просмотра (с заменой интернет-ссылок на локальные адреса скачанных страниц)
 wget -r -l0 -k http://mim54.ru/
 //1 страница
