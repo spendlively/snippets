@@ -1,4 +1,8 @@
 
+Хорошая шпаргалка по python
+https://proglib.io/p/py-interview/
+
+
 # Неочевидные особенности языка Python
 
 
