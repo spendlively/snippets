@@ -57,6 +57,29 @@
 </div>
 
 
+<!--5-->
+<div id="blog-posts-events-demo">
+    <div :style="{ fontSize: postFontSize + 'em' }">
+        <blog-post3
+                v-for="post in posts"
+                v-bind:key="post.id"
+                v-bind:post="post"
+                v-on:enlarge-text="onEnlargeText"
+        ></blog-post3>
+    </div>
+</div>
+
+
+
+
+<!--6-->
+<br><br>
+<div id="alert-box">
+    <alert-box>
+        Произошло что-то плохое.
+    </alert-box>
+</div>
+
 <script src="js.js"></script>
 
 </body>

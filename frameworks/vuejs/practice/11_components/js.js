@@ -63,3 +63,51 @@ new Vue({
         ]
     }
 })
+
+
+//5
+
+Vue.component('blog-post3', {
+    props: ['post'],
+    template: `
+    <div class="blog-post">
+        <h3>{{ post.title }}</h3>
+        <button v-on:click="$emit('enlarge-text', 0.1)">
+          Увеличить размер текста
+        </button>
+        <div v-html="post.content"></div>
+    </div>
+  `
+})
+new Vue({
+    el: '#blog-posts-events-demo',
+    data: {
+        posts: [
+            {id: 1, content: 'qwerty'},
+            {id: 2, content: 'asdfgh'},
+            {id: 3, content: 'zxcvbn'}
+        ],
+        postFontSize: 1
+    },
+    methods: {
+        onEnlargeText: function (enlargeAmount) {
+            this.postFontSize += enlargeAmount
+        }
+    }
+})
+
+
+
+// 6
+// добавляем слот там, куда хотим подставлять контент
+Vue.component('alert-box', {
+    template: `
+    <div class="demo-alert-box">
+      <strong>Ошибка!</strong>
+      <slot></slot>
+    </div>
+  `
+})
+new Vue({
+    el: '#alert-box',
+})
