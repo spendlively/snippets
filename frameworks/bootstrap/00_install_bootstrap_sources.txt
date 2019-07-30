@@ -1,0 +1,30 @@
+
+//Ruby
+sudo apt-get update
+sudo apt-get install ruby-full
+ruby -v
+gem -v
+
+
+//Download Bootstrap
+mkdir /tmp/bootstrap/
+cd /tmp/bootstrap/
+wget https://github.com/twbs/bootstrap/archive/v4.3.1.zip
+unzip v4.3.1.zip
+cd bootstrap-4.3.1/
+
+
+//Install Dependencies
+npm install
+sudo gem install bundler
+bundle install
+
+
+//Run scripts
+//Запуск сайта с докумментацией
+npm run docs-serve
+//Прочие команды
+npm run dist
+npm test
+npm run docs
+npm run http-server

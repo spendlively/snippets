@@ -1,0 +1,73 @@
+
+//Важные глобальные атрибуты
+1. HTML 5
+<!DOCTYPE html>
+<html lang="en">
+  ...
+</html>
+
+2. «Отзывчивый» мета-тэг
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ - Bootstrap разрабатывался как mobile first
+ - настройки оптимизированы под мобильные устройства
+ - а уж потом с помощью медиа-запросов масштаб компонентов подгоняется на прочих устройствах
+
+//Как работает viewport
+Метаданные Viewport с использованием "width=device-width" приводят к уменьшению масштаба страницы,
+чтобы соответствовать содержимому, которое переполняет границы области просмотра.
+Вы можете переопределить это поведение, добавив "shrink-to-fit=no" в свой метатег, как показано ниже.
+Добавленное значение будет препятствовать масштабированию страницы в соответствии с окном просмотра.
+
+//Про Viewport
+https://developer.mozilla.org/ru/docs/Mozilla/Mobile/Viewport_meta_tag
+
+//Про width=device-width
+https://habr.com/ru/company/paysto/blog/254871/
+
+
+
+
+
+//Размер ширины и высоты элемента
+ - в bootstrap изменено глобальное значение box-sizing с content-box на border-box
+ - зто гарантирует, что padding не будет влиять на конечную вычисленную ширину элемента
+ - content-box: width и height задают ширину и высоту контента и не включают в себя значения отступов, полей и границ
+ - border-box: width и height включают в себя значения полей и границ, но не отступов (margin)
+
+Для отмены этого поведения:
+.selector-for-some-widget {
+  box-sizing: content-box;
+}
+
+
+
+
+//Установка
+npm install bootstrap
+//или
+composer require twbs/bootstrap:4.3.1
+
+
+
+
+//Зависимости
+ - Всплывающие подсказки (по наведению) и «всплывающие окна» (по клику мыши) зависят от библиотеки Popper.js.
+ - Удостоверьтесь, что в одном элементе используется лишь один набор атрибутов
+(т.е., не получится запустить всплывающие подсказки и «всплывающие окна» из одной кнопки).
+
+
+
+//Изменить установки по умолчанию
+$.fn.modal.Constructor.Default.keyboard = false
+//$('#myModal').modal({ keyboard: false }
+
+
+
+
+//import bootstrap via webpack
+import 'bootstrap';
+//плагины по отдельности:
+import 'bootstrap/js/dist/util';
+import 'bootstrap/js/dist/alert';
+//нужно будет обязательно добавить jQuery и Popper в package.json
+//используя npm install --save jquery popper.js.
