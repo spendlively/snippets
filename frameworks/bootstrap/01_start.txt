@@ -7,6 +7,10 @@
 </html>
 
 2. «Отзывчивый» мета-тэг
+Мобильные браузеры отображают страницы в виртуальном «окне» (viewport),
+которое, как правило, шире экрана устройства
+
+
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  - Bootstrap разрабатывался как mobile first
  - настройки оптимизированы под мобильные устройства

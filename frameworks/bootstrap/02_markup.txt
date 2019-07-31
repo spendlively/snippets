@@ -1,0 +1,39 @@
+
+//Контейнеры
+1. Фиксированная ширина
+ - .container
+ - max-width изменяется на каждом брейкпойнте
+2. Плавающая ширина
+ - .container-fluid
+ - width ==100% всегда
+
+
+
+
+//Стандартные медиа-запросы
+// Экстрамалые девайсы («телефоны», < 576px)
+// Нет @media, т.к. это по умолчанию в Bootstrap
+
+// Малые девайсы («ландшафтные телефоны», >= 576px)
+@media (min-width: 576px) { ... }
+
+// Средние девайсы («таблетки», >= 768px)
+@media (min-width: 768px) { ... }
+
+// Большие девайсы (десктопы, >= 992px)
+@media (min-width: 992px) { ... }
+
+// Экстрабольшие девайсы (большие десктопы, >= 1200px)
+@media (min-width: 1200px) { ... }
+
+
+
+
+//Стандартные Z-индексы
+$zindex-dropdown:          1000 !default;
+$zindex-sticky:            1020 !default;
+$zindex-fixed:             1030 !default;
+$zindex-modal-backdrop:    1040 !default;
+$zindex-modal:             1050 !default;
+$zindex-popover:           1060 !default;
+$zindex-tooltip:           1070 !default;
