@@ -2,3 +2,4 @@
 //Классы
 align-items-start
 mx-auto
+row justify-content-md-center
