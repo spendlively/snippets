@@ -58,3 +58,38 @@
 .text-decoration-none
 <a href="#" class="text-decoration-none">Non-underlined link</a>
 
+
+
+//Стилизация текста как заголовков
+<p class="h1">h1. Заголовок bootstrap </p>
+<p class="h2">h2. Заголовок bootstrap </p>
+<p class="h3">h3. Заголовок bootstrap </p>
+<p class="h4">h4. Заголовок bootstrap </p>
+<p class="h5">h5. Заголовок bootstrap </p>
+<p class="h6">h6. Заголовок bootstrap </p>
+//большие заголовки
+<h1 class="display-1">Display 1</h1>
+<h1 class="display-2">Display 2</h1>
+<h1 class="display-3">Display 3</h1>
+<h1 class="display-4">Display 4</h1>
+
+
+
+//Выделение текста
+<p class="lead">Vivamus sagittis lacus vel augue laoreet rutrum</p>
+<p>тег-выделитель для <mark>подсветки</mark> текста.</p>
+<p><del>Удаленный текст.</del></p>
+<p><s>Зачеркнутый.</s></p>
+<p><ins>Строка - дополнение к документу.</ins></p>
+<p><u>Подчеркнутая</u></p>
+<p><small>Мелкий шрифт (типа нижний индекс).</small></p>
+<p><strong>Жирный текст.</strong></p>
+<p><em>Курсив.</em></p>
+
+
+
+//Цитаты
+<blockquote class="blockquote">
+  <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+</blockquote>
+
