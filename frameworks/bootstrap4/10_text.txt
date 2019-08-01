@@ -1,4 +1,5 @@
 
+//Выравнивание
 .text-justify - justify
 
 .text-left - Выровненный слева текст для всех размеров видовых экранов.</p>
@@ -9,3 +10,51 @@
 .text-md-left - Выровненный слева текст для экрана размера MD (medium) или более широкого.</p>
 .text-lg-left - Выровненный слева текст для экрана размера LG (large) или более широкого.</p>
 .text-xl-left - Выровненный слева текст для экрана размера XL (extra-large) или более широкого.</p>
+
+
+
+//Обрезание текста
+.text-wrap - не выходит за рамку родителя
+.text-nowrap - выходит за рамку родителя
+
+.text-truncate - длина текста обрезается троеточием (для блочного элемента)
+<div class="text-truncate">
+    Praeterea iter est quasdam res quas ex communi.
+</div>
+
+.d-inline-block.text-truncate - длина текста обрезается троеточием (для inline элемента)
+<span class="d-inline-block text-truncate" style="max-width: 150px;">
+    Praeterea iter est quasdam res quas ex communi.
+</span>
+
+//Разрыв слова (overflow-wrap: break-word)
+.text-break
+
+
+
+//Регистр
+<p class="text-lowercase">Текст в нижнем регистре.</p>
+<p class="text-uppercase">Текст в верхнем регистре.</p>
+<p class="text-capitalize">разноРеГиСТровый текст.</p>
+
+
+
+//Жирность текста и курсив
+<p class="font-weight-bold">Жирный текст.</p>
+<p class="font-weight-normal">Нормальный текст.</p>
+<p class="font-weight-light">Легкий текст.</p>
+<p class="font-italic">Курсивный текст.</p>
+<p class="text-monospace">Это моноширинный текст</p>
+
+
+
+//Сброс цветов (text-reset)
+<p class="text-muted">
+  Muted text with a <a href="#" class="text-reset">reset link</a>.
+</p>
+
+
+//Удаление текстового оформления
+.text-decoration-none
+<a href="#" class="text-decoration-none">Non-underlined link</a>
+
