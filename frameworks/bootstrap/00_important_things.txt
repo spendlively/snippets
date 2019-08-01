@@ -1,3 +1,15 @@
+//Реализация
+Бутстрап реализован с помощью флексбокса и полностью адаптивен
+
+
+
+
+//Единицы измерения
+Бутстрап использует em и rem для задания большинства размеров,
+а пиксели px – для «брейкпойнтов» сетки и ширин контейнеров.
+
+
+
 
 //Важные глобальные атрибуты
 1. HTML 5
@@ -46,13 +58,6 @@ https://habr.com/ru/company/paysto/blog/254871/
 
 
 
-//Установка
-npm install bootstrap
-//или
-composer require twbs/bootstrap:4.3.1
-
-
-
 
 //Зависимости
  - Всплывающие подсказки (по наведению) и «всплывающие окна» (по клику мыши) зависят от библиотеки Popper.js.
@@ -61,17 +66,8 @@ composer require twbs/bootstrap:4.3.1
 
 
 
+
 //Изменить установки по умолчанию
 $.fn.modal.Constructor.Default.keyboard = false
 //$('#myModal').modal({ keyboard: false }
 
-
-
-
-//import bootstrap via webpack
-import 'bootstrap';
-//плагины по отдельности:
-import 'bootstrap/js/dist/util';
-import 'bootstrap/js/dist/alert';
-//нужно будет обязательно добавить jQuery и Popper в package.json
-//используя npm install --save jquery popper.js.

@@ -3,3 +3,12 @@
 align-items-start
 mx-auto
 row justify-content-md-center
+
+
+//Вертикальное выравнивание
+
+
+
+
+//Горизонтальное выравнивание
+

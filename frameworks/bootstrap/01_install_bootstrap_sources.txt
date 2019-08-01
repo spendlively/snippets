@@ -1,0 +1,55 @@
+////////////////////////////////////////////////
+///////////////УСТАНОВКА ИСХОДНИКОВ/////////////
+////////////////////////////////////////////////
+//Ruby
+sudo apt-get update
+sudo apt-get install ruby-full
+ruby -v
+gem -v
+
+
+//Download Bootstrap
+mkdir /tmp/bootstrap/
+cd /tmp/bootstrap/
+wget https://github.com/twbs/bootstrap/archive/v4.3.1.zip
+unzip v4.3.1.zip
+cd bootstrap-4.3.1/
+
+
+//Install Dependencies
+npm install
+sudo gem install bundler
+bundle install
+
+
+//Run scripts
+//Запуск сайта с докумментацией
+npm run docs-serve
+//Прочие команды
+npm run dist
+npm test
+npm run docs
+npm run http-server
+
+
+
+
+
+////////////////////////////////////////////////
+/////////////////УСТАНОВКА BOOTSTRAP////////////
+////////////////////////////////////////////////
+//Установка
+npm install bootstrap
+//или
+composer require twbs/bootstrap:4.3.1
+
+
+
+
+//import bootstrap via webpack
+import 'bootstrap';
+//плагины по отдельности:
+import 'bootstrap/js/dist/util';
+import 'bootstrap/js/dist/alert';
+//нужно будет обязательно добавить jQuery и Popper в package.json
+//используя npm install --save jquery popper.js.
