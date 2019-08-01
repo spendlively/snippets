@@ -1,14 +1,30 @@
 
-//Классы
-align-items-start
-mx-auto
-row justify-content-md-center
+//Выравнивание с помощью margin: auto
+.mx-auto
 
 
+
+
+//Выравнивание по сетке
 //Вертикальное выравнивание
+//для ряда row
+.row .align-items-start - выравнивание по верхнему краю
+.row .align-items-center - выравнивание по центры
+.row .align-items-end - выравнивание по нижнему краю
+
+//для колонки col
+.col .align-self-start - выравнивание по верхнему краю
+.col .align-self-center - выравнивание по центры
+.col .align-self-end - выравнивание по нижнему краю
 
 
 
 
 //Горизонтальное выравнивание
+.row .justify-content-start - по левому краю
+.row .justify-content-center - по центру
+.row .justify-content-end - по правому краю
+.row .justify-content-around - равномерно по всех ширине
+.row .justify-content-between - по краям
 
+//.row justify-content-md-center - по центру для middle
