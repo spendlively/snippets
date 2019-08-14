@@ -1,0 +1,40 @@
+
+//Статический роут в config/routes.yaml
+index:
+  path: /
+  controller: App\Controller\ArticleController::homepage
+
+
+
+//Install Annotations Routes
+composer require annotations
+
+
+
+//Annotation based Routes
+/**
+ * @Route("/")
+ */
+public function homepage()
+{
+    return new Response('Hi');
+}
+
+/**
+ * @Route("/show")
+ */
+public function show()
+{
+    return new Response('show');
+}
+
+/**
+ * @Route("/news/{slug}")
+ */
+public function slug($slug)
+{
+    return new Response(sprintf(
+        'The page is about word: %s',
+        $slug
+    ));
+}

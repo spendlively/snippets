@@ -1,0 +1,14 @@
+
+//FLEX
+2 функции symfony/flex:
+1) Aliases - позволяют использовать алиасы пакета (sec-checker)
+вместо полного названия (symfony/security-checker)
+
+Пример:
+composer require sec-checker
+composer require logger
+composer require mailer
+
+2) Recipes - добавляет конфиг файлы при установке symfony пакета
+и изменения в symfony.lock
+

@@ -1,0 +1,63 @@
+
+//Установка
+//PHP 7.2 on Ubuntu 16.04 (Symfony requires php 7.1)
+sudo apt-get install software-properties-common python-software-properties
+sudo add-apt-repository -y ppa:ondrej/php
+sudo apt-get update
+sudo apt-get install php7.2 php7.2-cli php7.2-common
+sudo apt search php7.2
+sudo apt-get install php7.2-curl php7.2-gd php7.2-json php7.2-mbstring php7.2-intl php7.2-mysql php7.2-xml php7.2-zip
+php -v
+
+
+
+//Установка Composer
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('sha384', 'composer-setup.php') === 'a5c698ffe4b8e849a443b120cd5ba38043260d5c4023dbf93e1558871f1f07f58274fc6f4c93bcfd858c6bd0775cd8d1') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+
+sudo mv composer.phar /usr/bin/composer
+
+
+
+//Установка Symfony с помощью composer
+composer create-project symfony/skeleton the_spacebar
+//у меня почему-то поставилась версия 3.4
+//позже выяснил, что требовался php ^7.1.3
+
+
+
+//Установка symfony cli
+wget https://get.symfony.com/cli/installer -O - | bash
+sudo mv /home/spendlively/.symfony/bin/symfony /usr/local/bin/symfony
+
+//Установка Symfony с помощью symfony cli
+symfony new --full my_project
+
+
+
+//Запуск php сервера
+cd the_spacebar
+php -S 0.0.0.0:8000 -t public
+
+
+
+//Установка composer сервера
+composer require server
+./bin/console server:run
+
+
+
+//Install and enable plugins
+File -> Settings -> Plugins
+ - Symfony Support
+ - PHP Annotation
+ - PHP Toolbox
+
+File -> Settings -> Languages & Frameworks -> PHP -> Symfony
+ + Enable plugin for this project
+
+File -> Settings -> Languages & Frameworks -> PHP -> Composer
+ + path to composer.json
+
