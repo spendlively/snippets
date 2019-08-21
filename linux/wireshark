@@ -1,0 +1,56 @@
+//Запуск
+/1. Capture -> Выбрать интерфейс
+2. Capture -> Start
+
+//Доп.кнопки
+1. Start
+2. Stop
+3. Restart
+
+//Колонки
+1. Номер фрейма (пакета)
+2. Время
+3. Source - источник пакета
+4. Destination - куда пакет идет
+5. Протокол
+6. Длина
+7. Информация о пакете
+
+//Окно данных
+1. Frame
+2. Ethernet
+3. Addres
+
+//Фильтры (Filter:)
+http.cookie - отображать запросы по http, содержащие данные из cookie
+ip.addr = 192.168.20.117
+
+//Если поле filter заполнено корректно - поле приобретает зеленый цвет
+1. ip.addr, ip.src, ip.dst, ip.addr == 10.0.0.145
+2. http, tcp.port == 443, tcp.analysis.flags ()
+3. !(arp or dns)
+4. tcp.straem eq 32 - (ПКМ -> Follow TCP Stream)
+5. tcp contains facebook, udp contains facebook
+6. http.request, http.response.code == 200
+7. tcp.flags.syn == 1 (), tcp.flags.reset == 1 ()
+8. sip && rtp
+
+//url
+http.request.uri contains "/test"
+http.host=="exact.name.here"
+http.host contains "partial.name.here"
+http.host matches "(?i)web\.site\.name"
+
+//Булевые функции
+1. and - http and arp
+2. or - http or arp
+
+//Просмотр данных
+Hypertext transfer protocol
+    GET (ПКМ)
+        Follow TCP Stream
+
+//Запись лога tcpdump
+tcpdump host 192.168.20.130 -w /tmp/log
+
+-i interface

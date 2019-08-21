@@ -1,0 +1,82 @@
+
+/*
+Задача с собеседования, для вывода диапазонов дат
+оказалась не такой уж и простой.
+
+1. Оператор WITH недоступен в MySQL 5.7, поэтому нельзя
+заранее сделать подзапрос с отсортированными и пронумерованными данными:
+WITH tmp_dates as
+  ( SELECT
+        (@row_number:=@row_number + 1) num,
+        id id,
+        date date
+    FROM dates
+    ORDER BY date )
+...
+
+2. Можно создать VIEW с отсортированными датами,
+но во VIEW нельзя использовать переменные
+@row_number := @row_number + 1
+чтобы пронумеровать отсортированные записи.
+
+3. Можно создать TEMPORARY TABLE с отсортированными и пронумерованными датами,
+но потом ее нельзя приджойнить саму к себе (CAN'T REOPEN TABLE...),
+при попытке сделать ON t2.num = t1.num + 1
+
+4. В итоге решить получилось только с созданием полноценной таблицы,
+в которой данные отсортированы и пронумерованы, что прямо сказать не очень:
+
+*/
+
+/* 1. Таблица с исходными датами */
+DROP TABLE IF EXISTS dates;
+
+CREATE TABLE dates (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    date datetime NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO dates (id, date) VALUES
+  (NULL, '2018-02-02'),
+  (NULL, '2018-02-01'),
+  (NULL, '2018-02-03'),
+  (NULL, '2018-01-02'),
+  (NULL, '2018-01-01'),
+  (NULL, '2018-01-03'),
+  (NULL, '2018-03-02'),
+  (NULL, '2018-03-01'),
+  (NULL, '2018-03-03');
+
+
+
+/* 2. Временная таблица с отсортированными датами и нумерацией */
+SET @row_number = 0;
+
+DROP TABLE IF EXISTS t_dates;
+
+CREATE TABLE IF NOT EXISTS t_dates
+SELECT
+    (@row_number:=@row_number + 1) num,
+    id id,
+    date date
+FROM dates
+ORDER BY date;
+
+
+
+/* 3. Запрос */
+SELECT
+    t1.date date_from,
+    t2.date date_to
+FROM t_dates t1
+    LEFT JOIN t_dates t2
+ON t2.num = t1.num + 1
+ORDER BY t1.num;
+
+
+/*
+Очень интересно узнать, какое у вас было правильное решение этой задачи?
+Думаю в Postgres (или хотя бы в MySQL 8) можно сделать элегантней.
+А я еще подумаю как можно сделать получше.
+*/
