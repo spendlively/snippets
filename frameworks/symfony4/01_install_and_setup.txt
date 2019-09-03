@@ -22,7 +22,10 @@ sudo mv composer.phar /usr/bin/composer
 
 
 //Установка Symfony с помощью composer
+//только некоторые пакеты symfony
 composer create-project symfony/skeleton the_spacebar
+//Все пакеты symfony
+composer create-project symfony/website-skeleton the_spacebar
 //у меня почему-то поставилась версия 3.4
 //позже выяснил, что требовался php ^7.1.3
 
