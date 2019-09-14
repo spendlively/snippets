@@ -34,6 +34,8 @@ docker logs stupefied_turing
 docker rm stupefied_turing
 //удалить все остановленные контейнеры
 docker rm -v $(docker ps -aq -f status=exited)
+//удалить образ
+docker rmi image
 
 
 
