@@ -1,0 +1,3 @@
+
+//Remove from index only
+git rm --cached file.log

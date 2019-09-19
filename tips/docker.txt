@@ -1,0 +1,7 @@
+
+
+//Запустить bash на запущенном контейнере
+docker exec -it b0cee517fb9b bash
+
+//Remove all containers
+docker rm $(docker ps -aq)

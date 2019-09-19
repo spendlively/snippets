@@ -1,0 +1,13 @@
+
+//create database
+bin/console doctrine:database:create
+
+//create table
+bin/console make:entity Product
+
+//create migration
+bin/console make:migration
+
+//apply migration
+bin/console doctrine:migrations:migrate
+

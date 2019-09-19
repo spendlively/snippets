@@ -12,7 +12,7 @@ docker run -v /hostdir/:/containerdir/ -p 80 -it --name isms-dev mattrayner/lamp
 
 //Установка пакетов на хостовой машине
 apt update
-apt install inetutils-ping net-tools nano mc nmap
+apt install inetutils-ping net-tools nano mc nmap netstat
 
 //Запуск остановленного контейнера
 docker exec -it isms bash
