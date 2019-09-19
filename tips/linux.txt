@@ -26,3 +26,8 @@ sudo nano /etc/rc.local
 exit 0
 =======================================
 systemctl enable rc-local
+
+
+
+//Check installed deb-package files
+dpkg-query -L phpmyadmin
