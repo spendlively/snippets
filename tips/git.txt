@@ -1,3 +1,11 @@
 
 //Remove from index only
 git rm --cached file.log
+
+
+
+//pull vs fetch
+//pulls all branches & merge them immediately
+git pull
+//pull & fetch manually
+git fetch && git merge
