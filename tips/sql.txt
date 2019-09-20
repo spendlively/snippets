@@ -1,0 +1,10 @@
+
+//round timstamp up to 5 minutes
+SELECT FROM_UNIXTIME((UNIX_TIMESTAMP("2019-01-01 01:09:44") DIV 300) * 300)
+//'2019-01-01 01:05:00'
+
+
+//get time 5 minutes left
+SELECT DATE_SUB(DATE_FORMAT(now(), "%Y-%m-%d %H:%i"), INTERVAL 5 MINUTE);
+SELECT DATE_SUB(DATE_FORMAT("2019-01-01 01:09:44", "%Y-%m-%d %H:%i"), INTERVAL 5 MINUTE);
+//'2019-01-01 01:04:00'
