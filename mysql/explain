@@ -109,7 +109,7 @@ mysql может решить использовать type=all вместо typ
 
 //варианты выполнения explain
  - explain select...
- - explain extendex select..., show warnings (чтобы посмотреть как оптимизатор трансформировал исходный запрос)
+ - explain extend select..., show warnings (чтобы посмотреть как оптимизатор трансформировал исходный запрос)
  - explain partitions
 
 
