@@ -1,0 +1,45 @@
+
+//get list of containers
+//started
+docker ps
+//all
+docker ps -a
+
+
+
+//start container from image
+//with automatic name (-it - interactive)
+docker run -it ubuntu bash
+//start and set name
+docker run -it --name test_container_name_1 --hostname test_hostname_1 ubuntu bash
+
+
+
+//execute command in started container
+//bash
+docker exec -it container_id bash
+
+
+
+//stop container
+docker stop container_id
+
+
+
+//remove container
+sudo docker rm container_id
+//all
+sudo docker rm -v $(sudo docker ps -aq -f status=exited)
+
+
+
+//export container into image (in any state)
+docker commit test_container_name_1 test/test_image_name_1
+
+
+
+//mount volume into container
+
+
+
+//bind container port with host machine

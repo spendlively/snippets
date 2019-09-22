@@ -1,0 +1,40 @@
+
+//load image from docker hub
+docker pull ubuntu
+
+
+//show all images
+docker images
+
+
+
+//export container into image (in any state)
+docker commit test_container_name_1 test/test_image_name_1
+
+
+
+//remove image
+docker rmi image_id
+
+
+
+//start container from image
+//with automatic name (-it - interactive)
+docker run -it ubuntu bash
+//start and set name
+docker run -it --name test_container_name_1 --hostname test_hostname_1 ubuntu bash
+
+
+
+//create image from Dockerfile
+//Dockerfile
+FROM ubuntu
+RUN apt-get update && apt-get install -y inetutils-ping net-tools nano mc nmap
+COPY config/apache/000-default.conf /etc/apache2/sites-available/
+VOLUME dir:dir
+WORKDIR /var/www/
+ENTRYPOINT ["/entrtypoint.sh"]
+
+//and then
+docker build -t test/test_image_name_2 .
+docker run -it test/test_image_name_2 bash

@@ -1,0 +1,39 @@
+
+//docker-compose.yaml
+pfk:
+  build: .
+  volumes:
+    - "./:/var/www/pfk"
+  ports:
+    - "8080:80"
+  environment:
+    ENV: DEV
+© 2019 GitHub, Inc.
+
+
+
+//start
+docker-compose up -d --build
+docker-compose run pfk composer install
+docker-compose run pfk /var/www/pfk/bin/console doctrine:migrations:migrate
+docker-compose run pfk chmod -R 777 var/app.db
+
+
+
+//Запуск всех контейнеров
+docker-compose up
+docker-compose up --build
+
+
+
+//Пересоздание всех образов из Dockerfile
+docker-compose build
+
+
+
+//Вывод информации о контейнерах
+docker-compose ps
+docker-compose run
+docker-compose logs
+docker-compose stop
+docker-compose rm
