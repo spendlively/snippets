@@ -1,0 +1,66 @@
+
+//////////////////////////////////////////
+/////////////Server adjusting/////////////
+//////////////////////////////////////////
+//create and adjust user
+sudo adduser deployer
+sudo gpasswd -a deployer sudo
+sudo adduser deployer www-data
+
+
+
+//project directory and permissions
+sudo mkdir /var/www/php-deployer-test
+sudo chown -R deployer:www-data /var/www/php-deployer-test
+sudo chmod -R g+rw /var/www/php-deployer-test
+sudo find /var/www/php-deployer-test -type d -print0 | sudo xargs -0 chmod g+s
+
+
+
+//ssh certificates
+//on host machine
+ssh-keygen -t rsa -b 4096 -C "info@spendmail.ru"
+cat ~/.ssh/id_rsa.pub
+
+//on server machine
+su - deployer
+mkdir .ssh
+chmod 700 .ssh
+nano .ssh/authorized_keys
+chmod 600 .ssh/authorized_keys
+
+
+
+//allow to restart php-fpm without pass
+sudo nano /etc/sudoers.d/deployer
+deployer ALL=NOPASSWD:/bin/systemctl restart php7.2-fpm.service
+
+
+
+//////////////////////////////////////////
+////////////Deployer adjusting////////////
+//////////////////////////////////////////
+
+//install deployer (on host machine)
+curl -LO https://deployer.org/deployer.phar
+mv deployer.phar /usr/local/bin/dep
+chmod +x /usr/local/bin/dep
+
+
+
+//initialize config
+cd path/to/app
+dep init
+//creates deploy.php
+
+
+
+//nano deploy.php
+//editing
+
+
+//start deploy
+dep deploy production
+
+
+
