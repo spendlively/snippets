@@ -1,3 +1,10 @@
+//Sum few lines using bash
+echo "1" >> /tmp/sum
+echo "2" >> /tmp/sum
+echo "3" >> /tmp/sum
+cat /tmp/sum | paste -sd+ - | bc
+
+
 //Autoloading 1 way
 echo "/usr/bin/scriptname &>/dev/null &" >>  ~/.bashrc
 

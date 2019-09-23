@@ -1,0 +1,59 @@
+//////////////////////////////////////////////////
+////////////innodb_buffer_pool_size///////////////
+//////////////////////////////////////////////////
+ - Пространство памяти в котором хранятся индексы, кеши, буферы и т.д.
+ - Чем больше размер этого параметра, тем меньше операций с диском
+ - Если размера буффера недостаточно, это будет приводить к частой очистка кэша таблиц
+ - Если размер буффера слишком большой, это приведет к свопу в борьбе за память
+
+
+//Просмотр параметров сервера
+show variables
+show variables like 'innodb_buffer_pool_size'
+show variables like 'innodb_buffer_pool_instances';
+
+
+//По умолчанию
+128 Мб
+
+
+//Рекоммендации по размеру кэша
+1. The size of the buffer pool is important for system performance
+and is assigned a value that is between 50-70% of available RAM
+2. 80% от всей памяти до 8Гб
+3. 90-95% от всей памяти свыше 8Гб
+4. sql-запрос для получения оптимального размера
+SELECT CONCAT(ROUND(KBS/POWER(1024,
+IF(PowerOf1024<0,0,IF(PowerOf1024>3,0,PowerOf1024)))+0.49999),
+SUBSTR(' KMG',IF(PowerOf1024<0,0,
+IF(PowerOf1024>3,0,PowerOf1024))+1,1)) recommended_innodb_buffer_pool_size
+FROM (SELECT SUM(data_length+index_length) KBS FROM information_schema.tables
+WHERE engine='InnoDB') A,
+(SELECT 2 PowerOf1024) B;
+
+
+/////////////////////////////////////////////////////////
+/////////Установка innodb_buffer_pool_size///////////////
+/////////////////////////////////////////////////////////
+
+//Постоянное изменение
+ - Добавить в секцию [mysqld] в файле /etc/mysql/my.conf
+ - innodb_buffer_pool_size = 24G (кратно innodb_buffer_pool_chunk_size)
+ - innodb_buffer_pool_size = 128M
+ - innodb_buffer_pool_instances = 8 (1 if innodb_buffer_pool_size < 1GB)
+ - innodb_buffer_pool_chunk_size = 128M
+
+//Динамическое изменение
+ - С версии MySQL 5.7.5 допускается динамическое изменение размера innodb_buffer_pool_size,
+однако необходимо помнить, что размер innodb_buffer_pool_size должен быть
+ПРОПОРЦИОНАЛЕН INNODB_BUFFER_POOL_CHUNK_SIZE
+
+//Get value of innodb_buffer_pool_chunk_size
+//SELECT @@innodb_buffer_pool_chunk_size/1024/1024;
+128
+
+//Set 125*128
+SET GLOBAL innodb_buffer_pool_size = (SELECT @@innodb_buffer_pool_chunk_size) * 125
+
+//В версии MySQL 5.6 нет innodb_buffer_pool_chunk_size
+

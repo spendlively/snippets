@@ -1,0 +1,14 @@
+
+//Просмотр параметров сервера
+show variables
+show variables like 'innodb_buffer_pool_size'
+
+//Просмотр активных запросов
+show full processlist
+
+//Просмотр информации о таблицах
+show table status
+
+//Просмотр последних транзакций
+show engine innodb status;
+

@@ -1,0 +1,71 @@
+
+//show table status
+ - Получение информации о таблицах
+
+//////////////////////////////////////
+///////////Описание полей/////////////
+//////////////////////////////////////
+//Name
+ - Имя таблицы
+
+//Engine
+ - Подсистема хранения
+
+//Version
+ - The version number of the table's .frm file
+
+//Row_format
+ - MyISAM: Dynamic (динамический размер), Fixed (фиксированный размер), Compressed, Redundant
+ - InnoDB: Redundant or Compact
+
+//Rows
+ - Количество строк в таблице
+ - Для InnoDB содержит приблизительное значение
+
+//Avg_row_length
+ - Сколько байтов содержит в среднем каждая строка
+
+//Data_length
+ - Объем данных на диске (в байтах), который занимает вся таблица
+ - For InnoDB, Data_length is the approximate amount of memory
+allocated for the clustered index, in bytes.
+Specifically, it is the clustered index size,
+in pages, multiplied by the InnoDB page size.
+
+//Max_data_length
+ - Максимальный объем данных, который может хранить эта таблица
+
+//Index_length
+ - Какой объем дискового пространства занимают данные индексов
+ - For InnoDB, Index_length is the approximate amount of memory
+allocated for non-clustered indexes, in bytes.
+Specifically, it is the sum of non-clustered index sizes,
+in pages, multiplied by the InnoDB page size.
+
+//Data_free
+ - (MyISAM) объем выделенного пространства, которое на данный момент не используется
+ - Оно может быть использовано в будущем при выполнении команд INSERT
+
+//Auto_increment
+ - Следующее значение атрибута AUTO_INCREMENT
+
+//Create_time
+ - Время создания таблицы
+
+//Update_time
+ - Время последнего изменения таблицы
+
+//Check_time
+ - Время последней проверки таб­лицы командой CHECK TABLE или утилитой myisamchk
+
+//Collation
+ - Подразумеваемая по умолчанию кодировка
+
+//Checksum
+ - Текущая контрольная сумма содержимого всей таб­лицы, если включен ее подсчет
+
+//Create_options
+ - Любые другие параметры, которые были указаны при создании таблицы
+
+//Comment
+ - Это поле содержит различную дополнительную информацию
