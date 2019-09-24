@@ -8,9 +8,10 @@
 
 
 //Просмотр параметров сервера
-show variables
-show variables like 'innodb_buffer_pool_size'
-show variables like 'innodb_buffer_pool_instances';
+show variables like 'innodb_buffer_pool_%';
+//show variables
+//show variables like 'innodb_buffer_pool_size'
+//show variables like 'innodb_buffer_pool_instances';
 
 
 //По умолчанию

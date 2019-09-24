@@ -1,7 +1,9 @@
 
 //Просмотр параметров сервера
 show variables
-show variables like 'innodb_buffer_pool_size'
+
+//Просмотр параметров innodb buffer pool
+show variables like 'innodb_buffer_pool_%';
 
 //Просмотр активных запросов
 show full processlist
@@ -9,6 +11,6 @@ show full processlist
 //Просмотр информации о таблицах
 show table status
 
-//Просмотр последних транзакций
+//Просмотр последних транзакций, суммарно выделенной памяти и т.д.
 show engine innodb status;
 
