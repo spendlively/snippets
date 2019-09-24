@@ -56,8 +56,9 @@
 ////////////////////////////////////////
 //taking a snapshot
  - Services -> RDS -> Databases -> Actions -> Take snapshot
+
 //restoring a snapshot
- - Services -> RDS -> Snapshots -> Actions -> Take snapshot
+ - Services -> RDS -> Snapshots -> Actions -> Restore snapshot
  - restore накатывает снапшон на новый хост
  - необходимо ввести имя хоста,
  - тип хоста,
