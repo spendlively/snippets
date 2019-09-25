@@ -67,5 +67,12 @@
  - при создании нелья задать security group,
 (This new DB Instance will have the default DB Security Group and DB Parameter Groups.)
 поэтому после создания нужно выбрать бд:
-Modify -> Network & Security -> Security group -> o p e a p i - d b -> Continue
+Modify -> Network & Security -> Security group -> o p _ a p i - d_b -> Continue
 Scheduling of modifications -> Apply immediately -> Modify DB Instance
+
+//custom db parameters
+ - parameters group
+ - add new parameters group extending mysql-5.7
+innodb_buffer_pool_size = 134217728;
+innodb_buffer_pool_chunk_size = 134217728;
+innodb_buffer_pool_instances = 1;
