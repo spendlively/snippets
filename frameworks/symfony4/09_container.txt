@@ -1,0 +1,17 @@
+
+//Принцип работы
+ - контейнер возвращает один и тот же инстанс объекта,
+даже если его вызывать несколько раз и в разных местах приложения
+
+
+
+//Круговые ссылки
+ - Нельзя создать 2 класса ссылающихся друг на друга
+class ServiceA {
+    public function __construct(ServiceB $serviceB){}
+}
+
+class ServiceB {
+    public function __construct(ServiceA $serviceA){}
+}
+
