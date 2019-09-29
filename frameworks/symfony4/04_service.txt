@@ -6,6 +6,9 @@ https://symfony.com.ua/doc/current/service_container.html
 //Автомонтирование
 https://symfony.com.ua/doc/current/service_container/autowiring-ru.html
 
+//Введение в параметры
+https://symfony.com.ua/doc/current/service_container/parameters.html
+
 
 
 
@@ -15,15 +18,9 @@ autowire: true - позволяет создавать сервис,
 
 
 
-//Введение в параметры
-https://symfony.com.ua/doc/current/service_container/parameters.html
-
-
-
 
 //Просмотр сервисов, которые могут быть использованы
 bin/console debug:container --types
-
 
 
 
@@ -56,7 +53,6 @@ class SiteUpdateManager
 
 
 
-
 //autoconfigure: true
  - автоматически применять определенную конфигурацию к вашим сервисам,
 основываясь на классе вашего сервиса
@@ -65,10 +61,8 @@ class SiteUpdateManager
 
 
 
-
 //public: false
  - не позволит получить доступ к сервису напрямую из контейнера
-
 
 
 
@@ -89,7 +83,6 @@ services:
 
 
 
-
 //Указание конкретного класса в зависимостях сервиса
 //@ - означает что передается id сервиса, а не просто строка
 services:
@@ -100,13 +93,11 @@ services:
 
 
 
-
 //Импорт всех сервисов одновременно
 services:
     App\:
         resource: '../src/*'
         exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
-
 
 
 
