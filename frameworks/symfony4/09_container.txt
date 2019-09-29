@@ -15,3 +15,15 @@ class ServiceA {
 class ServiceB {
     public function __construct(ServiceA $serviceA){}
 }
+
+
+
+//Работа с параметрами
+// проверьте, определён ли параметр
+$container->hasParameter('mailer.transport');
+
+// получите значение параметра
+$container->getParameter('mailer.transport');
+
+// добавьте новый параметр
+$container->setParameter('mailer.transport', 'sendmail');

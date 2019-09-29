@@ -1,3 +1,67 @@
 
 //Параметры конфигурации
 https://symfony.com.ua/doc/current/service_container/parameters.html
+
+
+
+
+
+//Параметры окружения
+https://symfony.com/doc/current/configuration/env_var_processors.html
+//services
+# config/services.yaml
+parameters:
+    env(SECRETS_FILE): '/opt/application/.secrets.json'
+    database_password: '%env(key:database_password:json:file:SECRETS_FILE)%'
+//or
+# config/services.yaml
+parameters:
+    # if PRIVATE_KEY is not a valid file path, the content of raw_key is returned
+    private_key: '%env(default:raw_key:file:PRIVATE_KEY)%'
+    raw_key: '%env(PRIVATE_KEY)%'
+
+//1
+framework:
+    router:
+        http_port: '%env(int:HTTP_PORT)%'
+
+//2
+parameters:
+    env(SECRET): 'some_secret'
+framework:
+    secret: '%env(string:SECRET)%'
+
+//3
+parameters:
+    env(HTTP_METHOD_OVERRIDE): 'true'
+framework:
+    http_method_override: '%env(bool:HTTP_METHOD_OVERRIDE)%'
+
+//4
+parameters:
+    env(HEALTH_CHECK_METHOD): 'Symfony\Component\HttpFoundation\Request::METHOD_HEAD'
+security:
+    access_control:
+        - { path: '^/health-check$', methods: '%env(const:HEALTH_CHECK_METHOD)%' }
+
+//5
+parameters:
+    env(TRUSTED_HOSTS): "10.0.0.1, 10.0.0.2"
+framework:
+   trusted_hosts: '%env(csv:TRUSTED_HOSTS)%'
+
+//6
+parameters:
+    env(AUTH_FILE): '../config/auth.json'
+google:
+    auth: '%env(file:AUTH_FILE)%'
+
+
+
+
+
+
+//Параметры-константы
+parameters:
+    global.constant.value: !php/const:GLOBAL_CONSTANT
+    my_class.constant.value: !php/const:My_Class::CONSTANT_NAME

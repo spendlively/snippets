@@ -38,6 +38,7 @@ services:
             # любом другом файле конфигурации сервиса - типа config.yml
             # и php кода
             # $adminEmail = $this->container->getParameter('admin_email');
+            # arguments: ['%mailer.transport%']
             $adminEmail: '%admin_email%'
 
 //Использование
@@ -99,6 +100,22 @@ services:
         resource: '../src/*'
         exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
 
+
+
+
+
+//Параметры окружения
+//
+parameters:
+    env(SECRETS_FILE): '/opt/application/.secrets.json'
+    database_password: '%env(key:database_password:json:file:SECRETS_FILE)%'
+    # if SECRETS_FILE contents are: {"database_password": "secret"} it returns "secret"
+
+//
+parameters:
+    # if PRIVATE_KEY is not a valid file path, the content of raw_key is returned
+    private_key: '%env(default:raw_key:file:PRIVATE_KEY)%'
+    raw_key: '%env(PRIVATE_KEY)%'
 
 
 
