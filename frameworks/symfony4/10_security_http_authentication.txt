@@ -1,0 +1,35 @@
+
+//Настройка basic http authentication
+
+//4 шага
+ - 1. Describe users
+ - 2. Specify http_basic firewall-type
+ - 3. Specify route (~ or /admin for example) and role allowed
+ - 4. Specify encoder you need
+
+//config/packages/security.yaml
+security:
+    # 1. Describe users
+    providers:
+        in_memory:
+            memory:
+                users:
+                    admin:
+                        password: 'passme'
+                        roles: 'ROLE_ADMIN'
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        # 2. Specify http_basic firewall-type
+        main:
+            anonymous: ~
+            http_basic: ~
+
+    access_control:
+        # 3. Specify route (~ or /admin for example) and role allowed
+        - { path: ~, roles: ROLE_ADMIN }
+
+    #4. Specify encoder you need
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
