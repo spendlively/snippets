@@ -1,0 +1,74 @@
+
+Repository - предоставляет возможность работы с базой данных
+
+
+
+//symfony vs yii
+ - doctrine
+ - di containers
+ - services
+ - console
+ - recipies
+ - annotations
+
+//dependency injection container
+
+//doctrine
+
+
+//entities
+- route
+- controller
+- module
+- service
+- repository
+- doctrine orm
+- model
+- runtime/logical exceptions with eventListener
+- di containers (symfony)
+
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ObjectManager;
+
+class BidRepository extends ServiceEntityRepository implements BidRepositoryInterface {
+
+    private $register;
+
+    private $manager;
+
+    public function __construct(ManagerRegistry $registry, ObjectManager $manager){
+
+        parent::__construct($registry, User::class);
+
+        $this->register = $registry;
+        $this->manager = $manager;
+    }
+
+    public function all(){
+        return parent::findAll();
+    }
+
+    public function one(int $id){}
+
+    public function save(Bid $bid){
+        $this->manager->persist($bid);
+        $this->manager->flush();
+    }
+
+    public function update(Bid $bid){
+        $this->manager->flush();
+    }
+}
+
+
+
+
+//postman
+
+
+
+
+//update migration
+php bin/console make:migration
+php bin/console doctrine:migration:migrate
+

@@ -1,0 +1,87 @@
+
+
+class BidService implements BidServiceInterface
+{
+    private $repository;
+
+    public function __construct(BidRepositoryInterface $repository){
+        $this->repository = $repository;
+    }
+
+    public function create(){
+
+        $bid = new Bid(...);
+
+        $this->repository->save($bid);
+
+        return $bid;
+    }
+
+    public function call(int id){
+        $bid = $this->repository->one($id);
+    }
+
+    public function accept(){}
+
+    public function reject(int $id){
+        $bid = $this->repository->one($id);
+        $bid->reject();
+
+        $this->repository->update($id);
+
+        return $bid;
+    }
+}
+
+
+
+
+//controller
+use Symfony\Component\Routing\Annotation\Route;
+
+/**
+ * Class BidController
+ * @package App\Controller\API\Bids
+ */
+class Controller extends AbstractController{
+
+    private $bidService;
+
+    public function __construct(BidServiceInterface $bidService)
+    {
+        $this->bidService = $bidService;
+    }
+
+    /**
+     * @Route("/api/bids/test", methods={"GET"})
+     * @return JsonResponse
+     **/
+    public function test()
+    {
+        return $this->json(['hello'])
+    }
+}
+//контроллер может работать только с сервисом
+
+
+
+
+//add the same prefixes to all routes
+/config/routes/annotations.yaml
+controllers:
+    resource: ...
+    type: ...
+api_bids:
+    resource: ../../src/Controller/API/Bids/
+    type: annotation
+    prefix: '/api/bids'
+//After this we can specify:
+//@Route("/test", methods={"GET"})
+
+
+
+
+
+//Initialization service
+
+

@@ -1,0 +1,2 @@
+//Install
+composer create-project symfony/website-skeleton my-project

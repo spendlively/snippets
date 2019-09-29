@@ -1,0 +1,54 @@
+
+public function getName() :?string {
+    //returns string or null
+}
+
+
+
+
+public function setName(?string $name) :void {
+    //gets string or null
+}
+
+
+
+
+const ACTION_ONE = 1;
+const ACTION_TWO = 2;
+const ACTION_THREE = 3;
+
+private $status;
+
+public function actionOne(){
+    if($this->status === self::ACTION_TWO){
+        throw new \Exception()
+    }
+    $this->status = self::ACTION_ONE;
+}
+
+
+
+
+//check if null
+$order = $request->query->get('order') ?? 'ASC';
+
+
+
+
+
+//Подсветка каталога синим цветом
+//ПКМ -> mark directory as -> Source root
+
+
+
+
+//добавить геттеры/сеттеры (Alt + Insert)
+
+
+
+
+//Расположение каталогов и файлов
+/uploads/2019/1/30/__hash__.jpg
+/uploads/2019/1/31/__hash__.jpg
+/uploads/2019/2/1/__hash__.jpg
+

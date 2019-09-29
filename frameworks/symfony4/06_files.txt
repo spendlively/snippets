@@ -1,0 +1,22 @@
+
+//Files
+/src/Files/Model/File.php
+/src/Files/Repository/.php
+/src/Files/Service/.php
+
+
+
+/src/Files/Model/File.php
+class File
+{
+    private $id;
+    private $hash;
+    private $link;
+    private $path;
+    private $size;
+}
+
+class FileController extends Controller
+{
+
+}

@@ -1,4 +1,9 @@
 
+//Install
+composer create-project symfony/website-skeleton my-project
+
+
+
 //Установка
 //PHP 7.2 on Ubuntu 16.04 (Symfony requires php 7.1)
 sudo apt-get install software-properties-common python-software-properties

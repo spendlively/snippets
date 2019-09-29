@@ -1,0 +1,36 @@
+
+/src/EventListener/ExceptionListener.php
+
+class ExceptionListener
+{
+    public function onKernelException(GetResponseForExceptionEvent $event): GetResponseForExceptionEvent
+    {
+        //Symfony\Component\HttpFoundation\Response
+        $response = new Response();
+
+        $exception = $event->getException()
+
+        if($exception instanceof \LogicException){
+            $exception = new BadRequestHttpException($exception->getMessage()));
+        }
+
+        $response->setStatusCode($exception->getStatusCode());
+
+        $response->setContent(json_encode([
+            'error' => $exception->getMessage()
+        ]));
+
+        $event->setResponse($response);
+
+        return $event;
+    }
+}
+
+//Register event handler
+//config/services.yaml
+services:
+    App\EventListener\ExceptionListener:
+        tags:
+            - {name: kernel.event_listener, event: kernel.exception}
+
+

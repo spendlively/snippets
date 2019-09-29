@@ -1,0 +1,85 @@
+
+
+
+//Bids
+   -- Model (Entity Objects) - модель данных
+   -- Repository (Db) - предоставляет возможность работы с базой данных
+   -- Service (changes model statuses) - хранит бизнесс логику
+
+
+//Layers (Left layer works with right layer only)v
+Request -> Controller -> Service -> Repository -> Model
+
+
+
+//creating table using doctrine
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Class Bid
+ * @package App\Bids\Model
+ * @ORM\Entity(repositoryClass="App\SimpleModule\Repository\UserRepository")
+**/
+
+/**
+ * @var int
+ * @ORM\Id()
+  * @ORM\Column(type="integer", length=11)
+ * @ORM\GeneratedValue()
+**/
+private $id;
+
+/**
+ * @var string
+ * @ORM\Column(type="string", length=255)
+**/
+private $name;
+
+/**
+ * @var string|null
+ * @ORM\Column(type="string", length=255, nullable=true)
+**/
+private $lastName;
+
+/**
+ * @var int
+ * @ORM\Column(type="integer", length=3)
+**/
+private $age;
+
+/**
+ * @var string
+ * @ORM\Column(type="text")
+**/
+private $information;
+
+
+
+
+
+//create table
+config/packages/doctrine.yaml
+doctrine:
+    orm:
+        mapping:
+            Bids:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Bids/Model'
+                prefix: 'App\Bids\Model'
+                alias: App\Bids\Model
+
+//config .env
+DATABASE_URL=mysql://username:passme@127.0.0.1:3306/db_name
+
+//terminal
+//create migration
+php bin/console make:migration
+//apply migration
+php bin/console doctrine:migrations:migrate
+
+
+
+
+Чтобы массив объектов модеот можно было преобразовать в json,
+нужно поля сделать public, либо добавить геттеры (Alt + Insert)
