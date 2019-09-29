@@ -1,3 +1,11 @@
+//Получение глобального параметра
+//%kernel.project_dir%
+//Из контроллера
+use Symfony\Component\DependencyInjection\ContainerInterface;
+public function test(ContainerInterface $container){
+    var_dump($container->get('kernel')->getProjectDir());
+}
+
 
 public function getName() :?string {
     //returns string or null

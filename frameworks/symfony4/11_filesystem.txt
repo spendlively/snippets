@@ -1,0 +1,6 @@
+
+//Рабочая директория
+use Symfony\Component\DependencyInjection\ContainerInterface;
+public function test(ContainerInterface $container){
+    var_dump($container->get('kernel')->getProjectDir());
+}
