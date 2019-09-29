@@ -1,5 +1,117 @@
 
+//LINKS
+//Сервис-контейнер
+https://symfony.com.ua/doc/current/service_container.html
 
+//Автомонтирование
+https://symfony.com.ua/doc/current/service_container/autowiring-ru.html
+
+
+
+
+//config/services.yaml
+autowire: true - позволяет создавать сервис,
+просто описывая его в качестве зависисмости
+
+
+
+//Введение в параметры
+https://symfony.com.ua/doc/current/service_container/parameters.html
+
+
+
+
+//Просмотр сервисов, которые могут быть использованы
+bin/console debug:container --types
+
+
+
+
+
+//Указание аргументов для сервиса вручную
+//config/services.yaml
+parameters:
+    admin_email: manager@example.com
+
+services:
+    AppBundle\Updates\SiteUpdateManager:
+        arguments:
+            # $adminEmail: 'manager@example.com'
+            # на %parameter_name% можно сослаться в
+            # любом другом файле конфигурации сервиса - типа config.yml
+            # и php кода
+            # $adminEmail = $this->container->getParameter('admin_email');
+            $adminEmail: '%admin_email%'
+
+//Использование
+class SiteUpdateManager
+{
+    private $adminEmail;
+    public function __construct(MessageGenerator $messageGenerator, \Swift_Mailer $mailer, $adminEmail)
+    {
+        $this->adminEmail = $adminEmail;
+    }
+}
+
+
+
+
+
+//autoconfigure: true
+ - автоматически применять определенную конфигурацию к вашим сервисам,
+основываясь на классе вашего сервиса
+ - autoconfigure добавит тег (twig.extension) за вас
+
+
+
+
+
+//public: false
+ - не позволит получить доступ к сервису напрямую из контейнера
+
+
+
+
+
+//Объявление 2 разных сревисов на основе 1го класса
+//например для того, чтобы задать им разные параметры
+services:
+    site_update_manager.superadmin:
+        class: AppBundle\Updates\SiteUpdateManager
+        autowire: false
+        arguments:
+
+    site_update_manager.normal_users:
+        class: AppBundle\Updates\SiteUpdateManager
+        autowire: false
+        arguments:
+
+
+
+
+
+//Указание конкретного класса в зависимостях сервиса
+//@ - означает что передается id сервиса, а не просто строка
+services:
+    AppBundle\Updates\SiteUpdateManager:
+        arguments:
+            $logger: '@monolog.logger.request'
+
+
+
+
+
+//Импорт всех сервисов одновременно
+services:
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+
+
+
+
+//Пример сервиса
 class BidService implements BidServiceInterface
 {
     private $repository;

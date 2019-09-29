@@ -1,0 +1,3 @@
+
+//Параметры конфигурации
+https://symfony.com.ua/doc/current/service_container/parameters.html
