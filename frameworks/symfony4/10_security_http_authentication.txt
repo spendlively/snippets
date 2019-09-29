@@ -1,7 +1,22 @@
 
 //Настройка basic http authentication
 
-//4 шага
+
+
+//LINKS
+//Вводная статья
+http://symfony.com.ua/doc/current/security.html
+
+//Справочник по конфигурированию config/packages/security.yaml
+//http://symfony.com.ua/doc/current/reference/configuration/security.html
+
+//Вход чере сторонний сервис (Google, Facebook, ...)
+//HWIOAuthBundle
+https://github.com/hwi/HWIOAuthBundle
+
+
+
+//4 шага по настройке http-аутентификации
  - 1. Describe users
  - 2. Specify http_basic firewall-type
  - 3. Specify route (~ or /admin for example) and role allowed
@@ -10,6 +25,8 @@
 //config/packages/security.yaml
 security:
     # 1. Describe users
+    # Провайдер хранит информацию о пользователях
+    # in_memory означает что данне хранятся "в конфиге"
     providers:
         in_memory:
             memory:
@@ -22,14 +39,43 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         # 2. Specify http_basic firewall-type
+        # pattern не указан, поэтому main будет работать для всех url
+        # поддерживается http_basic,
         main:
             anonymous: ~
             http_basic: ~
 
     access_control:
         # 3. Specify route (~ or /admin for example) and role allowed
+        # path: ~ - потребовать ROLE_ADMIN для всех страниц
+        # path: ^/admin - потребовать ROLE_ADMIN для /admin* (другие страницы будут доступны)
         - { path: ~, roles: ROLE_ADMIN }
 
     #4. Specify encoder you need
+    # данные пользоателя загружаются в класс User
+    # для провайдера in_memory используется класс Symfony\Component\Security\Core\User\User
+    # plaintext - алгоритм шифрования
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
+
+
+
+
+//dev firewall (установленный по умолчанию)
+//dev:
+//    pattern: ^/(_(profiler|wdt)|css|images|js)/
+//    security: false
+ - Отключает функцию безобасности для инструментов разработки Symfony,
+которые находятся по URL /_profiler и /_wdt
+
+
+
+//Использование зашифрованного пароля
+//Создать пароль зашифрованный bcrypt
+bin/console security:encode-password
+
+//providers/in_memory/memory/users/admin:
+password: '$2y$13$SYKxVFhdzO/ylUxW7cMcqODEh1tOAPJlPvV9t7eZdsWztDENS0cE61'
+
+//encoders
+Symfony\Component\Security\Core\User\User: bcrypt
