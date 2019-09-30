@@ -29,3 +29,6 @@
 dev-master
  - последний коммит ветки master
 
+
+//Example
+composer require geoip2/geoip2:~2.9.0
