@@ -1,0 +1,32 @@
+
+//description of the flow stages
+https://deployer.org/docs/flow.html
+
+
+//to see on your deploy tasks, enter to
+deployer.phar/recipe/symfony4.php
+//those parameters you can override
+
+
+//Override this task in deploy.php to create your own code transfer strategy:
+task('deploy:update_code', function () {
+    upload('.', '{{release_path}}');
+});
+
+
+//deploy:writable
+//Makes the directories listed in writable_dirs writable using acl mode
+
+//This task will try to guess http_user name, or you can configure it yourself:
+//set('http_user', 'www-data');
+
+//use different mode
+//set('writable_mode', 'chmod');
+
+//To use sudo with writable add this:
+set('writable_use_sudo', true);
+
+
+//deploy:clear_paths
+//Deletes dirs specified in clear_paths.
+//This task can be run with sudo using the clear_use_sudo parameter.

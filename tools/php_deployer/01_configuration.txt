@@ -1,0 +1,162 @@
+
+//Define a task
+task('test', function () {
+    writeln('Hello world');
+});
+//dep test
+
+
+//Execute command on remote host
+//runLocally() - for local host
+task('pwd', function () {
+    $result = run('pwd');
+    writeln("Current dir: $result");
+});
+
+
+//Verbose level
+-v for normal output,
+-vv for more verbose output,
+-vvv for debug
+
+
+//Run task after another task
+task('reload:php-fpm', function () {
+    run('sudo /usr/sbin/service php7-fpm reload');
+});
+
+after('deploy', 'reload:php-fpm');
+
+
+//Fast way to open ssh
+dep ssh
+
+
+//Set a config param
+set('param', 'value');
+set('current_path', function () {
+    return run('pwd');
+});
+
+task('deploy', function () {
+    $param = get('param');
+});
+
+
+//Using {{ }} inside run
+run('cd {{release_path}} && command');
+
+
+//Get list of predefined config params
+dep config:dump
+
+
+//Show current deployed release
+dep config:current
+
+
+//Show inventory (host config)
+dep config:hosts
+
+
+//Set git username
+set('user', function () {
+    return runLocally('git config --get user.name');
+});
+//or
+set('user', function () {
+    return getenv('DEP_USER');
+});
+
+
+//ssh multiplexing to speedup the native ssh client
+set('ssh_multiplexing', true);
+
+
+//Select the default stage to deploy
+set('default_stage', 'prod');
+//or
+host(...)
+    ->stage('prod');
+
+
+//This allow you to enter a passphrase for keys or add host to known_hosts
+set('git_tty', true);
+
+
+//deploy a specific tag or a revision
+dep deploy --tag="v0.1"
+dep deploy --revision="5daefb59edbaa75"
+
+
+//List of shared dirs
+set('shared_dirs', [
+  'logs',
+  'var',
+  ...
+]);
+//shared_files for files
+
+
+//copy_dirs
+//List of files to copy between release.
+
+
+//writable_dirs
+//List of dirs which must be writable for web server.
+
+
+
+//writable_mode
+//acl (default) use setfacl for changing ACL of dirs.
+//chmod use unix chmod command,
+//chown use unix chown command,
+//chgrp use unix chgrp command,
+
+//writable_use_sudo
+//Whether to use sudo with writable command. Default to false.
+
+//writable_chmod_mode
+//Mode for setting writable_mode in chmod. Default: 0755.
+
+//writable_chmod_recursive
+//Whether to set chmod on dirs recursively or not. Default: true
+
+
+
+//http_user
+//User the web server runs as. If this parameter is not configured, deployer try to detect it from the process list.
+
+//clear_paths
+//List of paths which need to be deleted in release after updating code.
+
+//clear_use_sudo
+//Use or not sudo with clear_paths. Default to false.
+
+//cleanup_use_sudo
+//Whether to use sudo with cleanup task. Default to false.
+
+//use_relative_symlink
+//Whether to use relative symlinks. By default deployer will detect if the system supports relative symlinks and use them.
+//Relative symlink used by default, if your system supports it.
+
+//use_atomic_symlink
+//Whether to use atomic symlinks. By default deployer will detect if system supports atomic symlinks and use them.
+//Atomic symlinking is used by default, if your system supports it.
+
+//composer_action
+//Composer action. Default is install.
+
+//composer_options
+//Options for Composer.
+
+//env
+//Array of environment variables.
+set('env', [
+    'VARIABLE' => 'value',
+]);
+
+
+
+
+

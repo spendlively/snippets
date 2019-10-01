@@ -1,0 +1,76 @@
+
+//!!!!!
+//By default all simple tasks cd to release_path, so you don’t need to
+
+
+//custom task
+desc('My task');
+task('my_task', function () {
+    run(...);
+});
+//desc to add description
+dep my_task
+
+
+//get all available commands
+dep list
+
+
+//multi line script:
+task('build', '
+  gulp build;
+  webpack -p;
+  echo "Build done";
+');
+
+
+//combine tasks in groups:
+task('deploy', [
+  'deploy:prepare',
+  'deploy:update_code',
+  'deploy:vendors',
+  'deploy:symlink',
+  'cleanup'
+]);
+
+
+//Extended host parameters
+host('domain.com')
+    ->user('name')
+    ->port(22)
+    ->configFile('~/.ssh/config')
+    ->identityFile('~/.ssh/id_rsa')
+    ->forwardAgent(true)
+    ->multiplexing(true)
+    ->addSshOption('UserKnownHostsFile', '/dev/null')
+    ->addSshOption('StrictHostKeyChecking', 'no');
+
+
+//override branch for this host only
+set('branch', 'master');
+host('prod')
+    ...
+    ->set('branch', 'production');
+
+
+//Multiple hosts
+host('110.164.16.59', '110.164.16.34', '110.164.16.50', ...)
+    ->stage('production');
+
+
+//build on localhost
+localhost()
+    ->stage('production')
+    ->roles('test', 'build')
+
+
+//host aliases
+host('domain.com/green', 'domain.com/blue')
+    ->set('deploy_path', '~/{{hostname}}')
+
+
+//log in and deploy with the different users
+host('domain.com')
+    ->become('deployer')
+
+
