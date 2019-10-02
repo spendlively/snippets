@@ -54,6 +54,16 @@ class SiteUpdateManager
 
 
 
+//
+services:
+    _defaults:
+        ...
+        bind:
+            $paramName: '%env(DISPATCHER_TYPE)%'
+
+
+
+
 //autoconfigure: true
  - автоматически применять определенную конфигурацию к вашим сервисам,
 основываясь на классе вашего сервиса

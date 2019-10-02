@@ -1,0 +1,24 @@
+
+//Пример установке проекта на PRODUCTION
+composer.phar install --verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader
+
+
+//--prefer-dist
+ - Скачивать стабильные, запакованные версии проекта, вместо клонирования из системы контроля версий (что значительно медленнее)
+
+
+//--no-progress
+ - Не выводить прогресс загрузки на экран
+
+
+//--no-interaction
+ - Не задавать интерактивные вопросы
+
+
+//--no-dev
+ - Отменить установку require-dev пакетов
+
+
+//--optimize-autoloader
+ - Герерирует карту всех классов в vendor/composer/autoload_classmap.php
+что существенно улучшает время инициализации
