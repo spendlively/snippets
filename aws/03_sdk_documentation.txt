@@ -1,0 +1,13 @@
+
+//Main page
+https://docs.aws.amazon.com/aws-sdk-php/v3/api/index.html
+
+//Application Auto Scaling
+https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-application-autoscaling-2016-02-06.html
+
+//Auto Scaling
+https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-autoscaling-2011-01-01.html#updateautoscalinggroup
+
+//EC2 (Amazon Elastic Compute Cloud)
+https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-ec2-2016-11-15.html#getlaunchtemplatedata
+
