@@ -1,0 +1,14 @@
+//install
+1.  Перезагрузиться в режиме восстановления
+CMD + R
+
+2. Открыть консоль
+Utilities -> terminal
+
+3. Перейтив каталог с refind
+cd /Volumes/APPLE/Users/spendlively/Downloads/refind/
+
+4. Установить
+./refind-install
+(без sudo)
+нажать Y
