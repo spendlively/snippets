@@ -42,4 +42,8 @@ docker commit test_container_name_1 test/test_image_name_1
 
 
 
-//bind container port with host machine
+//Проброс порта из контейнера в хостовую машину
+-p 127.0.0.1:80:8080
+docker run -p 127.0.0.1:80:8080/tcp ubuntu bash
+//8080/tcp - порт контейнера
+//127.0.0.1:80 - порт хостовой машины
