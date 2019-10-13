@@ -1,6 +1,11 @@
 
 //REDIS-CLI
 
+
+//шпаргалка по redis
+https://habr.com/ru/post/204354/
+
+
 //enter password
 auth passme
 
