@@ -1,0 +1,26 @@
+
+//REDIS INSTALL AND START
+
+//install usefull packages for clear docker container
+apt update
+apt install net-tools inetutils-ping net-tools nano mc nmap procps
+//install redis-server
+apt install redis
+
+
+//run on docker
+docker run -p 127.0.0.1:10002:6379 -it redis/adjusted bash
+docker run -p 127.0.0.1:10001:6379 --expose=6379 -it redis/adjusted bash
+
+
+//run redis-server
+/etc/init.d/redis-server start
+
+
+//netstat from Mac
+sudo netstat -AaLlnW
+
+
+//connect
+redis-cli -h 127.0.0.1 -p 6379
+> auth passme

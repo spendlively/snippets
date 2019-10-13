@@ -1,0 +1,34 @@
+
+//REDIS REPLICATION
+
+
+//если редис работает в технологической сети
+//нужно добавить адрес изолированной сети
+//sudo nano /etc/redis/redis.conf
+bind 127.0.0.1 isolated_IP_address
+//открыть порт наружу
+bind 0.0.0.0
+
+
+//если редис работает в открытой сети
+//нужно зашифровать трафик
+
+
+//настройка MASTER
+//sudo nano /etc/redis/redis.conf
+tcp-keepalive 60
+requirepass passme
+//проверка статуса репликации на master
+info replication
+
+
+//настройка SLAVE
+//указание адреса мастера
+slaveof 172.17.0.2 6379
+//и пароль мастера
+masterauth passme
+//проверка статуса репликации на slave
+info replication
+
+
+//изменение статуса

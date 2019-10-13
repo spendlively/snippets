@@ -47,3 +47,8 @@ docker commit test_container_name_1 test/test_image_name_1
 docker run -p 127.0.0.1:80:8080/tcp ubuntu bash
 //8080/tcp - порт контейнера
 //127.0.0.1:80 - порт хостовой машины
+
+
+//открыть порт для всех контейнеров подсети
+--expose=6379
+docker run -p 127.0.0.1:10001:6379 --expose=6379 -it redis/adjusted bash

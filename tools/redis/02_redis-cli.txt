@@ -1,0 +1,25 @@
+
+//REDIS-CLI
+
+//enter password
+auth passme
+
+
+//single value
+set key value
+get key
+
+
+//list
+//set
+lpush mylist 3 2 1
+rpush mylist 4 5 6
+//get
+lrange mylist 0 -1
+
+
+//map
+
+
+//set
+
