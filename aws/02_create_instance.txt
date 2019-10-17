@@ -41,3 +41,12 @@
 
 7. Step 7: Review Instance Launch
  - Launch
+
+
+
+////////////////////////////////
+///////////SSH CONNECT//////////
+////////////////////////////////
+ssh -i "/home/spendlively/.ssh/id_rsa" ubuntu@ec2-ip-addr.compute-1.amazonaws.com
+//или
+ssh ubuntu@ec2-ip-addr.compute-1.amazonaws.com
