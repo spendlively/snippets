@@ -1,0 +1,43 @@
+
+////////////////////////////////
+//////////CREATE IMAGE//////////
+////////////////////////////////
+//Services -> EC2 -> INSTANCES -> Instances
+1. ПКМ по инстансу, с кот. можно снять образ
+
+2. Image -> Create Image
+ - Image name "new_image_name"
+ - Create Image
+
+
+
+////////////////////////////////
+//////////LAUNCH IMAGE//////////
+////////////////////////////////
+//Services -> EC2 -> IMAGES -> AMIs
+1. Step 1: Выделить созданный на 1 шаге image -> Launch
+
+2. Step 2: Choose an Instance Type
+ - Instance Type - t3a.medium (выбрать такой же тип инстанса, как тот, с которого сделан образ)
+ - Next: Configure Instance Details
+
+3. Step 3: Configure Instance Details
+ - Network - vpc-_____ (workers-network) (как у исходного инстанса)
+ - Subnet - subnet-_______ (general_b) (как у исходного инстанса)
+ - T2/T3 Unlimited - убрать галку
+ - Next: Add Storage
+
+4. Step 4: Add Storage
+ - Next: Add Tags
+
+5. Step 5: Add Tags
+ - Add Tag -> key = Name, Value = "name_of_instance"
+ - Next: Configure Security Group
+
+6. Step 6: Configure Security Group
+ - Select an existing security group
+ - (Выбрать как у исходного инстанса)
+ - Review and Launch
+
+7. Step 7: Review Instance Launch
+ - Launch
