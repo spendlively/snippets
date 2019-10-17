@@ -6,11 +6,12 @@
 ssh -L 9900:127.0.0.1:6379 ubuntu@remote_ip
 
 //Из php (-t -t )
-$command = 'ssh -t -t -L 9900:127.0.0.1:6379 ubuntu@remote_ip 1>/tmp/out 2>/tmp/err &';
+$command = 'ssh -t -t -L 9900:127.0.0.1:6379 ubuntu@remote_ip 1>/tmp/out 2>/tmp/err & echo $!';
 $result = shell_exec($command);
 //-t -t - чтобы принудительно присвоить псевдо-tty, даже если stdin не является терминалом
 //в противном случае будет ошибка:
 //Pseudo-terminal will not be allocated because stdin is not a terminal.
+//echo $! - returns pid
 
 
 
