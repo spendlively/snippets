@@ -2,16 +2,24 @@
 ///////////////////////////////////////////////////////////
 ///////Прокинуть порт удаленной машины на локальную////////
 ///////////////////////////////////////////////////////////
-//Прокинуть порт Redis сервера (remote_ip:6379) на локальную машину (127.0.0.1:9900)
+//Прокинуть порт удаленного Redis сервера (remote_ip:6379) на локальную машину (127.0.0.1:9900)
+//С заходом на хост
 ssh -L 9900:127.0.0.1:6379 ubuntu@remote_ip
+//Без захода на хост
+ssh -N -L 9900:127.0.0.1:6379 ubuntu@remote_ip
+redis-cli -h 127.0.0.1 -p 9900
+
 
 //Из php (-t -t )
-$command = 'ssh -t -t -L 9900:127.0.0.1:6379 ubuntu@remote_ip 1>/tmp/out 2>/tmp/err & echo $!';
+$command = 'ssh -t -t -N -L 9900:127.0.0.1:6379 ubuntu@remote_ip 1>/tmp/out 2>/tmp/err & echo $!';
 $result = shell_exec($command);
 //-t -t - чтобы принудительно присвоить псевдо-tty, даже если stdin не является терминалом
 //в противном случае будет ошибка:
 //Pseudo-terminal will not be allocated because stdin is not a terminal.
 //echo $! - returns pid
+
+//Ключи ssh
+https://www.opennet.ru/man.shtml?topic=ssh&category=1&russian=0
 
 
 
