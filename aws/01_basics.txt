@@ -76,3 +76,16 @@ Scheduling of modifications -> Apply immediately -> Modify DB Instance
 innodb_buffer_pool_size = 134217728;
 innodb_buffer_pool_chunk_size = 134217728;
 innodb_buffer_pool_instances = 1;
+
+
+
+////////////////////////////////////////
+////////////Launch Template/////////////
+////////////////////////////////////////
+//Launch Template
+ - определяет конфигурацию инстансов,
+(все что нужно для хапуска инстанса)
+ - версионность позволяет переиспользовать параметры
+для создания других LA или версий LA версий
+
+https://docs.aws.amazon.com/en_us/autoscaling/ec2/userguide/LaunchTemplates.html

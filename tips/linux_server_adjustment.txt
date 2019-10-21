@@ -1,0 +1,27 @@
+
+//Disable ping
+echo  1  > /proc/sys/net/ipv4/icmp_echo_ignore_all
+
+
+
+//ssh connection with key
+//create keys pair
+//localhost
+ssh-keygen
+scp ~/.ssh/id_rsa.pub root@remotehost:/tmp/
+
+//add public key to remote host
+//remote host
+ssh username@remote_host
+mkdir -p ~/.ssh
+touch ~/.ssh/authorized_keys
+chmod -R go= ~/.ssh
+cat /tmp/id_rsa.pub >> ~/.ssh/authorized_keys
+
+//try to connect without pass
+ssh root@remotehost
+
+//disable password login
+nano /etc/ssh/sshd_config
+# PasswordAuthentication no
+systemctl restart ssh
