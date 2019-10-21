@@ -1,0 +1,181 @@
+
+
+///////////////////////////////////////////
+///////////Create Launch Template//////////
+///////////////////////////////////////////
+
+//Services -> EC2 -> INSTANCES -> Launch Templates -> Create launch template
+
+1. Create launch template
+ - Create a new template
+ - Launch template name = name
+
+Launch template contents
+ - AMI ID = Search for AMI
+ - Instance type = c5.large
+ - Key pair name = key_pair_name
+ - Network type = VPC
+ - Security Groups = search
+
+Network devices
+ -
+
+Storage
+ -
+
+Instance tags -> Add tag
+- key = Name, value = name-group
+- key = name-group, value = 1
+
+Advanced details
+ - Monitoring = Enable
+
+Create launch template
+Success
+Close
+
+
+
+///////////////////////////////////////////
+///////////Create Target Group/////////////
+///////////////////////////////////////////
+//Services -> EC2 -> LOAD BALANCING -> Target Groups -> Create Target Group
+
+1. Create target group
+ - Target group name = name
+ - Target type = instance
+ - Protocol = HTTP
+ - Port = 8080
+ - VPC = vpc-____
+
+Health check settings
+ - Protocol = HTTP
+ - Path = /path
+
+Advanced health check settings
+ - Port = traffic-port
+ - Healthy threshold = 2
+ - Unhealthy threshold = 4
+ - Timeout = 5
+ - Interval = 30
+ - Success codes = 200
+
+Create
+Successfully
+
+
+
+///////////////////////////////////////////
+///////////Create Load Balancer////////////
+///////////////////////////////////////////
+//Services -> EC2 -> LOAD BALANCING -> Load Balancers -> Create Load Balancer
+Type = Application Load Balancer
+Create
+
+1. Step 1: Configure Load Balancer
+Basic Configuration
+ - Name = name
+ - Scheme = internet-facing
+ - IP address type = ipv4
+
+Listeners -> Add listener
+ - HTTP = 80
+ - HTTPS = 443
+
+Availability Zones
+ - VPC = vpc-____
+ - Availability Zones:
+us-east-1a = subnet-____,
+us-east-1b = subnet-____,
+us-east-1c = subnet-____,
+us-east-1d = subnet-____,
+us-east-1f = subnet-____
+
+Tags
+ -
+
+Next: Configure Security Settings
+
+
+2. Step 2: Configure Security Settings
+Select default certificate
+ - Certificate type = Choose a certificate from ACM (recommended)
+ - Certificate name = name
+ - Security policy = ELBSecurityPolicy-2016-08
+
+3. Step 3: Configure Security Groups
+ - Security Group ID = what_you_need
+
+
+4. Step 4: Configure Routing
+Target group
+ - Target group = Existing target group
+ - Name = choose name
+ - Target type = Instance
+ - Protocol = HTTP
+ - Port = 8080
+
+Health checks
+ - Protocol = HTTP
+ - Path = /path
+
+
+5. Step 5: Register Targets
+ - There are no targets registered to this target group
+
+
+6. Step 6: Review
+
+Create
+Successfully
+
+
+
+///////////////////////////////////////////
+/////////Create Auto Scaling Groups////////
+///////////////////////////////////////////
+//Services -> EC2 -> AUTO SCALING -> Auto Scaling Groups -> Create Auto Scaling Group
+Choose -> Launch Template
+
+1. Configure Auto Scaling group details
+ - Group name = name
+ - Launch Template  = la-id
+ - Launch Template Version = 1
+ - Launch Template Description
+    - Fleet Composition = Combine purchase options and instances
+    - Instance Types = c5.large
+ - Maximum Spot Price  = Use default (recommended)
+ - Spot Allocation Strategy = Launch Spot Instances optimally based on the available Spot capacity per Availability Zone.
+ - Optional On-Demand Base = 3
+ - On-Demand Percentage Above Base = 0 (enter)
+ - Group size = 3
+ - Network = choose net
+ - Subnet = choose all Availability Zones from load balancer
+
+Advanced Details
+ -
+
+
+2. Configure scaling policies
+Create Auto Scaling Group = Keep this group at its initial size
+
+
+3. Configure Notifications
+Create Auto Scaling Group
+ -
+
+
+4. Configure Tags
+ -
+
+
+5. Review
+ -
+
+
+Create Auto Scaling group
+Successfully
+
+
+
+
