@@ -1,0 +1,18 @@
+
+//Введение в монгу
+//The Little MongoDB Book
+https://jsman.ru/mongo-book/index.html
+
+//Руководство по MongoDB
+//Репликация, Шардинг
+https://proselyte.net/tutorials/mongodb/replication/
+
+//Статья на хабре про кластеризацию
+https://habr.com/ru/post/217393/
+
+//Офф доки (на английском)
+//Репликация
+https://docs.mongodb.com/manual/replication/
+
+//Онлайн-руководство по MongoDB
+https://metanit.com/nosql/mongodb/
