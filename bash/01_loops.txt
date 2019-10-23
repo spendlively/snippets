@@ -1,0 +1,11 @@
+/////////////////////////////////////////////////
+///////////////loos in one string////////////////
+/////////////////////////////////////////////////
+//while
+while true; do ls; sleep 2; done
+
+//for
+for i in 1 2 3; do mkdir ${i}; done
+
+//if
+var=true ; if [ "${var}" = "true" ]; then echo "hellow world"; fi
