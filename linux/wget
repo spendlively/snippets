@@ -1,4 +1,12 @@
 
+//"-" symbol
+//wget -qO - url
+-q,  --quiet - ничего не выводить
+-O,  --output-document=ФАЙЛ - записывать документы в файл
+wget -qO - downloaded data is not saved in a file, but printed to stdout
+
+
+
 //Аутентификация и вход с сохранением кук в файле
 wget -d https://192.168.101.61/auth/login/check --keep-session-cookies --save-cookies=cookies.txt --no-check-certificate --post-data="username=administrator&password1=passme"
 wget -d https://192.168.101.61 --keep-session-cookies --load-cookies=cookies.txt --no-check-certificate

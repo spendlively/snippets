@@ -1,0 +1,63 @@
+
+//////////////////////////////////////////////
+////////////INSTALL ON UBUNTU 18.04///////////
+//////////////////////////////////////////////
+//download pgp key
+wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+//ok
+
+//add mongo repository
+echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+
+//update packages list
+sudo apt-get update
+
+//install packages
+sudo apt-get install -y mongodb-org
+//addition packages
+//mongodb-org	A metapackage that will automatically install the four component packages listed below.
+//mongodb-org-server	Contains the mongod daemon, associated init script, and a configuration file (/etc/mongod.conf). You can use the initialization script to start mongod with the configuration file. For details, see Run MongoDB Community Edition.
+//mongodb-org-mongos	Contains the mongos daemon.
+//mongodb-org-shell	Contains the mongo shell.
+//mongodb-org-tools	Contains the following MongoDB tools: mongoimport bsondump, mongodump, mongoexport, mongofiles, mongorestore, mongostat, and mongotop.
+
+//Предотвращение непреднамеренного обновления
+//echo "mongodb-org hold" | sudo dpkg --set-selections
+//echo "mongodb-org-server hold" | sudo dpkg --set-selections
+//echo "mongodb-org-shell hold" | sudo dpkg --set-selections
+//echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
+//echo "mongodb-org-tools hold" | sudo dpkg --set-selections
+
+
+
+//Каталоги созданные при установке
+sudo ls -al /var/lib/mongodb
+sudo ls -al /var/log/mongodb
+
+//Config
+/etc/mongod.conf
+
+
+
+//Start/Stop
+sudo systemctl start mongod
+sudo systemctl stop mongod
+
+
+
+//Checks
+sudo systemctl status mongod
+sudo tail /var/log/mongodb/mongod.log
+
+
+
+//remove mongo
+//packages
+sudo apt-get purge mongodb-org*
+//data directories
+sudo rm -r /var/log/mongodb
+sudo rm -r /var/lib/mongodb
+
+
+
+
