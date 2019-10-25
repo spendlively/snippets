@@ -1,3 +1,18 @@
+
+//Запуск сервиса при запуске
+//systemd
+sudo systemctl enable|disable mongos
+sudo systemctl status mongos
+
+//systemv or upstart
+sudo chkconfig mongos off|on
+
+sudo chkconfig --list mongos
+    mongod         	0:выкл	1:выкл	2:вкл	3:вкл	4:вкл	5:вкл	6:выкл
+
+
+
+
 //Autoloading 1 way
 echo "/usr/bin/scriptname &>/dev/null &" >>  ~/.bashrc
 
