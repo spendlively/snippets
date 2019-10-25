@@ -60,4 +60,5 @@ sudo rm -r /var/lib/mongodb
 
 
 
-
+//php extension
+sudo apt install php-mongodb php-mongo

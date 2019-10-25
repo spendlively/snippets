@@ -1,0 +1,53 @@
+
+//quick reference
+https://docs.mongodb.com/manual/reference/mongo-shell/
+//keyboard shortcuts
+https://docs.mongodb.com/manual/reference/program/mongo/#mongo-keyboard-shortcuts
+
+
+
+//ways to connect
+https://docs.mongodb.com/manual/mongo/
+
+//connect to mongod
+mongo
+mongo --port 27017
+
+//connect to remote mongod
+mongo "mongodb://mongodb0.example.com:27017"
+mongo --host mongodb0.example.com:27017
+mongo --host mongodb0.example.com --port 28015
+mongo "mongodb://alice@mongodb0.examples.com:28015/?authSource=admin"
+mongo --username alice --password --authenticationDatabase admin --host mongodb0.examples.com --port 28015
+
+//connect to a replica set
+mongo "mongodb://mongodb0.example.com.local:27017,mongodb1.example.com.local:27017,mongodb2.example.com.local:27017/?replicaSet=replA"
+mongo --host replA/mongodb0.example.com.local:27017,mongodb1.example.com.local:27017,mongodb2.example.com.local:27017
+
+
+
+//using
+db
+//test
+
+use 0
+//switched to db 0
+
+
+
+//insert
+use test
+db.myCollection.insertOne( { x: 1 } );
+db.myCollection.insertMany([
+   { item: "journal", qty: 25, status: "A", size: { h: 14, w: 21, uom: "cm" }, tags: [ "blank", "red" ] },
+   { item: "notebook", qty: 50, status: "A", size: { h: 8.5, w: 11, uom: "in" }, tags: [ "red", "blank" ] },
+]);
+
+
+
+//get
+db.getCollection("myCollection").find()
+db.myCollection.find({})
+db.myCollection.find( { x: 1 } );
+//format
+db.myCollection.find().pretty()

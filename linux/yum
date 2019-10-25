@@ -1,0 +1,16 @@
+
+//packages list
+yum list
+
+//get package files
+rpm -Vv package_name
+
+//determine package name by config file
+rpm -qf /etc/mongod.conf
+
+//get config by package name
+rpm -V mongodb-org-server
+
+//reinstall
+sudo yum reinstall mongodb-org-server
+//y

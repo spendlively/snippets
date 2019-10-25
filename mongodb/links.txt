@@ -1,4 +1,7 @@
 
+//Офф доки (на английском)
+https://docs.mongodb.com/manual/
+
 //Введение в монгу
 //The Little MongoDB Book
 https://jsman.ru/mongo-book/index.html
