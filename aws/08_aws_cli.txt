@@ -1,0 +1,23 @@
+
+//install
+sudo apt update
+sudo apt install python3-pip
+pip3 install awscli --upgrade --user
+sudo ln -s /home/spendlively/.local/bin/aws /usr/bin/aws
+
+
+//configuring
+aws configure
+    AWS Access Key ID [None]:
+    AWS Secret Access Key [None]:
+    Default region name [None]: us-east-1
+    Default output format [None]:
+
+
+//copy directories at s3
+//copying files from apps (without "apps" directory)
+aws s3 cp --recursive apps s3://conf.ws.pho.to/prod/
+
+
+//other commands
+https://docs.aws.amazon.com/cli/latest/reference/s3/
