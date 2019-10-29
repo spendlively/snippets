@@ -1,0 +1,26 @@
+
+////////////////////////////////////////////////////
+//////////////INSTALL ON UBUNTU 16.04///////////////
+////////////////////////////////////////////////////
+
+//download go
+sudo apt-get update
+sudo apt-get -y upgrade
+
+cd /tmp
+wget https://dl.google.com/go/go1.11.linux-amd64.tar.gz
+tar -xvf go1.11.linux-amd64.tar.gz
+sudo mv go /usr/local
+
+
+//set env
+nano ~/.profile
+    export GOROOT=/usr/local/go
+    export GOPATH=$HOME/go
+    export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+
+source ~/.profile
+
+
+//verify
+go version

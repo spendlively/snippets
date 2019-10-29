@@ -1,5 +1,0 @@
-
-//compiling
-cd /path/to/project
-go build
-./project

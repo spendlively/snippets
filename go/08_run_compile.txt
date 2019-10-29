@@ -1,0 +1,11 @@
+
+//run
+cd /path/to/project
+go run main.go
+
+
+//compiling
+cd /path/to/project
+go build
+./project
+
