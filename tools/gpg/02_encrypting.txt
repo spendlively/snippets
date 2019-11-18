@@ -1,0 +1,10 @@
+
+//Зашифровать файл decrypted.txt в файл encrypted.gpg ключом 0x12345678.
+//При этом готовый файл будет текстовым, а не бинарным.
+gpg -a -r 0x12345678 -e decrypted.txt > encrypted.gpg
+
+
+//Расшифровать файл encrypted.gpg ключом 0x12345678
+//и сохранить его в файл decrypted.txt.
+gpg -r 0x12345678 -d encrypted.gpg > decrypted.txt
+

@@ -1,0 +1,12 @@
+
+//creating key
+gpg --full-generate-key
+gpg --full-generate-key --expert
+
+
+//gpg folder
+~/.gnupg/
+
+
+//edit key
+gpg --edit-key <KeyID>

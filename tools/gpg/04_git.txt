@@ -1,0 +1,16 @@
+
+
+//Использовать ключ для подписи git
+git config --global user.signingkey 0A46826A
+//or
+nano ~/.gitconfig
+
+
+//дополнительно
+//nano ~/.gitconfig
+[commit]
+        gpgsign = true
+[user]
+        signingkey = key_id
+[gpg]
+        program = /home/nikitas/java/gpg-no-tty.sh

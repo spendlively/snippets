@@ -1,0 +1,35 @@
+
+///////////////////////////////////////
+//////////////////GPG//////////////////
+///////////////////////////////////////
+//Подписать файл message ключом 0x12345678
+//и сохранить подпись в файл sign.asc.
+gpg -u 0x12345678 -s message.txt > sign.asc
+
+
+//Подписать файл message.txt ключом 0x12345678
+//и записать сообщение с подписью в файл message.gpg.
+gpg -r 0x12345678 --clearsign message.txt > message.gpg
+
+
+//Проверить подпись файла message.txt,
+//которая записана в файле message.asc.
+gpg --verify message.asc message.txt
+
+
+
+
+
+///////////////////////////////////////
+//////////////////GIT//////////////////
+///////////////////////////////////////
+//подпись коммитов (-S)
+git commit -a -S -m 'signed commit'
+
+//просмотр и проверка подписей
+git log --show-signature -1
+
+//проверка доверенной подписи во время git merge и git pull
+git merge --verify-signatures
+git pull --verify-signatures
+

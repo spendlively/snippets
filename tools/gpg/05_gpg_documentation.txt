@@ -1,0 +1,2 @@
+
+http://manpages.ubuntu.com/manpages/precise/ru/man1/gpg.1.html

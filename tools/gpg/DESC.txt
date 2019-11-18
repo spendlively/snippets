@@ -1,0 +1,55 @@
+
+//Схема взаимного подписания сертификатов 2-мя пользователями
+
+//user1 генерирует пару rsa-ключей
+user1@host:~$ gpg --full-generate-key
+
+//user2 генерирует пару rsa-ключей
+user2@host:~$ gpg --full-generate-key
+
+//user1 экспортирует свой публичный ключ
+user1@host:~$ gpg --export --armor > /tmp/user1.pub
+
+//user2 экспортирует свой публичный ключ
+user2@host:~$ gpg --export --armor > /tmp/user2.pub
+
+//user1 импортирует публичный ключ пользователя user2
+user1@host:~$ gpg --import /tmp/user2.pub
+
+//user2 импортирует публичный ключ пользователя user1
+user2@host:~$ gpg --import /tmp/user1.pub
+
+//user1 подписывает публичный ключ пользователя user2
+user1@host:~$ gpg --sign-key user2@mail.ru
+
+//user1 экспортирует подписанный публичный ключ пользователя user2
+user1@host:~$ gpg --output /tmp/user2_signed_by_user1.pub --export --armor user2@mail.ru
+
+//user2 импортирует свой ключ, подписанный пользователем user1
+user2@host:~$ gpg --import /tmp/user2_signed_by_user1.pub
+
+//user2 подписывает публичный ключ пользователя user1
+user2@host:~$ gpg --sign-key user1@mail.ru
+
+//user2 экспортирует подписанный публичный ключ пользователя user1
+user2@host:~$ gpg --output /tmp/user1_signed_by_user2.pub --export --armor user1@mail.ru
+
+//user1 импортирует свой ключ, подписанный пользователем user2
+user1@host:~$ gpg --import /tmp/user1_signed_by_user2.pub
+
+//просмотр информации о взаимно подписанных публичных ключах
+user1@host:~$ gpg --list-keys --keyid-format LONG
+
+//просмотр информации о взаимно подписанных публичных ключах
+user2@host:~$ gpg --list-keys --keyid-format LONG
+
+//user2 генерирует сертификат для отзыва своего публичного ключа
+user2@host:~$ gpg --output revoke.crt --gen-revoke user2@mail.ru
+
+//user2 импортирует сгенерированный сертификат для отзыва своего публичного ключа
+user2@host:~$ gpg --import revoke.crt
+
+//user2 экспортирует свой отозванный публичный ключ
+user2@host:~$ gpg --export -a user2@mail.ru
+
+//и т.д.

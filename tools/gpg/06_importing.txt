@@ -1,0 +1,4 @@
+
+//Импортировать публичный ключ из файла pubkey.gpg.
+gpg --import pubkey.gpg
+

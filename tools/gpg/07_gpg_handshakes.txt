@@ -1,0 +1,27 @@
+
+user1
+    user2
+
+
+gpg --full-generate-key
+    gpg --full-generate-key
+
+
+gpg --export --armor > /tmp/user1.pub
+    gpg --export --armor > /tmp/user2.pub
+
+
+gpg --import /tmp/user2.pub
+    gpg --import /tmp/user1.pub
+
+
+gpg --sign-key user2@mail.ru
+gpg --output /tmp/user2_signed_by_user1.pub --export --armor user2@mail.ru
+    gpg --import /tmp/user2_signed_by_user1.pub
+    gpg --sign-key user1@mail.ru
+    gpg --output /tmp/user1_signed_by_user2.pub --export --armor user1@mail.ru
+gpg --import /tmp/user1_signed_by_user2.pub
+
+    gpg --output revoke.crt --gen-revoke user2@mail.ru
+    gpg --import revoke.crt
+    gpg --export -a user2@mail.ru

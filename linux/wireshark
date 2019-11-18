@@ -36,6 +36,7 @@ ip.addr = 192.168.20.117
 8. sip && rtp
 
 //url
+http.request.uri contains "/github/webhook/cla"
 http.request.uri contains "/test"
 http.host=="exact.name.here"
 http.host contains "partial.name.here"
@@ -51,6 +52,7 @@ Hypertext transfer protocol
         Follow TCP Stream
 
 //Запись лога tcpdump
+sudo tcpdump -i any -w /tmp/tcpdump
 tcpdump host 192.168.20.130 -w /tmp/log
 
 -i interface

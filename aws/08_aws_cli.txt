@@ -16,7 +16,9 @@ aws configure
 
 //copy directories at s3
 //copying files from apps (without "apps" directory)
-aws s3 cp --recursive apps s3://conf.ws.pho.to/prod/
+aws s3 cp --recursive apps s3://domain.ru/prod/apps/
+//or
+aws s3 sync --delete apps s3://domain.ru/prod/apps/
 
 
 //other commands
