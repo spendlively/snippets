@@ -1,0 +1,24 @@
+//Set custom GOPATH
+nano ~/.gvm/environments/go1.13
+export GOPATH; GOPATH="/home/spendlively/vhosts/gopath"
+
+
+//create GOPATH dir
+mkdir /home/spendlively/vhosts/gopath
+cd /home/spendlively/vhosts/gopath
+
+
+//apply gvm environments
+gvm use go1.13
+env | grep GOPATH
+
+
+//clone project
+mkdir -p src/github.com/GithubVendor/GithubRepo
+cd src/github.com/GithubVendor
+git clone git@github.com:GithubVendor/GithubRepo.git GithubRepo
+
+
+//pull dependencies
+cd GithubRepo
+go get -v ./...

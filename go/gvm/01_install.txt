@@ -1,0 +1,21 @@
+
+//install
+bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+
+
+//install go
+//install version 1.4 first
+gvm install go1.4 -B
+gvm use go1.4
+export GOROOT_BOOTSTRAP=$GOROOT
+//then last varsion (or whatever)
+gvm install go1.13
+
+
+//use go version
+gvm use go1.13 --default
+env | grep GO
+
+
+//go versions list
+gvm list
