@@ -1,0 +1,128 @@
+
+//Ошибка: Too many open files
+//Например
+ - запущено 4 процесса nginx по числу ядер+гиппертрединг
+ - каждый процесс может открывать 8192 соединений (worker_connections в /etc/nginx/nginx.conf),
+ - каждому соединению нужно 2 дескриптора (1ый на само соединение, 2ой на phpfpm, либо файл кэша),
+ - соответственно нужно 4*8192*2=65536
+
+
+
+/////////////////////////////////////////////////////////////
+///////////////////////////ТЕОРИЯ////////////////////////////
+/////////////////////////////////////////////////////////////
+//Сколько файлов можно открыть в вашей файловой системе
+cat /proc/sys/fs/file-max
+
+//Текущие ограничения количества открытых файлов для пользователя
+ulimit -n
+
+//hard и soft ограничения
+ulimit возвращает два вида ограничений - hard и soft
+ - hard - можно менять в любую сторону, пока оно не превышает hard
+ - soft - можно менять только в меньшую сторону от имени обычного пользователя,
+от имени суперпользователя можно менять оба вида ограничений так, как нужно
+ - ulimit -n по умолчанию показывает soft ограничения
+ - ulimit -n -S
+ - ulimit -n -H
+
+
+
+/////////////////////////////////////////////////////////////
+/////////Текущее количество дескрипторов для nginx///////////
+/////////////////////////////////////////////////////////////
+sudo -i
+for pid in `pidof nginx`; do echo "$(< /proc/$pid/cmdline)"; egrep 'files|Limit' /proc/$pid/limits; echo "Currently open files: $(ls -1 /proc/$pid/fd | wc -l)"; echo; done
+//Result will be like:
+Limit                     Soft Limit           Hard Limit           Units
+Max open files            1024                 4096                 files
+Currently open files: 17
+
+nginx: worker process
+Limit                     Soft Limit           Hard Limit           Units
+Max open files            1024                 4096                 files
+Currently open files: 27
+
+nginx: worker process
+Limit                     Soft Limit           Hard Limit           Units
+Max open files            1024                 4096                 files
+Currently open files: 27
+
+nginx: master process /usr/sbin/nginx -g daemon on; master_process on;
+Limit                     Soft Limit           Hard Limit           Units
+Max open files            1024                 4096                 files
+Currently open files: 22
+
+
+
+/////////////////////////////////////////////////////////////
+/////////Рассчет количества файловых дескрипторов////////////
+/////////////////////////////////////////////////////////////
+
+//1. Определить максимальное число соединений,
+//которые одновременно может открыть рабочий процесс
+grep "worker_connections" -R /etc/nginx/
+// = 8192
+
+//2. Количество запущенных процессов определяется по числу ядер
+pidof nginx
+// = 4
+
+//3. Суммарное количество соединений
+4 * 8192 = 32768
+
+//4. На каждое соединение требуется 2 дескриптора
+2 * 32768 = 65536
+
+
+
+///////////////////////////////////////////////////////////////
+///////Конфигурирование количества файловых дескрипторов///////
+///////////////////////////////////////////////////////////////
+//Мой вариант
+//Диагностика
+cat /proc/sys/fs/file-max
+ulimit -n
+for pid in `pidof nginx`; do echo "$(< /proc/$pid/cmdline)"; egrep 'files|Limit' /proc/$pid/limits; echo "Currently open files: $(ls -1 /proc/$pid/fd | wc -l)"; echo; done
+
+//allows setting resource limits
+sudo nano /etc/security/limits.conf
+nginx soft nofile 65536
+nginx hard nofile 80000
+
+//nginx
+sudo nano /etc/nginx/nginx.conf
+# to prevent "Too many open files" error
+# (8192 connections * 4 threads * 2 descriptors per connection)
+worker_rlimit_nofile 65536;
+
+sudo systemctl reload nginx.service
+for pid in `pidof nginx`; do echo "$(< /proc/$pid/cmdline)"; egrep 'files|Limit' /proc/$pid/limits; echo "Currently open files: $(ls -1 /proc/$pid/fd | wc -l)"; echo; done
+
+
+
+///////////////////////////////////////////////////////////////
+//////////////////////Вариант из интернета/////////////////////
+///////////////////////////////////////////////////////////////
+# vi /etc/sysctl.conf
+fs.file-max = 64000
+
+Edit /etc/security/limits.conf and add:
+nginx soft nofile 64000
+nginx hard nofile 64000
+
+echo ‘NGINX_ULIMIT=»-n 64000″‘ >> /etc/sysconfig/nginx
+
+Edit /usr/lib/systemd/system/nginx.service and add a line in the [Service] section:
+LimitNOFILE=64000
+
+In /etc/sysconfig/nginx.systemd add:
+LimitNOFILE=64000
+
+Reload system daemon:
+# systemctl —system daemon-reload
+# sysctl -p
+
+Restart nginx:
+
+# /etc/init.d/nginx restart
