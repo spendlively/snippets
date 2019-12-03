@@ -1,0 +1,303 @@
+
+//1. Создание скелета
+mkdir locallibrary
+cd locallibrary
+
+django-admin startproject locallibrary .
+
+locallibrary/
+    + manage.py
+    + locallibrary/
+        + settings.py
+        + urls.py
+        + wsgi.py
+
+//settings.py
+ - содержит все настройки проекта
+ - регистрирует приложения
+ - задаёт размещение статичных файлов, настройки базы данных и т.д.
+
+//urls.py
+ - задаёт ассоциации url адресов с представлениями
+ (обычно urls.py делят на части, по одной на приложение)
+
+//wsgi.py
+ - используется для связи между приложением и веб-сервером
+
+//manage.py
+ - используется для создания приложений
+ - работы с базами данных и
+ - запуска отладочного сервера
+
+
+
+//2. Создание приложения Каталог
+python3 manage.py startapp catalog
+
+//migrations
+ - миграции
+
+//__init__.py
+ - чтобы Django и Python распознавали папку как Python модуль
+
+
+
+//3. Регистрация папки с приложением
+nano locallibrary/settings.py
+INSTALLED_APPS = [
+    ...
+    'catalog.apps.CatalogConfig',
+]
+//catalog.apps.CatalogConfig указывает на catalog/apps.py/class CatalogConfig
+
+
+
+//4. Настройка базы данных
+//default база данных уже настроена в settings.py (sqlite)
+
+//5. Другие настройки проекта settings.py
+//SECRET_KEY - секретный ключ, для безопасности сайта
+//DEBUG - Включает подробные сообщения об ошибках, вместо стандартных HTTP статусов ответов
+
+
+
+//6. Подключение URL-адреса
+nano locallibrary/urls.py
+//urlpatterns
+ - инициализирует список функции, кот. соотносит admin/ с модулем admin.site.urls
+
+touch catalog/urls.py
+
+
+
+//7. Запуск миграций базы данных
+//Необходимо выполнять команды выше каждый раз,
+//когда меняются модели таким образом
+//что структура таблицы изменится,
+//включая добавления и удаления как отдельных полей, так и целых моделей
+python3 manage.py makemigrations
+python3 manage.py migrate
+
+
+
+//8. Запуск
+python3 manage.py runserver
+# python3 manage.py runserver 0.0.0.0:8899
+
+
+
+//9. Модели
+//Цифры на связях
+//Цифры, близкие к модели жанра, показывают, что у книги может быть один или несколько жанров (сколько угодно)
+//числа на другом конце строки рядом с моделью книги показывают, что у жанра может быть ноль или более связанных книг.
+
+//models.py
+ - Опреджеление моделей
+
+//поля
+my_field_name = models.CharField(max_length=20, help_text="Enter field documentation")
+//max_length=20 - максимальная длина
+//help_text="Enter field documentation" - текстовую метку
+
+//другие агрументы
+ - verbose_name: Удобо-читаемое имя для поля, используемого в поле метки
+ - default: Значение по умолчанию для поля
+ - null: Если True, Django будет хранить пустые значения как NULL в базе данных
+ - blank: Если True, поле может быть пустым в ваших формах. По умолчанию False
+ - choices: Группа вариантов для этого поля. Если это предусмотрено, по умолчанию соответствующий виджет формы будет полем выбора с этими вариантами вместо стандартного текстового поля.
+ - primary_key: задает текущее поле в качестве первичного ключа
+
+//типы полей
+ - CharField - строка длины max_length
+ - TextField - для больших строк произвольной длины
+ - IntegerField - значение целочисленного типа
+ - DateField и DateTimeField - дата и время
+ - EmailField - адрес электронной почты.
+ - FileField и ImageField - для загрузки файлов и изображений соответственно
+ - AutoField - это особый тип IntegerField, который автоматически увеличивается
+ - ForeignKey - Используется для указания отношения «один ко многим» к другой модели базы данных
+ - ManyToManyField - используется для определения отношения «многие ко многим»
+ - другие типы - https://docs.djangoproject.com/en/1.10/ref/models/fields/#field-types
+
+//метаданные
+
+//методы
+
+//каждая можель должна содержать минимум 1 метод __str __ ()
+//возвращающий удобочитаемую строку для каждого объекта
+def __str__(self):
+    return self.field_name
+
+//другой распространенный метод - get_absolute_url ()
+//который возвращает URL-адрес для отображения отдельных записей модели
+def get_absolute_url(self):
+    """
+    Returns the url to access a particular instance of the model.
+    """
+    return reverse('model-detail-view', args=[str(self.id)])
+
+
+
+//10. Создание и изменение записей
+a_record = MyModelName(my_field_name="Instance #1")
+a_record.save()
+
+//доступ к полю модели
+print(a_record.id)
+
+//обновление поля
+a_record.my_field_name="New Instance Name"
+a_record.save()
+
+//поиск записей
+//получить все записи для модели как объект
+all_books = Book.objects.all()
+
+//поиск с фильтрацией
+wild_books = Book.objects.filter(title__contains='wild')
+number_wild_books = Book.objects.filter(title__contains='wild').count()
+//между title и contains 2 подчеркивания
+
+//другие фильтры
+ - icontains (без учета регистра)
+ - iexact (точное совпадение без учета регистра)
+ - exact (точное совпадение с учетом регистра )
+ - gt (больше)
+ - startswith
+ - полный список - https://docs.djangoproject.com/en/2.2/ref/models/querysets/#field-lookups
+
+//фильтрация по полю, кот определяет отношение олин ко многим к другой модели
+books_containing_genre = Book.objects.filter(genre__name__icontains='fiction')
+
+//документация по составлению запросов
+https://docs.djangoproject.com/en/2.2/topics/db/queries/
+
+
+
+//11. админка
+
+//Регистрация моделей
+nano locallibrary/catalog/admin.py
+from .models import Author, Genre, Book, BookInstance
+admin.site.register(Book)
+admin.site.register(Author)
+admin.site.register(Genre)
+admin.site.register(BookInstance)
+
+//Создание суперпользователя
+python3 manage.py createsuperuser
+http://localhost:8899/admin/
+
+//вход
+/admin
+
+//кастомизация админки
+@TODO
+
+
+
+//12. Создание главной страницы
+
+//Для этого необходимо добавить
+ - модели данных (готовы)
+ - url адреса
+ - функции отображения
+ - шаблоны для рендеринга
+
+//Определяем URL-адреса страниц
+ - catalog/ - Домашняя/индексная странца
+ - catalog/books/ - Список всех книг
+ - catalog/authors/ - Список всех авторов
+ - catalog/book/<id> - Детальная информация для книги (/catalog/book/3, для id = 3)
+ - catalog/author/<id> - Детальная информация для автора
+
+//шаблоны
+mkdir -p catalog/templates/
+mkdir -p catalog/static/css/
+
+//базовый шаблон
+nano catalog/templates/base_generic.html
+
+//index шаблон
+nano nano catalog/templates/index.html
+
+//css
+nano nano catalog/static/css/styles.css
+
+//Ссылка на статические файлы их шаблонов
+TODO
+{% load static %}
+
+//Построение URL-адресов (базовый шаблон)
+<li><a href="{% url 'index' %}">Home</a></li>
+//url() ищет в urls.py связанное значение переменной, указанной в качестве ее параметра 'index',
+//а затем возвращает URL, который вы можете использовать для ссылки на соответствующие ресурсы.
+
+//полезные ссылки
+ - URL-диспетчер - https://docs.djangoproject.com/en/1.10/topics/http/urls/
+ - Функции отображения - https://docs.djangoproject.com/en/1.10/topics/http/views/
+ - Шаблоны - https://docs.djangoproject.com/en/1.10/topics/templates/
+ - Управление статическими файлами - https://docs.djangoproject.com/en/1.10/howto/static-files/
+ - Полезные функции Django - https://docs.djangoproject.com/en/1.10/topics/http/shortcuts/#django.shortcuts.render
+
+//Встроенные обобщенные классы отображения
+https://docs.djangoproject.com/en/1.10/topics/class-based-views/generic-display/
+
+//файл шаблона по умолчанию
+//который будет "искать" обобщенный класс отображения списка
+//(для модели с именем Book в приложении с именем catalog)
+nano locallibrary/catalog/templates/catalog/book_list.html
+//По умолчанию отображение передает контекст (список книг)
+//как object_list и book_list (синонимы; оба варианта будут работать).
+
+//Регулярные выражения в url
+^	Соответствует началу строки
+$	Соответствует концу строки
+\d	Соответствует цифре (0, 1, 2, ... 9)
+\w	Соответствует любому символу из алфавита в верхнем- или нижнем- регистре, цифре, или символу подчеркивания (_)
++	Соответствует одному, или более предыдущему символу. Например, для соответствия одной, или более цифре вы должны использовать \d+. Для одного и более символа "a", вы можете использовать a+
+*	Соответствует отсутствию вообще, или присутствию одного, или более предыдущему символу. Например, для соответствия "ничему", или слову (то есть, любому символу) вы можете использовать  \w*
+( )	Захват части паттерна внутри скобок. Любое захваченное значение будет передано отображению как безымянный параметр (если захватывается множество паттернов, то соответствующие параметры будут поставляться в порядке их объявления).
+[  ]	Соответствует одному символу из множества. Например, [abc] будет соответствовать либо 'a', или 'b', или 'c'. [-\w] будет соответствовать либо символу '-' , или любому другому словарному символу.
+(?P<name>...)	Захват части паттерна (обозначеного через ...) как именованной переменной (в данном случае <name>). Захваченные значения передаются в отображение с определенным именем. Таким образом, ваше отображение должно объявить аргумент с тем же самым именем!
+
+//примеры
+//захваченная информация будет передана как параметр pk
+r'^book/(?P<pk>\d+)$'
+//захваченная информация будет передана как безымянный параметр
+r'^book/(\d+)$'
+//паттерн для "стаба" /catalog/book/the-secret-garden
+r'^book/(?P<stub>[-\w]+)$'
+
+//Передача дополнительных настроек в ваши преобразования URL-адресов
+url(r'^/url/$', views.my_reused_view, {'my_template_name': 'some_path'}, name='aurl'),
+url(r'^/anotherurl/$', views.my_reused_view, {'my_template_name': 'another_path'}, name='anotherurl'),
+
+
+
+//13. Постраничный вывод (Pagination)
+TODO
+
+
+
+//14. Дополнительная информация
+ - Встроенные обобщенные классы отображения - https://docs.djangoproject.com/en/1.10/topics/class-based-views/generic-display/
+ - Обобщенный вид отображения - https://docs.djangoproject.com/en/1.10/ref/class-based-views/generic-display/
+ - Введение в отображения на основе классов - https://docs.djangoproject.com/en/1.10/topics/class-based-views/intro/
+ - Встроенные теги шаблона и фильтры - https://docs.djangoproject.com/en/1.10/ref/templates/builtins
+ - Постраничный вывод (Pagination) - https://docs.djangoproject.com/en/1.10/topics/pagination/
+
+
+
+//15. Сессии
+//Подключение сессий
+nano locallibrary/settings.py
+INSTALLED_APPS = [
+    ...
+    'django.contrib.sessions',
+    ....
+
+MIDDLEWARE = [
+    ...
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    ....

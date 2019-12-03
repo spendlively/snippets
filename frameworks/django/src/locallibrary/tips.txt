@@ -1,0 +1,12 @@
+
+//Создание и применение миграций
+python3 manage.py makemigrations
+python3 manage.py migrate
+
+//Создание суперпользователя
+python3 manage.py createsuperuser
+
+//Запуск сервера
+python3 manage.py runserver
+python3 manage.py runserver 0.0.0.0:8899
+
