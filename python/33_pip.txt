@@ -1,11 +1,51 @@
+//Куда pip устанавливает пакеты
+<virtualenv_name>/lib/<python_ver>/site-packages.
+
+//Путь к установленному пакету
+///usr/lib/python3/dist-packages/alembic/
+pip3 show alembic
+Location: /usr/lib/python3/dist-packages
+
 
 //Установка или обновление
 apt-get update
 curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
 sudo python get-pip.py
 
+
+
+//Version
 pip --version
 pip3 --version
 
 
 
+//Создание файла requirements.txt для проекта с помощью pip3
+//pip3 freeze
+ - выводит список всех установленных пакетов в специальном формате
+ - pip3 freeze > requirements.txt
+
+
+
+//Установка пакетов по списку из указанного requirement-файла
+pip install -r requirements.txt
+
+
+
+//Список установленных пакетов
+pip3 list
+
+
+
+//Информация об установленном пакете
+pip3 show package_name
+
+
+
+//Найти нужный пакет
+pip3 search pyopenssl
+
+
+
+//Проверка на совместимость
+pip3 check

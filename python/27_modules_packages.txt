@@ -1,3 +1,12 @@
+//Импорт
+//test.py (лежит на том же уровне, что и папка folder)
+from folder import filename
+
+cls = filename.ClassName()
+print(filename.function_name())
+print(cls.method_name())
+
+
 //Модули
 fib.py
 def fib():

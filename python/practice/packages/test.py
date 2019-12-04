@@ -1,6 +1,13 @@
-from one import one
-import two
+from folder import filename
 
+cls = filename.ClassName()
+print(filename.function_name())
+print(cls.method_name())
 
-print(one.one())
-print(two.two())
+############################################3
+
+# from one import one
+# import two
+#
+# print(one.one())
+# print(two.two())
