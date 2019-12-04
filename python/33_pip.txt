@@ -2,9 +2,15 @@
 <virtualenv_name>/lib/<python_ver>/site-packages.
 
 //Путь к установленному пакету
-///usr/lib/python3/dist-packages/alembic/
+
+//alembic
 pip3 show alembic
 Location: /usr/lib/python3/dist-packages
+
+//django
+pip3 show django
+Location: ~/.local/lib/python3.6/site-packages
+
 
 
 //Установка или обновление

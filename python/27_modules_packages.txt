@@ -1,6 +1,6 @@
 //Импорт
-//test.py (лежит на том же уровне, что и папка folder)
-from folder import filename
+//test.py (лежит на том же уровне, что и папки folder/subfolder)
+from folder.subfolder import filename
 
 cls = filename.ClassName()
 print(filename.function_name())

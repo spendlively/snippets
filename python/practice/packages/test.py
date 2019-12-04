@@ -1,4 +1,4 @@
-from folder import filename
+from folder.subfolder import filename
 
 cls = filename.ClassName()
 print(filename.function_name())

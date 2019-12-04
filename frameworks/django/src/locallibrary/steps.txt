@@ -292,6 +292,7 @@ TODO
 //15. Сессии
 //Подключение сессий
 nano locallibrary/settings.py
+//Записи уже есть по умолчанию
 INSTALLED_APPS = [
     ...
     'django.contrib.sessions',
@@ -301,3 +302,142 @@ MIDDLEWARE = [
     ...
     'django.contrib.sessions.middleware.SessionMiddleware',
     ....
+
+
+
+//Работа с данными сессии
+# Получение значения сессии при помощи ключа(то есть, 'my_car').
+# Если такого ключа нет, то возникнет ошибка KeyError
+my_car = request.session['my_car']
+
+# Получение значения сессии. Если значения не существует,
+# то вернется значение по умолчанию ('mini')
+my_car = request.session.get('my_car', 'mini')
+
+# Передача значения в сессию
+request.session['my_car'] = 'mini'
+
+# Удаление значения из сессии
+del request.session['my_car']
+
+
+
+//Обновление данных сессии
+//Если вы обновлете информацию внутри данных сессии, тогда Django не распознает эти изменения и не выполнит сохранение данных
+например, если вы изменили "wheels" внутри переменной "my_car", как показано ниже.
+В таких случаях вам надо явно указывать, что сессия была изменена.
+
+# Объект сессии модифицируется неявно.
+# Изменения НЕ БУДУТ сохранены!
+request.session['my_car']['wheels'] = 'alloy'
+
+# Явное указание, что данные изменены.
+# Сессия будет сохранена, куки обновлены (если необходимо).
+request.session.modified = True
+
+
+
+//Чтобы сессии записывали любое свое изменение в базу данных
+//и отправляли куки, при каждом запросе
+//locallibrary/settings.py
+SESSION_SAVE_EVERY_REQUEST = True
+
+
+
+//16. Аутентификация и авторизация
+
+//Подключение аутентификации
+(Аутентификация была подключена во время django-admin startproject)
+INSTALLED_APPS = [
+    ...
+    'django.contrib.auth',  # Фреймворк аутентификации и моделей по умолчанию.
+    'django.contrib.contenttypes',  # Django контент-типовая система (даёт разрешения, связанные с моделями).
+    ....
+
+MIDDLEWARE = [
+    ...
+    'django.contrib.sessions.middleware.SessionMiddleware',  # Управление сессиями между запросами
+    ...
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  # Связывает пользователей, использующих сессии, запросами.
+    ....
+
+
+
+//Создание пользователя в коде
+from django.contrib.auth.models import User
+
+# Создайте пользователя и сохраните его в базе данных
+user = User.objects.create_user('myusername', 'myemail@crazymail.com', 'mypassword')
+
+# Обновите поля и сохраните их снова
+user.first_name = 'John'
+user.last_name = 'Citizen'
+user.save()
+
+
+
+//Создание пользователя в админке
+/admin
+add group and user
+
+//add url
+path('accounts/', include('django.contrib.auth.urls')),
+
+//go to
+/accounts/login/
+/accounts/logout/
+
+//add redirect after login
+LOGIN_REDIRECT_URL = '/'
+
+//add templates into templates/registration
+logged_out.html
+login.html
+password_reset_complete.html
+password_reset_confirm.html
+password_reset_done.html
+password_reset_email.html
+password_reset_form.html
+
+
+
+//Проверка авторизован ли пользователь в шаблоне
+{% if user.is_authenticated %}
+    <li>User: {{ user.get_username }}</li>
+    <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+{% else %}
+    <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+{% endif %}
+
+
+
+//Куда перейти после выхода
+//{% url 'logout'%}?next={{request.path}}
+//следующий URL-адрес содержит адрес (URL) текущей страницы
+
+
+
+//Проверка авторизован ли пользователь в представлении
+//1) с помощью декоратора к функции
+from django.contrib.auth.decorators import login_required
+@login_required
+def my_view(request):
+
+//2) вручную, проверяя
+request.user.is_authenticated
+
+//3) объявив mixin LoginRequiredMixin в списке суперкласса
+from django.contrib.auth.mixins import LoginRequiredMixin
+class MyView(LoginRequiredMixin, View):
+
+//можно указать альтернативный url
+class MyView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+
+
+
+//17. Перечисление книг текущего пользователя
+
+//18. Права доступа
+
