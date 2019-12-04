@@ -1,0 +1,86 @@
+В Python есть изменяемые и неизменяемые типы. Изменяемые отличаются тем, что их содержимое можно сменить, не изменив ссылку на них. Неизменяемые объекты приходится пересоздавать, чтобы отразить изменения состояния. При этом все старые ссылки не видят это обновление, потому что указывают на старый объект.
+
+Поясню на практике. Списки, словари, множества - это изменяемые объекты:
+
+l1 = [1, 2, 3]
+l2 = l1
+print(l1, l2, id(l1), id(l2))
+# [1, 2, 3] [1, 2, 3] 139917408901064 139917408901064
+
+l1[1] = 10
+print(l1, l2, id(l1), id(l2))
+# [1, 10, 3] [1, 10, 3] 139917408901064 139917408901064
+Числа, строки, кортежи - это неизменяемые объекты:
+
+v1 = 1024
+v2 = v1
+print(v1, v2, id(v1), id(v2))
+# 1024 1024 ...7040 ...7040
+
+v1 = 2048
+print(v1, v2, id(v1), id(v2))
+# 2048 1024 ...5312 ...7040
+
+t1 = (1, 2, 3)
+t2 = t1
+print(t1, t2, id(t1), id(t2))
+# (1, 2, 3) (1, 2, 3) ...6232 ...6232
+
+# t1[1] = 10  # не сработает, так как кортежи неизменяемые
+t1 = (1, 10, 3)
+print(t1, t2, id(t1), id(t2))
+# (1, 10, 3) (1, 2, 3) ...7240 ...6232
+В своём коде вы используете изменяемые структуры данных, такие как словари и списки (user, userdata, server) и неизменяемые строки и числа.
+
+Таким образом, ничего не изменяя в структуре хранения информации, максимально можно сократить только доступ до списка чисел
+
+my_userdata = server[serveraddr][username]
+
+# изменение my_userdata влечёт изменение server[serveraddr][username],
+#    так как это один и тот же объект
+Так как числа неизменяемые, то сохранение их в переменную и дальнейшее изменение этой переменной никак не сказываются на исходном числе (т.е. переменная joincount никогда не изменится при изменении server[serveraddr][username][0], и наоборот). изменение чисел в этом списке никак не отразится на переменных, хранящих эти значения
+
+Но если попробовать немного улучшить код, то стоит создать класс UserData, который будет хранить в себе нужные значения и позволять их изменять. Минимальный пример будет следующий:
+
+class UserData:
+    def __init__(self, joincount, leftcount, gamescount, wincount):
+        self.joincount = joincount
+        self.leftcount = leftcount
+        self.gamescount = gamescount
+        self.wincount = wincount
+
+username   = "test"
+userdata   = UserData(10, 2, 30, 15)
+user       = {username:userdata}
+После этого, если мы получаем откуда-то нашего пользователя, мы можем изменить нужные значения:
+
+user_data = server[serveraddr][username]
+
+user_data.joincount  = 20
+user_data.leftcount  = 9
+user_data.gamescount = 10
+user_data.wincount   = 3
+
+print (server[serveraddr][username].joincount,
+       server[serveraddr][username].leftcount,
+       server[serveraddr][username].gamescount,
+       server[serveraddr][username].wincount)
+
+print (user_data.joincount, user_data.leftcount,
+       user_data.gamescount, user_data.wincount)
+Использование подобной структуры увеличит читаемость вашего кода, по сравнению с использованием индексов списка.
+
+Если есть доступ на изменение содержимого словаря, я бы рекомендовал вам вместо самописного класса использовать namedtuple из стандартного модуля collections, который позволяет создавать объект, по поведению схожий с кортежем, но предоставляющий доступ к полям, как у класса выше (но только на чтение):
+
+UserData = collections.namedtuple('UserData',
+    ['joincount', 'leftcount', 'gamescount', 'wincount'])
+В этом случае придётся заменять старый объект UserData новым:
+
+old_userdata = server[serveraddr][username]
+new_userdata = UserData(joincount=20, leftcount=9, gamescount=10, wincount=3)
+
+server[serveraddr][username] = new_userdata
+print(new_userdata, old_userdata, server[serveraddr][username])
+Получение поля на чтение будет выполняться так же, как и в примере выше:
+
+print(old_userdata.joincount, old_userdata.gamescount)
