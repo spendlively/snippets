@@ -6,6 +6,7 @@ https://github.com/mdn/django-locallibrary-tutorial
 mkdir locallibrary
 cd locallibrary
 
+//pip3 install Django
 django-admin startproject locallibrary .
 
 locallibrary/
@@ -615,3 +616,39 @@ http://localhost:9090/catalog/author/create/
 http://localhost:9090/catalog/author/3
 http://localhost:9090/catalog/author/3/update/
 http://localhost:9090/catalog/author/3/delete/
+
+
+
+//20. Окружение и деплой
+//Критически важные настройки файла settings.py:
+ - DEBUG - При развертывании сайта должен быть установлен в False (DEBUG = False)
+//DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
+
+ - SECRET_KEY - Это большое случайное число, применяемое для защиты от CRSF
+//Чтение SECRET_KEY из переменной окружения
+import os
+SECRET_KEY = os.environ['SECRET_KEY']
+//ИЛИ чтение ключа из файла
+with open('/etc/secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
+
+//перечень настроек для деплоя4
+https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
+
+//получить список настройки
+python3 manage.py check --deplo
+
+
+
+//21. Static файлы
+//Параметра
+0. BASE_DIR
+ - предопределен как абсолютный путь к каталогу с приложением
+1. STATIC_URL
+ - это базовое расположение URL, из которого будут загружены статические файлы, например, на CDN
+ - используется для переменной статического шаблона, доступ к которой осуществляется в нашем базовом шаблоне
+2. STATIC_ROOT
+ - абсолютный путь к каталогу, в котором «collectstatic» будет собирать любые статические файлы, упомянутые в наших шаблонах
+ - после их сбора они затем могут быть загружены в группу, где бы файлы не размещались
+3. STATICFILES_DIRS
+ - список, в кот. перечислены доп каталоги, в которых инстр коллективного поиска должен искать статические файлы

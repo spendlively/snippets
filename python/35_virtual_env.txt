@@ -1,0 +1,27 @@
+
+//Использование виртуального окружение позволяет проекту работать
+//изолированно и независимо от версий пакетов системы и других проектов
+
+https://python-scripts.com/virtualenv
+
+//Настройка виртуального окрыжения
+mkdir virtual_env && cd virtual_env
+python3 -m venv env
+source env/bin/activate
+
+======================================================
+
+
+pip3 install virtualenv
+virtualenv
+mkdir venv && cd venv
+
+//python3 -m - run library module as a script
+python3 -m venv testing_env
+
+//активировать виртуальную среду
+source env/bin/activate
+
+//деактивировать виртуальную среду
+deactivate
+
