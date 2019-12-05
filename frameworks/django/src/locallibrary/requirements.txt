@@ -20,7 +20,7 @@ DAWG-Python==0.7.2
 decorator==4.4.1
 defer==1.0.6
 distro-info===0.18ubuntu0.18.04.1
-Django==2.0
+Django==2.0.12
 django-appconf==1.0.2
 django-bootstrap3==11.1.0
 django-compressor==2.2
