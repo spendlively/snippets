@@ -1,4 +1,7 @@
 
+//0. исходники на github
+https://github.com/mdn/django-locallibrary-tutorial
+
 //1. Создание скелета
 mkdir locallibrary
 cd locallibrary
@@ -441,3 +444,174 @@ class MyView(LoginRequiredMixin, View):
 
 //18. Права доступа
 
+//Добавить в модель права на can_mark_returned
+class BookInstance(models.Model):
+...
+    class Meta:
+        ...
+        permissions = (("can_mark_returned", "Set book as returned"),)
+
+
+
+//Проверка прав на can_mark_returned в шаблоне
+{% if perms.catalog.can_mark_returned %}
+    <!-- We can mark a BookInstance as returned. -->
+    <!-- Perhaps add code to link to a "book return" view here. -->
+{% endif %}
+
+
+
+//Проверка прав на can_mark_returned в представлении
+//декоратор permission_required
+from django.contrib.auth.decorators import permission_required
+
+@permission_required('catalog.can_mark_returned')
+@permission_required('catalog.can_edit')
+def my_view(request):
+    ...
+
+
+//или
+//Mixin PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
+class MyView(PermissionRequiredMixin, View):
+    permission_required = 'catalog.can_mark_returned'
+    # Or multiple permissions
+    permission_required = ('catalog.can_mark_returned', 'catalog.can_edit')
+    # Note that 'catalog.can_edit' is just an example
+    # the catalog application doesn't have such permission!
+
+
+
+//19. Формы
+
+//Способы создания форм
+//1) Наследование от Form
+//2) Наследование от ModelForm
+//3) Использование обобщенных классов отображения
+//автоматически создают класс формы ModelForm
+//Наследование от CreateView, UpdateViewи DeleteView
+//4) Использование FormView
+
+
+
+//Пример
+class RenewBookForm(forms.Form):
+    renewal_date = forms.DateField(help_text="Enter a date between now and 4 weeks (default 3).")
+
+//Поля формы
+ - BooleanField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#booleanfield
+ - CharField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#charfield
+ - ChoiceField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#choicefield
+ - TypedChoiceField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#typedchoicefield
+ - DateField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#datefield
+ - DateTimeField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#datetimefield
+ - DecimalField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#decimalfield
+ - DurationField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#durationfield
+ - EmailField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#emailfield
+ - FileField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#filefield
+ - FilePathField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#filepathfield
+ - FloatField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#floatfield
+ - ImageField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#imagefield
+ - IntegerField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#integerfield
+ - GenericIPAddressField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#genericipaddressfield
+ - MultipleChoiceField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#multiplechoicefield
+ - TypedMultipleChoiceField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#typedmultiplechoicefield
+ - NullBooleanField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#nullbooleanfield
+ - RegexField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#regexfield
+ - SlugField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#slugfield
+ - TimeField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#timefield
+ - URLField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#urlfield
+ - UUIDField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#uuidfield
+ - ComboField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#combofield
+ - MultiValueField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#multivaluefield
+ - SplitDateTimeField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#splitdatetimefield
+ - ModelMultipleChoiceField - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#modelmultiplechoicefield
+ - ModelChoiceField​​​​ - https://docs.djangoproject.com/en/1.10/ref/forms/fields/#modelchoicefield
+
+//Общие аргументы для большинства полей
+ - required: Если True, то данное поле не может быть пустым, или иметь значениеNone
+ - label: Тектовая метка, используемая для рендеринга
+ - label_suffix: По умолчанию показывает двоеточие после текста метки
+ - initial: Начальное значение для поля при показе формы
+ - widget: Применяемый виджет для поля
+ - help_text: Дополнительный текст, который может быть показан на форме
+ - error_messages: Список сообщений об ошибках для данного поля
+ - validators: Список функций, которые будут вызваны для валидации
+ - localize: Позволяет осуществить локализацию данных поля формы
+ - disabled: Если установлено в True, то поле показывается, но его значение изменить нельзя. По умолчанию равно False
+
+//Валидация
+//способ 1 метод def clean_field_name
+
+class RenewBookForm(forms.Form):
+    renewal_date = forms.DateField(help_text="Enter a date between now and 4 weeks (default 3).")
+
+    def clean_renewal_date(self):
+        # получаем значение поля
+        data = self.cleaned_data['renewal_date']
+
+        #Проверка того, что дата не выходит за "нижнюю" границу (не в прошлом).
+        if data < datetime.date.today():
+            raise ValidationError(_('Invalid date - renewal in past'))
+
+        #Проверка того, то дата не выходит за "верхнюю" границу (+4 недели).
+        if data > datetime.date.today() + datetime.timedelta(weeks=4):
+            # "_()" -  функции перевода Django ugettext_lazy()
+            raise ValidationError(_('Invalid date - renewal more than 4 weeks ahead'))
+
+        # Помните, что всегда надо возвращать "очищенные" данные.
+        return data
+
+//в случае, если у вас имеется много полей, которые зависят один от другого,
+//монжо переопределить функцию Form.clean() и, при необходимости, "выкинуть" ValidationError
+
+
+//получать доступ к данным формы непосредственно через запрос
+//request.POST['renewal_date'] или request.GET['renewal_date']
+//не рекомендуется - очищенные данные проверены на вредоносность
+//и преобразованы в типы, совместимые с Python.
+
+
+
+//создание формы
+nano catalog/forms.py
+nano catalog/urls.py
+url(r'^book/(?P<pk>[-\w]+)/renew/$', views.renew_book_librarian, name='renew-book-librarian'),
+nano catalog/views
+//def renew_book_librarian(request, pk):
+nano catalog/templates/catalog/book_renew_librarian.html
+
+
+
+//Другие варианты применения переменной шаблона form
+{{form}}
+{{ form.as_table }}
+{{form.as_ul}}
+{{form.as_p}}
+
+//доступ к полям
+{{form.renewal_date}}: само поле.
+{{form.renewal_date.errors}}: Список ошибок.
+{{form.renewal_date.id_for_label}}: Идентификатор текстовой метки.
+{{form.renewal_date.help_text}}: Дополнительный текст.
+
+//Примеры рендеринга фармы
+https://docs.djangoproject.com/en/1.10/topics/forms/#rendering-fields-manually
+
+//renew-book-librarian
+//catalog.can_mark_returned //убрал
+http://localhost:9090/catalog/book/c9c7eeb396eb4895a8cb850d228ebd4f/renew/
+
+
+
+//Более простой вариант создание формы - использование класса ModelForm
+
+
+
+//Обобщенные классы отображения для редактирования
+http://localhost:9090/catalog/author/create/
+http://localhost:9090/catalog/author/3
+http://localhost:9090/catalog/author/3/update/
+http://localhost:9090/catalog/author/3/delete/
