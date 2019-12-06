@@ -12,6 +12,8 @@ autorestart=false
 startretries=0
 
 sudo service supervisor restart
+//перечитать конфиги
+sudo supervisorctl reread
 
 sudo supervisorctl status Test
 sudo supervisorctl stop Test
