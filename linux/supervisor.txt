@@ -1,0 +1,20 @@
+
+////////////////////////////////////////////////////////////
+//////////////////////////SUPERVISOR////////////////////////
+////////////////////////////////////////////////////////////
+
+sudo nano /etc/supervisor/conf.d/Test.conf
+
+[program:Test]
+command=/bin/bash -c "while true; do echo `date` >> /tmp/test ; sleep 1; done; "
+autostart=true
+autorestart=false
+startretries=0
+
+sudo service supervisor restart
+
+sudo supervisorctl status Test
+sudo supervisorctl stop Test
+sudo supervisorctl start Test
+
+tail -n0 -f /tmp/test
