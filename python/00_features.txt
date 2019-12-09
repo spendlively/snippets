@@ -100,4 +100,10 @@ if not (b.isdigit() and c.isdigit()):
 '''qwe
 asd
 zxc'''
- 
+
+
+# Аннотации для переменных (Python 3.6)
+# var_name: type [ = value]
+name: str
+name: str = 'Mike'
+photoset: PhotoSet = save_images(request)
