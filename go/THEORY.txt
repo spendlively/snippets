@@ -1,0 +1,4 @@
+
+//Производительность без цикла событий
+https://habr.com/ru/company/mailru/blog/283038/
+

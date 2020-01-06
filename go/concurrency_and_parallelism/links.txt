@@ -1,0 +1,10 @@
+
+Google I/O 2012 — Go Concurrency Patterns
+https://www.youtube.com/watch?v=f6kdp27TYZs&t=938s
+
+Rob Pike — ‘Concurrency Is Not Parallelism’
+https://www.youtube.com/watch?v=cN_DpYBzKso
+
+GopherCon 2017: Edward Muller — Go Anti-Patterns
+https://www.youtube.com/watch?v=ltqV6pDKZD8&t=1315s
+

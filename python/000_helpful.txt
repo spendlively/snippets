@@ -1,0 +1,10 @@
+
+//split filename and extension
+//filename and extension
+filename, file_extension = os.path.splitext('/path/to/somefile.ext')
+
+//extension
+file_extension = os.path.splitext(filename)[1]
+
+//extension without dot
+file_extension = os.path.splitext(filename)[1][1:]

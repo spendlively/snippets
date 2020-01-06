@@ -1,0 +1,28 @@
+
+//1. mutex
+ - по умолчанию значение sync.Mutex разблокировано
+
+import (
+  "sync"
+)
+
+var (
+  lock sync.Mutex
+)
+
+func main() {
+  go foo()
+}
+
+func foo() {
+  lock.Lock()
+  defer lock.Unlock()
+  //...
+ }
+
+
+
+
+
+//2. Channels
+
