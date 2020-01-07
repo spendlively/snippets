@@ -1,0 +1,19 @@
+
+//Мониторинг потоков
+
+//1. ps
+ps -T -p pid
+//SPID - идентификатор потока
+//CMD - имя потока
+
+
+//2. top
+top -H
+top -H -p pid
+
+
+
+//Просмотр потоков запущенного процесса
+python3 /home/spendlively/vhosts/snippets/python/practice/threads/simple.py
+ps -T -p pid
+top -H -p pid

@@ -17,3 +17,12 @@ var=true ; if [ "${var}" = "true" ]; then echo "hellow world"; fi
 
 //Check installed deb-package files
 dpkg-query -L phpmyadmin
+
+
+
+//set ttl
+//Set ttl on linux
+sudo sysctl net.ipv4.ip_default_ttl=65
+
+//Set ttl on macos
+sudo sysctl -w net.inet.ip.ttl=65
