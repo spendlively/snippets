@@ -1,0 +1,3 @@
+
+//Coroutines в PHP и работа с неблокирующими функциями
+https://habr.com/ru/post/164173/
