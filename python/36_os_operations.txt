@@ -1,0 +1,33 @@
+
+//os.listdir(path=".")
+ - список файлов и директорий в папке
+
+//os.mkdir(path, mode=0o777, *, dir_fd=None)
+ - создаёт директорию. OSError, если директория существует.
+
+//os.makedirs(path, mode=0o777, exist_ok=False)
+ - создаёт директорию, создавая при этом промежуточные директории.
+
+//os.rename(src, dst, *, src_dir_fd=None, dst_dir_fd=None)
+ - переименовывает файл или директорию из src в dst.
+
+//os.renames(old, new)
+ - переименовывает old в new, создавая промежуточные директории.
+
+//os.replace(src, dst, *, src_dir_fd=None, dst_dir_fd=None)
+ - переименовывает из src в dst с принудительной заменой.
+
+//os.rmdir(path, *, dir_fd=None)
+ - удаляет пустую директорию.
+
+//os.removedirs(path)
+ - удаляет директорию,
+затем пытается удалить родительские директории,
+и удаляет их рекурсивно, пока они пусты
+
+//os.system(command)
+ - исполняет системную команду,
+возвращает код её завершения (в случае успеха 0).
+
+//os.path
+https://pythonworld.ru/moduli/modul-os-path.html
