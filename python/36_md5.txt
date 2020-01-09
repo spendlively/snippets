@@ -1,0 +1,4 @@
+
+m = hashlib.md5()
+m.update(name.encode())
+return m.hexdigest()

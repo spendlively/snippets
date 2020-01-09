@@ -1,0 +1,10 @@
+
+//information
+//link
+sudo ip link show
+//ip addresses
+sudo ip addr show
+
+//up and down
+sudo ip link set eno1 up
+sudo ip link set eno1 down
