@@ -17,3 +17,8 @@ top -H -p pid
 python3 /home/spendlively/vhosts/snippets/python/practice/threads/simple.py
 ps -T -p pid
 top -H -p pid
+
+
+//show all php-fpm threads
+ps a -T -p $(ps aux | grep php-fpm | cut -f 2 -d " " | sed '/^[[:space:]]*$/d' | paste -sd "," -)
+top -H -p $(ps aux | grep php-fpm | cut -f 2 -d " " | head -n 20 | sed '/^[[:space:]]*$/d' | paste -sd "," -)
