@@ -1,3 +1,8 @@
+//get all bin/console commands
+php bin/console list
+php bin/console list doctrine
+
+
 //Получение глобального параметра
 //%kernel.project_dir%
 //Из контроллера
