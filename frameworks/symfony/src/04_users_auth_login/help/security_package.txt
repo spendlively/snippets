@@ -1,0 +1,70 @@
+
+//link
+//Создание формы входа
+https://symfony.com/doc/current/security/form_login_setup.html#generating-the-login-form
+//template
+https://getbootstrap.com/docs/4.4/examples/dashboard/
+
+
+//bin/console commands
+
+
+
+//Просмотр дефолтных параметров конфига security
+php bin/console config:dump-reference security
+
+//Просмотр актуальных параметров конфига security
+php bin/console debug:config security
+
+
+//2 steps to load user via Doctrine
+1. Create your User entity (that implements UserInterface)
+2. Configure security.yaml to load from your entity
+
+
+//1. create entity
+//...
+
+//2. migrations
+php bin/console make:migration
+php bin/console doctrine:migration:migrate
+
+php bin/console doctrine:migrations:diff
+php bin/console doctrine:migrations:migrate
+
+//insert admin/admin
+insert into app_users (username, password, email, is_active) values ('admin', '$2a$08$jHZj/wJfcVKlIwr5AvR78euJxYK7Ku5kURNhNx.7.CSIJ3Pq6LEPC', 'spendlively@mail.ru', 1)
+update app_users set password = '$2a$08$jHZj/wJfcVKlIwr5AvR78euJxYK7Ku5kURNhNx.7.CSIJ3Pq6LEPC' where id = 1;
+$2y$13$OOPIZbK/vEYMrwwnKguXdO0QpApkZseEF/PVetYx8XgJw6K/jv9my
+
+
+//Find an Entity from inside a Controller
+//1. Get current user
+$user = $this->getUser();
+
+//2. Find user via the Doctrine Manager
+$entityManager = $this->getDoctrine()->getManager();
+$user = $entityManager->find(User::class, 1);
+
+//3. Find user via the user Repository
+$userRepository = $this->getDoctrine()->getRepository(User::class);
+$user = $userRepository->find(1);
+
+
+
+
+//Using the form_login Authentication Provider
+https://symfony.com/doc/current/security/form_login.html
+
+
+
+
+//other links
+https://symfony.com/doc/4.0/security/entity_provider.html
+https://symfony.com/doc/4.0/doctrine/registration_form.html
+https://symfony.com/doc/current/security.html
+https://symfony.com/doc/4.0/security/entity_provider.html
+https://symfony.com/doc/current/security/user_provider.html
+https://symfony.com/doc/4.0/security/form_login_setup.html
+https://symfony.com/doc/current/security/form_login_setup.html
+
