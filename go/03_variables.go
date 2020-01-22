@@ -72,7 +72,7 @@ func main() {
 
 
 
-//type cast
+//приобразование типов
 i := 42
 f := float64(i)
 u := uint(f)

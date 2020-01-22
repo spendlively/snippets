@@ -1,0 +1,100 @@
+
+///////////////////////////////////////////////////
+////////////////////REPOSITORY/////////////////////
+///////////////////////////////////////////////////
+
+//getting an entity repository (extends ServiceEntityRepository)
+$repository = $this->getDoctrine()->getRepository(Product::class);
+//$repository = $entityManager->getRepository(Product::class);
+
+$repository->find($id);
+
+$repository->findOneBy(['name' => 'Keyboard']);
+
+$repository->findOneBy([
+    'name' => 'Keyboard',
+    'price' => 1999,
+]);
+
+$repository->findBy(
+    ['name' => 'Keyboard'],
+    ['price' => 'ASC'],
+    100, //Limit
+    100, //Offset
+);
+
+$repository->findAll();
+
+
+
+
+///////////////////////////////////////////////////
+//////////////////////MANAGER//////////////////////
+///////////////////////////////////////////////////
+//getting an instance of Doctrine\ORM\EntityManager
+$entityManager = $this->getDoctrine()->getManager();
+
+//create
+$product = new Product();
+$product->setName('Keyboard');
+$entityManager->persist($product);
+//execute
+$entityManager->flush();
+
+//remove
+$entityManager->remove($product);
+$entityManager->flush();
+
+//update
+$product = $entityManager->getRepository(Product::class)->find($id);
+$product->setName('New product name!');
+$entityManager->flush();
+
+
+
+
+///////////////////////////////////////////////////
+///////////////////QUERY BUILDER///////////////////
+///////////////////////////////////////////////////
+//from any place
+$query = $entityManager->createQuery(
+    'SELECT p
+    FROM App\Entity\Product p
+    WHERE p.price > :price
+    ORDER BY p.price ASC'
+)->setParameter('price', $price);
+$products = $query->getResult();
+
+
+//inside appropriate repository
+//repository knows what entity to use
+$qb = $this->createQueryBuilder('p')
+    ->where('p.price > :price')
+    ->setParameter('price', $price)
+    ->orderBy('p.price', 'ASC');
+
+if (!$includeUnavailableProducts) {
+    $qb->andWhere('p.available = TRUE')
+}
+$query = $qb->getQuery();
+$products =  $query->execute();
+
+
+//custom sql query (inside repository)
+$connection = $this->getEntityManager()->getConnection();
+$sql = '
+    SELECT * FROM product p
+    WHERE p.price > :price
+    ORDER BY p.price ASC
+    ';
+$stmt = $connection->prepare($sql);
+$stmt->execute(['price' => $price]);
+// returns an array of arrays (i.e. a raw data set)
+$rawRows = $stmt->fetchAll();
+
+
+
+///////////////////////////////////////////////////
+//////////////////////CONSOLE//////////////////////
+///////////////////////////////////////////////////
+php bin/console doctrine:query:sql 'SELECT * FROM product'

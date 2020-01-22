@@ -1,0 +1,17 @@
+
+//инициализация
+var a int = 1
+var b = 1
+c := 1
+
+//приобразование типов
+a := 42
+b := float64(a)
+
+//constants can't be defined with :=
+const Pi = 3.14
+
+//if, switch, for without ()
+if 1 < 2 {
+    fmt.Println('<')
+}

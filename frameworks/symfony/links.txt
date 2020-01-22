@@ -1,6 +1,21 @@
 
-//knp university symfony 4
-https://symfonycasts.com/screencast/symfony/setup
+//Doctrine
+https://symfony.com/doc/current/doctrine.html
 
-//Official Documentation
-https://symfony.com/doc/current/index.html#gsc.tab=0
+//Doctrine запросы
+https://symfony.com.ua/doc/current/doctrine.html
+
+//Doctrine ассоциации, связи и отношения
+https://symfony.ru/doc/current/doctrine/associations.html
+
+//Doctrine columns
+https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/basic-mapping.html
+
+
+
+//Forms
+//Справочник типов полей форм
+https://symfony.com.ua/doc/current/reference/forms/types.html
+
+
+

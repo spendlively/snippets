@@ -1,14 +1,20 @@
-//Zero-value for the pointer is "nil"
-i, j := 42, 2701
+package main
 
-p := &i         // point to i
-fmt.Println(*p) // read i through the pointer
+import "fmt"
 
-*p = 21         // set i through the pointer
-fmt.Println(i)  // see the new value of i
+func main () {
+    //Zero-value for the pointer is "nil"
+    i, j := 42, 2701
 
-p = &j         // point to j
-*p = *p / 37   // divide j through the pointer
-fmt.Println(j) // see the new value of j
+    p := &i         // point to i
+    fmt.Println(*p) // read i through the pointer
+
+    *p = 21         // set i through the pointer
+    fmt.Println(i)  // see the new value of i
+
+    p = &j         // point to j
+    *p = *p / 37   // divide j through the pointer
+    fmt.Println(j) // see the new value of j
+}
 
 
