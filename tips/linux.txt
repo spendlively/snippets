@@ -1,4 +1,8 @@
 
+//generate 10 numbers start with 1
+jot 10 1
+
+
 //tee (тройник)
 //puts data from input stream to both output and file streams
 df -h | tee /tmp/df
