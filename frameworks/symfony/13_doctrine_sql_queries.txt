@@ -93,6 +93,26 @@ $stmt->execute(['price' => $price]);
 $rawRows = $stmt->fetchAll();
 
 
+//get table count
+$count =  $repository->createQueryBuilder('u')
+    ->select('count(u.id)')
+    ->getQuery()
+    ->getSingleScalarResult();
+
+//WITH JOIN
+public function approvedList(EntityManagerInterface $em, PaginatorInterface $paginator, Request $request, $paginationCount)
+{
+    $query = $em->createQuery("
+        SELECT p
+        FROM App:Photo p
+        JOIN p.source s
+        WHERE p.status = :status
+        AND s.common = false
+        ORDER BY p.id
+    ");
+    $query->setParameter('status', Photo::STATUS_APPROVED);
+}
+
 
 ///////////////////////////////////////////////////
 //////////////////////CONSOLE//////////////////////

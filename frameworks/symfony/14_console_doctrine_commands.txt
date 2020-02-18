@@ -1,0 +1,34 @@
+
+//List if commands
+bin/console list
+bin/console list doctrine
+bin/console list doctrine:migrations
+
+
+
+//doctrine migrations
+//get available migrations list
+bin/console doctrine:migrations:status --show-versions
+
+
+
+//install specified migration by name
+bin/console doctrine:migrations:execute 20200204081833
+//щк
+bin/console doctrine:migrations:execute App\Migrations\Version20200204081833
+
+
+
+//create and install all migrations
+bin/console make:migration
+bin/console doctrine:migrations:migrate
+
+
+
+//Manual adding or removing from table migration_versions
+//IT DOES NOT ADD OR REMOVE ACTUAL MIGRATION, JUST MAKE A RECORD INTO MIGRATION_VERSIONS TABLE!!!
+bin/console doctrine:migrations:version 20200204081833 --add
+bin/console doctrine:migrations:version 20200204081833 --delete
+//for all migrations
+bin/console doctrine:migrations:version --add --all
+bin/console doctrine:migrations:version --delete --all

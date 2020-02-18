@@ -1,4 +1,22 @@
 
+//say a world
+espeak "hello world"
+
+
+//expr (math)
+expr 4 / 4
+expr 4 \* 4
+
+
+//how to write a letter
+look appropriate
+look a
+
+
+//space before command prevents of adding into history
+ ls /tmp/
+
+
 //generate 10 numbers start with 1
 jot 10 1
 
