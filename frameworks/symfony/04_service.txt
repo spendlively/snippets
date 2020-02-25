@@ -1,4 +1,12 @@
 
+//Если 2 сервиса реализуют один интерфейс,
+//то какой именно сервис прокидывать в контейнер
+//нужно указать в services.yaml
+App\Service\ReportService:
+    arguments:
+        $mailService: "@App\\Service\\SwiftMailService"
+
+
 //LINKS
 //Сервис-контейнер
 https://symfony.com.ua/doc/current/service_container.html

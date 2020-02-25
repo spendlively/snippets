@@ -111,6 +111,7 @@ public function approvedList(EntityManagerInterface $em, PaginatorInterface $pag
         ORDER BY p.id
     ");
     $query->setParameter('status', Photo::STATUS_APPROVED);
+    $rows = $query->getResult();
 }
 
 

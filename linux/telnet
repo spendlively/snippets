@@ -6,14 +6,13 @@
 //от spendlively@spendmail.ru
 //на spendlively@mail.ru
 
-telnet mail.spendmail.ru 25
-helo 192.168.1.103
-mail from: spendlively@spendmail.ru
+telnet ec2-184-73-158-115.compute-1.amazonaws.com 25
+helo 109.111.189.100
+mail from: noreplay@photolab.me
 rcpt to: spendlively@mail.ru
 data
-Subject: test subject from telnet
-Текст письма,
-а в конце письма одну точку в строке, чтобы закончить
+Subject: Subject
+Test mail
 .
 
 quit

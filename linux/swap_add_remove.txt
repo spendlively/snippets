@@ -1,0 +1,15 @@
+
+//check is swap exists (if 0 then no)
+free -m
+
+//create a swap file
+sudo dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+sudo mkswap /var/swap.1
+
+//enable swap
+sudo swapon /var/swap.1
+free -m
+
+//disable swap
+sudo swapoff -a
+free -m
