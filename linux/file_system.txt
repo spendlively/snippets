@@ -1,0 +1,18 @@
+
+//change disk uuid
+sudo blkid
+sudo tune2fs -U $(uuidgen) /dev/sdb1
+sudo blkid
+
+
+//get filesystem info
+sudo file -s /dev/nvme?n*
+
+
+//device info
+sudo fdisk -l
+df -h
+mount
+
+
+//
