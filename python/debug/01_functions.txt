@@ -1,0 +1,9 @@
+
+# returns True if object is callable
+callable(len)
+
+# returns string with type of argument
+type('qwerty')
+
+# print into stdout
+print('qwe')
