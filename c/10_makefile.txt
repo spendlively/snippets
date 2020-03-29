@@ -1,0 +1,38 @@
+/////////////////////////////////
+////////Makefile example/////////
+/////////////////////////////////
+# command lines (second lines) starts with [tab] (not spaces)
+# by default make without params will build the first target
+default: main.c one.o two.o
+	gcc main.c one.o two.o -o main
+
+# or else we can call "make main"
+#main: main.c one.o two.o
+#	gcc main.c one.o two.o -o main
+
+# or else we can define a default target explicitly by using .DEFAULT_GOAL
+# .DEFAULT_GOAL := default
+# default: main.c one.o two.o
+# 	gcc main.c one.o two.o -o main
+
+one.o: one.h one.c
+	gcc -c one.c
+
+two.o: two.h two.c
+	gcc -c two.c
+
+# -f to prevent error if files do not exist
+clean:
+	rm -f main *.o
+
+
+
+///////////////////////////////////
+////////////////make///////////////
+///////////////////////////////////
+//building the project
+make
+//or
+make -f Makefile
+//or (need to bee uncomment)
+make main
