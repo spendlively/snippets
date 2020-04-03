@@ -1,0 +1,21 @@
+
+
+//data types
+int argc = ZEND_NUM_ARGS();
+zend_long int_argument;
+zval *mixed_argument = NULL;
+
+
+
+//checking
+//min 2 params, max 2 params
+ZEND_PARSE_PARAMETERS_START(2, 2)
+        Z_PARAM_LONG(int_argument)
+        Z_PARAM_ZVAL(mixed_argument)
+ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
+
+//more functions
+Z_PARAM_LONG()
+Z_PARAM_ZVAL()
+Z_ARRVAL_P()
+ZVAL_UNDEF()

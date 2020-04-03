@@ -1,0 +1,20 @@
+
+//printf for a string
+//code
+#include<stdio.h>
+void main()
+{
+ char name[]="siva";
+ printf("name = %p\n", name);
+ printf("&name[0] = %p\n", &name[0]);
+ printf("name printed as %%s is %s\n",name);
+ printf("*name = %c\n",*name);
+ printf("name[0] = %c\n", name[0]);
+}
+
+//output
+name = 0xbff5391b
+&name[0] = 0xbff5391b
+name printed as %s is siva
+*name = s
+name[0] = s

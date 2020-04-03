@@ -1,0 +1,9 @@
+
+//print long integer
+zend_long int_argument;
+zend_printf("%d\n", int_argument);
+
+//print string/array
+zval *mixed_argument = NULL;
+zend_print_zval_r(mixed_argument, 0);
+

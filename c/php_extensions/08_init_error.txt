@@ -1,0 +1,2 @@
+
+php_error(E_WARNING, "test_function: not yet implemented");
