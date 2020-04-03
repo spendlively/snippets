@@ -1,0 +1,3 @@
+
+https://www.jetbrains.com/help/clion/cmakelists-txt-file.html
+https://dev.to/jasny/developing-a-php-extension-in-clion-3oo1

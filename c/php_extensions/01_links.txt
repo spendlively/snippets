@@ -1,0 +1,9 @@
+
+//links
+https://m.habr.com/ru/post/428626/
+https://m.habr.com/ru/post/428732/
+https://stackoverflow.com/questions/3632160/how-to-make-a-php-extension
+
+//php internals
+http://www.phpinternalsbook.com/index.html
+

@@ -1,0 +1,80 @@
+
+Blog.objects.get(pk=1)
+Blog.objects.all()
+
+e.delete()
+Entry.objects.filter(pub_date__year=2005).delete()
+
+Blog.objects.create(name='ivan')
+
+Entry.objects.filter(pub_date__year=2006)
+Entry.objects.all().filter(pub_date__year=2006)
+Entry.objects.filter(...).exclude(...).filter(...)
+
+Запрос не выпрлняется, пока не обратишься к QuerySet'у (print(res))
+
+filter возвращает QuerySet
+
+get возвращает единственный объект или ексепшн Entry.DoesNotExist если не найдет запись, или Entry.MultipleObjectsReturned если записей больше чем одна
+
+Entry.objects.all()[:5] (limit 5)
+Entry.objects.all()[5:10] (offset 5 limit 5)
+
+Entry.objects.order_by('headline')[0]
+Entry.objects.order_by('headline')[0:1].get()
+
+Entry.objects.get(headline__exact="Cat bites dog")
+Entry.objects.get(headline="Cat bites dog") (тоже самое)
+Blog.objects.get(name__iexact="beatles blog") (регистронезавис.)
+Entry.objects.get(headline__contains='Lennon') (like(%Lennon%'))
+startswith, endswithStarts, istartswith, iendswith
+
+Entry.objects.filter(blog__name='Beatles Blog') (join blog where name = ...)
+Blog.objects.filter(entry__headline__contains='Lennon')
+Blog.objects.filter(entry__authors__name='Lennon') (2 joins)
+Blog.objects.filter(entry__authors__name__isnull=True)
+Blog.objects.filter(entry__authors__isnull=False, entry__authors__name__isnull=True)
+Blog.objects.filter(entry__headline__contains='Lennon', entry__pub_date__year=2008)
+Blog.objects.filter(entry__headline__contains='Lennon').filter(entry__pub_date__year=2008)
+
+Entry.objects.filter(number_of_comments__gt=F('number_of_pingbacks'))
+Compare field with field
+Entry.objects.filter(number_of_comments__gt=F('number_of_pingbacks') * 2)
+Entry.objects.filter(rating__lt=F('number_of_comments') + F('number_of_pingbacks'))
+Entry.objects.filter(authors__name=F('blog__name'))
+
+Entry.objects.filter(mod_date__gt=F('pub_date') + timedelta(days=3))
+
+.bitand(), .bitor(), .bitrightshift(), .bitleftshift()
+F('somefield').bitand(16)
+
+Blog.objects.get(id__exact=14)
+Blog.objects.get(id=14)
+Blog.objects.get(pk=14)
+Все 3 эквивалентны
+
+Blog.objects.filter(pk__in=[1,4,7])
+
+Второй одинаковый запрос возвращается из кэша а не из бд
+
+Q(question__startswith='Who') | Q(question__startswith='What')
+WHERE question LIKE 'Who%' OR question LIKE 'What%'
+Q(question__startswith='Who') & Q(question__startswith='What')
+Q(question__startswith='Who') | ~Q(pub_date__year=2005)
+
+Poll.objects.get(
+  Q(question__startswith='Who'),
+  Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6))
+)
+SELECT * from polls WHERE question LIKE 'Who%' AND (pub_date = '2005-05-02' OR pub_date = '2005-05-06')
+
+Дублирование записей
+blog = Blog(name='My blog', tagline='Blogging is easy')
+blog.save()
+blog.pk = None
+blog.save()
+
+Multiple update
+Entry.objects.filter(pub_date__year=2007).update(headline='Everything is the same')
+
+Relations

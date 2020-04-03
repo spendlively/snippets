@@ -1,0 +1,59 @@
+
+//download sources
+mkdir php_sources && cd php_sources
+wget http://it2.php.net/get/php-7.2.11.tar.gz/from/this/mirror -O php7.tar.gz
+tar -xvf php7.tar.gz -C ./
+
+
+
+//generating extension template
+cd php-7.2.11/ext
+
+//adding a prototype for creating a template skeleton
+//nano test.proto
+test_function ( int int_argument , mixed mixed_argument )
+
+//creating a template skeleton by test.proto
+./ext_skel --extname=test --proto=./test.proto
+cd test
+
+
+
+//changing extension sources
+//nano test.c
+- PHP_FUNCTION(test_function)
+- const zend_function_entry test_functions (if we adding more functions)
+- zend_module_entry test_module_entry (if we adding more functions)
+
+
+
+//changing test_function sources (test.c)
+PHP_FUNCTION (test_function) {
+
+    int argc = ZEND_NUM_ARGS();
+    zend_long int_argument;
+    zval *mixed_argument = NULL;
+
+    if (zend_parse_parameters(argc, "lz", &int_argument, &mixed_argument) == FAILURE)
+        return;
+
+    ZEND_PARSE_PARAMETERS_START(2, 2)
+            Z_PARAM_LONG(int_argument)
+            Z_PARAM_ZVAL(mixed_argument)
+    ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
+
+    zend_printf("%d\n", int_argument);
+    zend_print_zval_r(mixed_argument, 0);
+    RETURN_TRUE;
+}
+
+
+
+//building an extension
+make clean && phpize && ./configure && make
+
+
+
+//checking how does it work
+php -d extension=modules/test.so -a
+>> test_function(123, "456");

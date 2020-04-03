@@ -1,0 +1,9 @@
+
+//Installing dependencies
+sudo apt update
+
+//installing phpize
+sudo apt install php-dev
+
+//for clion
+sudo apt install cmake
