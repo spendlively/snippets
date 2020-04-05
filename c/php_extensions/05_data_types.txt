@@ -125,6 +125,10 @@ ZVAL_STRINGL(return_value, "nul\0string", 10);
 ///////////////////////////////////////////
 ///////////CONVERTING ZVAL TYPE////////////
 //////////////////////////////////////////
+//link
+http://www.phpinternalsbook.com/php5/zvals/casts_and_operations.html
+
+//functions
 void convert_to_null(zval *op);
 void convert_to_boolean(zval *op);
 void convert_to_long(zval *op);
