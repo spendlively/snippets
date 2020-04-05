@@ -1,0 +1,32 @@
+
+
+//If function has not return statement, it returns "return_value" variable
+//by default return_value stores NULL
+
+
+
+//return zval
+zval *x = NULL;
+RETURN_ZVAL(x, 1, 0);
+//or
+//ZVAL_COPY_VALUE(return_value, x);
+
+
+
+//return a different type
+RETURN_LONG(1);
+RETURN_DOUBLE(1.0);
+RETURN_EMPTY_STRING();
+RETURN_STRING("qwe");
+RETURN_STRINGL("asd");
+RETURN_FALSE();
+RETURN_TRUE();
+RETURN_BOOL();
+RETURN_ARR();
+RETURN_INTERNED_STR();
+RETURN_NEW_STR();
+RETURN_NULL();
+RETURN_OBJ();
+RETURN_RES();
+RETURN_STR();
+RETURN_ZVAL();

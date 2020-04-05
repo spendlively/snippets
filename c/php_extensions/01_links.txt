@@ -1,5 +1,6 @@
 
 //links
+https://www.zend.com/php-arrays
 https://m.habr.com/ru/post/428626/
 https://m.habr.com/ru/post/428732/
 https://github.com/legale/php-ext-libtrie

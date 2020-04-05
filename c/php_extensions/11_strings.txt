@@ -1,0 +1,105 @@
+
+//links
+https://www.zend.com/basic-php-structures
+http://www.phpinternalsbook.com/php7/internal_types/strings/zend_strings.html#structure-and-access-macros
+
+////////////////////////////////////////////////////////
+/////////////////////////CREATION///////////////////////
+////////////////////////////////////////////////////////
+//create and release memory
+zend_string *str;
+
+str = zend_string_init("foo", strlen("foo"), 0);
+php_printf("This is my string: %s\n", ZSTR_VAL(str));
+php_printf("It is %zd char long\n", ZSTR_LEN(str));
+
+zend_string_release(str);
+
+
+
+////////////////////////////////////////////////////////
+/////////////////FUNCTIONS AND MACROSES/////////////////
+////////////////////////////////////////////////////////
+//init
+zend_string *str = zend_string_init("foo", strlen("foo"), 0);
+
+//release memory
+zend_string_release(str);
+
+//get value
+ZSTR_VAL(str)
+
+//get length
+ZSTR_LEN(str)
+
+//get string hash
+ZSTR_H(str)
+//or
+zend_string_hash_val(str)
+
+//forget hash
+zend_string_forget_hash_val(str);
+
+//pointer copy
+copied = zend_string_copy(bar);
+
+//duplicate string
+duplicated = zend_string_dup(bar, 0);
+
+//Change the last char of the string
+ZSTR_VAL(str)[ZSTR_LEN(str) - 1] = 'z';
+//zend_string_forget_hash_val(baz);
+
+//Compares a zend_string against a C string literal
+if (!zend_string_equals_literal(str, "foobar")) {
+    copied_str = zend_string_copy(str);
+
+    //realloc()ates the C string to a larger buffer
+    copied_str = zend_string_extend(copied_str, strlen("foobar"), 0);
+
+    //concatenates after the newly reallocated large enough
+    memcpy(ZSTR_VAL(copied_str) + ZSTR_LEN(str), ZSTR_VAL(bar), ZSTR_LEN(bar));
+}
+
+//Compares two zend_string together
+if (!zend_string_equals(str, copied_str)) {
+    //duplicates a string and lowers it
+    str_lc = zend_string_tolower(str);
+}
+
+
+
+/////////////////////////////////////////////////////////////////
+////////////////////////////////API//////////////////////////////
+/////////////////////////////////////////////////////////////////
+//The different fields of zend_string may be accessed through the following API macros (and there are also variants with “_P” suffix for pointers to zvals):
+Z_STR(zv): Returns a pointer to corresponding zend_string structure.
+Z_STRVAL(zv): Returns a pointer to corresponding C string (char*).
+Z_STRLEN(zv): Returns length of the corresponding string.
+Z_STRHASH(zv): Returns hash value of the corresponding string. “zend_string.hash_value” is used as a cache to eliminate repeatable hash function calculation.
+
+//PHP strings values may be constructed through the following macros:
+ZVAL_STRING(zv, cstr): Allocates zend_string structure, initializes it with the given C zero-terminated string, and initializes PHP string zval.
+ZVAL_STRINGL(zv, cstr, len): Allocates zend_string structure, initializes it with the given C string and length, and initializes PHP string zval.
+ZVAL_EMPTY_STRING(zv): Initializes empty PHP string zval.
+ZVAL_STR(zv, zstr): Initializes PHP string zval using given zend_string.
+ZVAL_STR_COPY(zv, zstr): Initializes PHP string zval using given zend_string. Reference-counter of “zend_string” is incremented, if necessary.
+
+//Of course, it’s also possible to work with “zend_string” structures directly, without zval. The following are the most important and useful API macros and functions:
+ZSTR_VAL(zstr): Returns a pointer to corresponding C string (char*).
+ZSTR_LEN(zstr): Returns length of the string.
+ZSTR_IS_INTERNED(zstr): Checks if the string is interned (or immutable).
+ZSTR_HASH(zstr): Returns hash_value of the string using hash_value as cache.
+ZSTR_H(zstr): Returns value of hash_value field (it may be zero which means it has not been calculated yet).
+zend_string_hash_func(zstr): Calculates and returns hash value of the string.
+zend_hash_func(cstr, len): Calculates and returns hash value of the given C string (char*) and specified length.
+ZSTR_EMPTY_ALLOC(): Returns an empty “zend_string.” This macro doesn’t actually allocate anything, but rather returns a pointer to a single interned “zend_string” structure.
+zend_string_alloc(len, persistent): Allocates memory for the “zend_string” structure of the given string length. The “persistent” argument tells whether the created string should relive request boundary. (Usually it shouldn’t, and therefore “persistent” should be zero.)
+zend_string_safe_alloc(len, number, addition, persistent): Similar to zend_string_alloc(), but the final string size is calculated as (len * number + addition) and checked for possible overflow.zend_string_init(cstr, len, persistent): Allocates memory for the “zend_ string” structure (similar to zend_alloc) and initializes it with the given C string (char*) and length.
+zend_string_copy(zstr): Creates a copy of the given “zend_string” and returns a pointer to the same string and increments reference-counter, if necessary.
+zend_string_release(zstr): Releases a pointer to the given “zend_string” and checks if the given string is reference-counted (not interned), decrements reference-counter, and frees memory, if it reached zero.
+zend_string_equals(zstr1, zstr2): Checks equality of two “zend_string” structures.
+zend_string_equals_literal(zstr, cstr): Checks equality of “zend_string” with a given C string literal.
+zend_string_equals_literal_ci(zstr, cstr): The case insensitive variant of zend_string_equals_literal().
+
+The compete zend_string API is defined in Zend/zend_string.h.

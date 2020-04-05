@@ -1,21 +1,158 @@
 
+//////////////////////////////////////////////
+/////////////////ZEND TYPES///////////////////
+//////////////////////////////////////////////
+zend_long         lval;
+double            dval;
+zend_refcounted  *counted;
+zend_string      *str;
+zend_array       *arr;
+zend_object      *obj;
+zend_resource    *res;
+zend_reference   *ref;
+zend_ast_ref     *ast;
+zval             *zv;
+void             *ptr;
+zend_class_entry *ce;
+zend_function    *func;
 
-//data types
-int argc = ZEND_NUM_ARGS();
-zend_long int_argument;
-zval *mixed_argument = NULL;
+
+
+///////////////////////////////////////////////
+//////////////CHECKING ZVAL TYPE///////////////
+///////////////////////////////////////////////
+//type flags
+IS_NULL	            none
+IS_TRUE or IS_FALSE	none
+IS_LONG	            zend_long       lval
+IS_DOUBLE	        double          dval
+IS_STRING	        zend_string     *str
+IS_ARRAY	        zend_array      *arr
+IS_OBJECT	        zend_object     *obj
+IS_RESOURCE	        zend_resource   *res
+
+//check zval type by value
+zval zv_ptr = /* get zval from somewhere */;
+if (zv_ptr->type == IS_LONG) {
+    php_printf("Zval is a long with value %ld\n", zv_ptr->value.lval);
+}
+
+//check zval type by pointer (Z_LVAL_P for long, Z_DVAL_P for double)
+zval *zv_ptr = /* ... */;
+if (Z_TYPE_P(zv_ptr) == IS_LONG) {
+    php_printf("Zval is a long with value %ld\n", Z_LVAL_P(zv_ptr));
+}
+
+//checking from all types
+zval *zv_ptr;
+
+if (zend_parse_parameters(ZEND_NUM_ARGS(), "z", &zv_ptr) == FAILURE) {
+    return;
+}
+
+switch (Z_TYPE_P(zv_ptr)) {
+    case IS_NULL:
+        php_printf("NULL: null\n");
+        break;
+    case IS_TRUE:
+        php_printf("BOOL: true\n");
+        break;
+    case IS_FALSE:
+        php_printf("BOOL: false\n");
+        break;
+    case IS_LONG:
+        php_printf("LONG: %ld\n", Z_LVAL_P(zv_ptr));
+        break;
+    case IS_DOUBLE:
+        php_printf("DOUBLE: %g\n", Z_DVAL_P(zv_ptr));
+        break;
+    case IS_STRING:
+        php_printf("STRING: value=\"");
+        PHPWRITE(Z_STRVAL_P(zv_ptr), Z_STRLEN_P(zv_ptr));
+        php_printf("\", length=%zd\n", Z_STRLEN_P(zv_ptr));
+        break;
+    case IS_RESOURCE:
+        php_printf("RESOURCE: id=%d\n", Z_RES_HANDLE_P(zv_ptr));
+        break;
+    case IS_ARRAY:
+        php_printf("ARRAY: hashtable=%p\n", Z_ARRVAL_P(zv_ptr));
+        break;
+    case IS_OBJECT:
+        php_printf("OBJECT: object=%p\n", Z_OBJ_P(zv_ptr));
+        break;
+}
 
 
 
-//checking
-//min 2 params, max 2 params
-ZEND_PARSE_PARAMETERS_START(2, 2)
-        Z_PARAM_LONG(int_argument)
-        Z_PARAM_ZVAL(mixed_argument)
-ZEND_PARSE_PARAMETERS_END_EX(RETURN_FALSE);
+///////////////////////////////////////////////
+/////////GETTING ACCESS TO ZVAL TYPE//////////
+///////////////////////////////////////////////
+zval zv;
+zval *zv_ptr;
+zval **zv_ptr_ptr; /* very rare */
 
-//more functions
-Z_PARAM_LONG()
-Z_PARAM_ZVAL()
-Z_ARRVAL_P()
-ZVAL_UNDEF()
+Z_TYPE(zv);                 // = zv.type
+Z_TYPE_P(zv_ptr);           // = zv_ptr->type
+
+
+
+///////////////////////////////////////////////
+////////////SETTING ZVAL VALUE/////////////////
+///////////////////////////////////////////////
+ZVAL_NULL(return_value);
+
+ZVAL_FALSE(return_value);
+
+ZVAL_TRUE(return_value);
+
+ZVAL_LONG(return_value, 42);
+
+ZVAL_DOUBLE(return_value, 4.2);
+
+ZVAL_RES(return_value, zend_resource *);
+
+ZVAL_EMPTY_STRING(return_value);
+/* a special way to manage the "" empty string */
+
+ZVAL_STRING(return_value, "string");
+/* = ZVAL_NEW_STR(z, zend_string_init("string", strlen("string"), 0)); */
+
+ZVAL_STRINGL(return_value, "nul\0string", 10);
+/* = ZVAL_NEW_STR(z, zend_string_init("nul\0string", 10, 0)); */
+
+
+
+///////////////////////////////////////////
+///////////CONVERTING ZVAL TYPE////////////
+//////////////////////////////////////////
+void convert_to_null(zval *op);
+void convert_to_boolean(zval *op);
+void convert_to_long(zval *op);
+void convert_to_double(zval *op);
+void convert_to_string(zval *op);
+void convert_to_array(zval *op);
+void convert_to_object(zval *op);
+void convert_to_long_base(zval *op, int base);
+void convert_to_cstring(zval *op);
+
+
+
+
+//zval
+typedef struct _zval_struct {
+    union {
+        zend_long lval;
+        double dval;
+        zend_refcounted *counted;
+        zend_string *str;
+        zend_array *arr;
+        zend_object *obj;
+        zend_resource *res;
+        zend_reference *ref;
+    …
+    } value;
+    zend_uchar type;
+    zend_uchar type_flags;
+    uint16_t extra;
+    uint32_t reserved;
+} zval;

@@ -1,0 +1,85 @@
+
+//links
+https://www.zend.com/php-arrays
+
+////////////////////////////////////////////////////////
+////////////////////////////API/////////////////////////
+////////////////////////////////////////////////////////
+//Use the following macros to retrieve zend_array from zval (also available with “_P” suffix for pointers to zval):
+Z_ARR(zv) – returns zend_array value of the zval (the type must be IS_ARRAY).
+Z_ARRVAL(zv) – historical alias of Z_ARR(zv).
+//zval *x = NULL;
+//RETURN_ARR(Z_ARR(*x));
+//Z_ARR_P - seems like Z_ARR, but takes pointer instead of value
+
+//Use the following macros and functions to work with arrays represented by zval:
+ZVAL_ARR(zv, arr) – initializes PHP array zval using given zend_array.
+array_init(zv) – creates a new empty PHP array.
+array_init_size(zv, count) – creates a new empty PHP array and reserves memory for “count” elements.
+add_next_index_null(zval *arr) – inserts new NULL element with the next index.
+add_next_index_bool(zval *ar, int b) – inserts new IS_BOOL element with value “b” and the next index.
+add_next_index_long(zval *arr, zend_long val) – inserts new IS_LONG element with value “val” and the next index.
+add_next_index_double(zval *arr, double val) – inserts new IS_DOUBLE element with value “val” and the next index.
+add_next_index_str(zval *arr, zend_string *zstr) – inserts new IS_DOUBLE element with value “zstr” and the next index.
+add_next_index_string(zval *arr, char *cstr) – creates PHP string from zero-terminated C string “cstr”, and inserts it with the next index.
+add_next_index_stringl(zval *arr, char *cstr, size_t len)– creates PHP string from C string “cstr” with length “len”, and inserts it with the next index.
+add_next_index_zval(zval *arr, zval *val) – inserts the given zval into array with the next index. Note that reference-counter of the inserted value is not changed. You should care about reference-counting yourself (e.g. calling Z_TRY_ADDREF_P(val)). All other add_next_index_...() functions are implemented through this function.
+add_index_...(zval *arr, zend_ulong idx, …) – another family of functions to insert a value with the given numeric “idx”. Variants with similar suffixes and arguments as the add_next_index_...() family above are available.
+
+add_assoc_...(zval *arr, char *key, …) – another family of functions to insert a value with a given string “key”, defined by zero-terminated C string.
+
+add_assoc_..._ex(zval *arr, char *key, size_t key_len, …) – another family of functions to insert a value with a given string “key”, defined by C string and its length.
+
+//Here are a few functions that can work directly with zend_array:
+zend_new_arra(count) – creates and returns new array (it reserves memory for “count” elements).
+zend_array_destroy(zend_array *arr) – frees memory allocated by array and all its elements.
+zend_array_count(zend_array *arr) – returns number of elements in array.
+zend_array_dup(zend_array *arr) – creates another array identical to the given one.
+zend_array and HashTable are represented identically. And each zend_array is also a HashTable, but not vice-verse. zend_arrays may keep only zvals as elements. Generalized HashTables may keep pointers to any data structures. Technically this is represented by a special zval type IS_PTR. The HashTable API is quite extensive, so here we give just a quick overview:
+
+zend_hash_init() – initializes a hash table. The HashTable itself may be embedded into another structure, allocated on stack or through malloc()/emalloc(). One of the arguments of this function is a destructor callback, that is going to be executed for each element removed from HashTable. For zend_arrays this is zval_ptr_dtor().
+zend_hash_clean() – removes all elements of HashTable.
+zend_hash_destroy() – frees memory allocated by HashTable and all its elements.
+zend_hash_copy() – copies all elements of the given HashTable into another one.
+zend_hash_num_elements() – returns number of elements in HashTable.
+zend_hash_[str_|index_]find[_ptr|_deref|_ind]() – finds and returns element of HashTable with a given string or numeric key. Returns NULL, if key doesn’t exist.
+zend_hash_[str_|index_]exists[_ind]() – checks if an element with the given string or numeric key exists in the HashTable.
+zend_hash_[str_|index_](add|update)[_ptr|_ind]() – adds new or updates existing elements of HashTable with given string or numeric key. “zend_hash...add” functions return NULL, if the element with the same key already exists. “zend_hash...update” functions insert new element, if it didn’t exist before.
+zend_hash_[str_|index_]del[_ind]() – removes element with the given string or numeric key from HashTable.
+zend_symtable_[str_]find[_ptr|_deref|_ind]() – is similar to zend_hash_find...(), but the given key is always represented as string. It may contain a numeric string. In this case, it’s converted to number and zend_hash_index_find...() is called.
+zend_symtable_[str_|]exists[_ind]() – is similar to zend_hash_exists...(), but the given key is always represented as string. It may contain a numeric string. In this case, it’s converted to number and zend_hash_index_exists...() is called.
+zend_symtable_[str_](add|update)[_ptr|_ind]() – is similar to zend_hash_add/update...(), but the given key is always represented as string. It may contain a numeric string. In this case, it’s converted to number and zend_hash_index_add/update...() is called.
+
+zend_symtable_[str_|]del[_ind]() – is similar to zend_hash_del...(), but the given key is always represented as string. It may contain a numeric string. In this case, it’s converted to number and zend_hash_index_del...() is called.
+
+//There are also a number of ways to iterate over HashTable:
+ZEND_HASH_FOREACH_KEY_VAL(ht, num_key, str_key, zv) – a macro that starts an iteration loop over all elements of the HashTable “ht”. The nested C code block is going to be called for each element. C variables “num_key”, “str_key” and “zv” are going to be initialized with numeric key, string key and pointer to element zval. For elements with numeric keys, “str_key” is going to be NULL. There are more similar macros to work only with value, keys, etc. There are also similar macros to iterate in the reverse order. The usage of this macro is going to be demonstrated in the next example.
+ZEND_HASH_FOREACH_END() – a macro that ends an iteration loop.
+zend_hash_[_reverse]apply() – calls a given callback function for each element of the HashTable.
+zend_hash_apply_with_argument[s]() – calls a given callback function for each element of the given HashTable, with additional argument(s).
+
+
+
+//foreach and sum calculating
+PHP_FUNCTION (test_arrays) {
+    int argc = ZEND_NUM_ARGS();
+    zval *x = NULL;
+    zend_long y;
+    zend_long sum = 0;
+
+    if (zend_parse_parameters(argc, "zl", &x, &y) == FAILURE)
+        return;
+
+    if (Z_TYPE_P(x) == IS_ARRAY) {
+        zend_ulong idx;
+        zend_string *key;
+        zval *val;
+
+        ZEND_HASH_FOREACH_KEY_VAL(Z_ARR_P(x), idx, key, val)
+                {
+                    convert_to_long(val);
+                    sum += Z_LVAL_P(val);
+                }ZEND_HASH_FOREACH_END();
+    }
+    RETURN_LONG(sum);
+}

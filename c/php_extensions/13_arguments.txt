@@ -1,0 +1,27 @@
+
+////////////////////////////////////////
+/////initializing arguments values//////
+////////////////////////////////////////
+
+//function calling in php
+//$x = 123;
+//$y = [456];
+//foo($x, $y);
+
+PHP_FUNCTION(test_arrays)
+{
+    //arguments count
+    int argc = ZEND_NUM_ARGS();
+
+    //defining arguments variables (order doesn't matter)
+    zval *x = NULL;
+    zend_long y;
+
+    //initializing arguments variables (order matters)
+    if (zend_parse_parameters(argc, "zl", &x, &y) == FAILURE)
+        return;
+
+    //return zval converted to array
+    RETURN_ARR(Z_ARR(*x));
+    //RETURN_LONG(y);
+}
