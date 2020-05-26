@@ -17,3 +17,8 @@ origin/master
 
 //Просмотреть изменения в проигндексированном файле
 git diff --cached .env
+
+
+
+//Просмотр мерджей
+git log --graph
