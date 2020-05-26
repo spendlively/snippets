@@ -1,44 +1,34 @@
-
-////////////////////////////////////////////////////////////////
-//////////////////////////Установка////////////////////////////
-////////////////////////////////////////////////////////////////
-sudo apt-get update
-sudo apt-get install postgresql postgresql-contrib phppgadmin
-
-//Запуск
-sudo -i -u postgres
-psql
-//или
+//Вход
 sudo -u postgres psql
+//Выход \q
 
-//Установка пароля
+
+//new role root
+sudo -u postgres createuser --interactive
+//superuser
+
+
+//change pass for role root
+sudo -u postgres psql
 \password postgres
-//или
-ALTER USER postgres PASSWORD 'passme';
+password
+
+
+//open port
+//sudo nano /etc/postgresql/10/main/postgresql.conf
+listen_addresses = '0.0.0.0'
+
+//allow to connect from office ip
+//sudo nano /etc/postgresql/10/main/pg_hba.conf
+host    all     all     109.111.189.100/32      md5
 
 
 
 
-
-////////////////////////////////////////////////////////////////
-//////////////////////////PhpPgAdmin////////////////////////////
-////////////////////////////////////////////////////////////////
-//Отредактировать файл /etc/apache2/conf-available/phppgadmin.conf
-#Require local #Закомментировать
-Allow From all #Добавить
-
-//Отредактировать файл /etc/phppgadmin/config.inc.php
-$conf['extra_login_security'] = true;
-//Заменить на
-$conf['extra_login_security'] = false;
-//Чтобы можно было заходить через веб
-
-//Перезагрузить сервер
-sudo systemctl restart apache2.service
-
-//Зайти
-http://localhost/phppgadmin/
-
++//Перенос базы данных на другой сервер
++sudo -u postgres psql -U postgres -d django_db_parts -f body-parts.sql
++sudo -u postgres psql -U postgres -d django_db_prod -f prod.sql
++sudo -u postgres psql -U postgres -d django_db_testing -f testing.sql
 
 
 

@@ -1,0 +1,40 @@
+@font-face {
+  font-family: 'Antic Slab';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Antic Slab Regular'), local('AnticSlab-Regular'), url(http://web.archive.org/web/20181120030120im_/https://fonts.gstatic.com/s/anticslab/v6/bWt97fPFfRzkCa9Jlp6IacVcWQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans'), local('PTSans-Regular'), url(http://web.archive.org/web/20181120030120im_/https://fonts.gstatic.com/s/ptsans/v9/jizaRExUiTo99u79D0KEwA.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'PT Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Serif'), local('PTSerif-Regular'), url(http://web.archive.org/web/20181120030120im_/https://fonts.gstatic.com/s/ptserif/v9/EJRVQgYoZZY2vCFuvAFWzro.ttf) format('truetype');
+}
+
+/*
+     FILE ARCHIVED ON 03:01:20 Nov 20, 2018 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 04:40:23 May 08, 2020.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  PetaboxLoader3.datanode: 363.027 (5)
+  CDXLines.iter: 13.252 (3)
+  exclusion.robots.policy: 0.122
+  PetaboxLoader3.resolve: 58.962 (2)
+  exclusion.robots: 0.133
+  captures_list: 1044.141
+  LoadShardBlock: 1015.039 (3)
+  esindex: 0.012
+  RedisCDXSource: 13.185
+  load_resource: 323.749
+*/

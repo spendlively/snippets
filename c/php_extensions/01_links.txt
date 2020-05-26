@@ -8,4 +8,7 @@ https://stackoverflow.com/questions/3632160/how-to-make-a-php-extension
 
 //php internals
 http://www.phpinternalsbook.com/index.html
+https://romka.gitbooks.io/php-internals-book-ru/
 
+//Книга Building Custom PHP Extensions
+https://books.google.ru/books?id=MzZ5WiISx5AC&pg=PA130&lpg=PA130&dq=php+extension+ext_skel+class+proto&source=bl&ots=NXhGdm-H0Q&sig=ACfU3U1VFBx1ZQ3OnuHVV-xPWrPreHY2jg&hl=ru&sa=X&ved=2ahUKEwiS6oH5w9noAhXmwosKHdwZCxgQ6AEwBHoECAsQLA#v=onepage&q=php%20extension%20ext_skel%20class%20proto&f=false

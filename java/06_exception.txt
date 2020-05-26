@@ -1,0 +1,127 @@
+
+//сигнатура throws Exception
+Если функция кидает эксепшн (кроме runtimeexception), мы обязаны добавить этот эксепшн в сигнатуру метода
+public void foo (int si,e) throws Exception {}
+Клиентский код должен либо написать в сигнатуре этот же эксепшн, либо обработать его
+
+
+//Exceptions
+Иерархия эксепшнов
+Throwable
+    Exception
+        IOException
+        InterruptedException
+        RuntimeException
+            ClassCastException - недопустимое приведение типов
+            NullPointerException - вызов метода у null
+            ArrayIndexOutOfBoundException
+            ArithmeticException
+            RuntimeError
+
+
+//Проверяемые имключения
+Exception и классы расширяющие Exception
+//Обязывает использовать try/catch
+
+
+//Непроверяемые исключения
+RuntimeException и классы, расширяющие RuntimeException
+Неожиданные, могут возникнуть в лубой строчке
+//В сигнатуре метода НЕ нужно писать throws BadException, если он расширяет RuntimeException
+//Не обязывает использовать try/catch
+//Можно проверять, а можно не проверять
+
+
+//finally
+1. отрабатывается в любом случае
+2. если есть finally, catch не обязателен
+try{
+    throw new BadException();
+} catch (BadException e){
+    doSomething();
+} finally {
+    //Выполняется всегда
+    //1. Когда исключение BadException брошено
+    //2. Когда брошено другое исключение
+    //3. Когда никакое исключение не брошено
+    //4. Даже если в try есть return
+}
+
+
+//несколько catch
+должны идти от частного к общему,
+т.к. если стачала идет общий класс (например Exception)
+то расширяющий Exception класс никогда не поймается
+
+
+//проброс исключения дальше
+чтобы пробросить дальше,
+нужно добавить его в сигнатуру метода
+
+
+//try with resources
+если ресурс реализует AutoClosable,
+можно поместить его в try,
+и тогда он сам загроется в случае исключения
+
+
+//Пример
+private static void printFileJava7() throws IOException {
+    try(FileInputStream input = new FileInputStream("file.txt")){
+        int data = input.read();
+        while(data != -1){
+            System.out.print((char) data);
+            data = input.read();
+        }
+    } catch (...){}
+}
+
+
+//Пример с несколькими ресурсами
+private static void printFileJava7() throws IOException {
+    try( FileInputStream input = new FileInputStream("file.txt");
+        BufferedInputStream bufferedInput = new BufferedInputStream(input)
+    ) {
+        int data = bufferedInput.read();
+        while(data != -1){
+            System.out.print((char) data);
+            data = bufferedInput.read();
+        }
+    } catch (...){}
+}
+
+
+//Своя реализация AutoClosable
+public interface AutoClosable {
+    public void close() throws Exception;
+}
+public class MyAutoClosable implements AutoCloseable {
+    public void doIt() {
+        System.out.println("MyAutoClosable doing it!");
+    }
+    @Override
+    public void close() throws Exception {
+        System.out.println("MyAutoClosable closed!");
+    }
+}
+
+
+//Использование
+private static void myAutoClosable() throws Exception {
+    try(MyAutoClosable myAutoClosable = new MyAutoClosable()){
+        myAutoClosable.doIt();
+    } catch(...){}
+}
+
+
+//Несколько исключений в одном catch (java 7)
+try {
+    // execute code that may throw
+    //1 of the 3 exceptions below.
+} catch(
+    SQLException |
+    IOException e) {
+    logger.log(e);
+} catch(Exception e) {
+    logger.severe(e);
+}

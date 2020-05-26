@@ -9,3 +9,8 @@ git rm --cached file.log
 git pull
 //pull & fetch manually
 git fetch && git merge
+
+
+
+//check the differences in a indexed file
+git diff --cached .env

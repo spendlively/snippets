@@ -1,0 +1,24 @@
+
+//logs
+System.out.println("message");
+System.err.println("message");
+
+Logger logger = Logger.getLogger("logger_name");
+logger.info("Server started");
+logger.log(Level.SEVERE, "Can't create file");
+
+
+
+//Remote debug
+параметры, с которыми нужно запустить удаленное приложение,
+чтобы к нему потом можно было подключиться
+-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+
+
+//мониторинг состояния приложения
+jconsole (входит в состав jdk)
+• Подключение к процессу
+• Память
+• Процессор
+• Потоки
+

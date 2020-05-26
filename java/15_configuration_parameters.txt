@@ -1,0 +1,38 @@
+
+//создание конфигурации запуска с передачей опции (-Dkey=value)
+ПКМ -> save main
+Edit configuration (run.debug configurations)
+VM options: -Dkey=value
+Program arguments: "hello" "java"
+(через пробел)
+
+//vm options (start parameters)
+-Dpropertyname=value
+-Dthreadcont=10
+передать аргумент в приложение к кот можно обратьиться
+String threadCount = System.getProperty("threadcount", 5);
+
+-Xmx
+максимальное количество памяти
+-Xmx128m
+
+-Xms
+стартовое количество памяти
+рекомендуется делать = Xmx
+
+-Xss
+размер стэка
+
+-verbosegc
+выводить логи сборщика мусора
+
+-cp
+classpath - путь к библиотеке
+
+-jar
+указание запустить jar
+java -jar name.jar
+
+
+//Проверка переданных аргументов
+Arrays.stream(args).forEach(System.out::println);

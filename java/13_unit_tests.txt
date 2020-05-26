@@ -1,0 +1,25 @@
+
+//подготовка в юнит тестировнию
+1. установить junit и hamcrest
+2. создать папку tests
+3. Project Structure -> Modules -> Sources -> Tests (to fill dir in green color)
+4. сделать структуру папок как в исходниках
+
+//тест
+public class BirdTest{
+    @Test
+    public void nameTest(){
+        Bird bird = new Crow("Mag");
+        Assert.assertEquals("Wrong name", "Mag", bird.getName());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void emptyNameExceptionTest(){
+        Bird bird = new Bird("");
+    }
+}
+
+//run
+Тесты можно запустить без Main
+run - запустить тест
+run 'name' with coverage - запустить и показать покрытие

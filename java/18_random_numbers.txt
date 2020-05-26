@@ -1,0 +1,6 @@
+
+//Работа со случайными числами
+int seed = 123456;
+Random random = new Random(seed);
+System.out.println(random.nextInt());
+System.out.println(random.nextInt(10)); //до 10ти

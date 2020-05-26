@@ -1,0 +1,332 @@
+
+
+//Стандартная библиотека ввода вывода до 7 версии java
+
+//File - обертка для файла и директории
+new File(String pathname)
+new File(String dir, String subpath)
+new File(File dir, String subpath)
+
+boolean exists()
+String getAbsolutePath() // ../ -> to folder
+String getCanonicalPath()
+String getName()
+
+String getParent()
+boolean isDirectory()
+boolean isFile()
+String[] list()
+
+boolean canRead()
+boolean canWrite()
+boolean createNewFile()
+boolean delete()
+long length()
+boolean mkdir()
+boolean mkdirs()
+boolean renameTo(Filenewname)
+
+getFreeSpace()
+getTotalSpace()
+getUsableSpace()
+
+close()
+
+
+
+//Random access
+new RandomAccessFile(String file, String mode)
+new RandomAccessFile(File file, String mode)
+
+mode: "r", "rw", ...
+
+long getFilePointer() throws IOException
+long length() throws IOException
+void seek(long position) throws IOException
+
+skipBytes()
+setLength() //обрезать
+writeUtf()
+writeInt()
+writeChar()
+close()
+
+
+
+//IO Streams
+//Hierarchy
+//Потоки ввода
+InputStream
+    FileInputStream - чтение файлов в побайтовом режиме
+    ObjectInputStream - для работы с сериализацией
+    PipedInputStream - для обмена данными между потоками (тредами)
+    SequenceInputStream
+    FilterInputStream - декораторы, дающие доп возможности к низкоуровевым потокам ввода
+        BufferedInputStream - позволяет буфферизировать поток ввода и считывать более крупными порциями (снизить нагрузку на фс)
+        DataInputStream - позволяет работать с разными типами данных (char, int, ...)
+        PushbackInputStream - позволяет получить данные и положить их обратно (подсмотреть данные без обработки)
+        LineNumberInputStream - позволяет подсчитывать номер строчки (если текстовый формат)
+    StringBufferInputStream - преобразовывает StringBuffer в InputStream
+    ByteArrayInputStream - преобразовывает байтовый массив в InputStream,
+позволяет с данными в памяти (ByteArray) работать как с потоками ввода
+    ByteInputStream
+
+//Потоки вывода
+OutputStream
+    FileOutputStream
+    ObjectOutputStream
+    FilterOutputStream
+        DataOutputStream
+        BufferedOutputStream
+        PrintOutputStream
+    PipedOutputStream
+    ByteArrayStream
+    ByteOutputStream
+
+//Особенности
+- последовательное чтение данных
+- не нужно помещать все данные в память
+- данные считаваются порциями
+- в процессе передачи можно выполнять действия над данными
+- не перегружая память
+
+
+//Низкоуровнеыве потоки, кот обрабатывают данные по одному байту
+//Для работы с файлами
+FileInputStream
+FileOutputStream
+
+//Для работы с памятью (Массив байтов)
+ByteArrayInputStream
+ByteArrayOutputStream
+
+//Для работы с сетью
+Stream reading and writing from tcp socket
+
+
+//Методы низкоуровневых потоков (InputStream/OutputStream)
+void write(intb) throws IOException
+void write(byte bytes[]) throws IOException
+void write(byte bytes[], int offset, int len) throws IOException
+
+
+
+//File input stream example
+byte b;
+byte bytes[] = new byte[100];
+byte morebytes[] = new byte[50];
+try {
+    FileInputStream fis = new FileInputStream("/tmp/hosts");
+
+    //Прочитать 1 байт
+    b = (byte) fis.read();
+
+    //Заполнить массив байтами
+    fis.read(bytes);
+
+    //Заполнить массив 20-ю байтами начиная с 0-го
+    fis.read(morebytes, 0, 20);
+
+    fis.close();
+} catch (IOException e) {
+    e.printStackTrace();
+}
+
+
+//Вывокоуровнывые потоки
+Можно создать FileInputStream (низкоуровневый поток)
+и упаковать его в DataInputStream (декоратор)
+и использовать расширенные методы,
+например чтения разных типов данных
+
+FileInputStream fis = new FileInputStream("fname");
+DataInputStream dis = new DataInputStream(fis);
+// Read
+double d = dis.readDouble();
+
+
+
+//Example
+//Вместо FileInputStream/FileOutputStream
+//можно использовать любойт другой низкоуровневый поток
+String filename = "file.txt";
+String fileString = "Test";
+
+DataOutputStream out = new DataOutputStream(
+        new BufferedOutputStream(
+                new FileOutputStream(filename)));
+
+out.writeUTF(fileString);
+out.close();
+
+DataInputStream in = new DataInputStream(
+        new BufferedInputStream(
+                new FileInputStream(filename)));
+
+System.out.println(in.readUTF());
+in.close();
+
+
+//DataInputStream
+//преобразовывает байты низкоуровневых потоков в данные разных типов
+
+boolean readBoolean()
+byte readByte()
+char readChar()
+double readDouble()
+float readFloat()
+int readInt()
+long readLong()
+short readShort()
+String readUTF()
+
+//Example
+try {
+    // Construct the chain
+    FileInputStream fis = new FileInputStream("fname");
+    DataInputStream dis = new DataInputStream(fis);
+
+    // Read
+    double d = dis.readDouble();
+    int i = dis.readInt();
+    String s = dis.readUTF();
+
+    // Close the chain
+    dis.close(); // Close dis first, because it
+    fis.close(); // was created last
+} catch (IOException e) {
+}
+
+//Более правильно, вместо явного вызова close()
+//использовать try-with-resources
+
+
+//Любой из декораторов
+//(BufferedInputStream, DataInputStream, PushbackInputStream, LineNumberInputStream)
+можно применить к любому из низкоуровневых потоков
+//(FileInputStream, ObjectInputStream, PipedInputStream, SequenceInputStream, StringBufferInputStream, ByteArrayInputStream, ByteInputStream)
+
+
+//BufferedInputStream
+
+
+//Символьные потоки Reader/Writer
+Reader - потоки сомвольного чтения
+Writer - потоки сомвольной записи
+ - В отличае от стриов работают не с байтами а с символами
+
+//Reader
+Reader (Abstract class)
+    CharArrayReader - работает с массивом char
+    PipedReader - работает с другими тредами
+    StringReader - работает со строками
+
+//Методы Reader
+ - int read() throws IOException
+Returns the next character (stored in 16 bits of
+int type) or -1 if the end of the stream has been
+reached
+
+- int read(char dest[]) throws IOException
+Reads as many characters as needed to fill the
+dest[] array. Returns the number of characters
+read or -1 if the stream has been reached
+
+ - int read(char dest[], int offset, int len) throws IOException
+Reads len characters in the dest[]array from
+the offset. Returns the number of characters
+read or -1 if the stream has been reached
+
+
+
+//Writer
+Writer (Abstract class)
+    CharArrayWriter - работает с массивом char
+    PipedWriter - работает с другими тредами
+    StringWriter - работает со строками
+
+
+//Методы Writer
+ - void write(int ch) throws IOException
+Writes a single character that is specified as
+ch in 16 low-order bits
+
+ - void write(String str) throws IOException
+Writes the string str
+
+ - void write(String str, int offset, int len) throws IOException
+Writes substring str with lenght len, which
+starts at the offset position
+
+ - void write(char chars[]) throws IOException
+Writes characters of the chars[]array
+
+- void write(char chars[], int offset, int len) throws IOException
+Writes len characters from the array chars[], starting at offset
+
+
+//constructors
+new FileReader(String pathname)
+new FileReader(File file)
+new FileWriter(String pathname)
+new FileWriter(File file)
+
+
+
+//buffered readers/writers
+ - BufferedReader and BufferedWriter
+ provides buffering that speed up I/O operations, because large
+blocks of character are read and written at a time
+
+ - InputStreamReader and OutputStreamWriter
+ turn byte streams into sequences of Unicode characters. By default, these
+classes use system encoding. Alternate constructors
+are used to specify other encodings.
+
+
+//example
+try {
+    FileReader fr = new FileReader("/tmp/hosts");
+    LineNumberReader lnr = new LineNumberReader(fr);
+    String s;
+
+    while ((s = lnr.readLine()) != null) {
+        System.out.println(lnr.getLineNumber() + " : " + s);
+    }
+
+    lnr.close();
+    fr.close();
+} catch (IOException e) {
+    e.printStackTrace();
+}
+
+
+//PrintStream
+ - реализация интерфейса Writer
+System.out - экземпляр класса PrintStream
+System.err - экземпляр класса PrintStream
+System.in - экземпляр класса PrintStream
+
+//System.out example
+int var = 5;
+Date now = new Date();
+System.out.println(var); // 5
+System.out.println(now);
+PrintStream ps = System.out;
+ps.println(var);
+ps.println(now);
+
+//System.in example
+String s;
+InputStreamReader ir = new InputStreamReader(System.in);
+BufferedReader in = new BufferedReader(ir);
+try {
+    s = in.readLine();
+    while (s != null) {
+        System.out.println("Read: " + s);
+        s = in.readLine();
+    }
+    in.close();
+} catch (IOException e) { // Catch any IO exceptions.
+    e.printStackTrace();
+}

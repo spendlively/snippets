@@ -3,7 +3,44 @@
 zend_long int_argument;
 zend_printf("%d\n", int_argument);
 
+
+
 //print string/array
 zval *mixed_argument = NULL;
+//initialization ...
 zend_print_zval_r(mixed_argument, 0);
 
+
+
+//figure out zval type and print
+switch (Z_TYPE_P(zv_ptr)) {
+    case IS_NULL:
+        php_printf("NULL: null\n");
+        break;
+    case IS_TRUE:
+        php_printf("BOOL: true\n");
+        break;
+    case IS_FALSE:
+        php_printf("BOOL: false\n");
+        break;
+    case IS_LONG:
+        php_printf("LONG: %ld\n", Z_LVAL_P(zv_ptr));
+        break;
+    case IS_DOUBLE:
+        php_printf("DOUBLE: %g\n", Z_DVAL_P(zv_ptr));
+        break;
+    case IS_STRING:
+        php_printf("STRING: value=\"");
+        PHPWRITE(Z_STRVAL_P(zv_ptr), Z_STRLEN_P(zv_ptr));
+        php_printf("\", length=%zd\n", Z_STRLEN_P(zv_ptr));
+        break;
+    case IS_RESOURCE:
+        php_printf("RESOURCE: id=%d\n", Z_RES_HANDLE_P(zv_ptr));
+        break;
+    case IS_ARRAY:
+        php_printf("ARRAY: hashtable=%p\n", Z_ARRVAL_P(zv_ptr));
+        break;
+    case IS_OBJECT:
+        php_printf("OBJECT: object=%p\n", Z_OBJ_P(zv_ptr));
+        break;
+}

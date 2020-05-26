@@ -1,0 +1,44 @@
+
+//Строки
+ - Ссылочный тип
+ - Нельзя поменять строку после создания
+ - строка содержит массив char[]
+ - строковые литералы "abc" - это тоже объекты
+ - Поскольку строка неизменяема, то при конкатенации в цикле будет создано огромное количество строк,
+поэтому для конкатенации нужно использовать StringBuilder (однопоточный) или StringBuffer (многопоточный)
+
+
+//создание
+//1
+String s = "abc";
+
+//2
+char data[] = {'a', 'b', 'c'};
+String s = new String(data);
+
+//3
+String s = new String(new char[]{'a', 'b', ''c})
+
+
+//методы
+int length()
+boolean isEmpty()
+char charAt(int index)
+boolean startsWith(String prefix)
+boolean endsWith(String suffix)
+int indexOf(String str)
+int lastIndexOf(String str)
+contains()
+
+//возвращают новые строки
+String substring
+String replace
+String toLowerCase
+String trim()
+//превратить примитивный тип в строку
+String String.valueOf(int i)
+//метод перегружен для всех элементарных типов данных
+
+
+//форматирование
+String.format("String %s, digit %d", "str", 123);

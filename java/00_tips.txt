@@ -1,0 +1,4 @@
+
+//shortcuts
+sout [tab]
+psvm [tab]

@@ -1,0 +1,109 @@
+
+
+//Компилятор javac
+file.java -> file.class
+
+javac [options] [sourcefiles]
+
+-d - directory
+перенаправить результат в другую лиректорию
+
+-verbose
+вывод подробной информации
+
+-Xlint:all
+показывать все ворнинги
+
+-Xlint:none
+не показывать ворнинги
+
+-Werror
+рассматривать ворнинги как ошибки,
+не давать скомпилировать
+
+javac @argfilename
+прочитать опции из файла argfilename
+аргументы по одному на строке
+
+
+
+//bytecode
+javap -v filename.class
+просмотр байткода
+
+meta - мета информация о классе, чем собран, версия
+constantpool
+bytecode - байткод
+sourcefile - имя исходного файла исходников
+innerclass
+
+
+
+//Запуск
+java [options] classname [arguments]
+classname - полное имя класса, с перечислениемпакетов, в кот. находится функция Main
+java ru.otus.MyClass
+
+-cp - classpath - путь к директории с класссами .class
+по умолчанию, директория в кот находишься
+java -cp path/to/classes ru.otus.MyClass
+несколько путей разделяются : (или ; в винде)
+
+
+//Подключение библиотеки
+1. скачать file.jar или подключить зависимость а maven
+2. указать путь к библиотеке: javac -cp
+3. указать путь к библиотеке: java -cp
+
+поиск библиотек в репозитории maven
+
+
+//создание .jar файла
+утилита jar
+c - create
+v - verbose
+f - filename
+m - manifest file
+//создание без манифеста
+jar cvf out.jar ru/otus/*
+//создание с манифестом
+jar cvfm out.jar manifest.txt ru/otus/MyClass.class
+//запаковать все что есть в папке
+jar cvfm out.jar manifest.txt *
+//запуск jar
+java -cp path/out.jar ru.otus.MyClass
+//если есть манифест
+java -jar out.jar
+
+//jar manifest
+//manifest.txt
+Main-Class: ru.otus.MyClass
+[пустая строка]
+
+
+//сборка с помощью maven
+в pow.xml указать Main-Class (plugins -> maven-jar-plugin)
+mvn compile - скомпилировать все файлы проекта
+mvn package - запаковать jar архив
+mvn clean - почистить target
+
+
+//Добавление библиотеки (.jar) в проект
+Project Structure
+    Libraries
+        +
+            Java
+                Ok
+
+//maven
+система контроля зависимостей и сборки проекта
+
+//создание проекта
+new project -> maven -> next
+groupid = ru.otus
+artefactid = m23-test
+finish
+
+
+//pom.xml
+конфигурационный файл maven

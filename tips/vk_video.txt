@@ -1,0 +1,39 @@
+
+//////////////////////////////////////////////////////////////
+//////////////Saving MPEG-2 from vk by .ts files//////////////
+//////////////////////////////////////////////////////////////
+
+1. Play video in chrome
+2. Filter requests by ".ts" in devtools
+3. Right click on each and open in new tab (it will save them to disk)
+(OR USE SCRIPT BELOW)
+4. Join ts files to a single file
+cat path/* > out.ts
+5. Convert them to mp4
+ffmpeg -i out.ts -c:v libx264 -c:a copy output.mp4
+
+
+
+
+
+//////////////////////////////////////////////////////////////
+//////////////////////Authomatization/////////////////////////
+//////////////////////////////////////////////////////////////
+
+//Saving all ts frames (Fill youe data)
+mkdir -p /tmp/ts/
+START=https://cs5-1v4.vkuservideo.net/video/hls/p2/fdaeade95067/seg-
+END=-f3-v1-a1.ts?extra=UgenyCm0-yFhBOF9kJmvb6prbJLjWfTUTI5Y7s98IZyZWcHEZ088C5gOZZl4D6guC1vpDAx1KIt-HNeai2X6bCIa9S1N1URw112wAEsolkrtsBxDNDgHtYQ7Daqv1oB29Dp-1raUQu3l4eMZKKPutw
+mkdir $PATH
+for I in {1..16}; do
+  wget $START$I$END -O /tmp/ts/$I.ts
+done
+
+//Joining them
+cat /tmp/ts/{1..16}.ts > /tmp/out.ts
+
+//converting ts to mp4
+ffmpeg -i /tmp/out.ts -c:v libx264 -c:a copy /tmp/output.mp4
+
+//removing tmp files
+rm -r /tmp/ts /tmp/out.ts

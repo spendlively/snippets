@@ -1,0 +1,4 @@
+
+//автодополнение
+psvm enter -> public static void main
+sout - System.out.print()

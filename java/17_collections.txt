@@ -1,0 +1,88 @@
+
+//Коллекции
+//Interface Collection
+//методы интерфейса collection
+ - add
+ - remove
+ - size
+ - isEmpty
+ - contains
+ - iteration
+
+
+//Коллекции реализующие Interface Collection
+Interface Set
+    HashSet
+    Interface SortedSet
+        TreeSet
+Interface List
+    ArrayList
+    LinkedList
+
+
+//Set
+1. Не может хранить 2 одинаковых элемента (equals)
+2. Не сохраняет порядок
+
+
+//List
+1. Есть порядок, можно бодавлять в любое место
+
+
+//Interface List
+add
+remove
+get
+setindexOf
+ListIterator
+
+
+//Array list
+
+
+
+//Practice
+Collection<String> list = new ArrayList<>();
+//        Collection<String> list = new LinkedList<>();
+//        Collection<String> list = new HashSet<>();
+//        Collection<String> list = new TreeSet<>();
+list.add("First");
+list.add("Second");
+list.add("Third");
+
+System.out.println(list.size());
+list.remove("First");
+System.out.println(list.size());
+System.out.println(list.contains("First"));
+
+Iterator<String> iterator = list.iterator();
+while (iterator.hasNext()) {
+    System.out.println(iterator.next());
+}
+
+//у коллекции нет метода get, поэтому ее нельзя обойти обычным for
+for (String str : list) {
+    System.out.println(str);
+}
+
+//у интерфейса List больше методов, чем у Collection
+//чтобы ими воспользоваться, нужно изменить тип ссылки
+//Нужно явно преобразовать тип
+//List<String> list2 = list; //ошибка
+List<String> list2 = (List<String>) list;
+list2.add(0, "First");
+for (String str : list) System.out.println(str);
+System.out.println(list2.indexOf("First"));
+System.out.println(list2.lastIndexOf("First"));
+
+//IndexOutOfBoundException
+//        System.out.println(list2.get(100));
+System.out.println(list2.get(0));
+
+//Преобразование масства в список
+List<String> list3 = Arrays.asList(new String[]{
+        "qwe",
+        "asd",
+        "zxc",
+});
+for (String str : list3) System.out.println(str);

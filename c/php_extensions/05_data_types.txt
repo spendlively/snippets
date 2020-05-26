@@ -1,4 +1,35 @@
 
+///////////////////////////////////////////////
+/////////GETTING ACCESS TO ZVAL TYPE//////////
+///////////////////////////////////////////////
+zval zv;
+zval *zv_ptr;
+zval **zv_ptr_ptr;
+zval ***zv_ptr_ptr_ptr;
+
+Z_TYPE(zv);                 // = zv.type
+Z_TYPE_P(zv_ptr);           // = zv_ptr->type
+Z_TYPE_PP(zv_ptr_ptr);      // = (*zv_ptr_ptr)->type
+Z_TYPE_PP(*zv_ptr_ptr_ptr); // = (**zv_ptr_ptr_ptr)->type
+
+
+
+///////////////////////////////////////////////
+/////////GETTING ACCESS TO ZVAL VALUE//////////
+///////////////////////////////////////////////
+//access to zval value
+//improper (you should to avoid getting access to value explicitly by pointer)
+if (Z_TYPE_P(zv_ptr) == IS_LONG) {
+    php_printf("Zval is a long with value %ld\n", zv_ptr->value.lval);
+}
+
+//proper
+if (Z_TYPE_P(zv_ptr) == IS_LONG) {
+    php_printf("Zval is a long with value %ld\n", Z_LVAL_P(zv_ptr));
+}
+
+
+
 //////////////////////////////////////////////
 /////////////////ZEND TYPES///////////////////
 //////////////////////////////////////////////
@@ -85,18 +116,6 @@ switch (Z_TYPE_P(zv_ptr)) {
 
 
 ///////////////////////////////////////////////
-/////////GETTING ACCESS TO ZVAL TYPE//////////
-///////////////////////////////////////////////
-zval zv;
-zval *zv_ptr;
-zval **zv_ptr_ptr; /* very rare */
-
-Z_TYPE(zv);                 // = zv.type
-Z_TYPE_P(zv_ptr);           // = zv_ptr->type
-
-
-
-///////////////////////////////////////////////
 ////////////SETTING ZVAL VALUE/////////////////
 ///////////////////////////////////////////////
 ZVAL_NULL(return_value);
@@ -138,7 +157,6 @@ void convert_to_array(zval *op);
 void convert_to_object(zval *op);
 void convert_to_long_base(zval *op, int base);
 void convert_to_cstring(zval *op);
-
 
 
 

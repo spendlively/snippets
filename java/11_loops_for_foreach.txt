@@ -1,0 +1,10 @@
+
+//Варианты цикла for
+//1
+for (int i = 0; i < birds.length; i++){}
+
+//2
+for (Bird bird : birds){}
+
+//3
+Arrays.stream(args).forEach(System.out::println);

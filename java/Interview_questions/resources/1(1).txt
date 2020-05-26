@@ -1,0 +1,22 @@
+_ate.track.config_resp({"customMessageTemplates":[],"subscription":{"active":true,"edition":"BASIC","tier":"basic","reducedBranding":false,"insightsEnabled":false}});
+/*
+     FILE ARCHIVED ON 13:00:59 Nov 04, 2019 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 04:40:38 May 08, 2020.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  RedisCDXSource: 1.561
+  captures_list: 138.239
+  CDXLines.iter: 13.906 (3)
+  LoadShardBlock: 86.294 (3)
+  exclusion.robots: 0.188
+  PetaboxLoader3.resolve: 88.944 (3)
+  load_resource: 558.164
+  esindex: 0.011
+  exclusion.robots.policy: 0.175
+  PetaboxLoader3.datanode: 107.457 (5)
+*/
