@@ -1,0 +1,6 @@
+
+//pull vs fetch
+//pulls all branches & merge them immediately
+git pull
+//pull & merge manually
+git fetch && git merge
