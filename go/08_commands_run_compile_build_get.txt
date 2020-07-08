@@ -1,0 +1,39 @@
+
+//run
+ - скачать зависимости и запустить
+go run main.go
+
+
+//go get
+//выкачать проект из публичного git репозитория
+//вызывать можно из любого места
+//команда закачает библиотеку в GOPATH/src/github.com/golang/protobuf
+//go get выкачивает master-ветку
+//-d - download only - только скачать без установки и компиляции
+//без -d после загрузки вызовет go install
+go get -d github.com/golang/protobuf/...
+
+
+//go install
+ - компилирует указанный пакет и установить его в $GOPATH/pkg и $GOPATH/bin
+go install github.com/golang/protobuf/...
+
+
+//go get -u
+ - обновит пакеты с репозиторием
+go get -u github.com/golang/protobuf/...
+
+
+//go build
+ - собирает один пакет
+ - go build не собирает пакеты зависимости в директории $GOPATH/pkg
+ - компилирует только то, что вы попросили
+ - если в указанном пути есть пакет main, go build соберет исполняемый файл
+ - если в указанном пути НЕТ пакета main, go build соберет библиотеку
+ - с помощью "-o" можно указать куда пакет сохранить
+go build -o /tmp/thelib.a github.com/beevik/ntp
+file /tmp/thelib.a
+//ar archive
+go build -o /tmp/prog github.com/golang/protobuf/protoc-gen-go
+file /tmp/prog
+//elf

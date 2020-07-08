@@ -1,0 +1,24 @@
+
+
+//Стандартные библиотеки
+$GOROOT/src/package_name
+/usr/local/go/src/package_name
+
+//Пример
+import "fmt"
+fmt.Println("Hello, World!")
+/usr/local/go/src/fmt/print.go
+
+
+
+//Сторонние пакеты
+$GOPATH/
+    bin/ - скомпилированные исполняемые файлы
+    pkg/ - скомпилированные библиотеки (кэш чтобы не пересобирать несколько раз)
+    src/ - исходники и свои проекты
+        github.com/ - git repo (go работает только с репозиториями git)
+            golang/ - git user
+                protobuf/ - git user repo
+
+$GOPATH  по умолчанию -> /home/<username>/go
+Пакет - github.com/golang/protobuf/

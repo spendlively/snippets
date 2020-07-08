@@ -1,0 +1,63 @@
+Конечные точки
+https://api.cognitive.microsoft.com/bing/v7.0/suggestions
+https://api.cognitive.microsoft.com/bing/v7.0/entities
+https://api.cognitive.microsoft.com/bing/v7.0/images
+https://api.cognitive.microsoft.com/bing/v7.0/localbusinesses
+https://api.cognitive.microsoft.com/bing/v7.0/news
+https://api.cognitive.microsoft.com/bing/v7.0/spellcheck
+https://api.cognitive.microsoft.com/bing/v7.0/urlpreview
+https://api.cognitive.microsoft.com/bing/v7.0/videos
+https://api.cognitive.microsoft.com/bing/v7.0/images/visualsearch
+https://api.cognitive.microsoft.com/bing/v7.0
+
+Ключ 1: 0d38c20c894046259f62e5b10a56ecd0
+Ключ 2: f589908aad5e41e0832b702e8a0389c0
+
+
+https://api.cognitive.microsoft.com/bingcustomsearch/v7.0/search
+
+
+
+
+1. key - пробный на месяц
+Ключ 1: 0d38c20c894046259f62e5b10a56ecd0
+Ключ 2: f589908aad5e41e0832b702e8a0389c0
+
+2. api: rest api (go, rest, python)
+
+3. api-интерфейс:
+     + API Поиска в Интернете Bing
+        - результаты в формате JSON
+     + API Пользовательского поиска Bing
+        - указать домены и веб-страницы для поиска Bing
+        - закрепить определенное содержимое
+     - API Поиска изображений Bing
+     - API Поиска сущностей Bing
+     - API Поиска новостей Bing
+     - API Поиска видео Bing
+     - API Визуального поиска Bing
+     - API Автозаполнения Bing
+     - API Проверки орфографии Bing
+     - API Поиска местных компаний
+
+//Для начала поиска
+https://docs.microsoft.com/ru-ru/azure/cognitive-services/bing-web-search/quickstarts/python#make-a-request
+1. Создание ресурса Azure
+2. Определение переменных
+3. Выполнение запроса
+4. Форматирование и отображение ответа
+
+Не нашел, как указать домен, на котором искать - пишу в запросе
+
+в поле name лежит инстаграмное имя (@premadonna87)
+30 символов на латинице, включая цифры, точки и нижнее подчеркивание
+
+Нужен способ, чтобы определить, что аккаунт подтвержден
+
+
+
+
+
+official
+последние 100 что вбивают юзеры (имя селеба)
+

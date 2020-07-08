@@ -73,6 +73,13 @@ $qb = $this->createQueryBuilder('p')
     ->setParameter('price', $price)
     ->orderBy('p.price', 'ASC');
 
+$this->createQueryBuilder("o")
+        ->leftJoin("o.products", "p", "WITH", "p.price>:price")
+            ->setParameter("price", price)->addSelect("p")
+        ->getQuery()->getResult() ;
+    createQueryBuilder
+
+
 if (!$includeUnavailableProducts) {
     $qb->andWhere('p.available = TRUE')
 }

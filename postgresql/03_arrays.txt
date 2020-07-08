@@ -1,0 +1,13 @@
+
+//Вывод сгруппированных данных в виде массива
+SELECT
+	id,
+	array_agg(fieldname) arr
+FROM t1
+GROUP BY p.id
+
+
+//WHERE есть в массиве
+WHERE value = ANY (arr)
+//WHERE нет в массиве
+WHERE NOT (value = ANY (arr))

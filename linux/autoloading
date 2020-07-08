@@ -42,3 +42,9 @@ sudo nano /etc/rc.local
 exit 0
 =======================================
 systemctl enable rc-local
+
+
+
+//Autoloading 3 way
+crontab -e
+@reboot /home/user/script.sh

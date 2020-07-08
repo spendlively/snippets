@@ -1,4 +1,32 @@
 
+/////////////////////////////////////
+///////////////columns///////////////
+/////////////////////////////////////
+//int
+@ORM\Column(type="integer")
+@ORM\Id
+@ORM\GeneratedValue(strategy="AUTO")
+
+//string
+@ORM\Column(name="photo_name", type="string", length=100)
+
+//text
+@ORM\Column(type="text", nullable=true)
+
+//many to one (доп колонка user_id)
+@ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="designerPhotos")
+
+//one to many (нет доп колонок)
+@ORM\OneToMany(targetEntity="App\Entity\ModerationLog", mappedBy="photo", cascade={"remove"})
+@ORM\OrderBy({"createdAt" = "DESC"})
+@var ModerationLog[] $moderationLog
+//construct
+$this->moderationLog = new ArrayCollection();
+//getter
+return $this->moderationLog->getValues();
+
+//timestamp
+@ORM\Column(name="created_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
 
 
 //Bids
