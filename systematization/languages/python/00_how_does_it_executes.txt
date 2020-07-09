@@ -1,0 +1,83 @@
+
+/////////////////////////////////////////////////////
+//////////////////Выполнение файла///////////////////
+/////////////////////////////////////////////////////
+//Выполнить файл из консоли
+python file.py
+python3 file.py
+
+
+
+//Выполнить файл из консоли в виртуальном окружении
+source venv/bin/activate
+python file.py
+python3 file.py
+deactivate
+
+
+
+//Выполнить вайл/проект в pycharm
+//Выполнить текущий файл
+ctrl + shirt + f10
+
+//Выбрать во всплывающем окне какой файл запустить
+alt + shirt + f10
+
+//Запустить файл, выбранный в конфигурации проекта по умолчанию
+shirt + f10
+//файл выбирается в правом верхнем углу в выпадающем списке
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+////////Выбрать venv для файла для запуска по умолчанию в конфигурации проекта///////
+/////////////////////////////////////////////////////////////////////////////////////
+Run -> Edit Configurations
+
+// Окно Run/Debug configurations
+В левом меню выбрать файл из списка "Python":
+Python -> file
+
+В правом окне:
+Script path: проверить путь к файлу
+Python Interpreter: [выбрать] python3.6 или доступный venv
+OK
+
+
+
+////////////////////////////////////////////////
+/////////Создание virtualenv в pycharm//////////
+////////////////////////////////////////////////
+
+//1. Установка пакета virtualenv глабально (если не установлен)
+sudo apt-get install python-virtualenv
+//или
+sudo pip install virtualenv
+
+
+
+//2. Добавление venv
+File -> Settings
+
+//Settings
+Project: <name> -> Project Interpreter
+
+//Settings: Project Interpreter
+Project Interpreter -> show all
+
+//Project interpreters
++ Add
+
+//Add Python interpreter
+(radio) New environment
+Location: /path/to/project/venv
+Base Interpreter: python3.6
+Ok
+
+//Project interpreters
+select /path/to/project/venv/bin/python
+Ok
+
+//Settings: Project Interpreter
+Project Interpreter -> select -> /path/to/project/venv/bin/python
+Apply, Ok
