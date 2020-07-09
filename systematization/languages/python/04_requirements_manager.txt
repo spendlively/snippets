@@ -1,0 +1,69 @@
+
+/////////////////////////////////////////
+///////////////////PIP///////////////////
+/////////////////////////////////////////
+ - официальный менеджер пакетов в python - pip
+ - существует 2 разные версии pip и pip3
+для python (2 версия) и python3 соответственно
+ - официальный репозиторий пакетов: pypi.org - Python Package Index (PyPI)
+ - pip ищет пакеты в Python Package Index (PyPI) (pypi.org)
+ - может работать глобально и в виртуальном окружении venv (или virtualenv)
+ - в "глобальном" режиме складывает пакеты в /usr/lib/ (например /usr/lib/python3.6/)
+ - при использовании venv складывает пакеты в папку venv (например venv/lib/python3.6/site-packages/)
+
+
+
+//По умолчанию pip работает с пакетами глобально
+pip list
+//выведет пакеты установленные в /usr/lib/python3.6
+
+//При использовании venv перед работой c pip
+//нужно активировать соответствующее окружение
+cd /path/to/project/
+source venv/bin/activate
+pip list
+deactivate
+
+//В виртуальном окружении как правило
+//можно использовать и pip, и pip3
+
+
+
+//////////////////////////////////////////
+////////////////Установка/////////////////
+//////////////////////////////////////////
+//pip3
+sudo apt update
+sudo apt install python3-pip
+pip3 --version
+
+//pip2
+sudo apt update
+sudo apt install python-pip
+pip --version
+
+
+
+////////////////////////////////////////////////
+////////////////Основные команды////////////////
+////////////////////////////////////////////////
+//просмотр версии pip
+pip --version
+
+//список установленных пакетов
+pip list
+
+//просмотр информации про установленный пакет
+pip show "PACKAGE_NAME"
+
+//найти пакет на pypi.org (Python Package Index (PyPI))
+pip search "KEYWORD"
+
+//установить/обновить/переустановить пакет
+pip install "PACKAGE_NAME"
+pip install -U "PACKAGE_NAME"
+pip install --force-reinstall "PACKAGE_NAME"
+
+//удалить пакет
+pip uninstall "PACKAGE_NAME"
+
