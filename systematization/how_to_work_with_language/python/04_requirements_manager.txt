@@ -43,6 +43,11 @@ sudo apt install python-pip
 pip --version
 
 
+//Создание venv с python3.8
+python3.8 -m venv venv
+venv/bin/python3 --version
+
+
 
 ////////////////////////////////////////////////
 ////////////////Основные команды////////////////
@@ -67,3 +72,14 @@ pip install --force-reinstall "PACKAGE_NAME"
 //удалить пакет
 pip uninstall "PACKAGE_NAME"
 
+
+////////////////////////////////////////////////////
+//////////////////Requirements list/////////////////
+////////////////////////////////////////////////////
+//Создание файла requirements.txt для проекта с помощью pip3
+//pip3 freeze
+ - выводит список всех установленных пакетов в специальном формате
+ - pip3 freeze > requirements.txt
+
+//Установка пакетов по списку из указанного requirement-файла
+pip install -r requirements.txt

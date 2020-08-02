@@ -1,0 +1,99 @@
+
+//////////////////////////////////
+/////////Приведение типов/////////
+//////////////////////////////////
+//Простые типы
+var i int = 123
+
+//int -> float64
+var f float64 = float64(i) //123
+
+//int -> string
+var s string = strconv.Itoa(int(f)) //123
+
+//string -> int
+ii, _ := strconv.Atoi("-42") //-42
+iii, _ := strconv.Atoi("-42 ") //0
+
+
+
+//Интерфейсы
+//1. string -> interface -> string
+var i interface{} = "string"
+s := i.(string) + "!"
+fmt.Println(s) //string!
+
+//2. int8 -> interface -> int8 -> int64
+var i8 int8 = 1
+var i interface{} = i8
+var i64 int64 = int64(i.(int8))
+fmt.Println(i64)
+
+
+
+/////////////////////////////////
+////////Определение типа/////////
+/////////////////////////////////
+//1. interface.(type_name)
+var i interface{} = "hello"
+s, isString := i.(string)
+fmt.Println(s, isString) //hello true
+
+
+
+//2. switch
+type Dog struct{}
+func (d Dog) woof() {
+	fmt.Println("woof")
+}
+
+func do(animal interface{}) {
+	switch animal.(type) {
+	case Dog:
+		animal.(Dog).woof()
+	case int:
+		fmt.Println(animal)
+	default:
+		fmt.Println("unknown")
+	}
+}
+
+func main() {
+	do(Dog{})
+	do(1)
+	do("string")
+}
+
+
+
+//Доступ к полям структуры через указатель
+//c++
+s.field
+ptr->field
+
+//go
+s.field
+ptr.field
+
+
+
+//Профилирование
+go test -bench .
+go test -bench . -benchmem
+go test -bench=. -benchmem
+
+
+
+//Hack for getting goroutine id
+func getGID() uint64 {
+	b := make([]byte, 64)
+	b = b[:runtime.Stack(b, false)]
+	b = bytes.TrimPrefix(b, []byte("goroutine "))
+	b = b[:bytes.IndexByte(b, ' ')]
+	n, _ := strconv.ParseUint(string(b), 10, 64)
+	return n
+}
+
+
+
+

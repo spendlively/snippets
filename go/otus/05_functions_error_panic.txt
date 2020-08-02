@@ -1,0 +1,264 @@
+///////////////////////////////////////////////
+//////////////Область видимости////////////////
+///////////////////////////////////////////////
+//Область видимости
+
+//Блоки
+ - universe block - весь код (bool, nil, make, true, new, make, ...)
+ - package block - пакет (глобальные переменные)
+ - file block - файл
+ - local block - {}
+
+//Переменная объявленная в блоке не видна снаружи
+//Переменная обявленная внутри for тоже не видна снаружи
+for i := 0; i < 10; i++ {}
+fmt.Print(i) //panic
+
+//Переменная объявленная в родительском блоке видна в дочернем
+//Как в python и js
+
+//universe block
+ - в universe block нельзя добавить ничего самому
+
+///////////////////////////////////////////////
+////////////////////Функции////////////////////
+///////////////////////////////////////////////
+
+//Параметры по умолчанию
+ - В го нет дефолтных значений для параметров
+ - все аргументы нужно передавать авно
+
+//Функция в го - функция первого порядка
+f := func() int {
+    return 100
+}
+
+//Именованные функции могут декларироваться только:
+ - внутри пакета
+ - вне другой функции
+
+
+//Вариадические функции
+ - функции принимающие неограниченное количество аргументов
+ - ...Type (точки слева)
+func f (sliceOf ...Type){}
+
+func sum (ints ...int) int {
+    s := 0
+    for _, val := range ints {
+        s += val
+    }
+    return s
+}
+
+//Развернуть слайс обратно в отдельные параметры
+//a... (точки справа)
+func Printf(format string, a ...interface{}) (n int, err error){
+    return Fprintf(os.Stdout, format, a...)
+}
+//or
+s1 := []int{1,2,3}
+s2 := []int{4,5,6}
+s1 = append(s1, s2...)
+fmt.Print(s1)
+
+
+
+//Анонимные функции
+//Сортировка слайса
+s := []User{
+    {'vasya', 18},
+    {'petya', 19},
+}
+sort.Slice(s, func(i, j int) bool {
+    return s[i].Age < s[j].Age
+})
+
+
+
+//Замыкания
+ - особый вид функции
+ - создается внутри другой функции каждый раз во время ее выполнения
+func intSeq() func() int {
+	i := 0
+	return func() int {
+		i++
+		return i
+	}
+}
+
+func main() {
+	nextInt := intSeq()
+	fmt.Println(nextInt())
+	fmt.Println(nextInt())
+	fmt.Println(nextInt())
+}
+
+
+
+//logger
+func logger(prefix string) func(s string) {
+	return func(s string) {
+		fmt.Printf("[%s] %s\n", prefix, s)
+	}
+}
+
+func main() {
+	warn := logger("warn")
+	warn("this is a warning")
+}
+
+
+
+//Рекурсия
+Функции огут быть рекурсивными
+
+
+
+//Методы
+ - функция перед именем которого указана структура
+ - вместо структуры может быть указан любой тип
+ - как правило метод ссылается не на структуру а на указатель на нее
+func (e *Employee) Fullname () string {...}
+ - тип должен быть объявлен в одном пакете со структурой
+ - тип не должен быть указателем
+ - тип не должен быть интерфейсом
+ - нельзя явно объявлять методы для встроенных типов
+ - можно так: type MyInt int
+ - нельзя явно объявлять методы для интерфейсов
+
+//пример
+type Employee struct {
+	name, surname string
+}
+
+//неизменяющий метод
+//func (e Employee) Fullname() string {
+//изменяющий метод
+func (e *Employee) Fullname() string {
+	return e.name + " " + e.surname
+}
+
+func main() {
+	e := Employee{"ivan", "ivanov"}
+	fmt.Print(e.Fullname())
+}
+
+
+
+///////////////////////////////////////////////
+///////////////////Ошибки//////////////////////
+///////////////////////////////////////////////
+Во го нет эксцепшнов.
+
+Code policy для с++ в гугл запрещает использовать эксцепшны.
+
+//Принципы обработки
+
+//Best practice
+
+
+///////////////////////////////////////////////
+////////////////////Panic//////////////////////
+///////////////////////////////////////////////
+
+//Ошибка
+ - тип, реализующий интерфейс error
+type error interface {
+    Error() string
+}
+ - функции возвращают ошибки как обычные значения
+ - по конвенции ошибка - последнее возвращаемое значение
+
+
+
+//Создание ошибки
+//1. errors.go: errors.New("error text")
+func getError() error {
+	str := errors.New("error text")
+	return str
+}
+
+func main() {
+	err := getError()
+	fmt.Print(err)
+}
+
+//2. fmt.Errorf
+func getError() error {
+	str := fmt.Errorf("error: %s", "text")
+	return str
+}
+
+func main() {
+	err := getError()
+	fmt.Print(err)
+}
+
+
+
+//Обработка ошибок
+ - 1. действие
+ - 2. проверка есть ли ошибка
+ - 3. действие
+ - 4. проверка есть ли ошибка
+token, err := getToken()
+if err != nil {
+    return err
+}
+
+//Проверка типа ошибки
+//1. switch
+err := readConfig()
+//кастинг: err.(type)
+switch err := err.(type){
+    case nil:
+        //...
+    case *PathError:
+        fmt.Println("Invalid config path: ", err.Path)
+    default:
+}
+
+
+
+//2. if
+if nerr, ok := err.(net.Error); ok && nerr.Temporary() {
+    //...
+}
+if err != nil {
+    log.Fatal(err)
+}
+
+
+
+//3. if
+if err == io.EOF{
+    //...
+}
+
+
+
+//Нельзя
+ - забывать проверять ошибку
+ - логировать и выкидывать вверх (либо то, либо другое)
+
+
+
+//panic
+ - встроенная функция которая останавливает выполнение функции
+ - в panic можно пробросить любой тип
+panic("fatal error")
+
+
+//recover
+ - catch для panic
+ - если отработал recover, то где-то выше по стэку был panic
+
+func main() {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Println("Failed: ", r)
+		}
+	}()
+	panic("Fatal error!")
+}

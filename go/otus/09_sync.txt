@@ -1,0 +1,228 @@
+
+
+//Concurrency
+ - разрешает выполнение нескольких программ на одном процессорном ядре,
+но происходит квантование
+ - одновременно выполняется 1 программа
+
+//Parallelism
+ - одновременно выполняются несколько программ
+
+
+
+//WaitGroup
+ - счетчик-структура для ожидания завершения работы нескольких горутин
+ - может использоваться без горутин
+ - type WaitGroup struct {...}
+ - wg.Add(i int) - увеличивает счетчик WaitGroup на i
+ - wg.Done() - уменьшает счетчик WaitGroup на 1
+ - wg.Wait() - блокируется, пока счетчик WaitGroup не обнулится
+
+//Пример:
+//1.
+var wg sync.WaitGroup
+for i := 0; i < 3; i++ {
+    //2.
+    wg.Add(1)
+    go func() {
+        //3.
+        defer wg.Done()
+        fmt.Println(i) //3 3 3
+        //wg.Done()
+    }()
+}
+//4.
+wg.Wait()
+
+
+//Мьютексы
+ - предыдущий m.Unlock всегда произойдет до следующего m.Lock
+
+//Блокировка на чтение и запись
+var mu = &sync.Mutex{}
+mu.Lock()
+mu.Unlock()
+
+//Блокировка на запись
+var mu = &sync.RWMutex{}
+mu.RLock()
+mu.RUnlock()
+
+
+
+//Когда использовать мьютексы
+ - кэш
+ - состояния
+
+
+
+//sync.Map
+ - разрешает параллельный доступ к map
+
+//Пример без sync.Map
+type Counters struct {
+	mx sync.RWMutex
+	m  map[string]int
+}
+func NewCounters() *Counters {
+	return &Counters{
+		m: make(map[string]int),
+	}
+}
+func (c *Counters) Load(key string) (int, bool) {
+	c.mx.RLock()
+	defer c.mx.RUnlock()
+	val, ok := c.m[key]
+	return val, ok
+}
+func (c *Counters) Store(key string, value int) {
+	c.mx.Lock()
+	defer c.mx.Unlock()
+	c.m[key] = value
+}
+func main() {
+	counters := NewCounters()
+	counters.Store("habr", 42)
+	v, ok := counters.Load("habr")
+	if ok {
+		fmt.Println(v)
+	}
+}
+
+
+
+//Пример c sync.Map
+//решает проблему с cache contention на большом количестве ядер
+var counters sync.Map
+counters.Store("habr", 42)
+v, ok := counters.Load("habr")
+if ok {
+    fmt.Println(v.(int))
+}
+counters.Delete("habr")
+
+
+
+//sync.Pool
+ - хранилище для временных объектов
+ - можно доставать, создавать и класть назад
+ - безопасное для использование нескольктми горутинами
+ - для кэширования
+ - чтобы не аллоцировать лишний раз
+ - один раз создать и переиспользовать
+ - любой элемент в пуле может быть удален в любое время
+ - нагружает gc
+
+//Пример
+var pool = sync.Pool{
+	// New creates an object when the pool has nothing available to return.
+	// New must return an interface{} to make it flexible. You have to cast
+	// your type after getting it.
+	New: func() interface{} {
+		// Pools often contain things like *bytes.Buffer, which are
+		// temporary and re-usable.
+		return &bytes.Buffer{}
+	},
+}
+
+func main() {
+	// When getting from a Pool, you need to cast
+	s := pool.Get().(*bytes.Buffer)
+	// We write to the object
+	s.Write([]byte("dirty"))
+	// Then put it back
+	pool.Put(s)
+
+	// Pools can return dirty results
+
+	// Get 'another' buffer
+	s = pool.Get().(*bytes.Buffer)
+	// Write to it
+	s.Write([]byte("append"))
+	// At this point, if GC ran, this buffer *might* exist already, in
+	// which case it will contain the bytes of the string "dirtyappend"
+	fmt.Println(s)
+	// So use pools wisely, and clean up after yourself
+	s.Reset()
+	pool.Put(s)
+
+	// When you clean up, your buffer should be empty
+	s = pool.Get().(*bytes.Buffer)
+	// Defer your Puts to make sure you don't leak!
+	defer pool.Put(s)
+	s.Write([]byte("reset!"))
+	// This prints "reset!", and not "dirtyappendreset!"
+	fmt.Println(s)
+}
+
+
+
+//Профилирование
+go test -bench .
+go test -bench . -benchmem
+go test -bench=. -benchmem
+
+
+
+//sync.Once
+ - если нужно вызвать метод только один раз из конкерентных горутин
+
+//Пример
+var wg sync.WaitGroup
+var once sync.Once
+onceBody := func() { fmt.Println("Only once") }
+
+for i := 0; i < 10; i++ {
+    wg.Add(1)
+    go func() {
+        defer wg.Done()
+        once.Do(onceBody)
+    }()
+}
+
+wg.Wait()
+
+
+
+//@TODO: добавить пример
+//sync.Cond
+ - условные переменные
+ - механизм ожидания горутинами сигнала о событии
+func NewCond (l Locker) *Cond
+func (c *Cond) Broadcast() // разбудить все горутины которые ждут сигнал
+func (c *Cond) Signal() // разбудить одну орутину (если есть) которая ждет сигнал (без блокировок)
+func (c *Cond) Wait() // разблокирует c.L, ждет сигнала и снова блокитрует c.L
+
+
+
+//GOMAXPROCS
+ - задает количество ядер
+ - runtime.GOMAXPROCS(1)
+ - при GOMAXPROCS(1) необходимость в мьютексах отпадает
+
+
+
+//Условные переменные
+//Гарантированно одноразовое выполнение
+//Pool и WaitGroup
+//Модель памяти в Go
+
+
+//Race детектор
+go run -race main.go
+go build -race main.go
+go test -race mypkg
+go install -race mypkg
+//не запустится если горутин больше 8128
+
+//Логирование
+GORACE="log_path=/tmp/report strip_path_prefix=/my/go/sources/" go test -race
+
+//Отключить детектор для тестов
+//коммент в коде
+// +build !race
+
+
+
+//@TODO: законспектировать
+//Модель памяти в Go

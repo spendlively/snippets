@@ -1,0 +1,183 @@
+
+//Интерфейс
+ - набор методов, которые нужно реализвать (контракт)
+ - утиная типизация (если что-то крякает как утка и выглядит как утка, то это утка)
+ - zero value - nil
+
+
+
+//Пример
+type Hound interface {
+	Hunt()
+}
+
+type Poodle interface {
+	Bark()
+}
+
+//структура GoldenRetriever
+//реализует интерфейсы Hound и Poodle
+type GoldenRetriever struct {
+	name string
+}
+
+func (GoldenRetriever) Hunt() { fmt.Println("hunt") }
+func (GoldenRetriever) Bark() { fmt.Println("bark") }
+
+func f1(i Hound)  { i.Hunt() }
+func f2(i Poodle) { i.Bark() }
+
+func main() {
+	t := GoldenRetriever{name: "Body"}
+	f1(t)
+	f2(t)
+}
+
+
+
+//Композиция интерфейсов
+type Greeter interface {
+	hello()
+}
+
+type Stranger interface {
+	Bye()
+	Greeter
+	fmt.Stringer
+}
+
+
+
+//Цикличная зависимость
+type I interface{
+	i()
+	J
+}
+
+type J interface{
+	j()
+	K
+}
+
+type K interface{
+	k()
+	//I - вызовет ошибку
+}
+
+
+
+//Повторение методов
+ - один метод не должен повторяться в разных интерфейсах
+
+
+
+//Пустой интерфейс
+//interface{}
+//не рекоммендуется использовать
+func foo(a ...interface{}){}
+
+
+
+//Значение типа интерфейс
+type Temp int
+
+func (t Temp) String() string {
+	return strconv.Itoa(int(t)) + " C"
+}
+
+func main() {
+	var x fmt.Stringer
+	x = Temp(24)
+	fmt.Printf("%v %T", x, x) //24 C main.Temp
+}
+
+
+
+//Проверка типов интерфейса
+//Type assertion
+x.(T)
+ - interface.(Type)
+ - аналог instanceOf
+ - проверка что x имеет тип T
+ - проверка что x != nil
+ - если T - не интерфейс - проверка что динамический тип x = T
+ - если T - интерфейс - проверка что динамический тип x реализует интерфейс T
+ - x - должен быть интерфейсом
+
+//Примеры
+var i interface{} = "hello"
+
+s1 := i.(string)
+fmt.Println(s1) //hello
+
+s1, isString := i.(string)
+fmt.Println(s1, isString) //hello true
+
+r, isStringer := i.(fmt.Stringer)
+fmt.Println(r, isStringer) //<nil> false
+
+f, isFloat := i.(float64)
+fmt.Println(f, isFloat) //0 false
+
+//f := i.(float64) - panic
+
+v := 1
+//ii := v.(int) - compile error
+
+
+
+//type switch
+type T1 struct{}
+type T2 struct{}
+
+var i interface{} = "string"
+
+switch i.(type) {
+case string:
+    fmt.Println(i)
+case nil:
+    fmt.Println("nil")
+case T1, T2:
+    fmt.Println("T1 or T2")
+default:
+    fmt.Println("default")
+}
+
+
+
+//ВАЖНО
+//Приведение типа
+ - работает только с переменной типа интерфейса
+ - для простых типов используется
+//i.(Type)
+//animal.(Dog).dogMethod()
+type Dog struct{}
+func (d Dog) woof() {
+	fmt.Println("woof")
+}
+
+type Cat struct{}
+func (c Cat) meow() {
+	fmt.Println("meow")
+}
+
+func do(animal interface{}) {
+	switch animal.(type) {
+	case Dog:
+		animal.(Dog).woof()
+	case Cat:
+		animal.(Cat).meow()
+	default:
+		fmt.Println("default")
+	}
+}
+
+func main() {
+	do(Dog{})
+	do(Cat{})
+	do(1)
+}
+
+
+
+//Приведение

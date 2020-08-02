@@ -77,7 +77,6 @@ $this->createQueryBuilder("o")
         ->leftJoin("o.products", "p", "WITH", "p.price>:price")
             ->setParameter("price", price)->addSelect("p")
         ->getQuery()->getResult() ;
-    createQueryBuilder
 
 
 if (!$includeUnavailableProducts) {
@@ -126,3 +125,37 @@ public function approvedList(EntityManagerInterface $em, PaginatorInterface $pag
 //////////////////////CONSOLE//////////////////////
 ///////////////////////////////////////////////////
 php bin/console doctrine:query:sql 'SELECT * FROM product'
+
+
+
+//divide with divider
+//createQueryBuilder с взятием остатка от деления
+//by repository
+$queryBuilder = $photoRepository->createQueryBuilder('p')
+    ->join("p.source", "s", "WITH", "p.status = :status")
+    ->setParameter('status', Photo::STATUS_APPROVED)
+    ->where("mod(p.id, 10) = :divider")
+    ->setParameter('divider', 3)
+    ->orderBy('p.id', 'ASC');
+
+$pagination = $paginator->paginate(
+    $queryBuilder->getQuery(),
+    $request->query->getInt('page', 1),
+    $paginationCount
+);
+
+//by entity manager
+$queryBuilder = $entityManager->createQueryBuilder();
+$queryBuilder->select('p')
+    ->from('Entity:Photo', 'p')
+    ->join("p.source", "s", "WITH", "p.status = :status")
+    ->setParameter('status', Photo::STATUS_APPROVED)
+    ->where("mod(p.id, 10) IN (:divider)")
+    ->setParameter('divider', $range['dividers'])
+    ->orderBy('p.id', 'ASC');
+
+$pagination = $paginator->paginate(
+    $queryBuilder->getQuery(),
+    $request->query->getInt('page', 1),
+    $paginationCount
+);

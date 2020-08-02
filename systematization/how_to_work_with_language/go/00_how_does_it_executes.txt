@@ -25,7 +25,6 @@ go build $GOPATH/src/github.com/my_user/my_repo/...
 //Сборка пакета с установкой в $GOPATH/pkg и $GOPATH/bin
 git install main.go
 go build $GOPATH/src/github.com/my_user/my_repo/...
-//Если папке нет пакета main
 
 //Запуск
 ./main
