@@ -184,14 +184,56 @@ wg.Wait()
 
 
 
-//@TODO: добавить пример
 //sync.Cond
  - условные переменные
  - механизм ожидания горутинами сигнала о событии
+ - обеспечивает блокирование одного или нескольких потоков
+до момента поступления сигнала от другого потока
+о выполнении некоторого условия или до истечения максимального промежутка времени ожидания
+ - не несет никакой информации, кроме факта, что произошло какое-то событие
 func NewCond (l Locker) *Cond
 func (c *Cond) Broadcast() // разбудить все горутины которые ждут сигнал
 func (c *Cond) Signal() // разбудить одну орутину (если есть) которая ждет сигнал (без блокировок)
 func (c *Cond) Wait() // разблокирует c.L, ждет сигнала и снова блокитрует c.L
+
+//ВАЖНО
+ - Внутри cond.Wait() происходит: 1. mutex.Unlock(), 2. Ожидание сигнала, 3. mutex.Lock()
+ - поэтому снаружи cond.Wait() оборачивают: Lock(), Wait(), Unlock()
+
+//Пример 1:
+type message struct {
+	cond *sync.Cond
+	msg  string
+}
+
+func main() {
+	msg := message{
+		cond: sync.NewCond(&sync.Mutex{}),
+	}
+
+	// 1
+	for i := 1; i <= 3; i++ {
+		go func(num int) {
+			for {
+				msg.cond.L.Lock()
+				msg.cond.Wait()
+				fmt.Printf("hello, i am worker%d. text:%s\n", num, msg.msg)
+				msg.cond.L.Unlock()
+			}
+		}(i)
+	}
+
+	// 2
+	scanner := bufio.NewScanner(os.Stdin)
+	fmt.Print("Enter text: ")
+	for scanner.Scan() {
+		msg.cond.L.Lock()
+		msg.msg = scanner.Text()
+		msg.cond.L.Unlock()
+
+		msg.cond.Broadcast()
+	}
+}
 
 
 
