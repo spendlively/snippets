@@ -1,0 +1,127 @@
+
+///////////////////////////////////////////////
+//////////////////Примеры//////////////////////
+///////////////////////////////////////////////
+//Кэширование 200-го ответа на 1 минуту
+fastcgi_cache_path /var/cache/nginx/site_name levels=1:2 keys_zone=zone_name:16m max_size=1g inactive=1d;
+server {
+    location ~ \.php$ {
+        # here goes php configuration
+        fastcgi_cache zone_name;
+        fastcgi_cache_valid 200 1m;
+    }
+}
+
+
+
+//Отмена кэширования если используются cookies (чтобы не закэшировать чью-то сессию),
+//и/или используется http-аутентификация
+fastcgi_cache_path /var/cache/nginx/site_name levels=1:2 keys_zone=zone_name:16m max_size=1g inactive=1d;
+server {
+    location ~ \.php$ {
+        # here goes php configuration
+        fastcgi_cache zone_name;
+        fastcgi_cache_valid 200 1m;
+
+        # Не кэшировать если хотя бы одного из строковых параметров непустое и не равно "0"
+        fastcgi_cache_bypass $cookie_nocache $arg_nocache$arg_comment;
+        fastcgi_cache_bypass $http_pragma $http_authorization;
+    }
+}
+
+
+
+//Кеширование определенного get-запроса
+fastcgi_cache_path /var/cache/nginx/site_name levels=1:2 keys_zone=zone_name:16m max_size=1g inactive=1d;
+server {
+    location ~ \.php$ {
+        # here goes php configuration
+        fastcgi_cache_key $request_method$scheme$host$uri$arg_param1$arg_param2;
+        fastcgi_cache zone_name;
+        fastcgi_cache_valid 200 1m;
+    }
+}
+
+
+
+//Кеширование определенного get-запроса с предобработкой параметров
+fastcgi_cache_path /var/cache/nginx/site_name levels=1:2 keys_zone=zone_name:16m max_size=1g inactive=1d;
+server {
+    location ~ \.php$ {
+        # here goes php configuration
+
+        # takes two first letters
+        if ($arg_param1 ~* "(^[^$]{2})" ) {
+            set $short_arg_param1 $1;
+        }
+
+        # takes third letter
+        if ($arg_param2 ~* "^[^$]{2}([^$])" ) {
+            set $short_arg_param2 $1;
+        }
+
+        set $cache_key $request_method$scheme$host$uri$short_arg_param1$short_arg_param2;
+
+        fastcgi_cache_key $cache_key
+        fastcgi_cache zone_name;
+        fastcgi_cache_valid 200 1m;
+    }
+}
+
+
+
+///////////////////////////////////////////////
+//////////////////Параметры////////////////////
+///////////////////////////////////////////////
+
+/var/cache/nginx/site_name
+ - путь где хранятся файлы кэша
+
+//levels
+ - уровни иерархии кэша
+ - можно задать от 1 до 3 уровней
+ - допускаются значения 1 или 2
+ - если levels=1:2, имена файлов в кэше будут такого вида
+    - /data/nginx/cache/c/29/b7f54b2df7773722d382f4809d65029c
+    - b7f54b2df7773722d382f4809d65029c - md5 от ключа кэширования
+    - 1 -> c (последний символ имени файла)
+    - 2 -> 29 (два предпоследних символа имени файла)
+ - если levels не задан или = “on”, будет использоваться каталог, задаваемый в proxy_temp_path
+ - proxy_temp_path - имя каталога для хранения временных файлов с данными, полученными от проксируемых серверов
+ - если levels = “off”, то временные файлы будут располагаться непосредственно в каталоге кэша
+
+//keys_zone
+ - все активные ключи и информация о данных хранятся в зоне разделяемой памяти
+ - имя и размер разделяемой памяти задаются в keys_zone
+ - зоны размером в 1 мегабайт достаточно для хранения около 8 тысяч ключей
+
+//max_size=1g
+ - максимальный размер всех страниц
+ - (размер apps = 324M)
+ - при превышении размеров “cache manager” удаляет наименее востребованные данные
+
+//inactive
+ - если к данным кэша не обращаются в течение inactive, они удаляются, независимо от их свежести.
+ - по умолчанию inactive равен 10 минутам.
+
+//fastcgi_cache_valid
+ - время кеширования и код ответа
+ - fastcgi_cache_valid 1m; #200, 301 и 302.
+ - fastcgi_cache_valid 200 1m;
+ - fastcgi_cache_valid any 10m;
+ - fastcgi_cache_valid 200 302 10m;
+
+//fastcgi_cache
+ - задаёт зону разделяемой памяти, используемой для кэширования
+ - fastcgi_cache=off запрещает кэширование, унаследованное с предыдущего уровня конфигурации
+
+//fastcgi_cache_bypass
+ - Задаёт условия, при которых ответ не будет браться из кэша
+ - Если значение хотя бы одного из строковых параметров непустое и не равно "0",
+то ответ НЕ берётся из кэша
+
+//fastcgi_cache_key
+ - Задаёт ключ для кэширования
+ - Контекст: http, server, location
+ - fastcgi_cache_key localhost:9000$request_uri;
+ - fastcgi_cache_key "$host$request_uri $cookie_user";

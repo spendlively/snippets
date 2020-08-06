@@ -1,0 +1,156 @@
+
+//Аргументы командной строки с помощью пакета flag
+var num = flag.Int("num", 1234, "help message")
+var str = flag.String("str", "default", "help message")
+
+flag.Parse()
+
+fmt.Println(num, *num)
+fmt.Println(str, *str)
+
+//1.
+//./main -num 1 --str qwerty
+//0xc0000180a8 1234
+//0xc00004a1e0 default
+
+//2.
+//./main -num=1 --str=qwerty
+//0xc0000180a8 1234
+//0xc00004a1e0 default
+
+
+
+//Аргументы командной строки с помощью пакета pflag
+
+
+
+//cobra - framework для написание cli-приложения
+//дефакто стандарт для написания cli-утилит
+
+
+
+//Работа с переменными окружения (пакет os)
+//os.Environ()
+var env []string
+env = os.Environ() // слайс (!) строк
+fmt.Println(env[0]) // NEWVAR=val
+var newvar string
+newvar, ok := os.LookupEnv("NEWVAR")
+fmt.Printf(newvar) // val
+os.Setenv("NEWVAR", "val2") // установить
+os.Unsetenv("NEWVAR")
+// удалить
+fmt.Printf(os.ExpandEnv("$USER have a ${NEWVAR}")) // "шаблонизация"
+
+
+
+//Запуск из коммандной строки
+//cmd.Start() запускает программу, но не дожидается завершения.
+//cmd.Wait() дожидается завершения.
+
+
+//1.
+//cmd.Run() запускает команду и дожидается ее завершения.
+cmd := exec.Command("sleep", "1")
+err := cmd.Run()
+// ошибка запуска или выполнения программы
+log.Printf("Command finished with error: %v", err)
+
+//2.
+//cmd.Start() запускает программу, но не дожидается завершения.
+//cmd.Wait() дожидается завершения.
+cmd := exec.Command("sleep", "1")
+err := cmd.Start()
+if err != nil {
+	log.Fatal(err) //ошибка запуска
+}
+log.Printf("Waiting for command to finish...")
+err = cmd.Wait() //ошибка выполнения
+log.Printf("Command ошибка запуска finished with error: %v", err)
+
+//3.
+//получить STDOUT выполненной команды
+out, err := exec.Command("date").Output()
+if err != nil {
+    log.Fatal(err)
+}
+fmt.Printf("The date is %s\n", out)
+
+//4.
+//аналог bash команды ls | wc -l
+c1 := exec.Command("ls")
+c2 := exec.Command("wc", "-l")
+pipe, _ := c1.StdoutPipe()
+c2.Stdin = pipe
+c2.Stdout = os.Stdout
+_ = c1.Start()
+_ = c2.Start()
+_ = c1.Wait()
+_ = c2.Wait()
+
+
+
+//Обработка сигналов
+SIGINT - CTRL + C
+SIGKILL - kill -9
+
+//1.
+func signalHandler(c <-chan os.Signal) {
+	s := <-c
+	// TODO: handle
+	fmt.Println("Got signal:", s)
+}
+
+func businessLogic() {
+	fmt.Println(fmt.Sprintf("[%d]", os.Getpid()), "App is ready to receive signals")
+	for {}
+}
+
+func main() {
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, syscall.SIGUSR1)
+	signal.Ignore(syscall.SIGINT)
+	go signalHandler(c)
+	businessLogic()
+}
+
+
+//2. Работа с файловой системой
+//Пакет os
+// изменить права доступа к файлу
+func Chmod(name string, mode FileMode) error
+
+// изменить владельца
+func Chown(name string, uid, gid int) error
+
+// создать директорию
+func Mkdir(name string, perm FileMode) error
+
+// создать директорию (вместе с родительскими)
+func MkdirAll(path string, perm FileMode) error
+
+// переименовать файл/директорию
+func Rename(oldpath, newpath string) error
+
+// удалить файл (пустую директорию)
+func Remove(name string) error
+
+// удалить рекурсивно rm -rf
+func RemoveAll(path string) error
+
+
+
+//Создать временный файл
+content := []byte("temporary file's content")
+// файл будет создан в os.TempDir, например /tmp/example-Jsm22jkn
+tmpfile, err := ioutil.TempFile("", "example-")
+if err != nil {
+    log.Fatal(err)
+}
+defer os.Remove(tmpfile.Name()) // не забываем удалить
+if _, err := tmpfile.Write(content); err != nil {
+    log.Fatal(err)
+}
+if err := tmpfile.Close(); err != nil {
+    log.Fatal(err)
+}

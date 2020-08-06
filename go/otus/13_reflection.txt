@@ -1,0 +1,281 @@
+
+///////////////////////////////////
+/////Рефлексия на уровне языка/////
+///////////////////////////////////
+//1. type assertion
+var r io.Reader
+var f *os.File
+f, ok = r.(*os.File)
+
+
+
+//2. type switch
+switch v := i.(type) {
+    case int:
+    // here v has type int
+    i = v + 1
+
+    case string: // here v has type string
+    i = v + "1"
+
+    default:
+    // no match; here v has the same type as i
+}
+
+
+
+///////////////////////////////////
+///////////Пакет reflect///////////
+///////////////////////////////////
+//reflect.Value
+var i int = 42
+value := reflect.ValueOf(i)
+
+fmt.Println(value) //42
+fmt.Println(value.Type()) //int
+fmt.Println(value.Kind()) //int
+fmt.Println(value.Interface()) //42
+fmt.Println(value.Int()) //42
+fmt.Println(value.String()) //<int Value>
+fmt.Println(value.CanSet()) //false
+//value.SetInt()
+//value.Elem() //разыменовать указатель или интерфейс
+
+
+
+//type assertion
+func assertString(iv interface{}) (string, bool) {
+	rv := reflect.ValueOf(iv)
+	s := ""
+	ok := false
+	if rv.Kind() == reflect.String {
+		s = rv.String()
+		ok = true
+	}
+	return s, ok
+}
+
+func main(){
+	var iv interface{} = "hello"
+	s, ok := assertString(iv)
+	fmt.Println(s, ok) //"hello" true
+	s2, ok := assertString(42)
+	fmt.Println(s2, ok) //"" false
+}
+
+
+//reflect.Type и reflect.Kind
+ - reflect.Kind представляет собой базовый тип для значения. reflect.Kind определяет какие
+const (
+    Invalid Kind = iota
+    Bool
+    Int
+    Int8
+    Int16
+    ...
+)
+
+методы имеют смысл для конкретного reflect.Value , а какие вызовут панику
+ - reflect.Type представляет собой информацию о конкретном типе: имя, пакет, список методов и т.д.
+t.Name() string
+// имя типа
+t.PkgPath() string
+// пакет, в котором определен тип
+t.Size() uintptr
+// размер в памяти, занимаемый значением
+t.Implements(u Type) bool // реализует ли интерфейс u ?
+t.MethodByName(string name) reflect.Value // метод по имени
+//Большинство методов продублировано в reflect.Value
+
+
+
+//Изменение значений
+//Паника
+var x float64 = 3.4
+v := reflect.ValueOf(x) // ???
+v.SetFloat(7.1) // panic: reflect.Value.SetFloat using unaddressable value
+fmt.Println(v.CanSet()) // false
+
+
+//Правильный способ:
+var x float64 = 3.4
+p := reflect.ValueOf(&x) // адрес переменной x
+fmt.Println(p.Type()) // *float64
+fmt.Println(p.CanSet()) // false
+v := p.Elem() //переход по указателю
+fmt.Println(v.Type()) //float64
+fmt.Println(v.CanSet()) //true
+v.SetFloat(7.1)
+fmt.Println(x)
+
+
+
+//Работа со структурами
+//Преобразование структуры в map
+//https://play.golang.org/p/B7QEHLgNSTG
+type St struct {
+	Name string
+	Age  int
+}
+
+func structToMap(iv interface{}) (map[string]interface{}, error) {
+	v := reflect.ValueOf(iv)
+	if v.Kind() != reflect.Struct {
+		return nil, errors.New("not a struct")
+	}
+	t := v.Type()
+	mp := make(map[string]interface{})
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i) // reflect.StructField
+		fv := v.Field(i)    // reflect.Value
+		mp[field.Name] = fv.Interface()
+	}
+	return mp, nil
+}
+
+func structToMapByPointer(iv interface{}) (map[string]interface{}, error) {
+	v := reflect.ValueOf(iv)
+	if v.Elem().Kind() != reflect.Struct {
+		return nil, errors.New("not a struct")
+	}
+	t := v.Elem().Type()
+	mp := make(map[string]interface{})
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i) // reflect.StructField
+		fv := v.Elem().Field(i)    // reflect.Value
+		mp[field.Name] = fv.Interface()
+	}
+	return mp, nil
+}
+
+func main() {
+	//Передаем структуру
+	st := St{"Boby", 18}
+	mp, err := structToMap(st)
+	fmt.Printf("MAP: %#v\nERR: %s\n", mp, err)
+
+    //Передаем указатель на структуру
+	st2 := St{"Boby", 18}
+	mp2, err2 := structToMapByPointer(&st2)
+	fmt.Printf("MAP: %#v\nERR: %s\n", mp2, err2)
+}
+
+
+
+//Преобразование map to struct
+type St2 struct {
+	Name 	 string
+	LastName string
+	Age  	 int
+}
+
+func mapToStruct(mp map[string]interface{}, iv interface{}) (error) {
+	v := reflect.ValueOf(iv)
+	if v.Kind() != reflect.Ptr {
+		return errors.New("not a pointer to struct")
+	}
+	v = v.Elem()
+	if v.Kind() != reflect.Struct {
+		return errors.New("not a pointer to struct")
+	}
+	t := v.Type()
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i) // reflect.StructField
+		fv := v.Field(i)    // reflect.Value
+		if val, ok := mp[field.Name]; ok {
+			mfv := reflect.ValueOf(val)
+			if mfv.Kind() != fv.Kind() {
+				return errors.New("incomatible type for " + field.Name)
+			}
+			fv.Set(mfv)
+		}
+	}
+	return nil
+}
+
+func main() {
+	var st St2
+	mp := map[string]interface{}{
+		"Name": "Mary",
+		"Age": 42,
+		"SomeMoreFields": true,
+	}
+	err := mapToStruct(mp, &st)
+	fmt.Printf("STRUCT: %#v\nERR: %s\n", st, err)
+}
+
+
+
+//Работа с функциями и методами
+//Получив рефлексию функции/метода, мы можем исследовать количество и типы ее аргументов:
+f := fmt.Printf
+v := reflect.ValueOf(f)
+t := v.Type()
+t.NumIn() // количество аргументов
+t.NumOut() // количество возвращаемых значений
+a1t := t.In(0) // reflect.Type первого аргумента
+o1t := t.Out(0) // reflect.Type первого возвращаемого значения
+t.IsVariadic() // принимает ли функция переменное число аргументов ?
+
+
+
+//Получение списка методов определенных над типом:
+type Int int
+func (i Int) Say() string {
+    return "42"
+}
+func main() {
+    var obj Int
+    v := reflect.ValueOf(obj)
+    for i := 0; i < v.NumMethod(); i++ {
+        meth := v.Method(i) // reflect.Value
+    }
+    sayMethod := v.MethodByName("Say") // reflect.Value
+}
+
+
+
+//Вызов функций / методов
+f := fmt.Printf
+v := reflect.ValueOf(f)
+args := []reflect.Value{
+    reflect.ValueOf("test %d\n"),
+    reflect.ValueOf(42),
+}
+ret := v.Call(args) // []reflect.Value
+fmt.Println(ret)
+//test 42
+//[<int Value> <error Value>]
+
+
+
+//Указатели в Go
+//указатели на разные типы не совместимы между собой (т.к. сами являются разными типами)
+type St struct{ a, b int32}
+var b [8]byte
+bp := &b
+var sp *St
+sp = bp // nop
+sp = (*St)(bp) // nop
+
+
+
+//unsafe.Pointer
+//Go позволяет делать явное преобразование типа любого указателя
+//в unsafe.Pointer и обратно (а так же в uintptr )
+//https://go101.org/article/unsafe.html
+import "unsafe"
+var b [8]byte
+bp := &b
+var sp *St
+var up unsafe.Pointer
+up = unsafe.Pointer(bp)
+sp = (*St)(up)
+sp.a = 12345678
+fmt.Println(b) // [78 97 188 0 0 0 0 0]
+
+
+
+//Зачем нужен пакет unsafe
+ - используется в самом Go, например в пакетах runtime и reflect
+
