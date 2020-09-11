@@ -1,3 +1,9 @@
 
 //Удалить файл из репозитория но оставить сам файл
 git rm --cached file.log
+
+//Удалить локальную ветку
+git branch -d localBranchName
+
+//Удалить удаленную ветку
+git push origin --delete remoteBranchName

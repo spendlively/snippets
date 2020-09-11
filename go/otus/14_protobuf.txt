@@ -1,0 +1,113 @@
+
+//Protocol buffers
+//xml:
+<person>
+    <name>Elliot</name>
+    <age>24</age>
+</person>
+
+//json:
+{
+    "name": "Elliot",
+    "age": 24
+}
+
+//protobuf:
+[10 6 69 108 108 105 111 116 16 24]
+
+
+
+//Protocol buffers: формат протокола
+https://developers.google.com/protocol-buffers/docs/proto3
+
+syntax = "proto3";
+
+package demo;
+
+message People {
+    repeated Person person = 1;
+}
+
+message Person {
+    string name = 1;
+    repeated Address address = 2;
+    repeated string mobile = 3;
+    repeated string email = 4;
+}
+
+message Address {
+    string street = 1;
+    int32 number = 2;
+}
+
+
+
+//Protocol buffers: кодогенерация
+go get -u github.com/golang/protobuf/protoc-gen-go
+//go:generate protoc --go_out=. file.proto
+globbing не поддерживается:
+//go:generate protoc --go_out=. file1.proto file2.proto
+
+
+
+//Protocol buffers: кодогенерация
+message Foo {}
+
+type Foo struct {
+}
+
+// Reset sets the proto's state to default values.
+func (m *Foo) Reset()
+{ *m = Foo{} }
+
+// String returns a string representation of the proto.
+func (m *Foo) String() string { return proto.CompactTextString(m) }
+
+// ProtoMessage acts as a tag to make sure no one accidentally implements the
+// proto.Message interface.
+func (*Foo) ProtoMessage()
+{}
+
+
+
+//Protocol buffers: запись и чтение
+course := &myotus.Course{
+    Title: "Golang",
+    Teacher: []*myotus.Teacher{
+        {Name: "Dmitry Smal", Id: 1},
+        {Name: "Alexander Davydov", Id: 2}
+    },
+}
+
+out, err := proto.Marshal(course)
+if err != nil {
+    log.Fatalln("Failed to encode", err)
+}
+
+otusdb := &myotus.Otus{}
+if err := proto.Unmarshal(in, otusdb); err != nil {
+    log.Fatalln("Failed to parse otus database:", err)
+}
+
+
+
+//Protocol buffers: типы данных
+https://developers.google.com/protocol-buffers/docs/proto3
+
+//Скаляры: default, boat, int{32,64}, string, bytes
+
+//Поля: одиночные, repeated (порядок сохраняется), reserved (полезно для удаленных полей)
+
+message Foo {
+    reserved 2, 15, 9 to 11;
+    reserved "foo", "bar";
+}
+
+//enums, должны начинаться с 0 как default value
+enum Corpus {
+    UNIVERSAL = 0;
+    WEB = 1;
+    IMAGES = 2;
+    Maps:
+}
+

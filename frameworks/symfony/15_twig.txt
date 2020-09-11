@@ -8,3 +8,16 @@ twig:
 
 //twig template
 {% set alert = alert_service.getSuitableAlert() %}
+
+
+
+//check user role in twig template
+{% if not is_granted('ROLE_ADMIN') %}
+    <h1>Administrator</h1>
+{% elseif is_granted('ROLE_MODERATOR') %}
+    <h1>Moderator</h1>
+{% elseif is_granted('ROLE_USER') %}
+    <h1>User</h1>
+{% else %}
+    <h1>Anonymous</h1>
+{% endif %}

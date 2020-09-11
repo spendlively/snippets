@@ -16,12 +16,20 @@ $repository->findOneBy([
     'price' => 1999,
 ]);
 
+//findBy
 $repository->findBy(
     ['name' => 'Keyboard'],
     ['price' => 'ASC'],
     100, //Limit
     100, //Offset
 );
+
+//findBy where status in (1, 2, 3)
+$assignedPhotos = $this->findBy(['status' => [
+            Photo::STATUS_WAITING_FOR_MODERATION,
+            Photo::STATUS_MODERATED_BY_1,
+            Photo::STATUS_MODERATED_BY_2,
+        ]]);
 
 $repository->findAll();
 
@@ -159,3 +167,14 @@ $pagination = $paginator->paginate(
     $request->query->getInt('page', 1),
     $paginationCount
 );
+
+
+
+//Оптимизация join запросов
+//Чтобы Doctrine не лезла каждый раз в базу за связанным объектом
+//Нужно при определении связи указать fetch="EAGER" (по умолчанию LAZY)
+/**
+ * @ORM\ManyToOne(targetEntity="App\Entity\ImageInfo", inversedBy="photos", cascade={"persist"}, fetch="EAGER")
+ * @var ImageInfo|null $imageInfo
+ */
+private $imageInfo;

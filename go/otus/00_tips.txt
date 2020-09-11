@@ -1,4 +1,35 @@
 
+//Контекст
+ - механизм ограничения времени запроса
+
+//Создание структуры проекта
+mkdir -p ~/go/src/github.com/spendmail/project-name
+# cd ALT + .
+mkdir -p api
+mkdir -p cmd
+mkdir -p pkg
+mkdir -p internal/domain/errors
+mkdir -p internal/domain/interfaces
+mkdir -p internal/domain/models
+mkdir -p internal/domain/services
+mkdir -p internal/grpc/api
+mkdir -p internal/maindb
+mkdir -p sql
+
+
+//Самые популярные библиотеки go
+https://github.com/avelino/awesome-go#configuration
+https://go.libhunt.com/categories/463-configuration
+
+
+//panic
+т.к. panic в корутине оч сложно перехватить, лучше его не использовать
+
+
+//Uber Go Style Guide
+https://github.com/uber-go/guide/blob/master/style.md
+
+
 //Сгенерировать структуру для json
 https://mholt.github.io/json-to-go/
 

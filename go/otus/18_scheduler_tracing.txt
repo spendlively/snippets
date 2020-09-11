@@ -1,0 +1,42 @@
+
+//Планировщик
+ - N:M планирование
+ - Распределяет N горутин (G) на M потоков (M)
+ - GOMAXPROCS определяет на скольких процессорах (потоках процессора)
+выпонляются M потоков планировщика
+
+
+
+//Вывод трассировки в stderr
+//1. Вызывает trace.Start и trace.Stop() в коде
+trace.Start(os.Stderr)
+defer trace.Stop()
+ch := make(chan int)
+go func() {
+    ch <- 42
+}()
+<-ch
+
+//2. Выполняем программу с перенаправлением stderr в файл
+go run main.go 2>trace.out
+
+//3. Запускаем go tool trace при просмотра трассировки
+//должно открыться окно браузера
+go tool trace trace.out
+
+
+
+//Вывод трассировки в файл
+file, _ := os.Create("tracing_file.txt")
+trace.Start(file)
+defer trace.Stop()
+ch := make(chan int)
+go func() {
+    ch <- 42
+}()
+<-ch
+
+//go run main.go
+//go tool trace tracing_file.txt
+
+

@@ -1,0 +1,128 @@
+
+
+//go generate
+ - ищет по исходникам комментарий //go:generate cmd
+//go:generate echo "Hello, World!"
+ - исполняет то, что написано после go:generate
+ - интерпретирует bash
+ - программа выполняется в папке пакета
+ - между // и  go:generate не должно быть пробела
+
+
+
+//Создание псевдонима для команды
+//go:generate -command bye echo "Good Bye!"
+//Вызов команды по псевдониму
+//go:generate bye
+//алиасы видны в рамках файла
+
+//Показать какие файлы будут обрабатываться
+go generate -v
+
+//Показать какие команды в каких файлах будут обрабатываться и выполнить их
+go generate -x
+
+//Показать какие команды в каких файлах будут обрабатываться (не выполняя их)
+go generate -n
+
+//Выполнить алиасы команды по регулярному выражению
+go generate -run bye
+
+
+
+//Пакет Binary data
+//Генерирует массив байт из файла и встраивает в гошный файл
+go get -u github.com/go-bindata/go-bindata/...
+
+go-bindata -o myfile.go data/
+
+//go:generate bindata -o jpegs.go pic1.jpg pic2.jpg pic3.jpg
+b, err := Asset("pic1.jpg")
+if err != nil {
+    log.Fatalf("unable to get template: %v", err)
+}
+
+
+
+//Генерация go структур из JSON
+//https://mholt.github.io/json-to-go/
+go get github.com/ChimeraCoder/gojson/gojson
+
+//create json file with schema: schema.json
+{
+    "name" : "Alex",
+    "age": 24,
+    "courses": ["go", "python"]
+}
+
+//run command
+cat schema.json | gojson -name Person
+
+//Вывод в stdout
+package main
+type Person struct {
+    Age int64 `json:"age"`
+    Courses []string `json:"courses"`
+    Name string `json:"name"`
+}
+
+
+
+//Сгенерировать реализацию интерфейса
+go get -u github.com/josharian/impl
+impl 'f *File' io.ReadWriteCloser
+
+
+
+//easyjson
+go get -u github.com/mailru/easyjson/...
+easyjson -all <file>.go
+//генерирует MarshalEasyJSON / UnmarshalEasyJSON, для структур из файла
+//кратно быстрее за счет отсутствия рефлексии
+
+
+
+//Дженерики
+go get github.com/cheekybits/genny
+//go:generate genny -in=$GOFILE -out=gen-$GOFILE gen "KeyType=string,int ValueType=string,int"
+
+//Объявляем заглушки по типам:
+type KeyType generic.Type
+type ValueType generic.Type
+
+//Пишем обычный код:
+func SetValueTypeForKeyType(key KeyType, value ValueType) { /* ... */ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

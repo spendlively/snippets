@@ -1,0 +1,11 @@
+
+Подскажи, что минус в начале означает?
+{{- range $rowIndex, $charactersGrp := characters}}
+
+
+{{- if index . "url"}}
+{{- else}}
+{{- end}}
+
+
+$.

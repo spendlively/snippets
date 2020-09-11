@@ -1,0 +1,219 @@
+
+/////////////////////////////////////////////////////////////////
+///////////////////////CLEAN ARCHITECTURE////////////////////////
+/////////////////////////////////////////////////////////////////
+
+//3 обязательные директории проекта на go
+//cmd
+ - код, из которого будут собираться бинарники
+
+//internal
+ - весь код проекта
+
+//pkg
+ - библиотеки, которые подключаются из других проектов
+ - пакет для подключения снаружи
+
+
+
+//Создание структуры проекта
+mkdir -p ~/go/src/github.com/spendmail/project-name
+# cd ALT + .
+mkdir -p api
+mkdir -p cmd
+mkdir -p pkg
+mkdir -p internal/domain/errors
+mkdir -p internal/domain/interfaces
+mkdir -p internal/domain/models
+mkdir -p internal/domain/services
+mkdir -p internal/adapters/grpc/api
+mkdir -p internal/adapters/maindb
+mkdir -p sql
+
+
+
+//Типовая структура проекта на go
+ - реализует clean architecture Роберта Мартина
+ - внутренние слои не зависят от внешних
+ - в больших проектах во внешних слоях могут использоваться DataTransferObject
+вместо объектов моделей доменного слоя
+
+Makefile
+api
+ - api.proto
+cmd
+ - grpc_client.go
+ - grpc_server.go
+ - root.go
+internal //директория с кодом (как src или lib в др проектах)
+ - domain // бизнесс слой
+    - errors //ошибки
+        - error.go
+    - interfaces //интерфейсы
+        - event_storage.go
+    - models //модели
+        - event.go
+    - services //сервисы
+        - event.go
+ - adapters //внешний слой - адаптеры
+     - grpc // адаптер для осуществления grpc запросов к нашему сервису
+        - api
+            - api.pb.go
+            - server.go
+     - maindb // адаптер для работы с базами данных
+            - maindb.go
+main.go
+sql
+
+
+
+//internal/domain
+ - внутри пакета internal/domain нет использования внешнего кода
+ - ни один файлик внутри internal/domain не импортирует ничего из adapters
+
+
+
+//1. Модели
+ - объекты значения
+ - методы, которые сильно привязаны к этим объектам
+type Event struct {
+	ID        uuid.UUID
+	Owner     string
+	Title     string
+	Text      string
+	StartTime *time.Time
+	EndTime   *time.Time
+}
+
+
+
+//2. Сервисы
+ - сценарии, по которым пользователь взаимодействует с нашим приложением
+ - либо чистые функции
+ - либо объект сервиса и его методы
+ - создание объекта модели
+ - для работы с бд используется di, чтобы сервис не зависил от внешнего кода,
+для этого объявляется интерфейс (в internal/domain/interfaces),
+кот потом реализует адаптер из внешнего слоя (maindb.go)
+
+type EventService struct {
+    EventStorage interfaces.EventStorage
+}
+
+func (es *EventService) CreateEvent(ctx context.Context, owner, title, text string, startTime *time.Time, endTime *time.Time) (*entities.Event, error) {
+    event := &entities.Event{
+        ID:        uuid.NewV4(),
+        Owner:     owner,
+        Title:     title,
+        Text:      text,
+        StartTime: startTime,
+        EndTime:   endTime,
+    }
+    err := es.EventStorage.SaveEvent(ctx, event)
+    if err != nil {
+        return nil, err
+    }
+    return event, nil
+}
+
+
+
+//3. Интерфейсы
+ - Интерфейсы которые должны быть реализованы во внешнем слое адаптеров, для работы со слоем домена
+ - EventStorage - интерфейс "репозитория", который будет реализован во внешнем слое
+ - Первым параметром передается контекст, который нужно передавать из функцию в функцию
+
+type EventStorage interface {
+	SaveEvent(ctx context.Context, event *entities.Event) error
+	GetEventById(ctx context.Context, id string) (*entities.Event, error)
+	GetEventsByOwnerStartDate(ctx context.Context, owner string, startTime time.Time) []*entities.Event
+}
+
+
+
+//4. Ошибки
+ - доменные ошибки (аналог эксепшнов)
+
+type EventError string
+
+func (ee EventError) Error() string {
+	return string(ee)
+}
+
+var (
+	ErrOverlaping       = EventError("another event exists for this date")
+	ErrIncorrectEndDate = EventError("end_date is incorrect")
+)
+
+
+
+//5. Адаптеры
+ - пакеты для работы с внешним миром
+ - бд, grpc, логгеры, ...
+ - вызывают методы модели
+
+
+
+//6. Правильное clean arch логирование
+ - неправильно объявлять глобальную переменную для логгера
+ - внутри структуры сервиса заводится поле для хранения логгера
+ - в адаптере при создании сервиса передать в него логгер
+ - в доменном слое вызвать метод логгера из поля структуры сервиса
+
+
+
+/////////////////////////////////////////////////////////////////
+///////////////////////GO STANDARD LAYOUT////////////////////////
+/////////////////////////////////////////////////////////////////
+
+//Стандартная структура каталогов веб-проекта на go
+ - https://github.com/golang-standards/project-layout
+ - чтобы следовать clean arch внутри internal нужно делить код
+на слои домена и адаптеров
+
+//Структура
+ - Makefile
+ - api
+ - assets
+ - build
+ - cmd
+ - configs
+ - deployments
+ - docs
+ - examples
+ - githooks
+ - init
+ - internal
+ - pkg
+ - scripts
+ - test
+ - third_party
+ - tools
+ - vendor
+ - web
+ - website
+
+
+//Clean Arch layers
+//Самый внешний слой - внешний мир
+ - базы данных
+ - внешние системы
+ - демоны
+ - UI (например SPA на js)
+
+//Второй слой - Слой адаптеров
+ - Контроллеры
+ - Шлюзы (Gateways)
+ - Presenters
+
+//Третий слой - Бизнес логика
+ - Use cases
+
+//Четвертый слой - Бизнес логика
+ - Модели (Entities)
+
+
+
+//Микросервисная архитектура
+ - архитектура строиться вокруг api
+

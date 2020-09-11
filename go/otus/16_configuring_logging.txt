@@ -1,0 +1,75 @@
+
+//1. Чтение конфига из файла и запись ошибок в лог
+type Config struct {
+	Domain string `yaml:"domain"`
+	Blacklist []string `yaml:"blacklist"`
+}
+
+func main() {
+	var c Config
+
+	yamlFile, err := ioutil.ReadFile("conf.yaml")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = yaml.Unmarshal(yamlFile, &c)
+	if err != nil {
+		log.Fatalf("Unmarshal: %v", err)
+	}
+
+	log.Println(c.Domain)
+	log.Println(c.Blacklist)
+}
+
+
+
+//2. Получение переменных окружения
+type EnvConfig struct {
+	Port int
+	Host string
+}
+
+func main() {
+	httpPort, err := strconv.Atoi(os.Getenv("SHORTENER_PORT"))
+	if err != nil {
+		panic(fmt.Sprint("SHORTENER_PORT not defined"))
+	}
+
+	shortenerHost := os.Getenv("SHORTENER_HOST")
+	if shortenerHost == "" {
+		panic(fmt.Sprint("SHORTENER_HOST not defined"))
+	}
+
+	config := EnvConfig{httpPort, shortenerHost}
+	log.Println(config.Port)
+	log.Println(config.Host)
+}
+
+
+
+//Log in file
+f, err := os.OpenFile("info.log", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+if err != nil {
+    log.Fatalf("error opening file: %v", err)
+}
+defer f.Close()
+
+log.SetOutput(f)
+log.Println("This is a test log entry")
+
+
+
+//Zap
+//https://github.com/uber-go/zap
+ - есть и printf, и structured logging
+ - очень быстрый
+
+//Пример
+logger := zap.NewExample() // для тестов, пишет в stdout
+logger, err := zap.NewProduction()
+if err != nil {
+    log.Fatalf("can't initialize zap logger: %v", err)
+}
+defer logger.Sync()
+

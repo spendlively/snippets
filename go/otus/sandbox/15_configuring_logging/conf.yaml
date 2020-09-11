@@ -1,0 +1,4 @@
+domain: abs.com
+blacklist:
+  - evil.com
+  - bad.com
