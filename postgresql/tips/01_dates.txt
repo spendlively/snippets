@@ -1,0 +1,6 @@
+
+//Группировка по датам с округлением
+select
+    TO_CHAR(created_at, 'YYYY-MM-DD'), count(*)
+from table_name
+group by TO_CHAR(created_at, 'YYYY-MM-DD')

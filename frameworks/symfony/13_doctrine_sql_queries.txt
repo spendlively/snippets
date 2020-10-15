@@ -171,6 +171,7 @@ $pagination = $paginator->paginate(
 
 
 //Оптимизация join запросов
+//fetch="EAGER"
 //Чтобы Doctrine не лезла каждый раз в базу за связанным объектом
 //Нужно при определении связи указать fetch="EAGER" (по умолчанию LAZY)
 /**
@@ -178,3 +179,23 @@ $pagination = $paginator->paginate(
  * @var ImageInfo|null $imageInfo
  */
 private $imageInfo;
+
+
+
+//fetch="EAGER"
+//По ощущениям если делаешь явно join или leftJoin автоматом работает fetch="EAGER"
+$queryBuilder = $this->entityManager->createQueryBuilder();
+$queryBuilder->select('p');
+$queryBuilder->from('Entity:Photo', 'p');
+$queryBuilder->join("p.source", "s");
+$queryBuilder->join("s.imageInfo", "i");
+$queryBuilder->join("p.result", "r");
+$queryBuilder->leftJoin("r.processedResults", "pr");
+$queryBuilder->where("p.status = :status");
+$queryBuilder->setParameter('status', Photo::STATUS_APPROVED);
+$queryBuilder->andWhere("pr.id is null");
+
+$query = $queryBuilder->getQuery();
+$query->setFetchMode(Photo::class, 'p', ClassMetadata::FETCH_EAGER);
+
+$photos = $query->getResult();

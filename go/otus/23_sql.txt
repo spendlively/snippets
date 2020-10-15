@@ -1,0 +1,52 @@
+
+
+//Важно закрывать соединение, чтобы оно возвращалось в пул
+
+
+//Пакеты
+//1. sql
+ - стандартный вариант
+ - примеры в sandbox/23_sql
+
+//2. sqlx
+ - поддерживат именованные placeholder'ы (:field_name)
+ - можно сканировать данные в структуру (рефлексия)
+ - можно передавать параметры в виде словаря
+ - можно сканировать в map
+
+
+//Драйверы для Postgres
+//pgx (https://github.com/jackc/pgx)
+ - Лучший драйвер на текущий момент
+//pq (https://github.com/lib/pq)
+ - Другой часто используемый драйвер (менее производительный):
+
+
+//Миграции
+//goose (https://github.com/pressly/goose)
+ - можно использовать как cli-тулзу и как библиотеку
+
+//flywaydb (https://flywaydb.org/)
+ - пожалуй, самая популярная штука для миграций
+ - Protip: flyway можно запускать из докер-контейнера перед запуском основного приложения
+(https://github.com/flyway/flyway-docker)
+
+
+//ORM
+//gorm (https://gorm.io/)
+ - использует пустые интерфейсы
+
+//reform (https://github.com/go-reform/reform)
+ - использует кодогенерацию, но разработка немного заброшена
+ - Пример использования (не идеальный код, но может пригодиться): (https://github.com/rumyantseva/mif)
+
+
+//Ссылки для изучения
+//must read
+http://go-database-sql.org/index.html
+
+//также
+https://habr.com/ru/company/oleg-bunin/blog/461935/
+https://github.com/rumyantseva/pglocal
+https://golang.org/pkg/database/sql
+https://jmoiron.github.io/sqlx

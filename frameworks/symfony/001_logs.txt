@@ -1,0 +1,15 @@
+
+
+//Логи, которые пишутся в prod-окружении
+ - alert
+ - error
+ - critical
+ - emergency
+
+//Если произошло событие одно из (alert, error, critical, emergency) то выведутся все логи
+
+
+31
+
+5 дней
+рамка 22
