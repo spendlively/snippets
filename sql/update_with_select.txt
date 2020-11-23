@@ -1,0 +1,7 @@
+
+//Обновить таблицу app_image_info значениями из app_image_info_backup
+update app_image_info a
+set
+    result_eye_color = b.result_eye_color
+from app_image_info_backup b
+where a.id = b.id;

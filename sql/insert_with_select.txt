@@ -1,0 +1,12 @@
+
+//1.
+INSERT INTO table2
+SELECT * FROM table1
+WHERE condition;
+
+//2.
+INSERT INTO table2 (column1)
+SELECT column1
+FROM table1
+WHERE condition;
+

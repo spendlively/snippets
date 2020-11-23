@@ -1,0 +1,12 @@
+
+//1
+sudo du -sh /var/log/journal
+sudo journalctl --vacuum-size=50M
+
+//2
+sudo apt-get clean
+
+//3
+du -sh ~/.cache/
+find ~/.cache/ -type f -atime +30 -delete
+

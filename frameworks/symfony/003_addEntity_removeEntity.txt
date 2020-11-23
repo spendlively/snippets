@@ -1,0 +1,17 @@
+//OneToMany & ManyToMany methods that could be used
+
+public function addRepository(Repository $repository): self
+{
+    if (!$this->repositories->contains($repository)) {
+        $this->repositories[] = $repository;
+    }
+    return $this;
+}
+
+public function removeRepository(Repository $repository): self
+{
+    if ($this->repositories->contains($repository)) {
+        $this->repositories->removeElement($repository);
+    }
+    return $this;
+}

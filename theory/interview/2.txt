@@ -1,0 +1,75 @@
+Postgres
+1. Больше типов данных: uuid, адреса (ip и mac), xml
+2. Массивы типов данных, в т.ч. многомерные
+3. Создание своего типа данных
+4. Пользовательские объектов, включая типы данных, функции, операции, домены и индексы
+Индексы:
+
+Vue
+Виртуальный DOM
+Серверный рендеринг
+Поддержка JSX
+Роутинг
+Vue-devtools для Chrome
+
+Концепция
+1. Конструктор - js-объект инстанс-vue (new Vue({}))
+- new Vue({el: {}, template: {}, data: {}, computed: {}, methods: {}})
+- el - jQuery-style селектор элемента, за которым следит Vue
+- template - выбран (либо прописан инлайново) элемент, куда Vue будет рендерить
+- data - хранит текущее состояние инстанса
+- computed - предоставляет вычисляемые свойства
+- methods - кастомные методы и методы жизненного цикла Vue
+2. Директивы - атрибуты для добавления элементам html дополнительной функциональности
+- <div v-my-directive="someValue"></div>
+- Vue.directive('my-directive', {...})
+3. Компоненты - повторно используемые части UI
+- Vue.component('simple-counter', {...})
+4. Переходы - различные способы применения анимационных эффектов
+
+Асинхронность в JS
+Концепция:
+1. Движок (v8),
+2. Окружение, или web api (надстройка на движком, реализованная в браузере или в nodejs)
+3. Очередь вызовов
+4. Стек вызовов
+
+Работа:
+1. Окружение помещает функции в очередь.
+2. Функции из очереди попадают в стек выполнения (выполняются)
+3. Движок последовательно выполняет команды из стека вызовов
+
+Асинхронность:
+1. Асинхронные операции выполняются не в движке, а в окружении (setTimeout на чистом V8 приводит к ошибке)
+2. Асинхронные функции выполняются не сразу, а по событию
+
+Дополнительно:
+1. Удалить операцию из стека нельзя, можно только прервать поток выполнения,
+если вызвать что-то типа alert или «исключение».
+2. Функции попадают в стек не раньше, чем стек вызовов закончит работу над текущей функцией.
+3. В JavaScript нет многопоточности.
+4. В вебворкерах нельзя менять DOM или вызывать методы window.
+
+Контекст
+У каждой функции есть контекст,
+в него попадают все переменные функции, и переменные на уровень выше.
+Коонтекст это древовидная структура.
+
+Как устроен PHP
+https://github.com/spendlively/snippets/blob/master/theory/php
+
+Шаблоны корпоративных приложений
+http://mim54.ru/recap/doc.php?path=architecture
+
+PHP 5.6, 7.0, 7.1, 7.2
+https://github.com/spendlively/snippets/blob/master/php/php5.6.php
+https://github.com/spendlively/snippets/blob/master/php/php7.0.php
+https://github.com/spendlively/snippets/blob/master/php/php7.1.php
+https://github.com/spendlively/snippets/blob/master/php/php7.2.php
+
+Sanitize
+https://github.com/spendlively/snippets/blob/master/php/sanitize.php
+
+ООП в JS
+https://github.com/spendlively/snippets/blob/master/js/oop_functional.js
+https://github.com/spendlively/snippets/blob/master/js/oop_prototype.js

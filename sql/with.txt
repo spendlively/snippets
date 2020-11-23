@@ -1,0 +1,7 @@
+
+//1.
+WITH summary AS (
+  SELECT * FROM table1
+)
+SELECT columns
+FROM summary

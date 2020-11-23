@@ -1,0 +1,29 @@
+ACID, транзакции, блокировки
+https://github.com/spendlively/snippets/blob/master/mysql/innodb
+
+Group by (sql_mode=only_full_group_by)
+https://github.com/spendlively/snippets/blob/master/mysql/group_by
+
+Foreign key on delete on update
+https://github.com/spendlively/snippets/blob/master/mysql/foreign_key
+
+Выбрать последние курсы по каждой валюте
+https://github.com/spendlively/snippets/blob/master/mysql/queries/currency_course
+
+Выбор лучшего покупателя и лучшего покупателя за каждый месяц
+https://github.com/spendlively/snippets/blob/master/mysql/queries/customers
+
+Рандомная выборка из большой таблицы
+//ORDER BY RAND() - слишком медленно
+1) Decimal​ >= 5 <10
+SELECT RAND()*(10-5)+5;
+2) Number >= 5 and <=10:
+SELECT FLOOR(RAND()*(10-5+1)+5);
+
+Движки
+MyIsam
+InnoDb
+NDB - для кластеризации
+Archive - без индексов
+Hrap - в оперативной памяти
+

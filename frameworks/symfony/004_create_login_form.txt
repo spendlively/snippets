@@ -1,0 +1,11 @@
+
+//link
+https://symfony.com/doc/current/security/form_login_setup.html
+
+//create
+//src/Security/LoginFormAuthenticator.php
+//config/packages/security.yaml
+//src/Controller/SecurityController.php
+//templates/security/login.html.twig
+bin/console make:auth
+

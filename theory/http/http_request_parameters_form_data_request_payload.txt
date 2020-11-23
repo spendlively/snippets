@@ -1,0 +1,42 @@
+
+/////////////////////////////////////////////////////
+////////////////Query String Parameters//////////////
+/////////////////////////////////////////////////////
+ - данные отправляемые запросом GET или HEAD в заголовке запроса
+
+//Пример: (email:qwerty@mail.ru, password:asdfgh)
+GET /index.php?email=qwerty%40mail.ru&password=asdfgh HTTP/1.1
+Host: localhost:8788
+
+(Content-Type отсутствует так как нет тела то есть контента)
+
+
+
+/////////////////////////////////////////////////////
+/////////////////////Form Data///////////////////////
+/////////////////////////////////////////////////////
+ - если вы отправляете HTML-форму с method="POST" и
+Content-Type: application/x-www-form-urlencoded или Content-Type: multipart/form-data,
+ваш запрос может выглядеть следующим образом:
+
+POST /some-path HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+foo=bar&name=John
+
+
+
+/////////////////////////////////////////////////////
+///////////////////Request Payload///////////////////
+/////////////////////////////////////////////////////
+ - "полезная нагрузка"
+ - данные отправляемые запросом POST или PUT
+ - это http-запроса после заголовков и CRLF
+ - браузер просто показывает, что он передает в качестве "Request Payload",
+т.к. понятия не имеет, откуда берутся данные
+
+//Example
+POST /some-path HTTP/1.1
+Content-Type: application/json
+
+{ "foo" : "bar", "name" : "John" }
