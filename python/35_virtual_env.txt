@@ -51,10 +51,16 @@ Apply, Ok
 
 https://python-scripts.com/virtualenv
 
-//Настройка виртуального окружения
+//Создание виртуального окружения
+//Вариант 1.
 mkdir virtual_env && cd virtual_env
 python3 -m venv env
 source env/bin/activate
+
+//Создание venv с нужной версией
+//Вариант 2.
+apt install python-virtualenv
+virtualenv -p /usr/bin/python3.7 venv37
 
 
 ======================================================

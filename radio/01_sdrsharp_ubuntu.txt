@@ -1,0 +1,22 @@
+
+//0. Link with instructions
+https://www.scivision.dev/sdr-sharp-ubuntu/
+
+
+//1. Install requirements
+sudo apt update
+sudo apt install mono-complete libportaudio2 librtlsdr0 librtlsdr-dev
+
+
+//2. Install sdrshark
+mkdir sdrsharp
+git clone https://github.com/cgommel/sdrsharp sdrsharp
+cd sdrsharp
+xbuild /p:TargetFrameworkVersion="v4.5" /p:Configuration=Release
+cd Release
+ln -s /usr/lib/x86_64-linux-gnu/libportaudio.so.2 libportaudio.so
+ln -s /usr/lib/x86_64-linux-gnu/librtlsdr.so.0 librtlsdr.dll
+
+
+//3. Launch sdrshark
+sudo mono SDRSharp.exe

@@ -1,0 +1,24 @@
+deeplizard (697 339)
+Keras with TensorFlow Prerequisites
+https://www.youtube.com/watch?v=tDaGT4N4aCA&list=PLZbbT5o_s2xrwRnXk_yCPtnqqo4_u2YGL
+
+codebasics (64 553)
+Deep Learning Tutorial
+https://www.youtube.com/watch?v=Mubj_fqiAv8&list=PLeo1K3hjS3uu7CxAacxVndI4bE_o3BDtO
+
+Fahad Hussain (107 847)
+Tutorial 01: Introduction to Deep learning
+https://www.youtube.com/watch?v=98sLySmptKY&list=PLtCBuHKmdxOdO88sgcFyDdL5ATg1WY-_U
+
+Jeff Heaton (351 236)
+Deep Learning Course with Python, Keras and TensorFlow with Applications of Deep Neural Networks
+https://www.youtube.com/watch?v=LCXEuJSwd1E&list=PLjy4p-07OYzulelvJ5KVaT2pDlxivl_BN
+
+sentdex (6 003 307)
+Практическое машинное обучение на Python.
+https://www.youtube.com/watch?v=OGxgnH8y2NM&list=PLQVvvaa0QuDfKTOs3Keq_kaG2P55YRn5v
+
+selfedu (34 123)
+Нейронные сети: краткая история триумфа
+https://www.youtube.com/watch?v=nV7cI5zgOpk&list=PLA0M1Bcd0w8yv0XGiF1wjerjSZVSrYbjh
+

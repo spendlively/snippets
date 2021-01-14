@@ -1,0 +1,61 @@
+
+//Python
+//Создание venv с нужной версией
+apt install python-virtualenv
+virtualenv -p /usr/bin/python3.7 venv37
+//Установка зависимость в venv
+source venv/bin/activate
+python3 -m pip install python-ffmpeg-video-streaming
+
+
+//jQuery
+//get img dom element
+let el = $('img#id').get(0);
+
+//js
+document.location.href = "http://www.site.ru";
+document.location.replace("http://www.site.ru");
+
+//SQL
+//"2020-11-30"
+SELECT to_char(now(), 'YYYY-MM-DD');
+
+//group concat: "('file1.psd', 'file2.psd')"
+SELECT '(''' || array_to_string(array(SELECT psd_name FROM app_source), ''', ''') || ''')';
+
+
+//Nginx
+https://www.dmosk.ru/miniinstruktions.php?mini=nginx-redirects
+
+
+rewrite ^ https://$host$request_uri? <флаг>;
+# permanent, redirect, last, break
+
+return <код> https://$host$request_uri;
+# 301, 302, 304
+
+rewrite ^ https://$host$request_uri? <флаг>;
+rewrite ^/(.*)/$ /$1 permanent;
+return 302 $scheme://welcome.domain.ru$request_uri;
+
+
+//PHP
+@Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR')")
+requirements={"id"="[\d]+"}
+
+
+//Linux
+//remove empty lines
+grep -v -e '^$'
+grep --regexp="app\.\|ERROR\|CRITICAL"
+
+//add permissions for both users
+sudo setfacl -dR -m u:"www-data":rwX -m u:$(whoami):rwX dir
+
+//s3
+list
+copy
+download
+
+//symfony
+return file in controller

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video</title>
+</head>
+<body>
+<!--Видео без возможности прокрутки-->
+<video controls width="640" height="360">
+<!--    src - url, а не путь к файлу на сервере-->
+    <source src="hrushev.mp4" type="video/mp4"><!-- MP4 для Safari, IE9, iPhone, iPad, Android, и Windows Phone 7 -->
+<!--    <source src="video.webm" type="video/webm">&lt;!&ndash; WebM/VP8 для Firefox4, Opera, и Chrome &ndash;&gt;-->
+<!--    <source src="video.ogv" type="video/ogg">&lt;!&ndash; Ogg/Vorbis для старых версий браузеров Firefox и Opera &ndash;&gt;-->
+<!--    <object data="video.swf" type="application/x-shockwave-flash">&lt;!&ndash; добавляем видеоконтент для устаревших браузеров, в которых нет поддержки элемента video &ndash;&gt;-->
+<!--        <param name="movie" value="video.swf">-->
+<!--    </object>-->
+
+</video>
+
+<!--Интерактивный контент-->
+<!--Требует подключения к браузеру специального модуля, который называется плагин, или запуска вспомогательной программы-->
+<embed src="hrushev.mov" type="video/quicktime" width="640" height="360">
+</body>
+</html>

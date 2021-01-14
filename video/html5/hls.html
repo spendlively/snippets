@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Video</title>
+</head>
+
+<!--По умолчанию html5 не поддерживает HLS-->
+
+<!--Библиотека для поддержки hls-->
+<!--https://github.com/dailymotion/hls.js-->
+
+<!--Генерация hls плейлиста и фрагментов:-->
+<!--ffmpeg -i test.mp4 -codec: copy -start_number 0 -hls_time 10 -hls_list_size 0 -f hls test.m3u8-->
+
+<!--ls-->
+<!--hls.html  test0.ts  test1.ts  test2.ts  test3.ts  test4.ts  test5.ts  test.m3u8  test.mp4-->
+
+<!--php -S 0.0.0.0:8989-->
+
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<!-- Or if you want a more recent canary version -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/hls.js@canary"></script> -->
+<video id="video" controls></video>
+<script>
+    var video = document.getElementById('video');
+    if(Hls.isSupported()) {
+        var hls = new Hls();
+        hls.loadSource('test.m3u8');
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED,function() {
+            video.play();
+        });
+    }
+        // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
+        // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
+        // This is using the built-in support of the plain video element, without using hls.js.
+        // Note: it would be more normal to wait on the 'canplay' event below however on Safari (where you are most likely to find built-in HLS support) the video.src URL must be on the user-driven
+    // white-list before a 'canplay' event will be emitted; the last video event that can be reliably listened-for when the URL is not on the white-list is 'loadedmetadata'.
+    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = 'test.m3u8';
+        video.addEventListener('loadedmetadata',function() {
+            video.play();
+        });
+    }
+</script>
+
+<body>

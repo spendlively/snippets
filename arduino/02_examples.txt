@@ -1,0 +1,216 @@
+/////////////////////////////////////////
+//Прослушивание последовательного порта//
+/////////////////////////////////////////
+apt-get install setserial
+stty 9600 raw -echo -F /dev/ttyACM0
+cat /dev/ttyACM0
+
+/////////////////////////////////////////
+/////////Тестовый ввод в консоль/////////
+/////////////////////////////////////////
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  Serial.print("test\n");
+  delay(1000);
+}
+
+/////////////////////////////////////////
+/////////Моргание светодиодом////////////
+/////////////////////////////////////////
+const int ledPin = 13;
+int signal = HIGH;
+
+void setup(){
+	Serial.begin(9600);
+	pinMode(ledPin, OUTPUT);
+}
+
+void loop(){
+	Serial.println(analogRead(0));
+	if(signal == HIGH){
+		signal = LOW;
+	}
+	else{
+		signal = HIGH;
+	}
+	digitalWrite(ledPin, signal);
+	delay(1000);
+}
+
+/////////////////////////////
+/////////ULTRASONIC//////////
+/////////////////////////////
+// Trig - 12, Echo - 13
+#include "Ultrasonic.h"
+Ultrasonic ultrasonic(12, 13);
+void setup(){
+    Serial.begin(9600);
+}
+void loop(){
+    float distanceCm = ultrasonic.Ranging(CM);
+    Serial.println(distanceCm);
+    delay(100);
+}
+
+/////////////////////////////
+/////////WEIGHTER////////////
+/////////////////////////////
+// Hx711.DOUT - pin #A1
+// Hx711.SCK - pin #A0
+#include "hx711.h"
+Hx711 scale(A1, A0);
+void setup(){
+    Serial.begin(9600);
+}
+void loop(){
+    Serial.print(scale.getGram(), 1);
+    Serial.println(" g");
+    delay(200);
+}
+
+/////////////////////////////
+//////////SERVO//////////////
+/////////////////////////////
+#include <Servo.h>
+Servo myservo;
+int pos = 0;
+const int motorPin =  4;
+void setup(){
+    myservo.attach(motorPin);
+}
+void loop(){
+    for(pos = 0; pos < 180; pos += 1){
+        if(pos == 180) pos = 0;
+	myservo.write(pos);
+	delay(5);
+    }
+}
+
+/////////////////////////////
+/////////LCD DISPLAY/////////
+/////////////////////////////
+//GND - ground
+//VCC - +5v
+//SDA - Analog in 4
+//SCL - Analog in 5
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+#if defined(ARDUINO) && ARDUINO >= 100
+#define printByte(args)  write(args);
+#else
+#define printByte(args)  print(args,BYTE);
+#endif
+//set lcd address to 0x27 for a 16 chars and 2 line display
+LiquidCrystal_I2C lcd(0x27,16,2);
+void setup(){
+    lcd.init();
+    lcd.backlight();
+    lcd.print("Hello, world!");
+}
+void loop(){}
+
+/////////////////////////////
+/////////LCD DISPLAY/////////
+/////////////////////////////
+//Очистка, русские буквы
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+#if defined(ARDUINO) && ARDUINO >= 100
+#define printByte(args)  write(args);
+#else
+#define printByte(args)  print(args,BYTE);
+#endif
+//set lcd address to 0x27 for a 16 chars and 2 line display
+LiquidCrystal_I2C lcd(0x27,16,2);
+int interval = 0;
+void setup(){
+    lcd.init();			// инициализация LCD
+    lcd.backlight();		// включаем подсветку
+    lcd.clear();		// очистка дисплея
+    lcd.setCursor(4, 0);	// устанавливаем курсор на 1 строку, 4 символ
+    lcd.print("cxem.net");	// вывод надписи
+    lcd.setCursor(1, 1);	// устанавливаем курсор на 2 строку, 1 символ
+    lcd.print("count:");
+    lcd.setCursor(8, 1);	// устанавливаем курсор на 2 строку, 8 символ
+    lcd.print(interval);
+}
+void loop(){
+    delay(500);
+    interval++;
+    lcd.setCursor(8, 1);
+    lcd.print(interval);
+}
+
+/////////////////////////////
+//////////JOYSTICK///////////
+/////////////////////////////
+#define axisX 0
+#define axisY 1
+int valueX, valueY, clicked = 0;
+const int buttonPin =  2;
+void setup(){
+    pinMode(buttonPin, INPUT);
+    Serial.begin(9600);
+    //Включить подтягивающий регистр
+    digitalWrite(buttonPin, HIGH);
+}
+void loop() {
+    clicked = digitalRead(buttonPin);
+    valueX = analogRead(axisX);
+    valueY = analogRead(axisY);
+    if(clicked == 0){
+        Serial.println(clicked);
+    }
+    //Serial.println(valueX, DEC);
+    //Serial.println(valueY, DEC);
+    //delay(10);
+}
+
+/////////////////////////////
+//////ALCOHOL SENSOR/////////
+/////////////////////////////
+const int AOUTpin = 0;
+const int DOUTpin = 8;
+int value;
+int limit;
+void setup(){
+    Serial.begin(9600);
+    pinMode(DOUTpin, INPUT);
+    pinMode(ledPin, OUTPUT);
+}
+void loop(){
+    value = analogRead(AOUTpin);
+    limit = digitalRead(DOUTpin);
+    Serial.print(value);
+    delay(100);
+}
+
+
+
+
+////////////////////////////////////////
+////////Подключение сервопривода////////
+////////////////////////////////////////
+
+//Коричневый провод GND
+//Красный провод +5V
+//Желтый провод N10
+
+#include <Servo.h> //используем библиотеку для работы с сервоприводом
+
+Servo servo; //объявляем переменную servo типа Servo
+
+void setup(){
+  servo.attach(10); //привязываем привод к порту 10
+}
+
+void loop(){
+
+  servo.write(0); //ставим вал под 0
+  delay(2000); //ждем 2 секунды
+  servo.write(90); //ставим вал под 180
+  delay(2000); //ждем 2 секунды
+}

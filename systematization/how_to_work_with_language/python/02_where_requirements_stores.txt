@@ -96,3 +96,9 @@ source env/bin/activate
 
 //деактивировать виртуальную среду
 deactivate
+
+
+//Вариант 3.
+//Создание venv с нужной версией
+apt install python-virtualenv
+virtualenv -p /usr/bin/python3.7 venv37
