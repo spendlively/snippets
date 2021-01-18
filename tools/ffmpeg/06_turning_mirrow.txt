@@ -1,0 +1,19 @@
+
+//Использование фильтра transpose для поворота изображение
+ - transpose=0 - повернуть на 90гр ПРОТИВ часовой стрелки и отразить видео
+ - transpose=1 - повернуть на 90гр ПО часовой стрелки
+ - transpose=2 - повернуть на 90гр ПРОТИВ часовой стрелки
+ - transpose=3 - повернуть на 90гр ПО часовой стрелки и отразить видео
+ffmpeg -i input.mp4 -vf transpose=1 output.mp4
+
+//Фильтр rotate позволяет повернуть изображение на любой угол (В РАДИАНАХ)
+ffmpeg -i input.mp4 -vf rotate=135*PI/180 output.mp4
+
+//Отражение по горизонтали
+ffmpeg -i input.mp4 -vf hflip output.mp4
+
+//Отражение по вертикали
+ffmpeg -i input.mp4 -vf vflip output.mp4
+
+//Отражение по горизонтали и вертикали
+ffmpeg -i input.mp4 -vf hflip,vflip output.mp4

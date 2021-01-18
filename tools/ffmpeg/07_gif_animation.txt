@@ -1,0 +1,9 @@
+
+//256-цветная gif-анимация с диззерингом
+ffmpeg -i input.mp4 output.mp4
+
+//Полноцветная gif-анимация
+ - 1 шаг - получение палитры цветов
+ - 2 шаг - генерация gif-анимации с использованием палитры цветов
+ffmpeg -y -i input.mp4 -vf palettegen palette.png
+ffmpeg -y -i input.mp4 -i palette.png -filter_complex "[0][1]paletteuse" output.gif

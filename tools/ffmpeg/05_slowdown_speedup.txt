@@ -1,0 +1,16 @@
+
+//Использование фильтра setpts для ускорения и замедления
+ - setpts < 1 - ускорение
+ - setpts > 1 - замедление
+
+//Ускорение в 2 раза
+ffmpeg -i input.mp4 -vf setpts=0.5*PTS output.mp4
+
+//Ускорение в 5 раз
+ffmpeg -i input.mp4 -vf setpts=1/5*PTS output.mp4
+
+//Замедление в 2 раза
+ffmpeg -i input.mp4 -vf setpts=2*PTS output.mp4
+
+//Замедление в 5 раз
+ffmpeg -i input.mp4 -vf setpts=5*PTS output.mp4

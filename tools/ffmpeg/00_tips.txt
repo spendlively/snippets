@@ -1,0 +1,74 @@
+
+//ffmpeg man
+https://www.opennet.ru/man.shtml?topic=ffmpeg&category=1&russian=2
+
+
+//Основные команды
+-i - входной файл
+-an - удалить звуковую дорожку
+-vn - удалить видео дорожку
+-c copy - скопировать видеодорожку без изменений
+-y - перезаписать выходной файл
+-f fmt - Force format
+
+
+//Основные параметры видео и аудио
+-b:v 1M - преобразовать битрейт видео в 1Mb/s
+-vn -b:a 56k - преобразовать битрейт аудио в 56kb/s
+-r 25 - преобразовать fps в 25 кадров в секунду
+-s 640x480 - преобразовать разрешение в 640x480 пикселов
+
+
+//Время
+-t 10 - обрезать по времени до 10 секунд
+-ss 15 - обрезать первые 15 секунд
+-ss 00:17:34 - образать начало до 00:17:34
+-sseof 10 - отразать 10 секунд с конца
+
+
+//Видео фильтры (-vf)
+-vf crop=600:400:0:0 - crop 600:400 из точки 0:0
+-vf setpts - замедление и ускорение
+
+
+
+//Запись с эрана
+echo $DISPLAY
+
+//1
+ffmpeg -f x11grab  -y -rtbufsize 100M -s 1366x768 -framerate 30 -probesize 10M -draw_mouse 1 -i :0.0 -c:v libx264 -r 30 -preset ultrafast -tune zerolatency -crf 25 -pix_fmt yuv420p screen.mp4
+//2
+ffmpeg -video_size 1024x768 -framerate 25 -f x11grab -i :0.0+0,0 -f alsa -ac 2 -i pulse -acodec aac -strict experimental output.flv
+
+
+//Запись звука с микрофона
+ffmpeg -f alsa -i pulse alsa.mp3
+
+//Запись звука со звуковой карты (не с микрофона)
+ffmpeg -f pulse -i alsa_output.pci-0000_00_1b.0.analog-stereo.monitor pulse.mp3
+
+
+
+//Запись видео с экрана и аудио с микрофона
+ffmpeg \
+-f x11grab -y -rtbufsize 100M -s 1920x1080 -framerate 30 -probesize 10M -draw_mouse 1 -i :0.0 \
+-f alsa -ac 2 -i pulse -acodec aac -strict experimental \
+screen.mp4
+
+ffmpeg \
+-video_size 1920x1080 -framerate 25 -f x11grab -i :0.0+0,0 \
+-f alsa -ac 2 -i pulse -acodec aac -strict experimental \
+output.flv
+
+
+
+//Запись видео с экрана и аудио со звуковой карты
+ffmpeg \
+-f x11grab -y -rtbufsize 100M -s 1920x1080 -framerate 30 -probesize 10M -draw_mouse 1 -i :0.0 \
+-f pulse -i alsa_output.pci-0000_00_1b.0.analog-stereo.monitor -acodec aac -strict experimental \
+screen.mp4
+
+ffmpeg \
+-video_size 1920x1080 -framerate 25 -f x11grab -i :0.0+0,0 \
+-f pulse -i alsa_output.pci-0000_00_1b.0.analog-stereo.monitor -acodec aac -strict experimental \
+output.flv

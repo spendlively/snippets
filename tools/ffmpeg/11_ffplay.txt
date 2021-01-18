@@ -1,0 +1,18 @@
+
+//Воспроизведение видео/аудио с возможностью применения эффектов налету
+ffplay input.mp4
+ - воспроизводит видео
+
+ffplay input.mp4 -vf scale=700:-1
+ - масштабировать налету
+
+ffplay input.mp3
+ - воспроизводит аудио
+
+ffplay input.png
+ffplay input.png vf negate,scale=1000:-1
+ - отобразить картинку
+
+ffplay http://url.ru/input.mp4
+ - воспроизвести видео из интернета
+

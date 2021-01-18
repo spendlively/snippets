@@ -1,0 +1,20 @@
+
+//ffprobe
+ffprobe -i input.mp4 -show_format
+ffprobe -show_format input.mp4
+ffprobe -show_format input.mp3
+ffprobe -show_format input.png
+ - показать базовую информацию о файле
+
+ffprobe -i input.mp4 -show_streams
+ - показать информацию о видео и аудио потоках
+
+ffprobe -i input.mp4 -show_streams -print_format json
+ - вывести информацию в формате json (xml, csv, ...)
+
+ffprobe -i input.mp4 -show_streams -print_format json -v error
+ - скрыть лишнее
+
+ffprobe -v quiet -show_entries format=duration -of default=noprint_wrappers=1 audio.flac
+ffprobe -v quiet -show_entries format=duration,size -of default=noprint_wrappers=1 audio.flac
+ - вывести только нужные параметры

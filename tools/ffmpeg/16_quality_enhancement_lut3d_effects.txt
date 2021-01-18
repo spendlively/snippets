@@ -1,0 +1,13 @@
+
+ffplay -i input.mp4 -vf lut3d=tools/ffmpeg/lut/35_free_luts/Arabica_12.CUBE
+ - подбор lut-эффекты
+
+ffmpeg -i input.mp4 -vf lut3d=tools/ffmpeg/lut/35_free_luts/Arabica_12.CUBE output.mp4
+ - наложение эффекта
+
+ffmpeg -ss 5 -i input.mp4 -vf lut3d=tools/ffmpeg/lut/35_free_luts/Arabica_12.CUBE -frames:v 1 frame.jpg
+ - генерация картинки для просмотре эффекта
+
+//google "free lut"
+ - скачать "CUBE" файлы
+

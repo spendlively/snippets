@@ -1,0 +1,5 @@
+
+//Добавление субтитров с помощью фильтра -vf subtitles=file.srt
+ffmpeg -i input.mp4 -vf subtitles=file.srt output.mp4
+ffmpeg -i input.mp4 -vf subtitles=file.ass output.mp4
+ffmpeg -i input.mp4 -vf ass=file.ass output.mp4

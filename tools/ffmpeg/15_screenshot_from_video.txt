@@ -1,0 +1,3 @@
+
+ffmpeg -ss 5 -i input.mp4 -frames:v 1 frame.jpg
+ - сделать скриншот фрейма 5-ой секунды видео

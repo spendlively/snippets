@@ -1,0 +1,20 @@
+
+//Удалить аудиодорожку (-an)
+(битрейт видео возможно изменится)
+ffmpeg -i input.mp4 -an output.mp4
+
+//Удалить аудиодорожку (-an) и скопировать видеодорожку без изменений (-c copy)
+(битрейт видео не изменится)
+ffmpeg -i input.mp4 -an -c copy output.mp4
+
+//Преобразовать битрейт видео в 1Mb/s (-b:v 1M)
+ffmpeg -i input.mp4 -b:v 1M output.mp4
+
+//Преобразовать битрейт аудио в 56kb/s (-vn -b:a 56k)
+ffmpeg -i input.flac -vn -b:a 56k output.mp3
+
+//Преобразовать кол. кадров в сек. (-r 25)
+ffmpeg -i input.mp4 -r 25 output.mp4
+
+//Преобразовать разрешение (-s 640x480)
+ffmpeg -i input.mp4 -s 640x480 output.mp4

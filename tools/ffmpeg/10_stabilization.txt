@@ -1,0 +1,70 @@
+
+///////////////////////////////////////////////////////////////////
+////////////////Однопроходная стабилизация видео///////////////////
+///////////////////////////////////////////////////////////////////
+
+ffmpeg -i input.mp4 -vf deshake output.mp4
+ffmpeg -i input.mp4 -vf deshake=edge=3 output.mp4
+ffmpeg -i input.mp4 -vf deshake=edge=mirror output.mp4
+ - фильтр по умолчанию (deshake=edge=3) отзеркаливает края изображения
+
+ffmpeg -i input.mp4 -vf deshake=edge=0 output.mp4
+ffmpeg -i input.mp4 -vf deshake=edge=blank output.mp4
+ - фильтр edge=0 очищает все, что за краями изображения
+
+ffmpeg -i input.mp4 -vf deshake=edge=1 output.mp4
+ffmpeg -i input.mp4 -vf deshake=edge=original output.mp4
+ - накладывает оригинальное видео под стабилизируемое
+
+ffmpeg -i input.mp4 -vf deshake=edge=2 output.mp4
+ffmpeg -i input.mp4 -vf deshake=edge=clamp output.mp4
+ - расширяет края
+
+
+
+///////////////////////////////////////////////////////////////////
+///////////////Двухпроходная стабилизация видео////////////////////
+///////////////////////////////////////////////////////////////////
+ffmpeg -i input.mp4 -vf vidstabdetect -f null -
+ - анализирует видео не сохраняя его
+ - записывает презультаты анализа в файл transforms.trf
+
+ffmpeg -i input.mp4 -vf vidstabtransform output.mp4
+ - выполняет стабилизацию видео на основе первого прохода
+
+
+//Результат можно улучшить вручную настроить параметры:
+ffmpeg -i input.mp4 -vf vidstabdetect=shakiness=10:result=transforms.trf -f null -
+
+//Параметры vidstabdetect:
+ - shakiness - тряска (1-10, по ум 5)
+ - accuracy - точность и скорость обработки (1-15, 1 неточная обработка, 15 - точная, по ум. 15)
+ - stepsize - количество пикселей для радиуса поиска трансформации (1-32, по ум 6)
+ - mincontrast -
+ - tripod -
+ - show=1 (1, 2, ...) наложить доп визуализацию прямо на видео (нужно указать файл видео)
+ - result - имя файла трансформации
+
+
+//Параметры vidstabtransform:
+ - input -
+ - smoothing - как сильно будет сглажено движение камеры (1-30, по ум 10)
+ - optalgo -
+ - maxshift -
+ - maxangle -
+ - crop -
+ - relative -
+ - invert -
+ - zoom - на сколько процентов будет увеличено или уменьшено изображение (0-10), чтобы скрыть границы видео
+ - optzoom -
+ - interpol -
+
+
+//Пример:
+//Шаг 1. Сначала минимизируем мелкую тряску с низким сглаживанием
+ffmpeg -i input.mp4 -vf vidstabdetect=shakiness=3:accuracy=15 -f null -
+ffmpeg -i input.mp4 -vf vidstabtransform=smoothing=3:zoom=-3 output.mp4
+
+//Шаг 2. Затем крупную тряску с хорошим сглаживанием
+ffmpeg -i input.mp4 -vf vidstabdetect=shakiness=4:accuracy=15 -f null -
+ffmpeg -i input.mp4 -vf vidstabtransform=smoothing=12:zoom=0 output.mp4
