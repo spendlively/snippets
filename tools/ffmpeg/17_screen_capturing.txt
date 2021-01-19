@@ -7,6 +7,23 @@ https://trac.ffmpeg.org/wiki/Capture/ALSA
 https://trac.ffmpeg.org/wiki/Capture/PulseAudio
 
 
+///////////////////////////////////////
+/////////////////UPDATE////////////////
+///////////////////////////////////////
+//Т.к. телефон не поддерживает профиль "High 4:4:4 Profile"
+//нужно записывать сразу с профилем "Baseline Profile" (или "Main Profile")
+//(-profile:v baseline -pix_fmt yuv420p)
+ffmpeg \
+-video_size 1920x1080 -framerate 30 -f x11grab -draw_mouse 0 \
+-i :0.0 -f pulse -i alsa_output.pci-0000_00_1b.0.analog-stereo.monitor -acodec aac -strict experimental \
+-c:v libx264 -preset ultrafast -profile:v baseline -pix_fmt yuv420p \
+output.mp4
+
+//либо потом переконвертировать профиль
+ffmpeg -y -i output_crop.mp4 -profile:v main -pix_fmt yuv420p out.mp4
+ffmpeg -y -i output_crop.mp4 -profile:v baseline -pix_fmt yuv420p out.mp4
+
+
 
 //0. TLDR
 //0.1. Запись видео с монитора со звуком с микрофона
