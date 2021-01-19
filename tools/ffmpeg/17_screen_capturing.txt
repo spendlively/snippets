@@ -153,4 +153,3 @@ ffmpeg -i output.mkv -c:v libx264rgb -crf 0 -preset veryslow output-smaller.mkv
 //Приложение для настройки pulse
 sudo apt install pavucontrol
 pavucontrol
-
