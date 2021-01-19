@@ -1,0 +1,28 @@
+
+//Запись с экрана
+//сразу с профилем "Main Profile" (-profile:v baseline -pix_fmt yuv420p)
+//т.к. телефон не поддерживает "High 4:4:4 Profile"
+ffmpeg \
+-video_size 1920x1080 -framerate 30 -f x11grab -draw_mouse 0 \
+-i :0.0 -f pulse -i alsa_output.pci-0000_00_1b.0.analog-stereo.monitor -acodec aac -strict experimental \
+-c:v libx264 -preset ultrafast -profile:v baseline -pix_fmt yuv420p \
+output.mp4
+
+
+//Запись с экрана с профилем "High 4:4:4 Profile" (не поддерживается на телефоне)
+ffmpeg \
+-video_size 1920x1080 -framerate 30 -f x11grab -draw_mouse 0 \
+-i :0.0 -f pulse -i alsa_output.pci-0000_00_1b.0.analog-stereo.monitor -acodec aac -strict experimental \
+-c:v libx264 -preset ultrafast \
+output.mp4
+
+
+//Обрезка краев
+ffmpeg -y -ss 1 -i output.mp4 -vf crop=1080:1080:420:0 -t 39 output_crop.mp4
+
+
+//Конвертация профиля из "High 4:4:4 Profile" (не поддерживается на телефоне) в "Main Profile"
+ffmpeg -y -i output_crop.mp4 -profile:v main -pix_fmt yuv420p out.mp4
+//или "Baseline profile" (как в телефоне)
+ffmpeg -y -i output_crop.mp4 -profile:v baseline -pix_fmt yuv420p out.mp4
+

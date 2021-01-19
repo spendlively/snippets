@@ -11,7 +11,7 @@ https://trac.ffmpeg.org/wiki/Capture/PulseAudio
 /////////////////UPDATE////////////////
 ///////////////////////////////////////
 //Т.к. телефон не поддерживает профиль "High 4:4:4 Profile"
-//нужно записывать сразу с профилем "Baseline Profile" (или "Main Profile")
+//можно записывать сразу с профилем "Baseline Profile" (или "Main Profile")
 //(-profile:v baseline -pix_fmt yuv420p)
 ffmpeg \
 -video_size 1920x1080 -framerate 30 -f x11grab -draw_mouse 0 \

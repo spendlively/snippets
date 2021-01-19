@@ -18,3 +18,8 @@ ffmpeg -i input.mp4 -r 25 output.mp4
 
 //Преобразовать разрешение (-s 640x480)
 ffmpeg -i input.mp4 -s 640x480 output.mp4
+
+//Преобразовать профиль из "High 4:4:4 Profile" (не поддерживается на телефоне) в "Main Profile"
+ffmpeg -i input.mp4 -profile:v main -pix_fmt yuv420p output.mp4
+//или "Baseline profile" (как в телефоне)
+ffmpeg -i input.mp4 -profile:v baseline -pix_fmt yuv420p output.mp4
