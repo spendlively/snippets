@@ -1,5 +1,6 @@
 
 //ffmpeg man
+https://help.ubuntu.ru/wiki/ffmpeg
 https://www.opennet.ru/man.shtml?topic=ffmpeg&category=1&russian=2
 
 
@@ -9,7 +10,7 @@ https://www.opennet.ru/man.shtml?topic=ffmpeg&category=1&russian=2
 -vn - удалить видео дорожку
 -c copy - скопировать видеодорожку без изменений
 -y - перезаписать выходной файл
--f fmt - Force format
+-f fmt - Формат входного/выходного файла
 
 
 //Основные параметры видео и аудио
