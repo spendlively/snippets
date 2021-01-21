@@ -1,5 +1,6 @@
 
 //ffmpeg man
+https://trac.ffmpeg.org/wiki
 https://help.ubuntu.ru/wiki/ffmpeg
 https://www.opennet.ru/man.shtml?topic=ffmpeg&category=1&russian=2
 
