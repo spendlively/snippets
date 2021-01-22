@@ -1,24 +1,35 @@
 <?php
 
-$bytes = openssl_random_pseudo_bytes(40);
-$aesEncryptionKey = bin2hex($bytes);
+/**
+ * Симметричное шифрование 32-х байтным (256 бит)
+ * AES-ключом с кодом аутентификацией GCM
+ *
+ * $iv - Initialization Vector
+ * $tag - HMAC (hash-based message authentication code)
+ *
+ * GCM - https://ru.wikipedia.org/wiki/Galois/Counter_Mode
+ */
 
-function encryptData($data, $aesEncryptionKey)
+const ENCRYPTION_METHOD = 'AES-256-GCM';
+$bytes = openssl_random_pseudo_bytes(32);
+$key = bin2hex($bytes);
+
+function encryptData($data, $key)
 {
-    $encryptionKey = base64_decode($aesEncryptionKey);
-    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('AES-256-GCM'));
-    $encrypted = openssl_encrypt($data, 'AES-256-GCM', $encryptionKey, 0, $iv, $tag);
+    $key = base64_decode($key);
+    $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length(ENCRYPTION_METHOD));
+    $encrypted = openssl_encrypt($data, ENCRYPTION_METHOD, $key, 0, $iv, $tag);
     return $encrypted . ':' . base64_encode($iv) . ':' . base64_encode($tag);
 }
 
-function decryptData($data, $aesEncryptionKey)
+function decryptData($data, $key)
 {
-    $encryptionKey = base64_decode($aesEncryptionKey);
+    $key = base64_decode($key);
     list($encryptedData, $iv, $tag) = explode(':', $data, 3);
-    return openssl_decrypt($encryptedData, 'AES-256-GCM', $encryptionKey, 0, base64_decode($iv), base64_decode($tag));
+    return openssl_decrypt($encryptedData, ENCRYPTION_METHOD, $key, 0, base64_decode($iv), base64_decode($tag));
 }
 
-$encrypted = encryptData('Hello, World!', $aesEncryptionKey);
-$decrypted = decryptData($encrypted, $aesEncryptionKey);
+$encrypted = encryptData('Hello, World!', $key);
+$decrypted = decryptData($encrypted, $key);
 
 var_dump($decrypted);
