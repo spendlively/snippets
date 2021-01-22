@@ -1,0 +1,41 @@
+
+//Concatenation of files with same codecs
+
+//1. Concatenation using file mylist.txt
+//mylist.txt:
+# this is a comment
+file '/path/to/file1.wav'
+file '/path/to/file2.wav'
+file '/path/to/file3.wav'
+Note that these can be either relative or absolute paths. Then you can stream copy or re-encode your files:
+
+ffmpeg -f concat -safe 0 -i mylist.txt -c copy output.wav
+
+
+
+//2. Generate file on fly
+ffmpeg -f concat -safe 0 -i <(find /home/spendlively/common/downloads/leva -name '*.mp3' -printf "file '%p'\n") -c copy output.mp3
+
+
+
+//3. Concat without list-file
+ffmpeg -i "concat:1.mp3|2.mp3|3.mp3" -c copy output.mp3
+
+
+
+//4. Concatenation of files with different codecs
+ffmpeg -i 1.mp4 -i 2.mp4 -i 3.mp4 \
+-filter_complex "[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0]concat=n=3:v=1:a=1[outv][outa]" \
+-map "[outv]" -map "[outa]" output.mkv
+
+[0:v:0][0:a:0][1:v:0][1:a:0][2:v:0][2:a:0]
+ - video stream 0 [0:v:0] and audio stream 0 [0:a:0] from input 0 (1.mp4)
+ - video stream 1 [1:v:0] and audio stream 0 [1:a:0] from input 1 (2.mp4)
+ - video stream 2 [2:v:0] and audio stream 0 [2:a:0] from input 2 (3.mp4)
+
+concat=n=3:v=1:a=1[outv][outa]
+ - concat filter itself
+ - n=3 - there are three input segments
+ - v=1 - there will be one video stream per segment
+ - a=1 there will be one audio stream per segment
+ - [outv] and [outa] - are names for these output streams
