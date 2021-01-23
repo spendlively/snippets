@@ -53,6 +53,7 @@ output.mkv
  - "v4l2-ctl --list-devices" - определить камеры
  - "ffmpeg -f v4l2 -list_formats all -i /dev/video0" - определить допустимые форматы
  - "v4l2-ctl -L" Then adjust the value "v4l2-ctl -c <option>=<value>" - настройка функций камеры
+ - pactl list short sources - определить аудио устройства
 
 
 

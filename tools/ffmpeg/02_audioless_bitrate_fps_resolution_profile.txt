@@ -3,10 +3,6 @@
 (битрейт видео возможно изменится)
 ffmpeg -i input.mp4 -an output.mp4
 
-//Удалить аудиодорожку (-an) и скопировать видеодорожку без изменений (-c copy)
-(битрейт видео не изменится)
-ffmpeg -i input.mp4 -an -c copy output.mp4
-
 //Преобразовать битрейт видео в 1Mb/s (-b:v 1M)
 ffmpeg -i input.mp4 -b:v 1M output.mp4
 
@@ -23,3 +19,13 @@ ffmpeg -i input.mp4 -s 640x480 output.mp4
 ffmpeg -i input.mp4 -profile:v main -pix_fmt yuv420p output.mp4
 //или "Baseline profile" (как в телефоне)
 ffmpeg -i input.mp4 -profile:v baseline -pix_fmt yuv420p output.mp4
+
+//Удалить аудиодорожку (-an) и скопировать видеодорожку без изменений (-c copy)
+(битрейт видео не изменится)
+ffmpeg -i input.mp4 -an -c copy output.mp4
+//Скопировать видео поток без изменений
+-c:v copy
+//Скопировать аудио поток без изменений
+-c:a copy
+//Скопировать оба потока без изменений
+-c copy

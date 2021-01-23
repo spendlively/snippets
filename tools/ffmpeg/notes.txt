@@ -1,0 +1,6 @@
+ffmpeg \
+-f pulse -i alsa_output.pci-0000_00_1b.0.analog-stereo.monitor -acodec aac -strict experimental \
+output.mp3
+
+
+

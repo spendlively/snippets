@@ -22,3 +22,4 @@ ffmpeg -i input.wav -filter:a loudnorm output.wav
 
 //Automatization with
 ffmpeg-normalize
+
