@@ -1,0 +1,24 @@
+
+//50% громкость
+ffmpeg -i input.wav -filter:a "volume=0.5" output.wav
+
+//150% громкость
+ffmpeg -i input.wav -filter:a "volume=1.5" output.wav
+
+//Увеличить громкость на 10dB
+ffmpeg -i input.wav -filter:a "volume=10dB" output.wav
+
+//Уменьшить громкость на 5dB
+ffmpeg -i input.wav -filter:a "volume=-5dB" output.wav
+
+//Определение средней (mean_volume) и максимальной (max_volume) громкости
+ffmpeg -i input.wav -filter:a volumedetect -f null /dev/null
+//Вывод
+[Parsed_volumedetect_0 @ 0x7f8ba1c121a0] mean_volume: -16.0 dB
+[Parsed_volumedetect_0 @ 0x7f8ba1c121a0] max_volume: -5.0 dB
+
+//Нормализация громкости
+ffmpeg -i input.wav -filter:a loudnorm output.wav
+
+//Automatization with
+ffmpeg-normalize
