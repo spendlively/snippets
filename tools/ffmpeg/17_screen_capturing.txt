@@ -41,11 +41,11 @@ ffmpeg \
 output.mkv
 
 //0.3. Запись видео с камеры со звуком с микрофона
-  ffmpeg \
-  -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 \
-  -f pulse -i default -acodec aac -strict experimental \
-  -c:v libx264 -crf 0 -preset ultrafast \
-  output.mkv
+ffmpeg \
+-f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 \
+-f pulse -i default -acodec aac -strict experimental \
+-c:v libx264 -crf 0 -preset ultrafast \
+output.mp4
 
 //0.4. Доп. полезные советы
  - "-draw_mouse 0" не записывать мышь (-draw_mouse 0 -i :0.0)
@@ -71,7 +71,7 @@ ffmpeg -video_size 1920x1080 -framerate 25 -f x11grab -i :0.0+0,0 output.mp4
 ffmpeg \
 -video_size 1920x1080 -framerate 25 -f x11grab -i :0.0+0,0 \
 -f alsa -ac 2 -i hw:0 \
-output.mkv
+output.mp4
 
  - видео притормаживает
  - в моем случае hw:1
@@ -82,7 +82,7 @@ output.mkv
 ffmpeg \
 -video_size 1920x1080 -framerate 25 -f x11grab -i :0.0+0,0 \
 -f pulse -ac 2 -i default \
-output.mkv
+output.mp4
 
  - видео притормаживает
  - устройство ввода default можно изменить в настройках звука
@@ -96,7 +96,7 @@ output.mkv
 
 //4. Захват видео с монитора со звуком (pulse микрофон)
 //с lossless кодировкой для увеличения скорости кодирования (чтобы не тормозило)
-ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0 -c:v libx264 -crf 0 -preset ultrafast output.mkv
+ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0 -c:v libx264 -crf 0 -preset ultrafast output.mp4
 
  - быстрая коодировка - не тормозит
  - при использовании -c:v libx264rgb видео получается с полосками, поэтому использовал -c:v libx264
@@ -113,7 +113,7 @@ ffmpeg \
 -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0 \
 -f pulse -i alsa_output.pci-0000_00_1b.0.analog-stereo.monitor -acodec aac -strict experimental \
 -c:v libx264 -preset ultrafast \
-output.mkv
+output.mp4
  - не тормозит
 
 
@@ -124,7 +124,7 @@ ffmpeg \
 -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0 \
 -f pulse -i alsa_output.pci-0000_00_1b.0.analog-stereo.monitor -acodec aac -strict experimental \
 -c:v libx264 -crf 0 -preset ultrafast \
-output.mkv
+output.mp4
  - не тормозит
  - при использовании "-crf 0" файл весит очень много (1мин = 800мб)
 
@@ -135,7 +135,7 @@ output.mkv
 ////////////////////////////////////////////////////
 
 //7. Захват видео с камеры без аудио
-ffmpeg -f v4l2 -framerate 25 -video_size 1920x1080 -i /dev/video0 output.mkv
+ffmpeg -f v4l2 -framerate 25 -video_size 1920x1080 -i /dev/video0 output.mp4
 
 
 
@@ -144,7 +144,7 @@ ffmpeg \
 -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 \
 -f pulse -i default -acodec aac -strict experimental \
 -c:v libx264 -crf 0 -preset ultrafast \
-output.mkv
+output.mp4
 
 
 
@@ -163,8 +163,8 @@ output.mkv
 
 
 //Перекодировка lossless видео
-ffmpeg -i output.mkv -c:v libx264 -crf 0 -preset veryslow output-smaller.mkv
-ffmpeg -i output.mkv -c:v libx264rgb -crf 0 -preset veryslow output-smaller.mkv
+ffmpeg -i output.mp4 -c:v libx264 -crf 0 -preset veryslow output-smaller.mp4
+ffmpeg -i output.mp4 -c:v libx264rgb -crf 0 -preset veryslow output-smaller.mp4
 
 
 

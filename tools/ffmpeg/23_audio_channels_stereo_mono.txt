@@ -1,0 +1,89 @@
+
+//Просмотр имеющихся аудио каналов
+ffprobe -i input.mp4 -show_streams -select_streams a:0
+//short
+ffprobe -i input.mp4 -show_entries stream=channels -select_streams a:0 -of compact=p=0:nk=1 -v 0
+
+
+//"stereo" поток в "mono" поток
+ffmpeg -i stereo.flac -ac 1 mono.flac
+
+
+//"mono" из правого канала "stereo" потока (-filter_complex)
+//Channels: FL or FR
+ffmpeg -i stereo.wav \
+-filter_complex "[0:a]channelsplit=channel_layout=stereo:channels=FR[right]" -map "[right]" \
+front_right.wav
+
+
+//"mono" из правого канала "stereo" потока (pan filter)
+ffmpeg -i stereo.wav -af "pan=mono|c0=c1" mono.m4a
+//Другие формы записи
+c0=c1 or c0=FR
+c0=c0 or c0=FL
+
+
+//Разделить каналы на разные файлы
+ffmpeg -i stereo.wav \
+-filter_complex "[0:a]channelsplit=channel_layout=stereo[left][right]" -map "[left]" left.wav -map "[right]" \
+right.wav
+//or
+ffmpeg -i stereo.wav -map_channel 0.0.0 left.wav -map_channel 0.0.1 right.wav
+//or
+ffmpeg -i stereo.wav \
+-filter_complex "[0:a]pan=1c|c0=c0[left];[0:a]pan=1c|c0=c1[right]" -map "[left]" left.wav -map "[right]" \
+right.wav
+
+//"stereo" из "mono"
+ffmpeg -i input.mp3 -ac 2 output.m4a
+//or
+ffmpeg -i input.mp3 -filter_complex "[0:a][0:a]amerge=inputs=2[a]" -map "[a]" output.m4a
+
+
+//"stereo" запись из двух "mono" записей
+ffmpeg -i left.mp3 -i right.mp3 -filter_complex "[0:a][1:a]join=inputs=2:channel_layout=stereo[a]" -map "[a]" output.mp3
+//or
+ffmpeg -i left.mp3 -i right.mp3 -filter_complex "[0:a][1:a]amerge=inputs=2[a]" -map "[a]" output.mka
+
+
+//5.1 из шести "mono" записей
+ffmpeg -i front_left.wav -i front_right.wav -i front_center.wav -i lfe.wav -i back_left.wav -i back_right.wav \
+-filter_complex "[0:a][1:a][2:a][3:a][4:a][5:a]join=inputs=6:channel_layout=5.1[a]" -map "[a]" \
+output.wav
+//or
+ffmpeg -i front_left.wav -i front_right.wav -i front_center.wav -i lfe.wav -i back_left.wav -i back_right.wav \
+-filter_complex "[0:a][1:a][2:a][3:a][4:a][5:a]join=inputs=6:channel_layout=5.1:map=0.0-FL|1.0-FR|2.0-FC|3.0-LFE|4.0-BL|5.0-BR[a]" -map "[a]" \
+output.wav
+//or
+ffmpeg -i front_left.wav -i front_right.wav -i front_center.wav -i lfe.wav -i back_left.wav -i back_right.wav \
+-filter_complex "[0:a][1:a][2:a][3:a][4:a][5:a]amerge=inputs=6[a]" -map "[a]" \
+output.wav
+
+
+//6 "mono" записей из 5.1
+ffmpeg -i in.wav \
+-filter_complex "channelsplit=channel_layout=5.1[FL][FR][FC][LFE][BL][BR]" \
+-map "[FL]" front_left.wav \
+-map "[FR]" front_right.wav \
+-map "[FC]" front_center.wav \
+-map "[LFE]" lfe.wav \
+-map "[BL]" back_left.wav \
+-map "[BR]" back_right.wav
+
+
+//"stereo" запись из 5.1
+ffmpeg -i 6channels.wav -ac 2 stereo.wav
+//or
+ffmpeg -i 6channels.wav -af "pan=stereo|c0=FL|c1=FR" stereo.wav
+//or
+ffmpeg -i 6channels.wav -af "pan=stereo|c0=c0|c1=c2" output.wav
+
+
+//"stereo" запись из двух "stereo" записей
+ffmpeg -i input1.wav -i input2.wav \
+-filter_complex "[0:a][1:a]amerge=inputs=2,pan=stereo|c0<c0+c2|c1<c1+c3[a]" -map "[a]" \
+output.mp3
+//or
+ffmpeg -i input1.wav -i input2.wav \
+-filter_complex "[0:a][1:a]amerge=inputs=2[a]" -map "[a]" -ac 2 \
+output.mp3
