@@ -1,0 +1,50 @@
+
+/////////////////////////////
+//////////Установка//////////
+/////////////////////////////
+sudo apt update
+sudo apt install redis-server
+sudo apt install php-redis
+redis-cli
+
+/////////////////////////////
+///////Настройка redis///////
+/////////////////////////////
+sudo nano /etc/redis/redis.conf
+supervised systemd
+requirepass password
+
+/////////////////////////////
+////////Перезагрузка/////////
+/////////////////////////////
+sudo systemctl restart redis.service
+sudo systemctl reload php7.2-fpm.service
+
+/////////////////////////////
+/////Конфигурация Symfony////
+/////////////////////////////
+//config/services.yaml
+services:
+    Redis:
+        class: Redis
+        calls:
+            - connect:
+                - '%env(REDIS_HOST)%'
+                - '%env(int:REDIS_PORT)%'
+            - auth:
+                - '%env(REDIS_PASSWORD)%'
+
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+        arguments:
+            - '@Redis'
+
+//config/packages/framework.yaml
+framework:
+    session:
+#        handler_id: null
+        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
+
+//.env.local
+REDIS_HOST=127.0.0.1
+REDIS_PORT=6379
+REDIS_PASSWORD=password

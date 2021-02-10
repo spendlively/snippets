@@ -1,0 +1,45 @@
+
+/////////////////////////////
+/////Конфигурация Symfony////
+/////////////////////////////
+//config/services.yaml
+services:
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+            - '%env(DATABASE_URL)%'
+            - { db_table: 'app_session' }
+
+
+
+//config/packages/framework.yaml
+framework:
+    session:
+#        handler_id: null
+        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+
+
+
+/////////////////////////////
+//////Создание таблицы///////
+/////////////////////////////
+bin/console make:migration
+nano migrations/Version20210210102844.php
+public function up(Schema $schema) : void
+{
+    $this->addSql('CREATE TABLE app_session (sess_id VARCHAR(128) NOT NULL PRIMARY KEY, sess_data BYTEA NOT NULL, sess_lifetime INTEGER NOT NULL, sess_time INTEGER NOT NULL)');
+}
+
+public function down(Schema $schema) : void
+{
+    $this->addSql('CREATE SCHEMA public');
+    $this->addSql('DROP TABLE app_session');
+}
+
+bin/console doctrine:migrations:migrate
+
+
+
+/////////////////////////////
+////////Перезагрузка/////////
+/////////////////////////////
+sudo systemctl reload php7.2-fpm.service

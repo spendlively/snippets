@@ -3,4 +3,10 @@ ffmpeg \
 output.mp3
 
 
+ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 output.mp4
+
+//ffmpeg -re -f lavfi -i aevalsrc="sin(400*2*PI*t)" -ar 8000 -f mulaw -f rtp rtp://127.0.0.1:1234
+
+//ffmpeg -i INPUT -acodec libmp3lame -ar 11025 --f rtp rtp://host:port
+//ffmpeg -i INPUT -f mpegts udp://host:port
 

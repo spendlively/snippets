@@ -43,14 +43,23 @@ return 302 $scheme://welcome.domain.ru$request_uri;
 @Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR')")
 requirements={"id"="[\d]+"}
 
+//php-fpm dynamic configuring
+
 
 //Linux
 //remove empty lines
 grep -v -e '^$'
 grep --regexp="app\.\|ERROR\|CRITICAL"
 
+//execute command for files
+find /var/www/html/TV/flash -type d -exec chmod 755 {} \;
+
 //add permissions for both users
 sudo setfacl -dR -m u:"www-data":rwX -m u:$(whoami):rwX dir
+
+//sort
+sort -k 2 -t "|" file.txt
+sort -k 2 -t "|" -r -n file.txt
 
 //s3
 list
