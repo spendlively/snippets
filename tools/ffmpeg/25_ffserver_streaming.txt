@@ -1,0 +1,83 @@
+////////////////////////////////////////
+///////////////Мат часть////////////////
+////////////////////////////////////////
+//Статус сервера
+http://localhost:8090/stat.html
+
+//Определения
+1. Input sources (I)
+ - внешнее приложение (ffmpeg), которые передает видео/аудио поток в ffserver
+2. Feeds (F)
+ - внутренняя часть ffserver, которая связывает input source и ouput stream
+3. Streams (S)
+ - внутренняя часть ffserver, которая связывает stream со внешними приложениями (ffplay, vlc, ...)
+4. Media players (P)
+ - медиа проигрыватели
+
+
+
+////////////////////////////////////////
+////////Streaming flv h.264 aac/////////
+////////////////////////////////////////
+//1. Запуск сервера
+ffserver -d -f ffserver_configs/ffserver_h264_aac_flv.conf
+
+//2. Запись видео с камеры и передача в ffserver качестве feed1.ffm
+ffmpeg -s 320x240 -framerate 30 -i /dev/video0 \
+-f pulse -i default -acodec aac \
+-c:v libx264 -preset fast -pix_fmt yuv420p \
+http://localhost:8090/feed1.ffm
+
+//3. Воспроизведение output stream live.flv
+//3.1. по умолчанию (задержка 3.5 сек)
+ffplay http://localhost:8090/live.flv
+//3.2. для меньшей задержки (задержка 2 сек)
+ffplay -fflags nobuffer http://localhost:8090/live.flv
+//3.3. для меньшей задержки (задержка 2 сек)
+ffplay -fflags nobuffer -flags low_delay -framedrop -strict experimental http://localhost:8090/live.flv
+//3.4. для меньшей задержки (задержка 2 сек)
+ffplay -probesize 32 -analyzeduration 0 -sync ext http://localhost:8090/live.flv
+
+
+
+////////////////////////////////////////
+////////////Streaming mpeg//////////////
+////////////////////////////////////////
+//1. Запуск сервера
+ffserver -d -f ffserver_configs/ffserver_mpg.conf
+
+//2.1 Запись видео с камеры и передача в ffserver качестве feed1.ffm
+ffmpeg \
+-video_size 320x240 -framerate 30 -i /dev/video0 \
+-f pulse -i default -acodec aac -strict experimental \
+http://localhost:8090/feed1.ffm
+
+//2.2 Запись видео с экрана и передача в ffserver качестве feed1.ffm
+ffmpeg \
+-video_size 320x240 -framerate 30 -f x11grab -i :0.0 \
+-f pulse -i default -acodec aac -strict experimental \
+-c:v libx264 -preset ultrafast \
+http://localhost:8090/feed1.ffm
+
+//3. Воспроизведение output stream test1.mpg
+ffplay -fflags nobuffer http://localhost:8090/test1.mpg
+
+
+
+////////////////////////////////////////
+////////////Streaming rtsp//////////////
+////////////////////////////////////////
+//ВОСПРОИЗВОДИТСЯ С БОЛЬШОЙ ЗАДЕРЖКОЙ!!!
+//1. Запуск сервера
+ffserver -d -f ffserver_configs/ffserver_rtsp.conf
+
+//2. Запись видео
+ffmpeg \
+-video_size 320x240 -framerate 30 -i /dev/video0 \
+-vcodec libx264 -tune zerolatency -crf 18 \
+http://localhost:8090/feed1.ffm
+
+//3. Воспроизведение
+ffplay -fflags nobuffer rtsp://localhost:8091/test1.sdp
+ffplay rtsp://localhost:8091/test1.sdp
+
