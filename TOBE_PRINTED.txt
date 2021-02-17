@@ -57,6 +57,9 @@ find /var/www/html/TV/flash -type d -exec chmod 755 {} \;
 //add permissions for both users
 sudo setfacl -dR -m u:"www-data":rwX -m u:$(whoami):rwX dir
 
+//redirects
+command > /dev/null 2>&1
+
 //sort
 sort -k 2 -t "|" file.txt
 sort -k 2 -t "|" -r -n file.txt

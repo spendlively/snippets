@@ -1,0 +1,10 @@
+
+//Enable camera
+sudo raspi-config
+> Interfacing Options > P1 Camera > Enable
+
+//Start the script
+nohup python3 rpi_camera_surveillance_system.py > /dev/null 2>&1 &
+//or
+nohup python3 rpi_camera_surveillance_system.py &
+

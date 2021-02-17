@@ -1,12 +1,24 @@
-ffmpeg \
--f pulse -i alsa_output.pci-0000_00_1b.0.analog-stereo.monitor -acodec aac -strict experimental \
-output.mp3
+
+sudo v4l2-ctl --list-devices
+v4l2-ctl --list-formats-ext
+
+//success
+ffmpeg -s 640x480 -framerate 30 -i /dev/video0 \
+test.mp4
+
+//success
+ffmpeg -s 320x240 -framerate 30 -i /dev/video0 \
+-c:v libx264 -preset fast -pix_fmt yuv420p \
+test.flv
 
 
-ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 output.mp4
 
-//ffmpeg -re -f lavfi -i aevalsrc="sin(400*2*PI*t)" -ar 8000 -f mulaw -f rtp rtp://127.0.0.1:1234
+//ffserver streaming
+ffserver -d -f /etc/ffserver_h264_aac_flv_raspberry.conf
 
-//ffmpeg -i INPUT -acodec libmp3lame -ar 11025 --f rtp rtp://host:port
-//ffmpeg -i INPUT -f mpegts udp://host:port
+ffmpeg -s 320x240 -framerate 30 -i /dev/video0 \
+-c:v libx264 -preset fast -pix_fmt yuv420p \
+http://localhost:8090/feed1.ffm
 
+ffplay -fflags nobuffer http://192.168.2.139:8090/live.flv
+ffplay http://192.168.2.139:8090/live.flv

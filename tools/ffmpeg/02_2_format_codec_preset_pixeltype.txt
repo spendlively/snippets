@@ -1,0 +1,60 @@
+
+//Example
+ffmpeg \
+-video_size 1920x1080 -framerate 30 -f x11grab -draw_mouse 0 \
+-i :0.0 -f pulse -i alsa_output.pci-0000_00_1b.0.analog-stereo.monitor -acodec aac -strict experimental \
+-c:v libx264 -preset ultrafast -profile:v baseline -pix_fmt yuv420p \
+output.mp4
+
+
+
+//filter
+-f x11grab
+ - Захват видео с девайса x11 (display)
+ - https://ffmpeg.org/ffmpeg-devices.html#x11grab
+-f v4l2
+ - Video4Linux2 input/output device
+
+
+
+//codec
+-c:v libx264
+-acodec aac -strict experimental
+ - https://ffmpeg.org/ffmpeg-codecs.html
+ - codecs: decoders and encoders (способ кодирования и декодирования)
+ - каждый кодек может поддерживать собственные опции
+
+
+
+//preset
+-preset ultrafast
+ - компромисс между качеством и скоростью
+ - чем больше значение тем бустрее, но хуже качество
+
+
+
+//profile
+-profile:v baseline
+
+
+
+//pixel format
+-pix_fmt yuv420p
+ - формат хранения цвета и настройки цветовой субдискретизации (rgb, yuv, ...)
+ - YUV — цветовая модель, в которой цвет состоит из трёх компонентов:
+яркость (Y) и два цветоразностных компонента (U и V).
+ - p на конце — тип развертки progressive, т.е. не interlace
+ - https://ru.wikipedia.org/wiki/Цветовая_субдискретизация#4:2:0
+ - Показать доступные форматы пикселей
+ - ffmpeg -pix_fmts
+
+
+
+//strict
+-strict experimental
+ - Насколько строго следовать стандарту
+
+
+
+//format
+ - контейнер для хранения видео и аудио потоков

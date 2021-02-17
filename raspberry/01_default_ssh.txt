@@ -1,0 +1,8 @@
+
+//searching for ip
+nmap -sn --traceroute 192.168.2.0/24
+
+//ssh connection
+//default credentials: pi/raspberry
+ssh pi@192.168.2.139
+
