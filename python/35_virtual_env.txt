@@ -1,4 +1,18 @@
 
+/////////////////////////////////////////////
+//////////ALL I NEED IS OVERTHERE!!!/////////
+/////////////////////////////////////////////
+//Install venv with version you need
+apt install python-virtualenv
+virtualenv -p /usr/bin/python3.7 venv37
+
+//Install package into venv
+venv/bin/python3 -m pip freeze
+venv/bin/python3 -m pip install -U scikit-image
+venv/bin/python3 -m pip show scikit-image
+
+
+
 ////////////////////////////////////////////////
 /////////Настройка virtualenv в pycharm/////////
 ////////////////////////////////////////////////

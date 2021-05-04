@@ -1,0 +1,38 @@
+
+//Links
+ - https://golang.org/cmd/trace/
+ - https://making.pusher.com/go-tool-trace/
+ - https://blog.gopheracademy.com/advent-2017/go-execution-tracer/
+
+
+
+//////////////////////////////////
+//////Create trace in code////////
+//////////////////////////////////
+package main
+
+import (
+	"os"
+	"runtime/trace"
+)
+
+func main() {
+	f, err := os.Create("trace.out")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	err = trace.Start(f)
+	if err != nil {
+		panic(err)
+	}
+	defer trace.Stop()
+}
+
+
+
+/////////////////////////////////
+//////Open trace in browser//////
+/////////////////////////////////
+go tool trace trace.out

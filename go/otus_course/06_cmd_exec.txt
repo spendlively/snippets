@@ -1,0 +1,63 @@
+
+//Some info
+//Exit Codes With Special Meanings
+https://tldp.org/LDP/abs/html/exitcodes.html
+
+//////////////////////////////////////////////////
+////////////////////Вариант 1/////////////////////
+//////////////////////////////////////////////////
+//1. exec.Command()
+ - возвращяет структуру Cmd
+//2. cmd.CombinedOutput()
+ - выполняет команды
+ - дожидается окончания
+ - объединяет stdout и stderr команды в вывод "stdoutStderr"
+
+
+// Preparing the command
+cmd := exec.Command("echo", []string{"qwerty"}...)
+
+// exec.Command doesn't set env variables, therefore setting them manually
+cmd.Env = os.Environ()
+
+// Launching the command
+stdoutStderr, _ := cmd.CombinedOutput()
+fmt.Println(string(stdoutStderr))
+
+
+
+//////////////////////////////////////////////////
+////////////////////Вариант 2/////////////////////
+//////////////////////////////////////////////////
+//exec.Command()
+ - возвращяет структуру Cmd
+//cmd.Start()
+ - зыпускает команды не дожидаясь результатов
+//cmd.Wait()
+ - Дожидается результатов
+ - Определяет статус код возврата
+
+// Preparing the command
+cmd := exec.Command("echo", []string{"qwerty"}...)
+
+// exec.Command doesn't set env variables, therefore setting them manually
+cmd.Env = os.Environ()
+
+// Setting the streams manually
+cmd.Stdin = os.Stdin
+cmd.Stdout = os.Stdout
+cmd.Stderr = os.Stderr
+
+// Starting without waiting for results
+_ = cmd.Start()
+
+// Waiting for results
+if err := cmd.Wait(); err != nil {
+    if exiterr, ok := err.(*exec.ExitError); ok {
+        if status, ok := exiterr.Sys().(syscall.WaitStatus); ok {
+            fmt.Printf("Exit status code: %d\n", status.ExitStatus())
+        }
+    } else {
+        log.Fatalf("cmd.Wait: %v", err)
+    }
+}

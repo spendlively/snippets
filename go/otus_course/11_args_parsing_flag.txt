@@ -1,0 +1,14 @@
+
+//go-telnet --timeout=10s 127.0.0.1 8000
+
+flag.StringVar(&timeout, "timeout", "5s", "connection timeout")
+flag.Parse()
+
+args := flag.Args()
+
+if len(args) != 2 {
+        return ErrParamsParsing
+}
+
+host = args[0]
+port = args[1]

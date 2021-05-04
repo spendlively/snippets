@@ -1,0 +1,14 @@
+
+/////////////////////////////////////////
+////1. Goland выделяет красным импорт////
+/////////////////////////////////////////
+//1. выполнить go mod tidy
+go mod tidy
+
+//2. включить поддержку "Go Modules Integration"
+import "golang.org/x/example/stringutil"
+//can not resolve directory golang.org
+//При этом код работает
+//Решение:
+//File -> Settings -> Go -> Go Modules
+//[v] Enable Go Modules Integration

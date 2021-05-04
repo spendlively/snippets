@@ -1,0 +1,12 @@
+
+//Netcat (nc)
+
+//Server
+nc -l 0.0.0.0 4242
+
+//Client
+(echo -e "I\nam\nTELNET client\n" && cat 2>/dev/null) | nc localhost 4242
+
+
+//-e позволяет отправить несколько строк, разделенных \n
+

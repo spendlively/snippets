@@ -1,0 +1,3 @@
+
+$referer = $request->headers->get('referer');
+return new RedirectResponse($referer);

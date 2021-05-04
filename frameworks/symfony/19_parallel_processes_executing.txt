@@ -1,0 +1,38 @@
+
+public function process($masks)
+{
+    $chunks = array_chunk($masks, 10);
+    foreach ($chunks as $chunk) {
+        $this->processUploadedMasksChunk($chunk);
+    }
+}
+
+public function processUploadedMasksChunk($masks)
+{
+    $tasks = [];
+    foreach ($masks as $mask) {
+        $process = new Process([
+            'pwd'
+        ]);
+
+        $process->start();
+
+        $tasks[] = [
+            'mask' => $mask,
+            'process' => $process,
+        ];
+    }
+
+    foreach ($tasks as $i => $task) {
+        $task['process']->wait();
+        $resultJson = trim($task['process']->getOutput());
+        $result = json_decode($resultJson, true);
+        $mask = $task['mask'];
+        if (empty($result)) {
+            die('Error');
+        } else {
+            //ok
+        }
+    }
+}
+

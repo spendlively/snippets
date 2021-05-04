@@ -34,6 +34,23 @@ str := `
 'two'
 `
 
+////////////////////////
+///Конкатенация строк///
+////////////////////////
+var buffer bytes.Buffer
+for i := 0; i < 1000; i++ {
+    buffer.WriteString("a")
+}
+fmt.Println(buffer.String())
+
+
+///////////////////////////////
+//Подсчет количества символов//
+///////////////////////////////
+import "unicode/utf8"
+actualLength := utf8.RuneCountInString(value.String())
+
+
 //Получить доступ к байту
 s := "hello, world!"
 

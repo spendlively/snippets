@@ -4,3 +4,8 @@ select
     TO_CHAR(created_at, 'YYYY-MM-DD'), count(*)
 from table_name
 group by TO_CHAR(created_at, 'YYYY-MM-DD')
+
+
+//Найти записи, созданные больше часа назад
+select * from tbl
+where created_at < (NOW() - INTERVAL '1 hour' )

@@ -1,0 +1,10 @@
+
+//Add face recognition with Raspberry Pi
+https://www.raspberrypi.org/blog/add-face-recognition-with-raspberry-pi-hackspace-38/
+
+//Dependencies
+https://gist.github.com/mrpjevans/9885e853b603ed046cbc5326b9942991
+
+//Library
+https://github.com/ageitgey/face_recognition
+

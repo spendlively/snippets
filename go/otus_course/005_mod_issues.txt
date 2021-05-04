@@ -1,0 +1,39 @@
+
+//1. Проблема
+ - создал go.mod с неправильным адресом (github.com/spendmail/otus_golang_hw/tree/master/hw01_hello_otus)
+ - запушил go.mod с неправильным адресом
+ - пересоздал go.mod с правильным адресом (github.com/spendmail/otus_golang_hw/hw01_hello_otus)
+ - запушил go.mod с правильным
+ - при попытке скачать пакет возникает ошибка,
+в которой говорится что модуль объявляет себя с адресом
+github.com/spendmail/otus_golang_hw/tree/master/hw01_hello_otus (неправильный),
+но в репозе все правильно:
+
+go get -v -d github.com/spendmail/otus_golang_hw/hw01_hello_otus@hw01_hello_otus
+go: downloading github.com/spendmail/otus_golang_hw v0.0.0-20210228072623-c0973633ae61
+go: downloading github.com/spendmail/otus_golang_hw/hw01_hello_otus v0.0.0-20210228072623-c0973633ae61
+go get: github.com/spendmail/otus_golang_hw/hw01_hello_otus@none updating to
+	github.com/spendmail/otus_golang_hw/hw01_hello_otus@v0.0.0-20210228072623-c0973633ae61: parsing go.mod:
+	module declares its path as: github.com/spendmail/otus_golang_hw/tree/master/hw01_hello_otus
+	        but was required as: github.com/spendmail/otus_golang_hw/hw01_hello_otus
+
+module declares its path as but was required as
+
+
+
+//2. При скачивании в /home/spendlively/go/pkg/mod/github.com/spendmail
+находится go.mod с неправтльным адресом (github.com/spendmail/otus_golang_hw/tree/master/hw01_hello_otus)
+
+//Попробовал удалить все кэши
+sudo rm -r /home/spendlively/go/pkg/mod/cache
+sudo rm -r /home/spendlively/go/pkg/mod/github.com/spendmail
+go clean -modcache
+
+//При повторном выкачивании та же ошибка
+cd /tmp
+go get -v -d github.com/spendmail/otus_golang_hw/hw01_hello_otus@hw01_hello_otus
+
+
+
+//3. Помогло удаление репозитория и создание заново
+

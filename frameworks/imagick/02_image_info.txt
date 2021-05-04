@@ -1,0 +1,7 @@
+
+//Sizes and channels
+list($width, $weight, $channels, $format) = getimagesize('path/to/file');
+
+//Get pixels map
+$pixels = $image->exportImagePixels(0, 0, $width, $weight, "RGB", Imagick::PIXEL_CHAR);
+

@@ -1,0 +1,24 @@
+
+//Список литературы для курса «Разработчик Golang»
+https://github.com/OtusGolang/webinars_practical_part/blob/master/LITERATURE.md
+
+//Установка go
+https://golang.org/doc/install
+
+//Установка нескольких версий
+https://golang.org/doc/manage-install#installing-multiple
+
+//SliceTricks
+https://github.com/golang/go/wiki/SliceTricks
+
+//awesome-cheatsheets
+https://github.com/LeCoupa/awesome-cheatsheets/blob/master/languages/golang.md
+
+//Поиск модулей
+pkg.go.dev
+
+//Web
+https://github.com/go-kit/kit
+https://github.com/gobuffalo/buffalo
+https://github.com/avelino/awesome-go#web-frameworks
+

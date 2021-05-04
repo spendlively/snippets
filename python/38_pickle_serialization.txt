@@ -1,0 +1,18 @@
+import pickle
+
+class Company(object):
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+
+company = Company('banana', 40)
+
+# serialize
+with open('company_data.pkl', 'wb') as output:
+    pickle.dump(company, output, pickle.HIGHEST_PROTOCOL)
+
+# deserialize
+with open('company_data.pkl', 'rb') as input:
+    company = pickle.load(input)
+

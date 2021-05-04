@@ -1,0 +1,8 @@
+
+//Read the file
+$image = new Imagick();
+try {
+    $image->readImage('path/to/file');
+} catch (ImagickException $e) {
+
+}

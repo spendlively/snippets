@@ -1,0 +1,10 @@
+
+//File is not `gci`-ed (gci) "fmt"
+sudo apt install golang-golang-x-tools
+goimports -local "github.com/GoogleContainerTools/skaffold" -w .
+
+//File is not `gofumpt`-ed (gofumpt)
+gofumpt -w .
+
+
+

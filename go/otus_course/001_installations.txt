@@ -1,0 +1,60 @@
+
+/////////////////////////////////////////
+/////////////1. Установка go/////////////
+/////////////////////////////////////////
+//Удаление старых версий
+https://golang.org/doc/manage-install#uninstalling
+sudo rm -r /usr/bin/go
+sudo rm -r /usr/local/go
+sudo rm -r /usr/lib/go-1.10/
+sudo rm -r /usr/lib/go /usr/share/go /usr/share/man/man1/go.1.gz
+//also remove go paths from
+~/.bashrc and ~/.profile
+//if you need to remove old dependencies
+sudo rm -r ~/go
+//проверка
+whereis go
+which go
+//reboot
+
+//Установка go 1.16
+https://golang.org/doc/install
+wget https://golang.org/dl/go1.16.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.16.linux-amd64.tar.gz
+
+//Добавление пути к go в $PATH
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/home/spendlively/go/bin
+//добавить в конец файла ~/.profile
+nano ~/.profile
+source ~/.profile
+//reboot
+
+
+
+/////////////////////////////////////////
+/////////2. Установка goimports//////////
+/////////////////////////////////////////
+sudo apt install golang-golang-x-tools
+goimports -local "github.com/GoogleContainerTools/skaffold" -w .
+
+
+
+/////////////////////////////////////////
+///////3. Установка golangci-lint////////
+/////////////////////////////////////////
+//команда go должна быть доступна из консоли
+//golangci-lint устанавливается в $(go env GOPATH)/bin
+sudo curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.37.1
+golangci-lint --version
+golangci-lint run .
+
+
+
+/////////////////////////////////////////
+//////////4. Установка gofumpt///////////
+/////////////////////////////////////////
+go get mvdan.cc/gofumpt
+//Устанавливается в $(go env GOPATH)/bin
+gofumpt --version
+gofumpt -w .

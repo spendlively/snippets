@@ -21,6 +21,7 @@ default
 
 //Захват видео
 ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 output.mp4
+ffmpeg -f v4l2 -framerate 25 -video_size 1920*1080 -i /dev/video0 output.mp4
 
 
 //Запись видео с камеры со звуком с микрофона камеры

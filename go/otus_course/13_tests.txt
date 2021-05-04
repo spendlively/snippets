@@ -1,0 +1,4 @@
+
+//Log in tests
+t.Log("1111")
+

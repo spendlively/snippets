@@ -1,0 +1,72 @@
+//errors.Wrap
+import  "github.com/pkg/errors"
+func  main()  {
+    err := errors.New("error")
+    err = errors.Wrap(err,  "open failed")
+    err = errors.Wrap(err,  "read config failed")
+    fmt.Println(err) // read config failed: open failed: error
+    fmt.Printf("%+v\n", err)  //  Напечатает  stacktrace.
+}
+
+
+
+//errors.Cause
+err1 := errors.New("im an error")
+err2 := errors.Wrap(err1,  "some context")
+print(err1 == err2) // false
+print(err1 == errors.Cause(err2)) // true
+
+
+
+//fmt.Errorf create error
+err := fmt.Errorf("user %q (id %d) not found", name, id)
+
+
+
+//fmt.Errorf edit error
+ErrNotReadable = errors.New("text")
+fmt.Errorf("%w: %v", ErrNotReadable, filename)
+If the format specifier includes a %w verb with an error operand, the returned error will implement an Unwrap method returning the operand. It is invalid to include more than one %w verb or to supply it with an operand that does not implement the error interface. The %w verb is otherwise a synonym for %v.
+
+switch  err := errors.Cause(err).(type){
+    case  *MyError: // handle specifically
+    default: // unknown error
+}
+
+
+
+// IsTemporary returns true if err is temporary.
+func  IsTemporary(err error)  bool  {
+    te, ok := errors.Cause(err).(temporary)
+    return  ok && te.Temporary()
+}
+
+
+
+//errors.Is
+if _, err := os.Open("non-existing"); err != nil {
+    if errors.Is(err, fs.ErrNotExist) {
+    fmt.Println("file does not exist")
+    } else {
+  fmt.Println(err)
+    }
+}
+
+
+
+//errors.As
+if _, err := os.Open("non-existing"); err != nil {
+    var pathError *fs.PathError
+        if errors.As(err, &pathError) {
+            fmt.Println("Failed at path:", pathError.Path)
+        } else {
+            fmt.Println(err)
+        }
+}
+
+
+
+//errors.Unwrap
+err := errors.Unwrap(err) // error or nil
+//nil if type diesnt contain Unwrap method
+

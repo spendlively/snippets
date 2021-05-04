@@ -1,0 +1,9 @@
+
+//1. Предварительно:
+В файле: Version20210331035348.php
+в методе: public function down(Schema $schema)
+Удалить или закомментировать строку:
+$this->addSql('CREATE SCHEMA public');
+
+//2. Команда
+bin/console doctrine:migrations:execute 'DoctrineMigrations\Version20210331035348' --down

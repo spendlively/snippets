@@ -1,0 +1,15 @@
+
+//sharpen
+$imagePath = '/home/spendlively/common/downloads/quality/imagick/2.png';
+$image = new Imagick($imagePath);
+$image->sharpenimage(3, 1, Imagick::CHANNEL_DEFAULT);
+header('Content-type: image/png');
+echo $image;
+
+
+//adaptive sharpen
+$imagePath = '/home/spendlively/common/downloads/quality/imagick/1.png';
+$image = new Imagick($imagePath);
+$image->adaptiveSharpenImage(3, 1);
+header('Content-type: image/png');
+echo $image;

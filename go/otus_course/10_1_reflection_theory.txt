@@ -1,0 +1,98 @@
+///////////////////////////////////
+///////////reflect.Value///////////
+///////////////////////////////////
+ - программная обертку над значением произвольной переменной
+ - value.Type() reflect.Type
+ - value.Kind() reflect.Kind
+ - value.Int() int64 // вернуть значение как int64
+ - value.String() string // вернуть значение как string
+ - value.Elem() reflect.Value // разыменование указателя или интерфейса
+
+
+
+///////////////////////////////////
+////////////reflect.Kind///////////
+///////////////////////////////////
+ - базовый тип для значения
+ - определяет какие методы имеют смысл для конкретного reflect.Value, а какие вызовут панику
+
+
+
+///////////////////////////////////
+////////////reflect.Type///////////
+///////////////////////////////////
+ - представляет собой информацию о конкретном типе: имя, пакет, список методов
+ - t.Name() string // имя типа
+ - t.PkgPath() string // пакет, в котором определен тип
+ - t.Size() uintptr // размер в памяти, занимаемый значением
+ - t.Implements(u Type) bool // реализует ли интерфейс u ?
+ - t.MethodByName(string name) reflect.Value // метод по имени
+ - Большинство методов продублировано в reflect.Value
+
+
+
+///////////////////////////////////
+////////Работа со структурами//////
+///////////////////////////////////
+//reflect.Value
+ - v.NumField() int // возвращает кол-во полей в структуре
+ - v.Field(i int) reflect.Value // возвращает рефлексию для отдельного поля
+ - v.FieldByName(s string) reflect.Value // тоже, но по имени поля
+//t := v.Type()
+ - t.NumField() int // возвращает кол-во полей в структуре
+ - t.Field(i int) reflect.StructField // возвращает рефлексию для конкретного поля
+ - t.FieldByName(name string) (reflect.StructField, bool) // тоже, но по имени поля
+//reflect.StructField
+ - Name string //имя поля
+ - Type reflect.Type //рефлексия типа поля
+ - Tag reflect.StructTag //описание тэгов конкретного поля
+ - Offset uintptr //смещение в структуре
+
+
+//Работа с функциями и методами
+f := fmt.Printf
+v := reflect.ValueOf(f)
+t := v.Type()
+t.NumIn() // количество аргументов
+t.NumOut() // количество возвращаемых значений
+a1t := t.In(0) // reflect.Type первого аргумента
+o1t := t.Out(0) // reflect.Type первого возвращаемого значения
+t.IsVariadic() // принимает ли функция переменное число аргументов ?
+
+
+//Получение списка методов типа
+var obj MyType
+v := reflect.ValueOf(obj)
+for i := 0; i < v.NumMethod(); i++ {
+    meth := v.Method(i) // reflect.Value
+}
+sayMethod := v.MethodByName("Say") // reflect.Value
+
+
+//Получение доступа к свойству структуры по имени, хранящемыся в переменной
+//1 way
+func getField(v *Vertex, field string) int {
+    r := reflect.ValueOf(v)
+    f := reflect.Indirect(r).FieldByName(field)
+    return int(f.Int())
+}
+
+//2 way (package oleiade/reflections)
+s := MyStruct {
+    FirstField: "first value",
+    SecondField: 2,
+    ThirdField: "third value",
+}
+value, err := reflections.GetField(s, "FirstField")
+
+
+//Вызов функций / методов
+f := fmt.Printf
+v := reflect.ValueOf(f)
+args := []reflect.Value{
+reflect.ValueOf("test %d\n"),
+reflect.ValueOf(42),
+}
+ret := v.Call(args) // []reflect.Value
+fmt.Println(ret)
+

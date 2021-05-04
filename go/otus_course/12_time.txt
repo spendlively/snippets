@@ -1,0 +1,12 @@
+
+// parse string into time.Duration
+hours, _ := time.ParseDuration("10s")
+hours, _ := time.ParseDuration("10h")
+complex, _ := time.ParseDuration("1h10m10s")
+
+
+// sleep
+go func() {
+    time.Sleep(5 * time.Second)
+    <- 42
+}()

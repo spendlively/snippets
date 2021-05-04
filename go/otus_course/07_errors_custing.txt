@@ -1,0 +1,30 @@
+
+//Выражение
+stdoutStderr, err := cmd.CombinedOutput()
+if err != nil {
+    exitErr, ok := err.(*exec.ExitError)
+    if ok {
+       if status, ok := exitErr.Sys().(syscall.WaitStatus); ok {
+          return status.ExitStatus()
+       }
+    }
+}
+
+
+
+//работает, но вызывает ошибку линтера
+type assertion on error will fail on wrapped errors. Use errors.As to check for specific errors (errorlint)
+exitErr, ok := err.(*exec.ExitError)
+
+
+
+//надо так:
+// Launching the command
+stdoutStderr, err := cmd.CombinedOutput()
+var exitError *exec.ExitError
+if errors.As(err, &exitError) {
+    if status, ok := exitError.Sys().(syscall.WaitStatus); ok {
+        return status.ExitStatus()
+    }
+}
+
