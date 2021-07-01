@@ -1,0 +1,3 @@
+
+//Сравнение 2х картинок
+compare -compose src 01.png 02.png output.png

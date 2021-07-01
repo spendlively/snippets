@@ -1,0 +1,7 @@
+
+//Почистить историю для одного урла
+1. Press SHIFT+CTRL+I to open the Google Chrome Developer Tools panel.
+2. Go to the Network tab and select the Disable cache checkbox to enable that feature.
+3. Type the URL you want to clear from the browser cache in the address bar and press Enter.
+4. Click and hold the reload button until a modal window pops up, the select the Empty Cache and Hard Reload hidden option.
+5. As soon as the page has been fully reloaded, you can unselect the Disable cache checkbox and disable that feature.

@@ -1,0 +1,4 @@
+select
+distinct 'mkdir -p ' || ii.gender || '/' || CASE WHEN ii.race = '' THEN 'unknown' ELSE ii.race END || '/'
+from app_source s
+inner join app_image_info ii on ii.id = s.image_info_id

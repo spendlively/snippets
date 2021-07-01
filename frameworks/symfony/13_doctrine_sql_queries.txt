@@ -129,6 +129,15 @@ public function approvedList(EntityManagerInterface $em, PaginatorInterface $pag
 }
 
 
+//GETTING A SINGLE ENTITY
+//setMaxResults(1) required, or doctrine will throw an exception if few rows are available
+$queryBuilder = $entityManager->createQueryBuilder();
+$queryBuilder->select('t');
+$queryBuilder->from('App:Tbl', 't');
+$queryBuilder->setMaxResults(1);
+$job = $queryBuilder->getQuery()->getOneOrNullResult();
+
+
 ///////////////////////////////////////////////////
 //////////////////////CONSOLE//////////////////////
 ///////////////////////////////////////////////////
@@ -199,3 +208,8 @@ $query = $queryBuilder->getQuery();
 $query->setFetchMode(Photo::class, 'p', ClassMetadata::FETCH_EAGER);
 
 $photos = $query->getResult();
+
+
+
+//Like
+->setParameter('word', '%'.$word.'%')

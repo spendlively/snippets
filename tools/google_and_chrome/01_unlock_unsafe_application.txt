@@ -1,0 +1,6 @@
+
+//Нужно дать доступ "небезопасному" приложению
+https://www.google.com/settings/security/lesssecureapps
+
+//И разрешить его ip адрес
+https://accounts.google.com/DisplayUnlockCaptcha

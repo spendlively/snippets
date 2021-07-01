@@ -1,0 +1,50 @@
+import glob
+import os
+
+##############################################################
+########################## Glob ##############################
+##############################################################
+
+# Glob search in path
+for filename in glob.glob('/path/to/files/*[jpg,jpeg,png,gif]'):
+    print(filename)
+
+# Glob recursive
+for filename in glob.iglob('/etc/nginx/**/*.conf', recursive=True):
+    print(filename)
+# /etc/nginx/fastcgi.conf
+# /etc/nginx/nginx.conf
+
+##############################################################
+######################### PATHINFO ###########################
+##############################################################
+
+# basename (/etc/nginx/nginx.conf -> nginx.conf)
+print(os.path.basename('/etc/nginx/nginx.conf'))
+
+# dirname (/etc/nginx/nginx.conf -> /etc/nginx)
+print(os.path.dirname('/etc/nginx/nginx.conf'))
+
+# filename (/etc/nginx/nginx.conf -> nginx)
+print(os.path.splitext(os.path.basename('/etc/nginx/nginx.conf'))[0])
+
+# extension (/etc/nginx/nginx.conf -> .conf)
+print(os.path.splitext('/etc/nginx/nginx.conf')[1])
+
+##############################################################
+########################## REALPATH ##########################
+##############################################################
+# realpath (/etc/nginx/ -> /etc/nginx)
+print(os.path.realpath('/etc/nginx/'))
+
+##############################################################
+########################### JOIN #############################
+##############################################################
+# join few paths (('/etc/nginx', 'nginx.conf') -> /etc/nginx/nginx.conf)
+print(os.path.join('/etc/nginx', 'nginx.conf'))
+
+##############################################################
+########################### SPLIT ############################
+##############################################################
+# split paths (/etc/nginx/nginx.conf -> ('/etc/nginx', 'nginx.conf'))
+print(os.path.split('/etc/nginx/nginx.conf'))
