@@ -212,4 +212,11 @@ $photos = $query->getResult();
 
 
 //Like
-->setParameter('word', '%'.$word.'%')
+$queryBuilder = $entityManager->createQueryBuilder();
+$queryBuilder->select('i');
+$queryBuilder->from('Entity:Image', 'i');
+$queryBuilder->where('i.project = :project');
+$queryBuilder->setParameter('project', $projectService->find(128));
+$queryBuilder->andWhere('i.filename like :filename');
+$queryBuilder->setParameter('filename', '%'.$filename.'%');
+$images = $queryBuilder->getQuery()->getResult();

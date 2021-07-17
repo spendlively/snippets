@@ -1,0 +1,10 @@
+
+// Set 8 bits depth if image has 16 bits depth
+$image = new Imagick();
+try {
+    $image->readImage('/path/to/image.png');
+    if ($image->getImageDepth() === 16) {
+        $image->setImageDepth(8);
+    }
+} catch (ImagickException $e) {
+}

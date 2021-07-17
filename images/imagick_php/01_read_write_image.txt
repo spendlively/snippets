@@ -3,6 +3,8 @@
 $image = new Imagick();
 try {
     $image->readImage('path/to/file');
+    //some work
+    $image->writeImage('new/path/to/file');
 } catch (ImagickException $e) {
 
 }

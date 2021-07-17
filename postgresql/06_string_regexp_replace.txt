@@ -1,0 +1,15 @@
+
+SELECT REGEXP_REPLACE(source, pattern, replacement_string, flags);
+
+SELECT REGEXP_REPLACE('John Doe','(.*) (.*)','\2, \1');
+'Doe, John'
+
+SELECT REGEXP_REPLACE('ABC12345xyz','[[:alpha:]]','','g');
+'12345'
+
+SELECT REGEXP_REPLACE('ABC12345xyz','[[:digit:]]','','g');
+'ABCxyz'
+
+SELECT REGEXP_REPLACE('This  is    a   test   string','( ){2,}',' ');
+This is a test string
+

@@ -1,6 +1,6 @@
 
 //256-цветная gif-анимация с диззерингом
-ffmpeg -i input.mp4 output.mp4
+ffmpeg -i input.mp4 output.gif
 
 //Полноцветная gif-анимация
  - 1 шаг - получение палитры цветов

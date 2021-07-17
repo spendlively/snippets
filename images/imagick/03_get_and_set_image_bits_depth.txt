@@ -1,0 +1,13 @@
+
+
+//get bits depth
+identify -format "%[bit-depth]\n" filename.png
+
+//set bits depth
+convert filename_16_bit.png -depth 8 filename_8_bit.png
+
+//find all 16 bit files in path
+find ./ -type f | xargs identify -format "%[bit-depth]\n" | grep 16 | wc -l
+
+//set 8 if 16
+if [[ `identify -format "%[bit-depth]" filename_16_bit.png` == "16" ]]; then convert filename_16_bit.png -depth 8 filename_8_bit.png; fi;

@@ -1,0 +1,10 @@
+
+//portal
+portal.azure.com
+
+//rest api
+https://docs.microsoft.com/en-us/rest/api/compute/
+https://docs.microsoft.com/en-us/rest/api/compute/virtualmachinescalesetvms/list - получить все машины внутри scale set
+https://docs.microsoft.com/en-us/rest/api/compute/virtualmachinescalesets/list - получить список всех scale sets
+
+//
