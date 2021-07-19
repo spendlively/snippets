@@ -8,3 +8,10 @@ gofumpt -w .
 
 
 
+//Linter disabling:
+//nolint:errcheck
+//nolint:gosec
+//nolint:gocritic
+//nolint:prealloc
+//nolint:golint,stylecheck
+//nolint:gosimple

@@ -10,3 +10,9 @@ go func() {
     time.Sleep(5 * time.Second)
     <- 42
 }()
+
+
+//Замерить время выполнения
+start := time.Now()
+//some work
+time.Since(start)
