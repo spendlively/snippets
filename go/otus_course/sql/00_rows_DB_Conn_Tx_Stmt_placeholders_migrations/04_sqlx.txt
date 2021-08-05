@@ -1,0 +1,8 @@
+
+//jmoiron/sqlx
+ - обертка, прозрачно расширяющая стандартную библиотеку database/sql .
+
+sqlx.DB - обертка над *sql.DB
+sqlx.Tx - обертка над *sql.Tx
+sqlx.Stmt - обертка над *sql.Stmt
+sqlx.NamedStmt - PreparedStatement с поддержкой именованых параметров

@@ -20,5 +20,7 @@ func main() {
 
 	)
 
-	sugar.Infof("Unable to fetch url: %s", url)
+	//sugar.Infof("Unable to fetch url: %s", url)
+	//
+	//sugar.Infof("Unable to fetch url")
 }

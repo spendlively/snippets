@@ -1,0 +1,13 @@
+
+//Методы, кот. определены у *sql.DB , *sql.Conn , *sql.Tx , *sql.Stmt :
+// изменение данных
+ExecContext(ctx context.Context, query string, args ...interface{}) (Result, error)
+
+// получение данных (select)
+QueryContext(ctx context.Context, query string, args ...interface{}) (*Rows, error)
+
+// получение одной строки
+QueryRowContext(ctx context.Context, query string, args ...interface{}) *Row
+
+//Внимание, ошибка:
+_, err := db.QueryContext(ctx, "delete from events where id = $1", 42)

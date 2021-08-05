@@ -1,0 +1,18 @@
+
+// возвращает имена колонок в выборке
+rows.Columns() ([]string, error)
+
+// возвращает типы колонок в выборке
+rows.ColumnTypes() ([]*ColumnType, error)
+
+// переходит к следующей строке или возвращает false
+rows.Next() bool
+
+// заполняет переменные из текущей строки
+rows.Scan(dest ...interface{}) error
+
+// закрывает объект Rows
+rows.Close()
+
+// возвращает ошибку, встреченную при итерации
+rows.Err() error

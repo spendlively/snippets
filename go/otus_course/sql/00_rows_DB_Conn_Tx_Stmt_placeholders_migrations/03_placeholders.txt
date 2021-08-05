@@ -1,0 +1,6 @@
+
+//placeholder зависят от базы
+ - $1 в Postgres
+ - ? в MySQL
+ - :name в Oracle
+

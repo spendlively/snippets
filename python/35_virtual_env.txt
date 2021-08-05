@@ -3,7 +3,7 @@
 //////////ALL I NEED IS OVERTHERE!!!/////////
 /////////////////////////////////////////////
 //Install venv with version you need
-apt install python-virtualenv
+sudo apt install python3-virtualenv
 virtualenv -p /usr/bin/python3.7 venv37
 
 //Install package into venv

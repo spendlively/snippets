@@ -16,3 +16,9 @@ go func() {
 start := time.Now()
 //some work
 time.Since(start)
+
+
+//Создание времени из строки
+layout := "2006-01-02T15:04:05.000Z"
+str := "2021-11-12T11:45:26.371Z"
+t, _ := time.Parse(layout, str)

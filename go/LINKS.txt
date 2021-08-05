@@ -1,0 +1,9 @@
+
+//Most famous libs
+https://github.com/avelino/awesome-go
+
+//Guideline CodeReviewComments
+https://github.com/golang/go/wiki/CodeReviewComments#interfaces
+
+//Learn concurrency
+https://github.com/golang/go/wiki/LearnConcurrency

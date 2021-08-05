@@ -1,0 +1,29 @@
+
+/////////////////////////////////////////////////
+//////////////Устанавливаем goose////////////////
+/////////////////////////////////////////////////
+go get -u github.com/pressly/goose/cmd/goose
+
+
+/////////////////////////////////////////////////
+//////////////Создаем файл миграции//////////////
+/////////////////////////////////////////////////
+//Вызывается в корне модуля, где есть каталог migrations
+goose -dir migrations create init sql
+//Will Create the file migrations/20210719210138_init.sql
+-- +goose Up
+-- +goose StatementBegin
+SELECT 'up SQL query';
+-- +goose StatementEnd
+
+-- +goose Down
+-- +goose StatementBegin
+SELECT 'down SQL query';
+-- +goose StatementEnd
+
+
+/////////////////////////////////////////////////
+////////////////Применение миграций///////////////
+/////////////////////////////////////////////////
+//Применений миграций
+goose -dir migrations postgres "user=anthony password=anthony dbname=books sslmode=disable" up

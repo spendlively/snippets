@@ -64,7 +64,7 @@ func main() {
   doneChan := make(chan string)
   go func() {
     // Сделать что-нибудь полезное
-    doneChan <- “I’m all done!”
+    doneChan <- "I’m all done!"
   }()
 
   <-doneChan // чтение блокируется до сигнала о завершении работы
@@ -88,35 +88,6 @@ go func() {
  - горутина прочитает из канала данные, если только они там есть
  - в противном случае выполняется блок default
 
-myChan := make(chan string)
-
-go func(){
- myChan <- “Message!”
-}()
-
-select {
- case msg := <- myChan:
-  fmt.Println(msg)
- default:
-  fmt.Println(“No Msg”)
-}
-<-time.After(time.Second * 1)
-select {
- case msg := <- myChan:
-  fmt.Println(msg)
- default:
-  fmt.Println(“No Msg”)
-}
-
-
-
-//Неблокирующая запись в канал
-select {
- case myChan <- “message”:
-  fmt.Println(“sent the message”)
- default:
-  fmt.Println(“no message sent”)
-}
 
 
 //Маленький стек

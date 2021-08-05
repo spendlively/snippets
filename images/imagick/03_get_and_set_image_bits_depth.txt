@@ -2,6 +2,7 @@
 
 //get bits depth
 identify -format "%[bit-depth]\n" filename.png
+identify -profile "%[bit-depth]\n" filename.png
 
 //set bits depth
 convert filename_16_bit.png -depth 8 filename_8_bit.png
