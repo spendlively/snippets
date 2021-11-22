@@ -1,0 +1,26 @@
+
+//brightness
+//-modulate value - vary the brightness, saturation, and hue
+//100 - nothing
+//<100 - darker
+//>100 - brighter
+
+//brighter
+convert original.jpg -modulate 200 result.jpeg
+display result.jpeg
+
+//darker
+convert original.jpg -modulate 50 result.jpeg
+display result.jpeg
+
+//brightness and saturation
+convert original.jpg -modulate 200,200 result.jpeg
+display result.jpeg
+
+//brightness, saturation and hue
+convert original.jpg -modulate 200,200,200 result.jpeg
+display result.jpeg
+
+//solarize
+convert original.jpg -solarize 50% result.jpeg
+display result.jpeg

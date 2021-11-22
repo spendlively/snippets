@@ -1,0 +1,24 @@
+
+//Чтобы rabbitmq не заваливал полчателя сообщениями,
+//пока он их не обработал,
+//с помощью метода ch.Qos()
+//можно установить "prefetch count" и "prefetch size"
+
+q, err := ch.QueueDeclare(...)
+
+err = ch.Qos(
+    1,     // prefetch count!!!
+    0,     // prefetch size!!!
+    false, // global
+)
+
+msgs, err := ch.Consume(
+    false,  // auto-ack!!!
+)
+
+go func() {
+    for d := range msgs {
+        log.Printf("Received a message: %s", d.Body)
+        d.Ack(false)
+    }
+}()

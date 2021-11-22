@@ -33,3 +33,5 @@ https://docs.aws.amazon.com/cli/latest/reference/s3/
 //remove file
 aws s3 rm s3://bucket/file.zip
 
+AWS_ACCESS_KEY_ID=short_string AWS_SECRET_ACCESS_KEY=long_string aws s3 cp s3://bucket/dir/file.zip ./
+AWS_ACCESS_KEY_ID=short_string AWS_SECRET_ACCESS_KEY=long_string aws s3 cp --recursive s3://bucket/dir/ ./

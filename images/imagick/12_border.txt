@@ -1,0 +1,8 @@
+
+//border
+convert original.jpg -bordercolor red -border 10 result.jpeg
+display result.jpeg
+
+//border rgb
+convert original.jpg -bordercolor 'rgb(0,0,255)' -border 10 result.jpeg
+display result.jpeg

@@ -1,0 +1,9 @@
+
+//List messages in queue
+rabbitmqctl list_queues
+
+//List exchanges
+rabbitmqctl list_exchanges
+
+//bindings
+rabbitmqctl list_bindings

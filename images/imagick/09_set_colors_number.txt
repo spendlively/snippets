@@ -1,0 +1,4 @@
+
+//set colors number
+convert original.jpg -colors 10 result.jpeg
+display result.jpeg

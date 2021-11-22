@@ -1,0 +1,19 @@
+
+//Shade - shade the image using a distant light source
+//-shade degrees
+convert original.jpg -shade 12x45 result.jpeg
+display result.jpeg
+
+//degrees
+ - NxM
+ - чем больше M, тем темнее
+
+////////////////////////////////////////////////////////////
+
+//simulate a charcoal drawing
+//-charcoal radius
+convert original.jpg -charcoal 1 result.jpeg
+display result.jpeg
+
+//radius
+ - чем больше radius, тем больше и жирнее линии

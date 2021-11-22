@@ -1,0 +1,32 @@
+
+///////////////////////////////////////
+////////////Инициализация//////////////
+///////////////////////////////////////
+$namespace = 'AZURE_SERVICE_CACHE';
+$lifetime = 60 * 3;
+$cache = new FilesystemAdapter(
+    $namespace,
+    $lifetime,
+    sprintf('%s/data-cache', $container->getParameter('kernel.cache_dir'))
+);
+
+//ВАЖНО!!!!
+//Если не передать 3-им параметром путь к кэшу
+sprintf('%s/data-cache', $container->getParameter('kernel.cache_dir'))
+то кэш будет храниться в папке
+/tmp/symfony-cache/[$namespace]/[Подкаталог]/
+
+
+
+///////////////////////////////////////
+///////////Получение данных////////////
+///////////////////////////////////////
+if (!$useCache) $this->cache->delete('key');
+
+return $this->cache->get('key', function (ItemInterface $item) {
+    $item->expiresAfter($lifetime);
+    return 'value';
+});
+
+//ВАЖНО!!!!
+//Метода "set" нету, т.к. кэш сеттится в колбеке $this->cache->get('key', $callback);

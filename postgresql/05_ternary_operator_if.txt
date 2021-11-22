@@ -1,3 +1,7 @@
+//if
+select case when ii.race = '' then 'unknown' else ii.race end
+
+//full query
 select
 distinct 'mkdir -p ' || ii.gender || '/' || CASE WHEN ii.race = '' THEN 'unknown' ELSE ii.race END || '/'
 from app_source s

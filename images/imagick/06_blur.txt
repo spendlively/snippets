@@ -1,0 +1,28 @@
+
+//Blur - reduce image noise and reduce detail levels
+//-blur geometry
+convert original.jpg -blur 0x5 result.jpeg
+display result.jpeg
+
+//Adaptive Blur - adaptively blur pixels; decrease effect near edges
+//-adaptive-blur geometry
+convert original.jpg -adaptive-blur 0x5 result.jpeg
+display result.jpeg
+
+
+//Geometry
+ - radius x sigma
+ - чем больше sigma, тем больше blur
+
+
+//Other blur
+ -motion-blur geometry - simulate motion blur
+ -radial-blur angle - radial blur the image
+ -selective-blur geometry - selectively blur pixels within a contrast threshold
+
+
+//deblur (sharpen)
+ -sharpen geometry - sharpen the image
+ -unsharp geometry - sharpen the image
+ -adaptive-sharpen geometry - adaptively sharpen pixels; increase effect near edges
+

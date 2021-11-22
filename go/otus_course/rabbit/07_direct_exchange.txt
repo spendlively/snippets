@@ -1,0 +1,72 @@
+
+////////////////////////////////////////////
+////Отправка сообщений в direct exchange////
+////////////////////////////////////////////
+err = ch.ExchangeDeclare(
+    "logs_direct", // name
+    "direct",      // type!!!
+    true,          // durable
+    false,         // auto-deleted
+    false,         // internal
+    false,         // no-wait
+    nil,           // arguments
+)
+
+err = ch.Publish(
+    "logs_direct",    // exchange
+    "alert",          // routing key!!!
+    false,            // mandatory
+    false,            // immediate
+    amqp.Publishing{
+        ContentType: "text/plain",
+        Body:        []byte("body"),
+    }
+)
+
+////////////////////////////////////////////////////
+//Несколько подписок на exchange с разными ключами//
+////////////////////////////////////////////////////
+err = ch.ExchangeDeclare(
+    "logs_direct", // name
+    "direct",      // type
+    true,          // durable
+    false,         // auto-deleted
+    false,         // internal
+    false,         // no-wait
+    nil,           // arguments
+)
+
+q, err := ch.QueueDeclare(
+    "",    // name
+    false, // durable
+    false, // delete when unused
+    true,  // exclusive
+    false, // no-wait
+    nil,   // arguments
+)
+
+for _, key := range []string{"alert", "error"} {
+    err = ch.QueueBind(
+        q.Name,        // queue name
+        key,           // routing key!!!
+        "logs_direct", // exchange
+        false,
+        nil
+    )
+}
+
+msgs, err := ch.Consume(
+    q.Name, // queue
+    "",     // consumer
+    true,   // auto ack
+    false,  // exclusive
+    false,  // no local
+    false,  // no wait
+    nil,    // args
+)
+
+go func() {
+    for d := range msgs {
+        log.Printf(" [x] %s", d.Body)
+    }
+}()

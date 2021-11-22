@@ -1,0 +1,3 @@
+
+//Длина строки
+SELECT LENGTH('CITY'); //4

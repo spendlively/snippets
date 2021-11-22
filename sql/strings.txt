@@ -1,0 +1,3 @@
+
+//Get last 3 characters of the name
+select right(name, 3)

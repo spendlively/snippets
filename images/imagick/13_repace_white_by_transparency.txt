@@ -1,0 +1,6 @@
+
+//1. Repace white by transparency
+convert original.jpg -trim result.png
+
+//2.
+convert original.jpg -transparent white -fuzz 50% result.png

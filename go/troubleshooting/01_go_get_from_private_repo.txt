@@ -1,0 +1,34 @@
+
+//Ошибка при попытке сделать go get из приватного репоза
+go get github.com/private/repo
+Username for 'https://github.com': username
+Password for 'https://spendmail@github.com': password
+go get: module github.com/private/repo: git ls-remote -q origin in /home/user/go/pkg/mod/cache/vcs/f80dfd701e73396909945t1dn948b536424298442bb6aa721562e69c4cf4c916d: exit status 128:
+	remote: Support for password authentication was removed on August 13, 2021. Please use a personal access token instead.
+	remote: Please see https://github.blog/2020-12-15-token-authentication-requirements-for-git-operations/ for more information.
+	fatal: Authentication failed for 'https://github.com/private/repo'
+
+
+
+//Решение:
+git config --global --add url."git@github.com:".insteadOf "https://github.com/"
+
+
+
+//Проверка
+nano ~/.gitconfig
+
+[user]
+        name = username
+        email = username@mail.ru
+[url "git@github.com:"]
+        insteadOf = https://github.com/
+
+
+
+//Источник
+https://stackoverflow.com/questions/32232655/go-get-results-in-terminal-prompts-disabled-error-for-github-private-repo
+со ссылкой на
+http://albertech.blogspot.com/2016/11/fix-git-error-could-not-read-username.html
+Также
+https://snippets.aktagon.com/snippets/909-fixing-go-get-and-terminal-prompts-disabled-when-pulling-private-and-public-repos-from-gitlab

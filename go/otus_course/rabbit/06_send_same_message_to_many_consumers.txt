@@ -1,0 +1,67 @@
+
+///////////////////////////////////////////
+//1. Создание широковещательного exchange//
+///////////////////////////////////////////
+err = ch.ExchangeDeclare(
+  "logs",   // name
+  "fanout", // type!!!
+  true,     // durable
+  false,    // auto-deleted
+  false,    // internal
+  false,    // no-wait
+  nil,      // arguments
+)
+
+/////////////////////////////////////////
+//////2. Создание временной очереди//////
+/////////////////////////////////////////
+//1. с рандомным именем
+//2. которая будет удалена сразу же после отсоединения получателя
+
+q, err := ch.QueueDeclare(
+  "",    // name!!! (использовать рандомное имя)
+  false, // durable
+  false, // delete when unused
+  true,  // exclusive!!! (удалить после дисконнекта)
+  false, // no-wait
+  nil,   // arguments
+)
+
+//Этот метод сгенерит случайную очередь вроде:
+amq.gen-JzTY20BRgKO-HjmUJj0wLg.
+
+/////////////////////
+/////3. Биндинг//////
+/////////////////////
+//Связываем exchange со временной очередью
+err = ch.QueueBind(
+  q.Name, // queue name!!!
+  "",     // routing key
+  "logs", // exchange name!!!
+  false,
+  nil,
+)
+
+///////////////////////////////
+/////4. Отправка в fanout//////
+///////////////////////////////
+err = ch.ExchangeDeclare(
+    "logs",   // name
+    "fanout", // type!!!
+    true,     // durable
+    false,    // auto-deleted
+    false,    // internal
+    false,    // no-wait
+    nil,      // arguments
+)
+
+err = ch.Publish(
+    "logs", // exchange!!!
+    "",     // routing key
+    false,  // mandatory
+    false,  // immediate
+    amqp.Publishing{
+        ContentType: "text/plain",
+        Body:        []byte(body),
+    }
+)

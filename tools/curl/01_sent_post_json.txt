@@ -1,0 +1,20 @@
+
+//Sent a simple json post
+
+//create
+curl --header "Content-Type: application/json" \
+--request POST \
+--data '{"id":1,"title":"first event","begin_date":"2021-11-15T15:42:31Z","end_date":"2021-11-16T16:42:31Z","description":"first event description","owner_id":1}' \
+http://localhost:8080/event/create
+
+curl --header "Content-Type: application/json" \
+--request POST \
+--data '{"id":1,"title":"first event","begin_date":"2021-10-21T12:42:31Z","end_date":"2021-10-21T12:42:31Z","description":"first event description","owner_id":1}' \
+http://localhost:8080/event/create
+
+
+curl --header "Content-Type: application/json" \
+--request POST \
+http://localhost:8080/event/day
+
+2021-10-21T14:42:31Z

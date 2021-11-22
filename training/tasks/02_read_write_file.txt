@@ -1,0 +1,19 @@
+
+//python
+with open('input.txt', 'r') as input_file:
+    res = sum(list(map(lambda x: int(x), input_file.read().replace('\n', '').split())))
+    with open('output.txt', 'w') as output_file:
+        output_file.write(str(res))
+
+
+//golang
+bytes, _ := ioutil.ReadFile("input.txt")
+var a, b int
+_, _ = fmt.Sscanf(string(bytes), "%d %d", &a, &b)
+_ = ioutil.WriteFile("output.txt", []byte(strconv.Itoa(a+b)), 0644)
+
+
+//php
+$input = fopen('input.txt', 'r');
+list ($a, $b) = fscanf($input, '%d %d');
+file_put_contents('output.txt', $a + $b);

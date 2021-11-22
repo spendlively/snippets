@@ -1,0 +1,6 @@
+//Simulate an oil painting
+//-paint radius
+convert original.jpg -paint 20 result.jpg
+
+//loop
+for i in {1..100}; do convert original.jpg -paint $i result_$i.jpg; done

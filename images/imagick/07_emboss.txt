@@ -1,0 +1,4 @@
+
+//Emboss an image
+convert original.jpg -emboss 10 result.jpeg
+display result.jpeg

@@ -28,3 +28,5 @@ SELECT 'down SQL query';
 //Применений миграций
 goose -dir migrations postgres "user=anthony password=anthony dbname=books sslmode=disable" up
 
+//Отмена миграций
+goose -dir migrations postgres "user=anthony password=anthony dbname=books sslmode=disable" down

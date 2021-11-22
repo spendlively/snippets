@@ -33,8 +33,7 @@ func main() {
 	mux.HandleFunc("/search", handler.Search)
 	mux.HandleFunc("/add", handler.AddItem)
 	server := &http.Server{
-		Addr:
-		":8080",
+		Addr:    ":8080",
 		Handler: mux,
 	}
 	log.Fatal(server.ListenAndServe())

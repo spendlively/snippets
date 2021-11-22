@@ -1,0 +1,61 @@
+//python
+one = input()
+two = input()
+str_map = {}
+
+for char in one:
+    if char not in str_map:
+        str_map[char] = 1
+    else:
+        str_map[char] += 1
+
+counter = 0
+for char in two:
+    if char in str_map:
+        counter += 1
+
+print(counter)
+
+////////////////////////////////////////////////////////
+
+//golang
+var a, b string
+_, _ = fmt.Scanf("%s\n%s", &a, &b)
+
+m := make(map[int32]int)
+for _, char := range a {
+    if _, ok := m[char]; ok {
+        m[char] = 1
+    } else {
+        m[char]++
+    }
+}
+
+var counter int
+for _, char := range b {
+    if _, ok := m[char]; ok {
+        counter++
+    }
+}
+
+fmt.Print(counter)
+
+////////////////////////////////////////////////////////
+
+$a = trim(fgets(STDIN));
+$b = trim(fgets(STDIN));
+
+$map = [];
+for ($i = 0; $i < strlen($a); $i++) {
+    $char = $a[$i];
+    $map[$char] = isset($map[$char]) ? $map[$char] + 1 : 1;
+}
+
+$counter = 0;
+for ($i = 0; $i < strlen($b); $i++) {
+    $char = $b[$i];
+    if (isset($map[$char])) $counter++;
+}
+
+print($counter);
+

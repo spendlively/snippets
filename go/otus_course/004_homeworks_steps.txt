@@ -48,6 +48,7 @@ go mod tidy
 //Проверка доступности модуля
 cd /tmp
 go get -v -d github.com/spendmail/otus_go_hw/hw01_hello_otus@hw01_hello_otus
+go get -v -d github.com/spendmail/otus_go_hw/hw12_13_14_15_calendar/test@hw15_calendar
 
 
 
@@ -73,7 +74,10 @@ go get -v -d github.com/spendmail/otus_go_hw/hw06_pipeline_execution@hw06_pipeli
 go get -v -d github.com/spendmail/otus_go_hw/hw07_file_copying@hw07_file_copying
 go get -v -d github.com/spendmail/otus_go_hw/hw08_envdir_tool@hw08_envdir_tool
 go get -v -d github.com/spendmail/otus_go_hw/hw10_program_optimization@hw10_program_optimization
-go get -v -d github.com/spendmail/otus_go_hw/github.com/spendmail/otus_go_hw/hw12_13_14_15_calendar@hw12_calendar
+go get -v -d github.com/spendmail/otus_go_hw/hw12_13_14_15_calendar@hw12_calendar
+go get -v -d github.com/spendmail/otus_go_hw/hw12_13_14_15_calendar@hw13_calendar
+go get -v -d github.com/spendmail/otus_go_hw/hw12_13_14_15_calendar@hw14_calendar
+go get -v -d github.com/spendmail/otus_go_hw/hw12_13_14_15_calendar@hw15_calendar
 
 
 
@@ -113,7 +117,7 @@ https://otus.ru/
                 Чат с преподавателем
 
 Здравствуйте!
-Pull Request: https://github.com/spendmail/otus_go_hw/pull/12
+Pull Request: https://github.com/spendmail/otus_go_hw/pull/15
 
 
 //8. Пройдите ревью и после одобрения пулл реквеста вмержите PR в master.

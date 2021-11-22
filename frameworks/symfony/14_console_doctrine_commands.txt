@@ -24,11 +24,8 @@ bin/console make:migration
 bin/console doctrine:migrations:migrate
 
 
-
-//Manual adding or removing from table migration_versions
-//IT DOES NOT ADD OR REMOVE ACTUAL MIGRATION, JUST MAKE A RECORD INTO MIGRATION_VERSIONS TABLE!!!
-bin/console doctrine:migrations:version 20200204081833 --add
-bin/console doctrine:migrations:version 20200204081833 --delete
-//for all migrations
-bin/console doctrine:migrations:version --add --all
-bin/console doctrine:migrations:version --delete --all
+//Отменить последнюю миграцию
+//Rollback last migration
+bin/console doctrine:migrations:list
+bin/console doctrine:migrations:migrate prev
+bin/console doctrine:migrations:list

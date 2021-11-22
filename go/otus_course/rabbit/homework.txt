@@ -1,0 +1,23 @@
+
+//Golang rabbitmq examples
+https://github.com/rabbitmq/rabbitmq-tutorials/tree/master/go
+
+//Запуск в докере (в первый раз)
+docker run -d --name rb -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+docker ps
+
+//Запуск в докере (во второй раз)
+docker run -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+docker ps
+
+//Адрес админки
+localhost:15672
+guest/guest
+
+//Админка: вкладки
+ - Overview - дашборд
+ - Connections - соединения
+ - Channels - открытые каналы
+ - Exchanges - созданные эксчейнджи
+ - Queues - очереди
+ - Admin

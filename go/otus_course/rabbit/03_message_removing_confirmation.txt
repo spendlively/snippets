@@ -1,0 +1,27 @@
+
+//Чтобы сообщение не было отмечено для удаления автоматически после отправки,
+//выставляем auto-ack = false в channel.Consume()
+msgs, err := ch.Consume(
+  q.Name, // queue
+  "",     // consumer
+  false,  // auto-ack!!!
+  false,  // exclusive
+  false,  // no-local
+  false,  // no-wait
+  nil,    // args
+)
+
+//И вызываем d.Ack(false) после обработки сообщения.
+go func() {
+  for d := range msgs {
+    log.Printf("Received a message: %s", d.Body)
+    dotCount := bytes.Count(d.Body, []byte("."))
+    t := time.Duration(dotCount)
+    time.Sleep(t * time.Second)
+    log.Printf("Done")
+    d.Ack(false)
+  }
+}()
+
+//таким обраом, если воркер, обрабатывающий сообщения, упадет,
+//после разрыва соединения с ним rabbitmq переотправит сообщение заново

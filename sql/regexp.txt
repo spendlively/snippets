@@ -1,0 +1,9 @@
+
+//Строки начинаются с гласных
+WHERE NAME REGEXP '^[aeiou]'
+
+//Строки заканчиваются гласными
+WHERE CITY REGEXP '[aeiou]$'
+
+//Строки НЕ начинаются с гласных
+WHERE CITY NOT REGEXP '^[aeiou]'

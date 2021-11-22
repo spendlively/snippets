@@ -22,3 +22,13 @@ http://localhost:8090/feed1.ffm
 
 ffplay -fflags nobuffer http://192.168.2.139:8090/live.flv
 ffplay http://192.168.2.139:8090/live.flv
+
+
+
+
+ffmpeg \
+-video_size 1920x1080 -framerate 30 -f x11grab -draw_mouse 0 \
+-i :0.0 -f pulse -i alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp__sink.monitor \
+-acodec aac -strict experimental \
+-c:v libx264 -preset ultrafast -profile:v baseline -pix_fmt yuv420p \
+output.mp4

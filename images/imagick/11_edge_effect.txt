@@ -1,0 +1,4 @@
+
+//edge
+convert original.jpg -edge 1 result.jpeg
+display result.jpeg

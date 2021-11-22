@@ -1,0 +1,17 @@
+
+//Negative
+convert original.jpg -negate result.jpeg
+display result.jpeg
+
+//Only blacks and whites
+convert original.jpg -monochrome result.jpeg
+display result.jpeg
+
+//Grayscale
+convert original.jpg -colorspace Gray result.jpeg
+display result.jpeg
+
+//rgb, srgb
+convert original.jpg -colorspace Rgb result.jpeg
+convert original.jpg -colorspace Srgb result.jpeg
+display result.jpeg
