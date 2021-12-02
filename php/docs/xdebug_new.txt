@@ -1,0 +1,118 @@
+
+//Локальная отладка в phpstorm с использованием xdebug
+
+///////////////////////
+//1. Установка xdebug//
+///////////////////////
+sudo apt update
+sudo apt install php-xdebug
+
+////////////////////////////////////////
+//2. Включить xdebug.remote_enable = 1//
+////////////////////////////////////////
+sudo nano /etc/php/7.4/fpm/php.ini
+[xdebug]
+xdebug.remote_enable=1
+
+//Перезапуск php
+sudo systemctl reload php7.4-fpm.service
+
+////////////////////////////////////////////////
+//3. Проверка, что xdebug установлен и включен//
+////////////////////////////////////////////////
+grep "xdebug" -R /etc/php/
+дожно вывести:
+/etc/php/7.4/apache2/conf.d/20-xdebug.ini:zend_extension=xdebug.so
+/etc/php/7.4/cli/conf.d/20-xdebug.ini:zend_extension=xdebug.so
+/etc/php/7.4/fpm/conf.d/20-xdebug.ini:zend_extension=xdebug.so
+/etc/php/7.4/fpm/php.ini:[xdebug]
+/etc/php/7.4/fpm/php.ini:xdebug.remote_enable=1
+/etc/php/7.4/mods-available/xdebug.ini:zend_extension=xdebug.so
+=========
+<?php
+phpinfo();
+=========
+php -S 0.0.0.0:9876
+=========
+//открыть в браузере:
+localhost:9876
+=========
+//проверить значения след. параметров:
+xdebug
+xdebug support: Version
+enabled: 2.9.2
+xdebug.remote_port:	9000	9000
+xdebug.remote_enable	On	On
+
+/////////////////////////
+//4. Настройка PhpStorm//
+/////////////////////////
+//Настройка параметров интерпретатора
+->Settings->PHP
+PHP language level: 7.4
+CLI interpreter: PHP 7.4
+CLI interpreter->...
+//Убедиться что есть лейбл
+Debugger: Xdebug 2.9.2
+=================
+//Настройка параметров xdebug
+->Settings->PHP->Debug
+XDebug
+Debug Port: 9000,9003 (как в phpinfo xdebug.remote_port)
+[галочка] Resolve Breakpoint
+[галочка] Force break at first line when no path mappings specifies
+[галочка] Force break at first line when script is outside the project
+==================
+//Создание конфигурации для запуска/дебага
+->Run->Edit Configurations
+[+] Add new configuration -> PHP Web Page
+Name: PHPWebPageDebug
+Server: aws.loc (адрес веб-приложения)
+Start URL: /scaling-group/list (роут конкретной страницы которую нужно дебажить)
+
+//Валидация файла конфигурации для запуска/дебага
+Debug pre-configuration->validate
+Path to create validation script: /home/spendlively/vhosts/awsconsole/public
+Url to validation script: http://aws.loc:80
+[press button validate]
+
+//Если валидация фейлится:
+1. создать файл /home/spendlively/vhosts/awsconsole/public/test.php
+<?php
+phpinfo();
+2. Убедиться, что файл открывается в браузере
+http://aws.loc:80/test.php
+//Если нет, настройте nginx, чтобы он проксировал запрос к файлам в php-fpm
+#location ~ \.php$ {
+#    return 404;
+#}
+location ~ \.php$ {
+    fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+    fastcgi_split_path_info ^(.+\.php)(/.*)$;
+    include fastcgi_params;
+    fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+    fastcgi_param DOCUMENT_ROOT $realpath_root;
+}
+
+//////////////
+//5. Отладка//
+//////////////
+1. Поставить breakpoint
+2. Включить прослушивание порта для соединения с xdebug
+->Run->Start Listening for PHP Debug Connections
+//Проверка
+sudo netstat -netulap | grep 9000
+tcp6 0 0 :::9000 :::* LISTEN 1000 4715388 713448/java
+3. Запустить
+->Run->Debug (Alt+Shift+F9)
+(выбрать ранее созданную конфигурации PHPWebPageDebug)
+
+В браузере откроется урл, в PhpStorm запустится debug в нужной точке
+
+/////////////////////
+//6. ЗАПУСК ВРУЧНУЮ//
+/////////////////////
+//Чтобы запустить дебаг вручную,
+без использования run/debug конфигурации
+можно просто добавить к запросу GET-параметр:
+?XDEBUG_SESSION_START=13975

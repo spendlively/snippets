@@ -18,3 +18,15 @@ ffprobe -i input.mp4 -show_streams -print_format json -v error
 ffprobe -v quiet -show_entries format=duration -of default=noprint_wrappers=1 audio.flac
 ffprobe -v quiet -show_entries format=duration,size -of default=noprint_wrappers=1 audio.flac
  - вывести только нужные параметры
+
+//Get video resolution
+ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 input.mp4
+
+//HDR video detection
+//Looking for BT.2020
+mediainfo video.mp4 --Inform="Video;%colour_primaries%"
+mediainfo video.mp4 | grep "BT.2020"
+
+//Looking for "color_primaries": "bt2020",
+ffprobe -v error -show_streams -select_streams v:0 -of json -i test.mp4
+ffprobe -v error -show_streams -select_streams v:0 -of json -i test.mp4 | grep color_primaries
