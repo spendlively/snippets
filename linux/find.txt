@@ -1,3 +1,7 @@
 
 //find filnames only (basenames)
 find ./ -type f -printf "%f\n"
+
+//find and exec
+find ./ -exec ls -al {} \;
+//executes commands: ls -al filename;

@@ -1,0 +1,238 @@
+
+//5 categories of resources
+//1. Compute services
+//2. Networking services
+//3. Storage services
+//4. Database services
+//5. Azure Marketplace
+
+///////////////////////
+//1. Compute services//
+///////////////////////
+ - Virtual machines (VM)
+ - App Services (Web Apps)
+ - Azure Container Instances (ACI)
+ - Azure Kubernates Service (AKI)
+ - Windows Virtual Desktop
+ - Functions (Serverless)
+ - Scale Sets
+
+//Virtual machines (VM)
+ - IaaS
+ - Windows & Linux
+ - over 200 options to choose
+ - CPU cores, CPU speed, RAM, Disk, IOPS
+
+//App Services (Web Apps)
+ - PaaS
+ - plan types: basic, standard, premium
+ - levels: standard 1, standard 2, ...
+ - DON'T chose CPU, RAM, ...
+
+//Containers
+ - Azure Container Instances (ACI)
+ - Azure Kubernates Service (AKI)
+ - VM and Web Apps also can be used with conteiners
+
+//Windows Virtual Desktop
+ - provide access from web browser, ios and android
+
+//////////////////////////
+//2. Networking services//
+//////////////////////////
+//Types
+//1. Connectivity services
+ - how apps are connected to each other
+ - virtual network
+ - VPN
+ - ExpressRoute
+    - high speed private connection
+    - similar to VPN
+    - you have to buy it in advance
+    - DOES NOT run on the public internet
+
+//2. Protection services
+ - protecting attacks and denial services
+ - DDos protection - it is for FREE
+ - Azure firewall
+ - Network Security Groups - provides ACL (simple and NOT smart)
+ - Private Link - form protection of a network?
+
+//3. Delivery services
+ - helps to deliver resources to end users
+ - Load Balancer
+ - Application Gateway - higher level of Load Balancer with optional firewall
+ - CDN - way of storing static files
+ - Azure Front Door Service - load balancer, CDN and firewall ALL-IN-ONE
+
+//4. Monitoring services
+ - watching traffic, logs, audit
+ - Network watcher
+ - ExpressRoute monitor
+ - Azure Monitor
+
+
+//////////////////////////////
+//Creating a virtual network//
+//////////////////////////////
+Select a Resource Group
++ Add -> Virtual Network -> Create
+
+//Basics
+//Project Details
+ - Subscription - select sub
+    - Resource Group - select group
+//Instance Details
+ - Name - firstvnet
+ - Region - must be in the same region
+
+//IP Addresses
+ - IP Addresses space - ex.: 10.2.0.0/23
+
+//Security
+ - Bastion Host - disable
+ - DDos Protection Standard - disable (additional protection NOT free)
+ - Firewall - disable
+
+//Tags
+ - Name
+ - Value
+
+//Review + Create
+
+
+//////////////////////////////
+//Creating a virtual machine//
+//////////////////////////////
+Select a Resource Group
++ Add
+//Popular
+ - Windows Server 2016
+ - Ubuntu Server 18.04
+
+//Create a virtual machine
+//Basics
+//Project Details
+ - Subscription - select sub
+    - Resource Group - select group
+//Instance Details
+ - Virtual machine name - virstvm
+ - Region - must be the same
+ - Availability options - no infrastructure redundancy required
+ - Image
+ - Azure Spot Instance
+ - Size - select machine hardware type
+//Administrator account
+ - Username - windows username
+ - Password - windows username'n password
+ - Confirm Password
+//Inbound Port Rules
+ - public inbound ports - allow selected ports
+ - select inbound ports - rdp 3389
+
+//Discs
+ - OS Disk type
+ - Encryption type
+//Networking
+//Management
+//Advanced
+//Tags
+//Review and create
+
+///////////////////////
+//3. Storage services//
+///////////////////////
+ - Container (Blob) Storage
+ - Disk Storage
+ - File Storage
+ - Storage Tiers
+
+//Azure Storage Account (3 different types)
+//1. General Purpose v2 gpv2 (main)
+//2. General Purpose v1 gpv1 (legacy)
+//3. Blob storage (legacy)
+
+//General Purpose v2 gpv2 (main)
+//can contain 4 types of files
+ - Container (Blob) Storage
+ - Tables
+ - Queues
+ - File Storage
+
+1Gb worth 0.1$/month
+
+//Options
+ - access tiers - hot (default), cool (rare access to files - cheaper), archive (cheapest but slow)
+ - performance tiers - standard or premium
+ - location - different regions have different prices
+ - redundancy / replication - allows to have a backup in another region
+ - failover options
+    - setting up a failover allows you to get files in different region in case of go down
+
+//Disk Storage
+ - pay for reservation
+
+//////////////////////////
+//Create Storage Account//
+//////////////////////////
+Dashboard -> + -> Storage Account
+
+//Basics
+//Project Details
+ - Subscription - select sub
+    - Resource Group - select group
+//Instance Details
+ - Storage account name - name
+ - Location - (US) East US 2
+ - Performance - standard (slower and cheaper than Premium)
+ - Account kind - StorageV2 (general purpose v2)
+ - Replication - Locally Redundant Storage (LRS) - cheaper
+
+//Networking
+ - Connectivity method - public endpoint
+//Data Protection
+//Advanced
+//Tags
+
+
+////////////////////////
+//4. Database services//
+////////////////////////
+ - Cosmos DB
+ - Azure SQl Database
+ - Azure Database for MySQL
+ - Azure Database for PostgreSQL
+ - SQL Managed Instance
+
+//Cosmos DB
+ - NoSQL storage
+ - proprietary
+ - schema-agnostic
+ - horizontally scalable
+ - Fully Compatible with MongoDB and Cassandra
+
+//Azure SQl Database
+ - relational db
+ - easy to scale
+ - easy to replicate
+ - easy to migrate from sql server
+
+//Azure Database for MySQL
+ - mysql implementation
+
+//Azure Database for PostgreSQL
+ - better support for clusters
+
+//SQL Managed Instance
+ - most compatible with sql server
+
+////////////////////////
+//5. Azure Marketplace//
+////////////////////////
+
+
+
+
+
+
+

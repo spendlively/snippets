@@ -1,0 +1,53 @@
+//Role-Based Access Control (RBAC)
+ - create role
+ - define permissions to particular role
+ - assign role to user
+
+//Predefined roles
+ - reader - can access the resource but can't change
+ - contributor - read/write
+ - owner - read/write + can grant permissions
+
+//Lock
+ - allows to lock resources or groups
+ - putting lock onto resources protects them from accidents
+ - vms -> vm -> locks
+
+//Resource Tags
+ - mete data associated with resource
+
+//////////////
+//Governance//
+//////////////
+//Policy
+//Search for built-in policy
+Dashboard -> Policy
+Search field: "resource location"
+Click on Definition's name you need: "Audit resource location matches resource group location"
+Json will be opened...
+
+//Check the rules
+json.policyRule.if.field
+json.policyRule.if.notIn
+json.policyRule.then.effect
+(this is just a reporting policy, user can accept and continue)
+
+//Assign policy
+ - Assign button
+ - select scope
+ - add assignment name
+ - add description
+ - create btn
+
+
+//Azure Blueprints
+ - set of templates you can create
+ - contains users, roles, policies
+ - when create a new subscription you can create it from a blueprint
+ - dashboard -> Policy -> Blueprints (preview) -> Blueprints definitions -> Create Blueprint
+
+//Cloud Adoption Framework
+ - set of documentation, guidance, tools
+ - best practices for working in the cloud
+
+

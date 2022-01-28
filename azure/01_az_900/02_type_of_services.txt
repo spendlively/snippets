@@ -1,0 +1,68 @@
+
+IaaS
+ - Infrastructure as a Service
+ - you have a virtual machine (win/linux) you can do whatever you want
+ - includes networking, load balancers, firewalls
+ - NOT includes software like databases
+
+PaaS
+ - Web Apps or ASP-services
+ - Platform as a Service
+ - first layer above IaaS
+ - allows to upload code
+ - sql servers
+ - without access to hardware
+ - without network setting
+ - provides tiers and plans to choose
+ - scaling is yours responsibility
+
+SaaS
+ - Software as a Service
+ - second layer above IaaS
+ - you're not uploading code
+ - google drive, google docs, office 365
+ - provides access via web browsers
+
+Shared responsibility model
+ - determines reliability of each services
+
+Serverless model
+ - provides less access to the server than PaaS (NO service plans)
+ - provider takes scaling responsibility
+ - you may pay 0$ if you don't use the service
+ - you pay by cpu utilization or even data utilization
+ - Serverless offers:
+    - compute - azure functions
+    - compute - serverless kubernates
+    - database - azure sql database serverless
+    - database - cosmos db serverless
+
+//Cloud Types
+Public cloud
+ - microsoft owns the hardware
+ - you're renting services
+Private cloud
+ - customer has exclusive access to the hardware
+Hybrid cloud
+ - combination of public cloud and your private hardware
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

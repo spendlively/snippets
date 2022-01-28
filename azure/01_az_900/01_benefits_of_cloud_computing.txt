@@ -1,0 +1,20 @@
+////////////////////////////////////
+//Describe Cloud Concepts (20-25%)//
+////////////////////////////////////
+//Benefits of using cloud services
+ - 1. cost savings
+ - 2. agility - ability to respond rapidly to the marketplace
+ - 3. high availability 99.99%
+ - 4. security
+ - 5. global reach
+ - 6. range of ready on-demand services
+ - 7. range of tools
+ - 8. scalability - ability to add capacity
+ - 9. elasticity - ability to automatic grow and shrink
+ - 10. disaster recovery - ability to recover from failure
+ - 11. Capital expenditure (CapEx) - money invested in assets like computers
+ - 12. Operational expenditure (OpEx) - money spent every day on operating expenses
+ - 13. consumption based model
+  - pay per minute
+  - pay per hour
+  - pay per execution

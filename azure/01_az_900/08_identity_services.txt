@@ -1,0 +1,34 @@
+
+//Azure Identity Services
+ - describes how to identify people
+
+//Identity
+ - representation of person, application or device
+ - requires password, secret key or certificate to prove
+
+//Azure Active Directory (AD or AAD)
+ - Azure Active Directory is not the same as Windows Active Directory
+ - AAD provides identity as a service
+ - returns token by given username and password
+ - standards: SAML, OpenID, WS Federation
+
+//Benefits of Azure Active Directory
+ - security
+ - reduces development time, easy support
+ - centralized dashboard
+ - only one userID and password - single sign-on
+ - integration with other azure services
+
+//Azure AD Conditional Access
+ - authentication - user proving who they are - by user id and password
+ - authorization - ensuring that user has a permission to perform the action
+ - complete solution for managing uses, groups and roles
+
+//Conditional Access
+ - can detect suspicious log-in and suggest
+
+//Multi-factor Authentication (MFA)
+ - password
+ - mobile phone, email
+ - fingerprint
+

@@ -1,0 +1,58 @@
+
+Regions
+ - 60+ geographical locations
+ - not every region is available to everyone
+
+Region Pairs
+ - each region has a different region as a pair
+ - azure provides a highest speed between paired regions
+ - microsoft never deploys to paired regions at the same time
+ - if multiple regions went down one region of each pair will be recovered with high priority
+ - paired region can be used for backup
+
+Availability zones
+ - each region has multiple availability zones inside
+ - each zone has it's own heating, cooling, power and network
+ - if you deploy to a different zones - you increasing the likelihood of your application staying up
+ - specify exact data center in a region!!!
+
+/////////////////////////////////
+//Hierarchy of azure components//
+/////////////////////////////////
+ - Management Groups
+    - Subscriptions
+        - Resource Groups
+            - Resources
+
+Management Groups
+ - can be nested
+ - group of the subscriptions with the same rules
+ - stands for separate organization?
+
+Subscriptions
+ - a billing unit (level of billing)
+ - contains you credit card info
+ - all of the resources are created under the subscription
+ - you can create multiple subscriptions
+ - you can be an owner more than one subscriptions with different levels of access
+ - when you create a resource you choose which subscription gets charged
+
+Resource Groups
+ - folder structure for resources
+ - logical grouping for related groups
+ - when creating RG you choose subscription and region for resources
+
+Azure Resources
+ - instance of some azure service (VM, ...)
+
+Azure Resource Manager (ARM)
+ - this is how azure deals with resources behind the scenes
+ - there are 3 ways to interact with azure (they all go through ARM API)
+
+//Free azure account
+ - azure.microsoft.com/en-us/free/
+ - you can use 200$ for 30 days
+ - plus 12 month of popular free services
+ - plus 25+ always free services
+
+

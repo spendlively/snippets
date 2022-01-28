@@ -1,0 +1,85 @@
+
+//////////////////////////////////////
+//Internet of things solutions (IoT)//
+//////////////////////////////////////
+//IoT Hub
+ - receiving data from devices
+
+//IoT Central
+
+//Azure Sphere
+ - secure silicon chip
+ - sphere OS
+ - cloud based security services
+
+
+//////////////////////
+//Big Data Solutions//
+//////////////////////
+ - designed to pull in massive quantities of data
+ - run reports on that data
+
+//Azure Synapse Analytics
+ - formerly SQL Data Warehouse
+
+//HDInsight
+//Contains other services available in azure in a managed form (SaaS and PaaS)
+ - Apache Hadoop
+ - Apache Spark
+ - Apache Hive
+ - Apache Kafka
+ - Apache Storm
+
+//Azure Databricks (open source)
+ - data analytics platform (managed by azure)
+ - modern one platform for many areas of your organization
+ - includes notebooks with python
+
+
+////////////////
+//AI Solutions//
+////////////////
+//Azure machine learning
+//Cognitive Services
+//Azure Bot Service
+ - natural language chat-bot service
+ - data base of frequently asked questions
+ - front end that allows people to ask the questions
+ - can be used on your web site
+
+
+///////////////////
+//Azure Functions//
+///////////////////
+ - serverless pieces of code hosted within azure and can be run by trigger
+ - by timer
+ - by data change
+ - by file that's been stored
+
+//Event Grid
+ - serverless
+ - triggers a function
+ - it's configurable but not programmable
+
+//Create functions
+Dashboard -> Function App -> Create
+
+//////////////
+//Logic Apps//
+//////////////
+ - serverless
+ - allows to make workflow with multiple steps
+ - supports logic: if/then/else
+ - can use azure functions
+
+//To create
+Dashboard -> + -> Logic App
+
+
+//////////////////////////
+//Azure DevOps Solutions//
+//////////////////////////
+//Azure DevOps
+//Github
+//Github Actions
+//Azure DevTest Labs

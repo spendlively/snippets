@@ -1,0 +1,23 @@
+
+//What is the principle of Economies of Scale?
+The more of something you buy, the cheaper it is own and operate per unit.
+
+//The Azure Storage platform includes data services to aid in satisfying specific workflows.
+//One of these data services is Azure Files.
+//What does Azure Files offer?
+//And what example use case is this service a good selection?
+Azure Files service offers fully managed cloud file shares that you can access from anywhere;
+Use case - storing development tools needed to be accessed from many virtual machines
+
+//What types of attacks can a Web Application Firewall (WAF) protect from?
+ - Cross Site Scripting (XSS) attacks
+
+//What benefit does Multi-Factor Authentication give to enhance user security?
+What benefit does Multi-Factor Authentication give to enhance user security?
+
+//What is Microsoft's Service Level Agreement for single instance Virtual Machines running with premium OS disks and data disks?
+99.9%
+
+
+
+

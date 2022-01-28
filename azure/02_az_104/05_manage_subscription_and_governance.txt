@@ -1,0 +1,75 @@
+
+//Account
+ - user or organization
+ - accounts - assigned roles within the tenant
+
+//Tenant
+ - company
+
+//Subscription
+ - billing agreement with microsoft
+ - types: free, pay-as-you-go, enterprise
+
+//Resource Group
+ - collection of resources in a subscription
+
+Tenant
+    Subscriptions
+        Resource Groups
+
+//Add role assignment
+Subscriptions -> [subs] -> Access Control (IAM)
+ - Find user by name or email and check his roles
+ - in block "Grant access to this resource" press btn "Add role assignment"
+ - select role, next, select members, next, review and assign
+
+//3 core roles
+ - owner - contributor + granting permissions
+ - contributor - Grants full access to manage all resources,
+but does not allow you to assign roles in Azure RBAC,
+manage assignments in Azure Blueprints, or share image galleries.
+ - reader - read only
+
+
+///////////////////
+//Cost Management//
+///////////////////
+Subscriptions -> Subscription -> Cost Analysis
+You can group your costs by tag
+Tag can be assigned to almost any resource
+
+//Assigning tags to resource
+Home -> App Services -> [select]
+Tags -> add tags
+Add tag
+press save
+
+
+///////////////////
+//Resource Groups//
+///////////////////
+ - folder for resources
+ - can't be nested
+ - resource group deleting will delete all of resources inside
+
+Resource Groups -> [Group] -> Deployments
+ - history of activities
+
+Resource Groups -> [Group] -> Locks
+ - allow to prevent from making changes
+ - resource level locks
+ - resource group level locks
+ - lock types: delete (prevents deleting), read-only (prevents stop/start/modify)
+ - press + Add for adding
+
+
+
+
+
+
+
+
+
+
+
+

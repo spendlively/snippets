@@ -1,0 +1,33 @@
+
+//////////////
+//Networking//
+//////////////
+//Connectivity
+ - virtual network (vnet)
+ - virtual wan (wide area network - allows offices to connect to each other)
+ - ExpressRoute - private internet, encrypted and faster than vpn
+ - vpn gateway
+ - azure dns
+ - peering - way o connecting multiple networks together
+ - bastion - remote desktop to a server WITHOUT rdp (more secure version of rdp)
+
+//Security
+ - network security groups (nsg) - acl
+ - azure private link - turning public endpoints to private endpoints
+ - ddos protection - basic (free, default), standard (intelligent)
+ - azure firewall
+ - web application firewall (waf) - recognizes top 20 web attacks, XSS, SQL injection, ...
+ - virtual network endpoints
+
+//Delivery
+ - CDN - content delivery network
+ - azure front door - global load balancer
+ - traffic manager - hack around dns, allows to distribute traffic around the world
+ - application gateway - application level (level 7) load balancer
+ - load balancer - transport level (level 4) load balancer
+
+//Monitoring
+ - network watcher
+ - ExpressRoute monitor
+ - azure monitor
+ - vnet terminal access point (TAP)

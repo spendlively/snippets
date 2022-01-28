@@ -1,0 +1,21 @@
+
+//Predictable CLI
+https://docs.microsoft.com/ru-ru/cli/azure/service-page/list%20a%20-%20z?view=azure-cli-latest
+
+//Principle
+az [service_name] [verb]
+az [service_name] [sub_service_name] [verb]
+az [service_name] [sub_service_name] [sub_sub_service_name] [verb]
+
+//Example
+az vm list
+az vm create
+az vm delete
+
+//Power Shell
+Verb-ServiceName
+
+//Examples
+Get-AzVM
+New-AzVM
+Remove-AzVM

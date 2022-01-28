@@ -1,0 +1,31 @@
+
+//Trusted Cloud
+ - it's about how microsoft attain following tenets?
+ - Security
+ - Privacy
+ - Compliance
+ - Resiliency and Reliability
+ - Intellectual Property (IP) Protection
+
+//Microsoft Privacy Statement
+ - how microsoft uses data
+
+//Online Service Terms (OST)
+ - ?
+
+//Data Protection Addendum (DPA)
+ - how microsoft handle your data
+ - where microsoft stores your data
+
+//Trust Center
+ - following security standards
+ - GDPR - General Data Protection Regulation - allows UA citizens having more control over their data
+ - ISO - International Organization of Standardization -
+ - NIST - Cybersecurity Framework
+
+//Sovereign Regions
+ - you need to have separate account to have access to some regions
+
+//Azure China
+ - data remains in china
+

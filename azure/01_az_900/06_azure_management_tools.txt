@@ -1,0 +1,29 @@
+
+//Azure Tools
+
+//Azure CLI
+//PowerShell
+//Azure Portal
+//Azure Cloud Shell
+//Azure Mobile App
+ - allows to monitor health and statuses of the resources
+ - run commands
+ - start, stop, restart servers
+
+//Azure Advisor
+ - dashboard -> advisor
+ - allows to run and analyse actual usage of azure
+ - such: high availability, security, performance, operational excellence, cost
+
+//ARM Templates (Azure Resources Manager)
+ - json config describes resources information
+ - allows to store and to change configuration by changing json config
+
+//Azure Monitor
+ - centralized dashboard for most of your resources
+ - FREE
+
+//Azure Service Health
+ - kind of azure monitor for azure internal issues monitoring
+ - allows to subscribe with sms and emails on particular region alerts you interested in
+ - Service Health -> Create alert rule

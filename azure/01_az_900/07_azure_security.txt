@@ -1,0 +1,51 @@
+
+///////////////////////////
+//Azure Security Features//
+///////////////////////////
+//Azure Security Center
+ - security system that monitors and protects your system inside and outside of Azure
+ - shows where you should to pay your attention
+ - dashboard -> Security Center
+
+
+//Key Vault
+ - repository for secrets, certificates and keys
+ - so your app can access this secrets instead of holding them in files?
+
+//Azure Sentinel
+ - allows to centralize all your logs from different locations and analyze them
+to detect active threats
+ - if somebody logging in it can trigger some type of alert
+
+//Azure dedicated hosts
+ - allows to ask azure to dedicate hardware directly for you
+ - works for resources such vm or network
+
+//////////////////////////
+//Azure Network Security//
+//////////////////////////
+//Defence in depth
+ - enforcing security all the way from the beginning to the end
+ - multiple points of checking instead of one single point
+
+//Security Levels
+ - Data - virtual network endpoint
+ - Application - API Management
+ - Compute - Limit Remote Desktop Access
+ - Network - NSG, subnets usage, deny by default
+ - Perimeter - DDoS, firewalls
+ - Identity & Access - Azure AD
+ - Physical - Door locks and key cards
+
+//NSG, Firewall and DDoS protection
+//NSG - Network Security Group
+ - network divides into frontend subnets and backend subnets
+ - different security rules for each of those
+ - list of ip, ports, sources and destinations that are allowed
+
+//Azure Firewall
+ - includes intelligent service for detecting suspicious behavior
+
+//DDoS Protection
+ - basic plan
+ - standard plan

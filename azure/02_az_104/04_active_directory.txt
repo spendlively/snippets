@@ -1,0 +1,151 @@
+
+//MFA
+ - AD multifactor authentication (MFA)
+//Account / User
+ - representation of person or program
+ - Person: username, password, multi-factor auth
+ - App - Managed Identity - represents a program or service
+ - basics for authentication
+
+//Tenant
+ - representation of organization
+ - usually represented by public domain name - example.com
+ - you cannot assign the same domain for multiple tenants
+ - can have 0 or more that 1 subscriptions
+ - more that 1 account can be the owner in a tenant
+
+//Subscription
+ - billing arrangement
+ - types of subs.: free, pay-as-you-go, enterprise subs
+ - subscriptions can be assigned to tenants
+ - but tenant can has NO subscriptions (and therefore can not create any resources)
+
+//Resource Group
+
+////////
+//Test//
+////////
+1. Your company wants to implement Multi-factor authentication by using conditional access policies.
+Which of the following would they need to carry out to achieve this requirement?
+ - Upgrade the Azure AD licenses to Premium P1
+The first pre-requisite for using conditional access policies is to ensure that Premium licenses are in place.
+
+2. When adding custom domain names, which of the following record needs to be added to your custom domain registrar?
+ - TXT record.
+
+3. You have configured Azure AD Connect for Azure Active Directory Seamless Single Sign-On
+(Azure AD Seamless SSO) for an on-premises network for your company.
+Users are reporting that when they attempt to access myapps.microsoft.com,
+they are prompted multiple times to sign in and are forced
+to use an account name that ends with onmicrosoft.com.
+You discover that there is a UPN mismatch between Azure AD and the on-premises Active Directory.
+You need to ensure that the users can use single-sign-on (SSO) to access Azure resources.
+What should you do first?
+ - From Azure AD, add and verify a custom domain name.
+
+
+
+//Creating a group
+Azure Active Directory -> Groups -> New Group
+Group type: Security
+Group name: developers
+Group description: any desc
+Membership type: Assigned
+
+//Creating a User (internal user)
+Azure Active Directory -> Users -> New User
+User Name: test@domainname.onmicrosoft.com (domain must be internal, or verified by AD)
+Name: test
+Groups: developers
+
+//Creating a Guest User (external user)
+Azure Active Directory -> Users -> New Guest User
+Name: guest
+Email Address: external@mail.ru
+Personal message: inviting message
+Groups: developers
+
+//////////////////////////
+//Manage AD objects test//
+//////////////////////////
+1. What kind of account would you create to allow an external organization easy access?
+ - A guest user account for each member of the external team.
+2. What is the default domain name before a custom domain is created?
+ - companyname.onmicrosoft.com
+3. When you enable SSPR for your Azure AD organization...
+ - Users can reset their passwords when they can't sign in.
+4. When is a user considered registered for SSPR?
+ - When they've registered at least the number of methods that you've required to reset a password.
+
+
+///////////////////////////////////////////
+//Manage role-based access control (RBAC)//
+///////////////////////////////////////////
+//Available roles list
+Azure Active Directory -> Roles and administrators
+ ... -> Description - role's permissions list
+
+//Assign role to user
+Azure Active Directory -> Assignments -> + Add assignments
+//or add to particular user
+Azure Active Directory -> Users -> [select user] -> Assigned roles -> + Add assignments
+//or add to particular resource
+Home -> Resource Groups -> [select group] -> Access Control (IAM) -> Role Assignments -> + Add
+
+//Creating custom RBAC roles (needs premium: P1 or P2)
+Azure Active Directory -> Roles and administrators -> + New Custom Role
+//or create a custom role for resources
+Home -> Resource Groups -> [select group] -> Access Control (IAM)
+Create a custom role -> Add
+//3 ways to create custom role for resource group
+ - clone a role
+ - start from scratch
+ - start from JSON
+
+//clone a role
+ - select a role -> next
+ - delete superfluous permission
+ - permission/* - star means everything underneath
+ + exclude permissions
+ - check json
+ - create
+
+
+/////////////
+//Test RBAC//
+/////////////
+1. A company has setup an Azure subscription and a tenant.
+They want to ensure that only Virtual Machines of a particular SKU size can be launched in their Azure account.
+They decide to implement Role Based access control.
+Does this fulfil the requirement?
+ - No
+Role-based access control (RBAC) helps you manage who has access to Azure resources,
+what they can do with those resources, and what areas they have access to.
+
+2. Your company has an Azure account and an Azure subscription.
+They have created a Virtual Network named softwarearchitect-net. The following users have been setup:
+   User1: Owner
+   User2: Security admin
+   User3: Network Contributor
+Which of the following users would be able to add a subnet to the Virtual Network?
+ - User1 and User3 only
+If you look at the Network Contributor Role, they have access to manage Virtual Networks.
+And then by default the Owner will have all privileges over Azure resources.
+
+3. Your company has an Azure subscription and an Azure tenant called softwarearchitect.
+A group called softwarearchitect-dev has been created in the tenant.
+This group will consist of Azure AD users who will take on a developer role.
+You need to ensure that the group has the ability to manage Logic Apps in Azure.
+   You decide to assign the Logic App Contributor role to the group.
+   Would this solution fulfil the requirement?
+ - Yes
+If you look at the permissions for the in-built roles for Logic Apps,
+you can see that the role has the permissions for managing Logic App resources
+
+
+
+
+
+
+
+

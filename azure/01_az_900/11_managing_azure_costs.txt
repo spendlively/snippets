@@ -1,0 +1,72 @@
+
+//Factors affecting costs
+
+//Free Services
+ - Resource Groups
+ - Virtual Networks (up to 50)
+ - Load Balancer (basic)
+ - Azure Active Directory (basic)
+ - Network Security Groups
+ - Free-tier Web Apps (up to 10)
+ - inbound bandwidth is free
+
+//Opportunity for cost savings
+//Azure Functions
+ - 1 million execs free per month
+ - 0.2$ per million executions
+ - cheapest VM is 20$ per month
+
+//Pay Per Usage Services
+ - Functions
+ - Logic Apps
+ - Storage (pay per Gb)
+ - Outbound bandwidth - traffic gigabytes leaving azure
+ - Cognitive Services API
+
+//Pay for time
+ - billing stops when vm is stopped (pay per seconds)
+
+//Pay for bandwidth
+ - first 5 Gb is free (outbound data)
+ - inbound bandwidth is free
+ - different costs for different zones
+ - 1 PB of data transfer costs 50K$
+
+//Saving Money
+ - Azure Adviser Cost Tab
+ - auto shutdown on dev/qa resources (after 10pm for example)
+ - utilize cool/archive storage
+ - reserved instances for 1 year or even more (20-30%)
+ - setting billing alerts
+ - policy to restrict access to expensive resources
+ - auto scaling
+ - downsize resources
+
+//Spot Pricing
+
+//Pricing Calculator
+azure.microsoft.com/en-ca/pricing/calculator/
+azure.microsoft.com/en-ca/pricing/tco/calculator/
+ - second link can show a real cost
+ - because of other costs (electricity, cooling, internet, ...)
+
+//Cost Management
+ - free tool to analyze money spending
+ - dashboard -> Cost Management -> Billing | Overview
+
+//Service Level Agreement (SLA)
+azure.microsoft.com/en-ca/support/legal/sla/
+ - list of what does microsoft promise and guarantee about each of service usage
+ - refund if the does not meet their promises
+
+//Service LifeCycle
+
+
+
+
+
+
+
+
+
+
