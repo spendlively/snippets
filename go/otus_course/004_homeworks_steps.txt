@@ -29,8 +29,11 @@ gofumpt -w .
 golangci-lint run .
 golangci-lint run ./...
 
+//File is not `gci`-ed (gci)
+golangci-lint run --fix
+
 //Прогон тестов
-go test -v -count=1 -race -timeout=1m .
+go test -v -race -count 100 ./...
 
 //Проверка результата (при наличии ./test.sh)
 ./test.sh
@@ -78,6 +81,7 @@ go get -v -d github.com/spendmail/otus_go_hw/hw12_13_14_15_calendar@hw12_calenda
 go get -v -d github.com/spendmail/otus_go_hw/hw12_13_14_15_calendar@hw13_calendar
 go get -v -d github.com/spendmail/otus_go_hw/hw12_13_14_15_calendar@hw14_calendar
 go get -v -d github.com/spendmail/otus_go_hw/hw12_13_14_15_calendar@hw15_calendar
+go get -v -d github.com/spendmail/previewer@develop
 
 
 

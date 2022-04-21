@@ -1,0 +1,45 @@
+
+//got from here:
+https://popsql.com/learn-sql/postgresql/how-to-query-a-json-column-in-postgresql
+
+//operators
+"->" - keeps the type as JSON
+"->>" - returns text
+"@>" - jsonb - Левое значение JSON содержит на верхнем уровне путь/значение JSON справа?	'{"a":1, "b":2}'::jsonb @> '{"b":2}'::jsonb
+"<@" - jsonb - Путь/значение JSON слева содержится на верхнем уровне в правом значении JSON?	'{"b":2}'::jsonb <@ '{"a":1, "b":2}'::jsonb
+"?" - text - Присутствует ли строка в качестве ключа верхнего уровня в значении JSON?	'{"a":1, "b":2}'::jsonb ? 'b'
+"?|" - text[] - Какие-либо строки массива присутствуют в качестве ключей верхнего уровня?	'{"a":1, "b":2, "c":3}'::jsonb ?| array['b', 'c']
+"?&" - text[] - Все строки массива присутствуют в качестве ключей верхнего уровня?	'["a", "b"]'::jsonb ?& array['a', 'b']
+"||" - jsonb - Соединяет два значения jsonb в новое значение jsonb	'["a", "b"]'::jsonb || '["c", "d"]'::jsonb
+"-" - text - Удаляет пару ключ/значение или элемент-строку из левого операнда. Пары ключ/значение выбираются по значению ключа.	'{"a": "b"}'::jsonb - 'a'
+"-" - integer - Удаляет из массива элемент в заданной позиции (отрицательные номера позиций отсчитываются от конца). Выдаёт ошибку, если контейнер верхнего уровня — не массив.	'["a", "b"]'::jsonb - 1
+"#-" - text[] - Удаляет поле или элемент с заданным путём (для массивов JSON отрицательные номера позиций отсчитываются от конца)	'["a", {"b":1}]'::jsonb #- '{1,b}'
+
+
+//select params.name (text)
+select params->>'name' from events;
+
+
+//select where params.name = 'qwerty'
+select * from events where params->>'name' = 'qwerty';
+
+
+//select params.ids[0]
+select params->ids->0 from events;
+
+
+//select where preferences.beta is true (boolean)
+select preferences->'beta' from users where (preferences->>'beta')::boolean is true;
+
+
+//update json field by concatenation with another field ("name" => ["name"])
+UPDATE user SET names = CONCAT('["', name, '"]')::jsonb;
+
+
+//where json array contains string
+select * from tbl where (column_name)::jsonb ? 'string'
+//or
+select * from tbl where (column_name)::jsonb ? another_column
+//or
+select * from tbl where (column_name)::jsonb @> '"string"';
+

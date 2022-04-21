@@ -1,0 +1,67 @@
+
+//from string to bytes and backwards
+string([]byte("qwerty")) //"qwerty"
+
+//from rune to string and to bytes
+r := 'q' //"%T %v %q" => int32 113 'q'
+//rune to string
+s := string(r) //"%T %v %q" => string q "q"
+//string to rune
+rs := []rune(s) //"%T %v %q" => []int32 [113] ['q']
+//rune to bytes slice
+bs := []byte(string(r)) //"%T %v %q" => []uint8 [113] "q"
+
+//from strings to numbers
+strconv.Atoi("-42") //-42 int
+strconv.ParseInt("-42", 10, 64) //-42 int64
+strconv.ParseUint("42", 10, 64) //42 uint64
+strconv.ParseFloat("3.1415", 64) //3.1415 float64
+strconv.ParseBool("true") //true
+
+//from numbers to strings
+strconv.Itoa(-42) //"-42"
+strconv.FormatInt(-42, 10) //"-42"
+strconv.FormatInt(-42, 16) //"-2a"
+strconv.FormatUint(42, 10) //"42"
+strconv.FormatUint(42, 16) //"2a"
+strconv.FormatFloat(3.1415, 'E', -1, 64) //"3.1415E+00"
+strconv.FormatBool(true) //"true"
+
+//from numbers to strings and then to bytes
+strconv.AppendInt([]byte{}, -42, 10) //[45 52 50], string(res) = "-42"
+strconv.AppendUint([]byte{}, 42, 10) //[52 50], string(res) = "42"
+strconv.AppendFloat([]byte{}, 3.1415, 'E', -1, 64) //string(res) = "3.1415E+00"
+strconv.AppendBool([]byte{}, true) //string(res) = "true"
+
+//from strings to quoted Go ANCII string
+strconv.Quote("Hello, Мир") //"Hello, Мир"
+strconv.QuoteToASCII("Hello, Мир") //"Hello, \u041c\u0438\u0440"
+
+//from strings to quoted strings
+strconv.Quote(`"Fran & Freddie's Diner	☺"`) //"\"Fran & Freddie's Diner\t☺\""
+strconv.QuoteToASCII(`"Fran & Freddie's Diner	☺"`) //"\"Fran & Freddie's Diner\t\u263a\""
+strconv.QuoteToGraphic("☺") //"☺"
+strconv.QuoteToGraphic("This is a \u263a	\u000a") //"This is a ☺\t\n"
+strconv.QuoteToGraphic(`" This is a ☺ \n "`) //"\" This is a ☺ \\n \""
+
+//convert from runes to quoted strings
+strconv.QuoteRune('☺') //'☺'
+strconv.QuoteRuneToASCII('☺') //'\u263a'
+strconv.QuoteRuneToGraphic('☺') //'☺'
+strconv.QuoteRuneToGraphic('\u263a') //'☺'
+strconv.QuoteRuneToGraphic('\u000a') //'\n'
+strconv.QuoteRuneToGraphic('	') //'\t'
+
+//convert from qouted strings to unquoted strings
+strconv.Unquote("You can't unquote a string without quotes") //"", invalid syntax
+strconv.Unquote("\"The string must be either double-quoted\"") // "The string must be either double-quoted"
+strconv.Unquote("`or backquoted.`") //"or backquoted."
+strconv.Unquote("'\u263a'") //"☺"
+strconv.Unquote("'\u2639\u2639'") //"", invalid syntax
+
+//convert first character to rune in quoted string
+//second argument, quote, specifies the type of literal being parsed
+roone, multibyte, tail, err := strconv.UnquoteChar(`\"Fran & Freddie's Diner\"`, '"')
+//string(roone): "
+//multibyte: false
+//tail: Fran & Freddie's Diner\"

@@ -1,0 +1,6 @@
+
+// Pitch lower with the same speed
+ffmpeg -i input.m4a -af asetrate=44100*0.9,aresample=44100,atempo=1/0.9 output.mp3
+
+// Pitch lower with the lower speed
+ffmpeg -i input.m4a -af asetrate=44100*0.9,aresample=44100 output.mp3

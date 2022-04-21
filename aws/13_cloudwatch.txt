@@ -1,0 +1,6 @@
+
+//Setting up cloudwatch alarm
+//From "All alarms" section
+CW -> Alarms -> All alarms -> Create alarm
+Click on "Select metric"
+

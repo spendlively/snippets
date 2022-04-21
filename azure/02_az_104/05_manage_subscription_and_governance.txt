@@ -63,6 +63,67 @@ Resource Groups -> [Group] -> Locks
  - press + Add for adding
 
 
+//////////
+//Policy//
+//////////
+Home -> Policy -> Definitions
+select: Allowed virtual machine size SKUs
+ - allows to prevent you from hiring an expensive instance
+Click on selected Definition
+Click Assign
+Select scope: Subscription on Resource Group
+etc
+
+//Move Resource to another Group or Subscription
+Home -> Resource Groups -> [Group]
+Select resources and click "Move" btn.
+
+
+/////////////////////
+//Subscription test//
+/////////////////////
+//1. A company has just setup an Azure account and subscription.
+There is a requirement to ensure that IT admins can only spin up VM's of a particular SKU size.
+Which of the following can help achieve this?
+ - Create an Azure policy and assign it to the subscription.
+
+//2. Your company has an Azure subscription and an Azure tenant.
+A group called software-architect-dev has been created in the tenant.
+This group will consist of Azure AD users who will take on a developer role.
+You need to ensure that the group has the ability to manage Logic Apps in Azure.
+You decide to assign the Logic App Contributor role to the group.
+Would this solution fulfill the requirement?
+ - Yes
+
+//3. Which CLI command is used to create your own unique policy?
+ - az policy definition create
+
+//4. Which of the following can be used to organize resources for cost reporting?
+Choose the most complete answer.
+ - Subscriptions, resource groups, and tags
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

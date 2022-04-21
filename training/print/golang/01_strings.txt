@@ -1,0 +1,137 @@
+
+//1. checks if string contains substring
+strings.Contains("seafood", "foo") //true
+strings.ContainsRune("a", 97) //true
+
+//2. count number of substrings in string
+strings.Count("cheese", "e") //3
+
+//3. caseless comparing
+strings.EqualFold("Go", "go") //true
+
+//4. split sentence into words slice
+strings.Fields("  foo bar  baz   ") //["foo" "bar" "baz"]
+
+//5. checks if the string starts with prefix
+strings.HasPrefix("Gopher", "Go") //true
+
+//6. checks if the string ends with prefix
+strings.HasSuffix("Amigo", "go") //true
+
+//7. returns the first index of substring, byte, rune or any letters
+strings.Index("chicken", "ken") //4
+strings.IndexByte("golang", 'g') //0
+strings.IndexRune("chicken", 'k') //4
+strings.IndexAny("chicken", "aeiouy") //2
+
+//8. returns the last index of substring, byte or any letters
+strings.LastIndex("chicken", "ken") //4
+strings.LastIndexByte("golang", 'g') //5
+strings.LastIndexAny("chicken", "aeiouy") //5
+
+//9. join strings slice with separator
+strings.Join([]string{"foo", "bar", "baz"}, ", ") //"foo, bar, baz"
+
+//10. changes each run in string in functional way
+capitalize := func(r rune) rune {
+    if r == 'a' {
+        return 'A'
+    }
+    return r
+}
+strings.Map(capitalize, "aaa") //"AAA"
+
+//11. repeat string n times
+strings.Repeat("a", 3)
+
+//12. replaces substring by another substring
+strings.Replace("aaa", "a", "b", 2) //bba
+strings.ReplaceAll("aaa", "a", "b") //bbb
+
+//13. split string into slice of strings
+strings.Split("a,b,c", ",") //["a" "b" "c"]
+//SplitAfter, SplitAfterN, SplitN
+
+//14. to upper or lower
+strings.ToUpper("Gopher") //GOPHER
+strings.ToLower("Gopher") //gopher
+strings.ToTitle("хлеб")
+
+//15. removes characters and substrings from sides
+strings.Trim("¡¡¡Hello!!!", "!¡")
+strings.TrimLeft("¡¡¡Hello, Gophers!!!", "!¡")
+strings.TrimRight("¡¡¡Hello, Gophers!!!", "!¡")
+strings.TrimSpace(" \t\n Hello, Gophers \n\t\r\n")
+strings.TrimPrefix("¡¡¡Hello, Gophers!!!", "¡¡¡Hello, ")
+strings.TrimSuffix("¡¡¡Hello, Gophers!!!", ", Gophers!!!")
+
+///////////////////////////////////////////////////////////
+///////////////////////STRING TYPES////////////////////////
+///////////////////////////////////////////////////////////
+////////////////
+//Builder type//
+////////////////
+var builder strings.Builder
+for i := 1; i <= 3; i++ {
+    fmt.Fprintf(&builder, "%d", i)
+}
+builder.WriteString("4")
+builder.WriteRune('5')
+builder.WriteByte(byte('6'))
+builder.Write([]byte("7"))
+fmt.Println(builder.String()) //1234567
+
+//other methods
+builder.Cap() //returns the capacity of the slice
+builder.Grow(10) //grows builder's capacity
+builder.Len() //returns the number of bytes
+builder.Reset() //empty slice
+
+///////////////
+//Reader type//
+///////////////
+//reader.Read()
+r := strings.NewReader("abcde")
+buf := make([]byte, 4)
+for {
+    n, err := r.Read(buf) //reader.Read([]byte{})
+    fmt.Println(string(buf[:n]), n)
+    if err == io.EOF {
+        break
+    }
+}
+
+//reader.ReadRune()
+reader := strings.NewReader("abcde")
+for {
+    r, size, err := reader.ReadRune()
+    if err == io.EOF {
+        break
+    }
+    fmt.Println(strconv.QuoteRune(r), size)
+}
+
+//reader.ReadByte()
+reader := strings.NewReader("abcde")
+for {
+    b, err := reader.ReadByte()
+    if err == io.EOF {
+        break
+    }
+    fmt.Println(string(b))
+}
+
+/////////////////
+//Replacer Type//
+/////////////////
+//strings.NewReplacer(from1, to1, from2, to2)
+replacer := strings.NewReplacer("a", "A", "b", "B")
+
+//replacer.Replace(string)
+fmt.Println(replacer.Replace("aaabbb")) //AAABBB
+
+//replacer.WriteString(io.Writer, string)
+//writes from string to writer
+buf := new(bytes.Buffer)
+_, _ = replacer.WriteString(buf, "aaabbb")
+fmt.Println(buf.String()) //AAABBB

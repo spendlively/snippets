@@ -1,0 +1,108 @@
+///////
+//SNS//
+///////
+ - Message publishing and processing service
+ - Implements PubSub model: publisher and consumer roles
+ - allows Fanout to millions consumers (Email, HTTP Endpoint, SQS, SMS)
+ - limit 10.000.000 different consumers
+ - consist of topic and subscription
+
+//2 kinds of usage
+ - Application to person (email, sms, ...)
+ - Application to application (AWS Lambda, HTTP Endpoint, SQS)
+
+//Topic
+//Subscription
+
+//AWS Lambda
+ - allows to integrate sns with other aws services
+
+//Links
+ - developer guide
+https://docs.aws.amazon.com/sns/latest/dg/welcome.html
+ - API reference
+https://docs.aws.amazon.com/sns/latest/api/welcome.html
+ - FAQ
+https://aws.amazon.com/ru/sns/faqs/
+
+////////////////////
+//Create SNS Topic//
+////////////////////
+Amazon SNS -> Topics -> Create Topic
+
+//1. Details
+Name: MyTopicName
+Display Name: My Topic Name (friendly name)
+
+//2. Encryption - optional
+v - disable encryption
+
+//3. Access Policy - optional
+ - describes who can publish messages and who can receive messages
+ - by default only the topic owner can publish and receive messages
+ - basic - configuration using html form
+ - advanced - configuration using json
+
+Define who can publish messages to the topic
+ - Only the topic owner
+ - Everyone (not recommended)
+ - Only the specified AWS accounts: account_id_1, account_id_2, ...
+(to find out your account id click on the username in the top-right corner: 1234-5678-9012)
+
+Define who can subscribe to this topic
+ - Only the topic owner
+ - Everyone
+ - Only the specified AWS accounts: account_id_1, account_id_2, ...
+ - Only requesters with certain endpoints
+
+//4. Delivery retry policy - optional
+ - did not found this section in browser
+
+//5. Delivery status logging - optional
+ - ?
+
+//6.Tags - optional
+
+
+///////////////////////////
+//Create SNS Subscription//
+///////////////////////////
+Amazon SNS -> Subscriptions -> Create Subscription
+
+//Details
+Topic ARN: paste_topic_arn
+Protocol: SMS
+ - Amazon Kinesis Data Firehose
+ - Amazon SQS
+ - AWS Lambda
+ - Email
+ - Email-JSON
+ - HTTP
+ - HTTPS
+ - Platform application endpoint
+ - SMS
+Endpoint: +7923....
+
+//Subscription filter policy - optional
+ - json
+ - This policy filters the messages that a subscriber receives
+
+//Redrive policy (dead-letter queue) - optional
+ - is enabled - sends undeliverable messages to a dead-letter queue.
+ - disabled - by default
+
+
+////////////////////
+//Publish Messages//
+////////////////////
+Amazon SNS -> Topics -> TopicName -> Publish message
+Subject: title (optional)
+Time to Live (TTL): (optional)
+ - only for mobile application endpoints
+ - The number of seconds that the push notification service has to deliver the message to the endpoint
+Message body: message
+ - identical for all subscribers
+ - custom for each subscriber
+
+Message attributes
+ - tells subscription to filter message (Subscription filter policy)
