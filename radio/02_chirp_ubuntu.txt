@@ -1,0 +1,14 @@
+
+//Chirp
+ - App for changing channels in memory
+
+//Installation
+ - installed snap image in "ubuntu software center"
+ - after installation press "permissions" button
+    - enable usb access
+    - enable read/write access
+ - sudo usermod -aG dialout spendlively
+
+//Usage
+ - station -> read from
+ - station -> write to

@@ -1,0 +1,21 @@
+
+//Спецификация го
+https://go.dev/ref/spec
+
+//Документация стандартной библиотеки языка Go
+https://pkg.go.dev/std
+
+//Подсказки по написанию эффективного кода на Go
+https://go.dev/doc/effective_go
+
+//Ответы на часто задаваемые вопросы про Go
+https://go.dev/doc/faq
+
+//Список самых известных библиотек
+https://github.com/avelino/awesome-go
+
+//Guideline CodeReviewComments
+https://github.com/golang/go/wiki/CodeReviewComments#interfaces
+
+//Learn concurrency
+https://github.com/golang/go/wiki/LearnConcurrency

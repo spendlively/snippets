@@ -1,0 +1,14 @@
+
+//1. From any absent ip or domain, which is mot defined to welcome.domain.ru
+server {
+        listen 80 default_server;
+        return 302 $scheme://welcome.domain.ru$request_uri;
+}
+
+server {
+        listen 443 ssl default_server;
+        return 302 $scheme://welcome.domain.ru$request_uri;
+
+        ssl_certificate /etc/nginx/ssl/cert.pem;
+        ssl_certificate_key /etc/nginx/ssl/cert.key;
+}

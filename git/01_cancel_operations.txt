@@ -52,3 +52,7 @@ git reset HEAD file.txt
 git checkout -- file.txt
 (git reset --hard HEAD^ делает эти 3 шага за раз)
 
+//9. Удалить файл из git не удаляя сам файл
+git rm --cached file_to_remove.txt
+//Для директории
+git rm --cached -r directory_to_remove

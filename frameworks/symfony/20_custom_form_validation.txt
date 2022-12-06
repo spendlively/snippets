@@ -1,0 +1,25 @@
+
+//Валидация форм на стороне клиента
+https://developer.mozilla.org/ru/docs/Learn/Forms/Form_validation
+https://getbootstrap.com/docs/4.0/components/forms/#validation
+
+//adding custom validation
+<input type="text" id="username" required placeholder="Enter Name"
+  pattern = "^\s*(\s*\d+\s*-\s*\d+\s*,?\s*)+$",
+  oninvalid="this.setCustomValidity('Incorrect!!!')"
+  oninput="this.setCustomValidity('')"/>
+
+//symfony (mode_resolutions)
+$form = $this->createFormBuilder($task)
+    ->add('mode_resolutions', TextType::class, [
+        'label' => 'Mode Resolutions:',
+        'mapped' => false,
+        'attr' => [
+            'placeholder' => '32-0, 32-1, 64-0',
+            'pattern' => '^\s*(\s*\d+\s*-\s*\d+\s*,?\s*)+$',
+            'oninvalid' => "this.setCustomValidity('Введите значение в формате: 32-0, 32-1, 64-0')",
+            'oninput' => "this.setCustomValidity('')",
+        ],
+    ])
+    ->add('submit', SubmitType::class, ['label' => 'Запустить'])
+    ->getFo>rm();

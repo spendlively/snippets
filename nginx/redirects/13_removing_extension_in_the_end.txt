@@ -1,0 +1,7 @@
+
+//1. From uri.php (uri.html) to uri without extension
+server {
+    if ($request_uri ~ "^(.*)\.(?:php|html)") {
+        return 301 $1;
+    }
+}

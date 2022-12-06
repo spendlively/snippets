@@ -1,0 +1,10 @@
+
+//Валидация форм на стороне клиента
+https://developer.mozilla.org/ru/docs/Learn/Forms/Form_validation
+https://getbootstrap.com/docs/4.0/components/forms/#validation
+
+//adding custom validation
+<input type="text" id="username" required placeholder="Enter Name"
+  pattern = "^\s*(\s*\d+\s*-\s*\d+\s*,?\s*)+$",
+  oninvalid="this.setCustomValidity('Incorrect!!!')"
+  oninput="this.setCustomValidity('')"/>

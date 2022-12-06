@@ -1,0 +1,7 @@
+
+//1. from domain1 to domain2
+server {
+    server_name domain1.ru;
+    return 302 http://domain2.ru$request_uri;
+}
+

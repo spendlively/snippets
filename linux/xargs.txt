@@ -1,0 +1,10 @@
+
+//simple usage
+find /etc/ -type f | xargs ls -al
+
+//xargs with placeholder
+echo "hi" | xargs -I {} echo "you said: {}"
+//you said: hi
+
+echo "hi" | xargs -I {} echo "you said: {} {}"
+you said: hi hi

@@ -1,3 +1,0 @@
-
-//Алфавитный указатель переменных
-http://nginx.org/ru/docs/varindex.html

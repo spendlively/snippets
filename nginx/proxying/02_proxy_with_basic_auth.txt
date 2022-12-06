@@ -1,0 +1,8 @@
+
+//1. To http://10.10.10.10/page/ with basic auth
+server {
+    location / {
+        proxy_pass http://10.10.10.10/page/;
+        proxy_set_header Authorization "Basic dGVzdDp0ZXN0";
+    }
+}

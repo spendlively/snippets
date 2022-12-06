@@ -1,0 +1,19 @@
+
+//Oltp
+- online transaction processing
+- много маленьких запросов
+
+//Olap
+- большие аналитические запросы
+
+//bl
+- bussiness intelligence
+
+//etl
+- extract transforming load
+
+//sql
+- плохо масштабипуются, у постгрес нет кластера из коробки
+
+//nosql
+- нет транзакций

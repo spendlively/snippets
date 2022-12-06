@@ -1,0 +1,9 @@
+
+//SED
+//Изменить строку в файле
+sed -i.bak -e 's/string1/string2/' file
+
+//Копирование файлов с переименовыванием (file.txt -> /tmp/asd/file.sql)
+ls | sed -e "p;s/.sql$/.txt/" | sed -e "s/\([^.]*.txt\)/\/tmp\/asd\/\1/" | xargs -n2 cp
+//p;s - отображать исходные строки
+//-n2 - максимум 2 аргумента

@@ -1,0 +1,156 @@
+
+//1. check if slice of bytes contains subslice
+bytes.Contains([]byte("seafood"), []byte("foo")) //true
+
+//2. check if slice of bytes contains any of chars of given string
+bytes.ContainsAny([]byte("seafood."), "f.") //true
+
+//3. check if slice of bytes contains a rune
+bytes.ContainsRune([]byte("seafood."), 'f') //true
+
+//4. count how many times subslice enters in slice of bytes
+bytes.Count([]byte("cheese"), []byte("e")) //3
+
+//5. check whether a and b have the same length and the same bytes
+bytes.Equal([]byte("Go"), []byte("Go")) // true
+
+//6. caseless check whether a and b are equal
+bytes.EqualFold([]byte("Go"), []byte("go"))
+
+//7. split up bytes slice into slice of strings by any empty delimiter
+bytes.Fields([]byte("  foo bar  baz   ")) //["foo" "bar" "baz"]
+
+//8. split up bytes slice into slice of strings with lambda function
+f := func(c rune) bool {
+    return !unicode.IsLetter(c) && !unicode.IsNumber(c)
+}
+bytes.FieldsFunc([]byte("  foo1;bar2,baz3..."), f) //["foo1" "bar2" "baz3"]
+
+//9. checks whether slice of bytes starts with subslice
+bytes.HasPrefix([]byte("Gopher"), []byte("Go")) //true
+
+//10. checks whether slice of bytes ends with subslice
+bytes.HasSuffix([]byte("Amigo"), []byte("go")) //true
+
+//11. returns the first index of char by: slice of bytes, string, byte, rune and func
+bytes.Index([]byte("chicken"), []byte("ken")) //4
+bytes.IndexAny([]byte("chicken"), "aeiouy") //2
+bytes.IndexByte([]byte("chicken"), byte('k')) //4
+f := func(c rune) bool {
+    return unicode.Is(unicode.Cyrillic, c)
+}
+bytes.IndexFunc([]byte("Hello, мир"), f) //7
+bytes.IndexRune([]byte("chicken"), 'k') //4
+//LastIndex
+bytes.LastIndex([]byte("chicken"), []byte("ken")) //4
+bytes.LastIndexAny([]byte("chicken"), "aeiouy") //5
+bytes.LastIndexByte([]byte("chicken"), byte('k')) //4
+f := func(c rune) bool {
+    return unicode.Is(unicode.Cyrillic, c)
+}
+bytes.LastIndexFunc([]byte("Hello, мир"), f) //11
+
+//12. join few slices of bytes to a single slice
+s := [][]byte{[]byte("foo"), []byte("bar"), []byte("baz")}
+bytes.Join(s, []byte(", ")) //
+
+//13. changes each run in slice of bytes in functional way
+capitalize := func(r rune) rune {
+    if r == 'a' {
+        return 'A'
+    }
+    return r
+}
+bytes.Map(capitalize, []byte("aaa")) //[]byte("AAA")
+
+//14. repeat bytes n times
+bytes.Repeat([]byte("na"), 2) //[]byte("nana")
+
+//15. Replace bytes in bytes slice by given bytes slice
+bytes.Replace([]byte("aaa"), []byte("a"), []byte("A"), 2) //[]byte("AAa")
+
+//16. Replace all bytes in bytes slice by given bytes slice
+bytes.ReplaceAll([]byte("aaa"), []byte("a"), []byte("A")) //[]byte("AAA")
+
+//17. Convert slice of bytes to slice of runes
+bytes.Runes([]byte("go gopher")) //[]rune("go gopher")
+
+//18. Split []byte into [][]byte with splitter
+//SplitAfter, SplitAfterN, SplitN,
+bytes.Split([]byte("a,b,c"), []byte(",")) //["a" "b" "c"]
+
+//19. Convert bytes to lower case
+//ToLowerSpecial, ToTitle, ToTitleSpecial, ToUpper, ToUpperSpecial
+bytes.ToLower([]byte("Gopher")) //[]byte("gopher")
+
+//20. Trim bytes slice
+//TrimFunc, TrimLeft, TrimLeftFunc, TrimPrefix, TrimRight, TrimRightFunc, TrimSpace, TrimSuffix
+bytes.Trim([]byte(" !!! qwerty !!! "), "! ") //[]byte("qwerty")
+
+///////////////////////////////////////////////////////////
+///////////////////////BYTES TYPES/////////////////////////
+///////////////////////////////////////////////////////////
+
+////////////////
+//bytes.Buffer//
+////////////////
+//1. 4 ways to create bytes.Buffer:
+var b *bytes.Buffer //&bytes.Buffer
+b := &bytes.Buffer{} //&bytes.Buffer
+b := bytes.NewBuffer([]byte("qwerty")) //&bytes.Buffer
+b := bytes.NewBufferString("qwerty") //&bytes.Buffer
+
+//2. return bytes slice from buffer
+buf := bytes.NewBufferString("hello world")
+buf.Bytes() //[]byte("hello world")
+
+//3. Read 2 bytes from buffer
+b := bytes.NewBufferString("abcde")
+b.Next(2) //[]byte("ab")
+
+//4. Read from bytes.Buffer to buffer
+b := bytes.NewBufferString("abcde")
+buf := make([]byte, 1)
+n, err := b.Read(buf)
+fmt.Println(n, err, string(buf), b.String()) //1 <nil> "a" "bcde"
+
+//5. Read one byte from bytes.Buffer
+b := bytes.NewBufferString("abcde")
+c, err := b.ReadByte()
+fmt.Println(string(c), err, b.String()) //"a" <nil> "bcde"
+
+//6. Write into bytes.Buffer
+b := bytes.NewBuffer([]byte("a"))
+b.Write([]byte("b"))
+b.WriteByte('c')
+b.WriteRune('d')
+b.WriteString("e")
+fmt.Println(b.String()) //"abcde"
+
+////////////////
+//bytes.Reader//
+////////////////
+//1. Create new bytes.Reader
+reader := bytes.NewReader([]byte("abcde"))
+
+//2. Read into bytes slice (into buffer)
+b := make([]byte, 1)
+reader.Read(b)
+fmt.Printf("%s\n", string(b)) //"a"
+
+//3. Read into bytes slice with given offset
+reader.ReadAt(b, 0)
+fmt.Printf("%s\n", string(b)) //"a"
+
+//4. Read one byte
+oneByte, _ := reader.ReadByte()
+fmt.Printf("%s\n", string(oneByte)) //"b"
+
+//5. Read one rune
+oneRune, _, _:= reader.ReadRune()
+fmt.Printf("%q\n", oneRune) //'c'
+
+//6. Write from bytes.Reader to buffer
+buf := new(bytes.Buffer)
+_, _ = reader.WriteTo(buf)
+fmt.Println(buf.String()) //"de"

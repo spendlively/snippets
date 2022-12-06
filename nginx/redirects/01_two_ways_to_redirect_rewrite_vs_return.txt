@@ -1,0 +1,23 @@
+
+//////////////
+//1. rewrite//
+//////////////
+rewrite ^ https://$host$request_uri? <flag>;
+
+ - $host
+    - host name from the request line
+    - or host name from the "Host" request header field
+    - or the server name matching a request
+ - $request_uri - full original request URI (with arguments)
+ - <flag>
+    - permanent — перенаправление с кодом 301.
+    - redirect — перенаправить с кодом 302.
+    - last — закончить обработку с переходом в новый location.
+    - break — закончить обработку и остаться в текущем location.
+
+/////////////
+//2. return//
+/////////////
+return <code> https://$host$request_uri;
+ - <code>
+    - 301, 302, 404 ...

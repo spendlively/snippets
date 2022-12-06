@@ -1,0 +1,56 @@
+
+///////////////////
+//1. install venv//
+///////////////////
+sudo apt install python3-virtualenv
+virtualenv -p /usr/bin/python3.8 venv
+
+////////////////////
+//2. install flask//
+////////////////////
+venv/bin/python3 -m pip install flask
+
+///////////////////////////////////////
+//3. save and/or install requirements//
+///////////////////////////////////////
+venv/bin/python3 -m pip freeze >> venv/requirements.txt
+venv/bin/python3 -m pip install -r venv/requirements.txt
+
+///////////////////////////////////
+//4. launch server (dev) (app.py)//
+///////////////////////////////////
+venv/bin/python3 -m flask --app app run
+//or
+venv/bin/python3 app.py
+//app.py should contain this:
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=True)
+
+///////////////////////
+//5. install gunicorn//
+///////////////////////
+venv/bin/python3 -m pip install gunicorn
+//testing launch
+venv/bin/python3 -m gunicorn app:app -b localhost:5000 &
+
+/////////////////////////
+//6. install supervisor//
+/////////////////////////
+//install
+sudo apt-get install supervisor
+
+//configure
+//nano /etc/supervisor/conf.d/image_box_tools.conf
+[program:image_box_tools]
+directory=/var/www/image_box_tools
+command=/var/www/image_box_tools/venv/bin/gunicorn app:app -b localhost:5000
+autostart=true
+autorestart=true
+stderr_logfile=/var/log/image_box_tools/image_box_tools.err.log
+stdout_logfile=/var/log/image_box_tools/image_box_tools.out.log
+
+//reread and launch
+sudo mkdir /var/log/image_box_tools
+sudo supervisorctl reread
+sudo systemctl restart supervisor
+sudo supervisorctl status

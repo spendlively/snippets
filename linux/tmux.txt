@@ -1,0 +1,17 @@
+
+//install
+sudo apt install tmux
+
+//launch
+tmux new-session -s test
+
+//usage
+0 window ^b c
+1 window ^b 0
+//go to window 1
+^b 1
+
+//split up into two vertical windows
+^b %
+
+//

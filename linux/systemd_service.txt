@@ -1,0 +1,52 @@
+
+///////////////////////////////////
+//Создание simple systemd сервиса//
+///////////////////////////////////
+sudo nano /etc/systemd/system/s3_previewer.service
+
+//s3_previewer.service
+[Unit]
+Description=S3 images previewer web server
+After=default.target
+
+[Service]
+User=ubuntu
+Restart=on-failure
+ExecStart=/var/www/s3_previewer/previewer -config /var/www/s3_previewer/previewer.toml
+
+[Install]
+WantedBy=default.target
+
+
+//Запуск
+sudo systemctl daemon-reload
+sudo systemctl enable s3_previewer
+
+
+
+/////////////
+//Параметры//
+/////////////
+//Ключи времени
+ - Wants, Requires, Before, After.
+(Ожидает, Требует, Перед, После)
+ - WantedBy, RequiresBy.
+(Ожидается цель/служба, Требуется цель/служба)
+
+//Параметры перезапуска службы
+ - no - никогда
+ - always - перезапуск если: Корректый код выхода или сигнал, Неккоректный код выхода, Некорректный сигнал, Timeout, Watchdog
+ - on-success - перезапуск если: Корректый код выхода или сигнал
+ - on-failure - перезапуск если: Неккоректный код выхода, Некорректный сигнал, Timeout, Watchdog
+ - on-abnormal - перезапуск если: Некорректный сигнал, Timeout, Watchdog
+ - on-abort - перезапуск если: Некорректный сигнал
+ - on-watchdog - перезапуск если: Watchdog
+
+//Список целей
+ - default.target - модуль по-умолчанию
+ - graphical.target - запуск графической подсистемы
+ - multi-user.target - запуск консоли
+ - network-online.target - ожидание подключенной сети (используется в Wants)
+ - network.target - сеть
+ - network-pre.target - запуск до настройки сети (используется в Requires)
+ - boot-complete.target - успешная загрузка [i]

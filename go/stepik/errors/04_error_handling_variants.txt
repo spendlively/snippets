@@ -1,0 +1,53 @@
+
+/////////////////////////////
+//Варианты обработки ошибок//
+/////////////////////////////
+
+//1. sentinel errors
+ - сравнение значений ошибок
+ - например с готовой ошибкой
+ - приводит к импорту пакета
+if err == io.EOF {
+    // Что-то делаем.
+}
+ - как сравниваются ошибки:
+    - интерфейсы равны, если имеют один "dynamic type" и "dynamic value" (или оба значения равны nil)
+
+
+//2. Error Types
+ - сранение типов ошибок
+ - с помощью попытки привести ее к нужному типу
+ - приводит к импорту пакета
+ - неизбежно, если мы хотим получить из ошибки больше контекста
+if e, ok := err.(*WithStacktraceError); ok {
+    // Можем использовать e.StackTrace() – есть контекст
+}
+//Или так:
+if err != nil {
+    switch err.(type) {
+        case *SomeError:
+            // ...
+        default:
+            // ...
+    }
+}
+
+
+//3. Opaque Errors
+ - определение, что это за ошибка не по значению или типу, а по поведению
+ - например проверим, реализует ли интерфейс метод StackTrace() string
+err != nil {
+    type stackTracer interface {
+        StackTrace() string
+    }
+    if st, ok := err.(stackTracer); ok {
+        fmt.Printf("%s\n%s", err, st.StackTrace())
+    }
+}
+//или даже так
+err != nil {
+    if e, ok := err.(interface{ StackTrace() string }); ok {
+        fmt.Printf("%s\n%s", err, e.StackTrace())
+    }
+}
+

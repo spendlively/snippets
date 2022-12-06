@@ -1,0 +1,5 @@
+
+//restart service by crontab
+sudo crontab -e
+*/1 * * * * pgrep hackathon-api; [ $? != 0 ] && /usr/bin/service st-api restart >/dev/null 2>&1
+

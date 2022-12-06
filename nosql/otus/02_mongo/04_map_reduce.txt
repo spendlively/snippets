@@ -1,0 +1,96 @@
+
+//////////////////////////
+//1.Aggregation pipeline//
+//////////////////////////
+ - поэтапная обработка запроса внутри метода aggregate
+ - https://www.mongodb.com/docs/manual/aggregation/#aggregation-framework
+ - https://studio3t.com/knowledge-base/articles/mongodb-aggregation-framework/
+
+//Аналогия с SQL
+SQL Term -> MongoDB Operator
+SELECT      $project (1 - выводить, 0 - не выводить)
+WHERE       $match
+GROUP BY    $group
+HAVING      $match
+ORDER BY    $sort
+LIMIT       $limit
+SUM         $sum
+COUNT       $count
+LEFT JOIN   $lookup
+Select,insert $out
+
+//Ограничения:
+ - Все операторы (кроме $out, $merge, and $geoNear) могут встречаться несколько раз
+pipeline.
+ - Лимит на пайплай 100 MiB (100 * 1024 * 1024 bytes) памяти в ОЗУ
+ - https://docs.mongodb.com/manual/core/aggregation-pipeline-limits/
+ - Лимит можно обойти используя опция allowDiskUse внутри aggregate() для использования ПЗУ
+
+//Индексы
+ - match не может использовать  индексы если он стоит не в начале
+ - The $sort stage can use an index as long as it is not preceded by a $project, $unwind, or $group stage.
+ - The $group stage can sometimes use an index to find the first document in each group
+ - See Optimization to Return the First Document of Each Group for an example.
+
+//Оптимизация пайплайнов
+ - https://docs.mongodb.com/manual/core/aggregation-pipeline-optimization/
+ - Статья по более менее подробному разбору этапов пайплайна
+https://studio3t.com/knowledge-base/articles/mongodb-aggregation-framework/
+
+/////////////////////
+//2. Single Purpose//
+/////////////////////
+
+//count
+db.orders.count( { ord_dt: { $gt: new Date('01/01/2012') } }
+The query is equivalent to the following:
+db.orders.find( { ord_dt: { $gt: new Date('01/01/2012') } } ).count()
+
+//distinct
+db.collection.distinct(field, query, options)
+
+//estimatedDocumentCount
+ - возвращает count из метаданных
+db.collection.estimatedDocumentCount(options)
+
+/////////////////
+//3. Map Reduce//
+/////////////////
+ - Операция над коллекцией из 2х подопераций
+    - map - группирует коллекцию на подколлекции
+    - reduce - выполняет агрегирующие операции над подколлекциями
+ - deprecated начиная с версии 5.0
+
+//Пример
+>db.collection.mapReduce(
+    function() {emit(key,value);}, //map function
+    function(key,values) {return reduceFunction},
+    {
+        out: collection,
+        query: document,
+        sort: document,
+        limit: number
+    }
+)
+
+//Требования на реализацию функции reduce
+//1. Тип возвращаемого значения функции reduce должен совпадать с типом значения, которое
+выдается функцией map (второй параметр функции emit)
+//2. Должно выполняться равенство (ассоциативность):
+reduce(key, [ A, reduce(key, [ B, C ]) ] ) == reduce( key, [ A, B, C ] )
+//3. Повторное применение операции Reduce к полученной паре <ключ, значение> не должно
+влиять на результат (идемпотентность)
+reduce( key, [ reduce(key, valuesArray) ] ) == reduce( key, valuesArray )
+//4. Порядок значений, передаваемых функции reduce, не должен влиять на результат
+(коммутативность)
+reduce( key, [ A, B ] ) == reduce( key, [ B, A ] )
+https://docs.mongodb.com/manual/reference/command/mapReduce/#requirements-for-th
+e-map-function
+
+/////////////////////////
+//4.Additional Features//
+/////////////////////////
+
+/////////
+//5.Geo//
+/////////

@@ -32,7 +32,7 @@ strings.LastIndexAny("chicken", "aeiouy") //5
 //9. join strings slice with separator
 strings.Join([]string{"foo", "bar", "baz"}, ", ") //"foo, bar, baz"
 
-//10. changes each run in string in functional way
+//10. changes each rune in string in functional way
 capitalize := func(r rune) rune {
     if r == 'a' {
         return 'A'

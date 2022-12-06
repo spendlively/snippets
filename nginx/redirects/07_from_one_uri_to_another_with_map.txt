@@ -1,0 +1,15 @@
+
+//1. From qwerty.example.com to qwerty.example.org
+
+map $host $redirect_host {
+    default "example.org";
+    "~^(\S+)\.example\.com$" $1.example.org;
+}
+
+server {
+    listen *:80;
+    server_name .example.com;
+    location / {
+        rewrite ^(.*)$ https://$redirect_host$1 permanent;
+    }
+}

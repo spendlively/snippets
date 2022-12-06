@@ -1,0 +1,79 @@
+
+https://www.altoros.com/blog/nosql-comparison-2021-couchbase-server-mongodb-and-cassandra-datastax/
+
+-- couchbase
+-- развернем 4 ВМ
+-- ВМ минимум 4 гига памяти
+for i in {1..4}; do gcloud beta compute --project=celtic-house-266612 instances create cb$i --zone=us-central1-a --machine-type=e2-medium --subnet=default --network-tier=PREMIUM --maintenance-policy=MIGRATE --service-account=933982307116-compute@developer.gserviceaccount.com --scopes=https://www.googleapis.com/auth/cloud-platform --image-family=ubuntu-2004-lts --image-project=ubuntu-os-cloud --boot-disk-size=10GB --boot-disk-type=pd-ssd --boot-disk-device-name=cb$i --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --reservation-affinity=any & done;
+
+-- install couchbase
+for i in {1..4}; do gcloud compute ssh cb$i --command='sudo apt-get update && sudo apt-get upgrade -y && curl -O https://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-amd64.deb && sudo dpkg -i ./couchbase-release-1.0-amd64.deb && sudo apt-get update && sudo apt-get install couchbase-server -y' & done;
+
+gcloud compute ssh cb1
+
+- посмотрим доку по рекомендованным путям конфигурации кластера
+-- https://docs.couchbase.com/server/current/manage/manage-nodes/create-cluster.html
+
+gcloud compute instances list
+-- не забываем открыть порт в VPC
+-- имя кластера cb
+-- логин admin
+-- пароль admin123
+https://34.136.39.245:18091
+
+-- вместо IP используем fqdn, иначе не соберем
+cb1.us-central1-a.c.celtic-house-266612.internal
+
+
+-- после настройки кластера сертификаты ssl выпустятся сами
+-- если вдруг накосячили
+-- gcloud beta compute --project=celtic-house-266612 instances create cb1 --zone=us-central1-a --machine-type=e2-medium --subnet=default --network-tier=PREMIUM --maintenance-policy=MIGRATE --service-account=933982307116-compute@developer.gserviceaccount.com --scopes=https://www.googleapis.com/auth/cloud-platform --image-family=ubuntu-2004-lts --image-project=ubuntu-os-cloud --boot-disk-size=10GB --boot-disk-type=pd-ssd --boot-disk-device-name=cb1 --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --reservation-affinity=any
+
+-- gcloud compute ssh cb1
+-- sudo apt-get update && sudo apt-get upgrade -y && curl -O https://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-amd64.deb && sudo dpkg -i ./couchbase-release-1.0-amd64.deb && sudo apt-get update && sudo apt-get install couchbase-server -y
+
+-- посмотрим в разных браузерах на самоподписанный сертификат
+
+
+-- сервисы указываются ТОЛЬКО при добавлении машины в кластер
+-- иначе переинициализация
+
+-- если убрать ноду
+-- https://docs.couchbase.com/server/current/cli/cbcli/couchbase-cli-rebalance.html
+-- couchbase-cli rebalance -c 192.168.1.5:8091 --username Administrator --password password --server-remove 192.168.1.6:8091,192.168.1.7:8091
+
+
+-- поломалась добавлялка(
+https://34.136.94.176:18091
+
+
+
+n1 language
+-- загрузим тестовые бакеты
+-- https://docs.couchbase.com/server/current/n1ql/n1ql-language-reference/selectintro.html
+
+
+https://docs.couchbase.com/server/current/n1ql/query.html
+
+
+Increase ULIMIT in Production Deployments
+
+Couchbase Server normally expects the following changes to ulimits:
+
+ulimit -n 40960        # nofile: max number of open files
+ulimit -c unlimited    # core: max core file size
+ulimit -l unlimited    # memlock: maximum locked-in-memory addres
+
+
+-- восстановление нод
+https://docs.couchbase.com/server/current/manage/manage-nodes/recover-nodes.html
+
+-- автофейловер
+https://docs.couchbase.com/server/current/cli/cbcli/couchbase-cli-setting-autofailover.html
+
+
+-- мониторинг
+https://docs.couchbase.com/server/current/manage/monitor/monitoring-n1ql-query.html#sys-completed-req
+curl http://localhost:8093/admin/settings -u Administrator:password \
+  -H 'Content-Type: application/json' \
+  -d '{"completed": {"-threshold": 1000}}'

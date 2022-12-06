@@ -1,0 +1,7 @@
+
+//1. Redirect $uri or $uri/ to $uri/index.php?$query_string;
+server {
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+}

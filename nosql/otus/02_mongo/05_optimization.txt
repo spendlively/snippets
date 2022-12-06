@@ -1,0 +1,344 @@
+
+/////////////////////
+//1. Профилирование//
+/////////////////////
+ - при включении профилировании mongodb начинает сохранять информацию о запросах в спец коллекцию system.profile
+ - system.profile - является ограниченной коллекцией (capped collection) - её размер ограничен 1Мб,
+если размер заканчивается, коллекция пишется с начала
+ - по умолчанию профилирование запросов отключено, и никакой информации о работе системы не сохраняется
+
+//Запросы для вкл/выкл и получения статуса
+db.getProfilingStatus() - returns if profiling is on and slow threshold
+db.setProfilingLevel(level, <slowms>)
+db.setProfilingLevel(level, slowms, <samplerate>)
+ - level - 0=off 1=slow 2=all
+ - slowms - длительность запросов на кот обращать внимание (100мс, 200мс, ...)
+ - samplerate = 0..1 - % медленных запросов
+ - https://www.mongodb.com/docs/manual/reference/database-profiler/
+ - чтобы иметь возможность оптимизировать запросы нужно всегда включать логирование slow запросов
+ - можно начать с двух секунд и постепенно уменьшать
+
+//Что попадает в system.profile
+ - Все записи профайлера представляют собой обычные документы со следующим набором
+основных полей
+     - op, тип операции(insert, query, update, remove, getmore, command)
+     - ns, коллекция(а точнее namespace), над которой производится операция
+     - millis, время выполнения операции в миллисекундах
+     - ts, время(timestamp) операции. Большого значения это не имеет, но это дата ОКОНЧАНИЯ
+    выполнения операции.
+     - client, IP-адрес или имя хоста, с которого была отправлена команда
+     - user, авторизованный пользователь, который выполнил запрос. Если вы не используете
+авторизацию, то в профайлер будет записана пустая строка.
+ - В дополнение к основным полям, есть ещё поля, специфические для каждого типа запроса.
+Для поиска(find) это будет сам запрос(query), информация о числе просканированных
+(nscanned) и возвращенных (nreturned) документов, для изменения(update) это будет число
+обновленных (nupdated) и перемещённых на диске (nmoved) элементом и т.д
+
+//Увеличиваем размер system.profile
+Данная коллекция имеет ограничение в 1Мб. Это значение можно изменить, если вам
+нужен больший объем лога. Так как system.profile является ограниченной коллекцией, мы
+не можем изменить размер зарезервированного под неё места, но мы можем пересоздать
+её с другими опциями:
+db.setProfilingLevel(0) // останавливаем профилирование
+db.system.profile.drop() // удаляем коллекцию
+// создаем ограниченную коллекцию с нужными параметрами 4мб
+db.createCollection( "system.profile", { capped: true, size:4000000 } )
+db.setProfilingLevel(1) // включаем профилирование назад
+
+//Логирование
+ - logpath=/var/log/mongodb/mongodb.log
+ - медленные запрос попадают еще и в лог
+
+//Планы запросов
+https://docs.mongodb.com/manual/core/query-plans/
+ - то как выполняется запрос
+
+///////////////////////////////////////////
+//2. Виды и построение индексов в mongodb//
+///////////////////////////////////////////
+ - Аналогичны индексам в других БД
+ - default по полю _id
+ - B-tree структура
+ - в монго во все документы добавляется поле _id
+//Создание индекса
+db.collection.createIndex(
+ <key and index type specification>,
+ <options>
+)
+
+//Функция explain()
+ - db.inventory.explain().find()
+//вывод функции
+ - "stage" : "COLLSCAN" - полное сканирование
+ - "stage" : "IXSCAN" - сканирование с использованием индекса
+//вывести доп поля
+ - db.inventory.explain("executionStats").find({"item" : "cd"})
+//вывести все возможные планы исполнения
+ - db.inventory.explain("allPlansExecution").find({"item" : "cd"})
+
+//Запрос сущ индексов
+db.collection.getIndexes();
+
+//Свойства:
+//1.уникальность
+db.users.createIndex(
+ { email: 1 },
+ { unique: true } )
+//2. разряженные индексы (по умолчанию плотные)
+(в индекс попадают только те поля, которые имеют значения)
+db.users.createIndex(
+ { email: 1 },
+ { sparse: true } )
+//3. TTL Indexes - time to live
+//документ удалится через 2 минуты
+//нужно указывать поле в кот есть данные!!!
+//монго не гарантирует что ровно через 2 минуты
+db.users.createIndex(
+ { email: 1 },
+ { expireAfterSeconds: 120 } )
+
+/////////////////
+//Виды индексов//
+/////////////////
+//1. одно поле
+db.users.createIndex(
+ { email: 1 } )
+
+//2. составной индекс
+db.products.createIndex(
+ { item: 1, quantity: -1 } ,
+ { name: "query for inventory" } )
+
+//3. multikey - вложенный индекс
+{
+ name: 'Merrick'
+ addr: [ {zip: '147000',... },
+{zip: '147000',... } ]
+}
+db.users.createIndex(
+ { "addr.zip": 1 } )
+
+//4. гео индексы
+ - 2d https://docs.mongodb.com/manual/core/2d/ uses planar geometry
+ - 2d sphere https://docs.mongodb.com/manual/core/2dsphere/ use spherical geometry
+
+//5. текстовые индексы
+ - https://docs.mongodb.com/manual/core/index-text/
+ - только один на коллекцию
+
+//6. Wildcard Text Indexes
+ - https://docs.mongodb.com/manual/core/index-wildcard/
+ - указываем не одно поле а несколько кот попадают под шаблон
+ - db.collection.createIndex( { "$**": "text" } )
+ - can be part of a compound indexes
+ - db.collection.createIndex( { a: 1, "$**": "text" } )
+ - Case Insensitivity
+
+//7. хэш индексы
+ - помогают равномерно распределять значения по чанкам
+ - db.collection.createIndex( { _id: "hashed" } )
+ - sh.shardCollection( "database.collection", { <field> : "hashed" } )
+
+//Ограничения:
+ - максимум 64 индекса на коллекцию
+ - ключи не могут быть больше 1023 символов
+ - имя индекса включая неймспейс < 127
+ - снижают производительность добавления документов
+ - без индексная сортировка в памяти ограничена 32мб
+
+////////////////////////
+//3. Оптимизации CRUD.//
+////////////////////////
+ - https://docs.mongodb.com/manual/crud/
+//Советы для оптимизации запросов
+//find()
+ - db.users.find({ age: 27 })
+ - db.users.findOne({ age: 27 }) //используйте findOne для получения 1й записи
+ - db.users.find({ nick: 'John', age: 27 })
+ - db.users.find({}, { nick: true, age: true }) // проекция - достаем только указанные поля: nick, age
+ - db.users.find({}, { age: false }) //не доставать поле age
+ - db.users.find({ age: 27 }).limit(1)
+ - db.users.find({ age: 27 }).skip(50)
+ - db.users.find({ age: 27 }).count()
+
+//работа с null
+{ "_id" : ObjectId("4ba0f0dfd22aa494fd523621"), "y" : null }
+{ "_id" : ObjectId("4ba0f0dfd22aa494fd523622"), "y" : 1 }
+{ "_id" : ObjectId("4ba0f148d22aa494fd523623"), "y" : 2 }
+db.users.find({ y: null }) //1
+db.users.find({ z: null }) //3
+//найти документ где поле z существует и равно null
+db.users.find({ z: { $eq: null, $exists: true } })
+Perl Compatible Regular Expression
+db.users.find({ name: /joe/i })
+db.users.find({ name: { $regex: /joe/i } })
+//чтение пачками - batch read
+https://habr.com/ru/post/343968/
+
+//insert
+db.inventory.insertOne(
+    { item: "canvas", qty: 100, tags: ["cotton"], size: { h: 28, w: 35.5, uom: "cm" } }
+)
+//Не используйте insertMany когда надо вставить один документ
+db.inventory.insertMany([
+    { item: "journal", qty: 25, tags: ["blank", "red"], size: { h: 14, w: 21, uom: "cm" } },
+    { item: "mat", qty: 85, tags: ["gray"], size: { h: 27.9, w: 35.5, uom: "cm" } },
+    { item: "mousepad", qty: 25, tags: ["gel", "blue"], size: { h: 19, w: 22.85, uom: "cm" } }
+])
+//Write Concern Specification
+ - Write concern can include the following fields: { w: <value>, j: <boolean>, wtimeout: <number> }
+db.inventory.insert(
+{ sku: "abcdxyz", qty : 100, category: "Clothing" },
+{ writeConcern: { w: "majority", j: true, wtimeout: 5000 } }
+)
+
+//update
+//whole object update
+db.people.update({name: 'Tom'}, {age: 29, name: 'Tom'})
+db.people.updateMany({name: 'Tom'},{age: 29, name: 'Tom'}) //Will replace all matching documents.
+db.people.updateOne({name: 'Tom'},{age: 29, name: 'Tom'}) //Will replace only first matching document.
+//only 1 field
+db.people.update({name: 'Tom'}, {$set: {age: 29}})
+//replace
+ - в отличии от update добавляет запись если не находит ее
+//updateOne vs replaceOne
+https://docs.mongodb.com/manual/reference/method/db.collection.replaceOne/index.html
+https://docs.mongodb.com/manual/reference/method/db.collection.updateOne/
+
+//update
+ - можно реализовывать стэк
+//$push
+ - документы складываются как кирпичики в стэк
+db.people.update({name: 'Tom'}, {$push: {nicknames: 'Tommy'}})
+// This adds the string 'Tommy' into the nicknames array in Tom's document.
+//$pull
+ - документы забираются как из стэка
+db.people.update({name: 'Tom'}, {$pull: {nicknames: 'Tommy'}})
+// This removes the string 'Tommy' from the nicknames array in Tom's document.
+//$pop
+db.people.update({name: 'Tom'}, {$pop: {siblings: -1}})
+// This will remove the first value from the siblings array, which is 'Marie' in this case.
+
+//update
+ - обновление встроенных документов
+ - $ до первого вхождения
+//заменить marks: [50, 60, 70] на marks: [55, 60, 70]
+{name: 'Tom', age: 28, marks: [50, 60, 70]}
+db.people.update({name: "Tom", marks: 50}, {"$set": {"marks.$": 55}})
+//заменить {subject: "English", marks: 90} на {subject: "English", marks: 85}
+{name: 'Tom', age: 28, marks: [{subject: "English", marks: 90},{subject: "Maths", marks: 100}, {subject:
+"Computes", marks: 20}]}
+db.people.update({name: "Tom", "marks.subject": "English"},{"$set":{"marks.$.marks": 85}})
+
+//delete
+//Удалить все документы, соответствующие параметру запроса:
+ - db.people.deleteMany({name: 'Tom'})
+ - db.people.remove({name: 'Tom'})
+//Удалить один документ
+ - db.people.deleteOne({name: 'Tom'})
+ - db.people.remove({name: 'Tom'}, true)
+
+//bulk write
+ - https://docs.mongodb.com/manual/core/bulk-write-operations/
+
+///////////////////////
+//4. Дисковые движки.//
+///////////////////////
+//как все хранится в памяти
+ - MMAPv1 removed in 4.2
+ - In-Memory is available in MongoDB Enterprise
+ - WiredTiger is the default storage engine starting in MongoDB 3.2
+
+/////////////
+//5. GridFS//
+/////////////
+ - спец файловая сисмета кот позволяет хранить файлы внутри mongo
+ - позволяет хранить большие файлы, больше макс размера документа 16мб
+
+////////////////////////////////////
+//6. Производительность кластеров.//
+////////////////////////////////////
+//Чек-лист при планировании схемы данных и индексов коллекции:
+ - 1. Экономим трафик репликации — минимизируем размер обновления документа.
+ - 2. Помним о rollback — бизнес-логика должна поддерживать обрыв операций
+записи, так же как и внезапное выключение сервера.
+ - 3. Не препятствуем шардингу — на больших коллекциях не заводим больше
+одного индекса с уникальностью, но лучше вообще не включать
+уникальность, если это не критично для бизнес-логики.
+ - 4. Изолируем поисковые запросы одним шардом — большинство поисковых
+запросов должно включать в себя значения ключа шардинга.
+ - 5. Балансировка шардов — тщательно выбираем тип идентификатора, самый
+лучший из них — GUID.
+ - 6. Используем проекции - возвращаем только нужные поля
+ - 7. Профилируем тяжелые запросы.
+ - 8. Не забываем смотреть за индексами.
+ - 9. Мониторим память/проц/io.
+ - 10. Баланс между синхронным/асинхронным/геораспределенным
+ - 11. Серебряной пули не существует %)
+
+//Тюнинг линукса
+//1. Тюнинг памяти
+Transparent huge pages //выключить
+cat /proc/meminfo
+cat /sys/kernel/mm/transparent_hugepage/enabled
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
+https://docs.mongodb.com/manual/tutorial/transparent-huge-pages/
+https://habr.com/ru/company/tinkoff/blog/446342/
+
+//2. Swap
+sysctl vm.swappiness
+по дефолту 60, рекомендация 1
+
+//3. другие настройки
+https://habr.com/ru/company/otus/blog/340870/
+
+///////////////////////////
+//Валидация JSON & backup//
+///////////////////////////
+//Безопасность кластера. Управление
+Управление связано отвечает за вставку и обновление данных, для проверки того,
+определено ли имя поля, вроде «birthday», «inn» или «creditCard». Внедряет сложные
+стандарты в систему MongoDB с помощью проверки документов (Document Validation
+new in 3.6).
+Основными командами проверки документов являются:
+ - collMod. Определяет ключ для проверки.
+ - validator. Определяет параметры для проверки.
+ - validationLevel. Устанавливает строгость валидатора (как часто он включается и
+насколько серьезные действия выполняет в зависимости от validationAction).
+ - validationAction. Устанавливает порядок действий, когда что-либо не проходит
+проверку.
+https://www.mongodb.com/blog/post/document-validation-part-1-adding-just-the-right-amount-of-control-over-your-documents
+https://docs.mongodb.com/manual/core/schema-validation/index.html
+
+//Безопасность кластера. Управление
+validationLevel can have the following values:
+ - "off" : validation is not applied
+ - "strict": it’s the default value. Validation applies to all inserts and updates
+ - "moderated": validation applies to all the valid existing documents. Not valid
+documents are ignored.
+When creating validation rules on existing collections, the "moderated" value is the safest
+option.
+validationAction can have the following values:
+ - "error": it’s the default value. The document must pass the validation in order to be
+written
+ - "warn": a document that doesn’t pass the validation is written but a warning message is
+logged
+When adding validation rules to an existing collection the safest option is "warn"
+
+//////////
+//Бэкапы//
+//////////
+//backup
+sudo mkdir /home/mongobackups && sudo chmod 777 /home/mongobackups
+sudo mongodump --port 27001 --db test --out /home/mongobackups/`date +"%m-%d-%y"`
+
+//by cron
+-- sudo crontab -e
+-- 3 3 * * * mongodump --port 27001 --out /home/mongobackups/`date +"%m-%d-%y"`
+-- find /home/mongobackups/ -mtime +7 -exec rm -rf {} \;
+
+//restore
+sudo mongorestore --port 27001 --db newdb --drop /home/mongobackups/11-19-22/test/
+-- 2 document(s) restored successfully. 1 document(s) failed to restore.
+
+gcloud compute instances delete mongo

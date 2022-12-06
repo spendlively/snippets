@@ -1,0 +1,50 @@
+
+//1. From /page1 to /page2 with rewrite
+server {
+    rewrite ^/page1$ /page2 permanent;
+}
+
+
+//2. From /page1 to /page2 with return
+server {
+    location = /page1 {
+        return 301 /page2;
+    }
+}
+
+
+//3. Remove part of the uri with rewrite
+server {
+    rewrite /deleted-url/(.*) /$1 permanent;
+}
+
+
+//4. Remove part of the uri with return
+server {
+    if ($request_uri ~ "/deleted-url/(.*)") {
+        return 301 $1;
+    }
+}
+
+
+//5. From http://site.ru/external/previewer/resize/image.png
+to http://site.ru/resize/image.png
+
+location /external/previewer/ {
+    root /media/images/previews;
+    rewrite ^/external/previewer/(.*)$ /$1 break;
+}
+
+//will cause searching image in: /media/images/previews/resize/image.png
+
+
+
+//5. From all urls with domain1.ru/page1/ to domain2.ru/...
+server {
+    server_name  domain1.ru;
+    location  ~ ^/page1/(.*)$ {
+        return 301 $scheme://domain2.ru/$1;
+    }
+}
+
+

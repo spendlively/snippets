@@ -1,0 +1,8 @@
+
+//1. From /robots.txt to /robots2.txt
+
+server {
+    location = /robots.txt {
+        rewrite ^/robots.txt$ /robots2.txt;
+    }
+}

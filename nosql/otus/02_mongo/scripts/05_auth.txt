@@ -1,0 +1,139 @@
+-- построить шардированный кластер из 3 кластерных нод( по 3 инстанса с репликацией) и с кластером конфига(3 инстанса);
+vm1=config1 + primary1 + slave2 + slave3
+vm2=config2 + slave1 + primary2 + slave3
+vm3=config3 + slave1 + slave2 + primary3 + mongos2
+vm4=mongos1
+
+-- развернем 4 ВМ
+for i in {1..4}; do gcloud beta compute --project=celtic-house-266612 instances create mongo$i --zone=us-central1-a --machine-type=e2-medium --subnet=default --network-tier=PREMIUM --maintenance-policy=MIGRATE --service-account=933982307116-compute@developer.gserviceaccount.com --scopes=https://www.googleapis.com/auth/cloud-platform --image-family=ubuntu-2004-lts --image-project=ubuntu-os-cloud --boot-disk-size=10GB --boot-disk-type=pd-ssd --boot-disk-device-name=mongo$i --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --reservation-affinity=any & done;
+
+-- install percona mongo & backup
+for i in {1..4}; do gcloud compute ssh mongo$i --command='sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y -q && sudo wget https://repo.percona.com/apt/percona-release_latest.$(lsb_release -sc)_all.deb && sudo dpkg -i percona-release_latest.$(lsb_release -sc)_all.deb && sudo percona-release enable psmdb-44 release && sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y percona-server-mongodb && sudo percona-release enable pbm release && sudo apt update && sudo DEBIAN_FRONTEND=noninteractive apt install -y percona-backup-mongodb' & done;
+
+-- проверим, что c монго
+for i in {1..3}; do gcloud compute ssh mongo$i --command='hostname; ps -aef | grep mongo | grep -v grep' & done;
+
+-- !!! обратим внимание, что по умолчанию монго от перконы запущена !!!
+-- mongod     16422       1  0 11:49 ?        00:00:02 /usr/bin/mongod -f /etc/mongod.conf
+-- убьем ненужные
+for i in {1..4}; do gcloud compute ssh mongo$i --command="hostname; ps -aef | grep mongo | grep -v grep | awk {'print \$2'}| sudo xargs kill -9"; done
+
+-- создадим каталоги
+for i in {1..4}; do gcloud compute ssh mongo$i --command='sudo rm -rf /home/mongo && sudo mkdir /home/mongo &&  sudo mkdir /home/mongo/{dbc1,db1,db2,db3} && sudo chmod 777 /home/mongo/{dbc1,db1,db2,db3}' & done;
+
+-- запустим конфиг сервера !!! bind_ip
+for i in {1..3}; do gcloud compute ssh mongo$i --command='hostname; mongod --configsvr --bind_ip localhost,$(hostname) --dbpath /home/mongo/dbc1 --port 27001 --replSet RScfg --fork --logpath /home/mongo/dbc1/dbc1.log --pidfilepath /home/mongo/dbc1/dbc1.pid' & done;
+
+-- посмотрим что у нас подключившись по удаленке
+-- $(hostname) аналог bind_ip_all
+mongo --port 27001 --host 34.72.223.13
+show dbs
+
+
+gcloud compute ssh mongo1
+
+-- инициализируем репликасет конфиг сервера по DNS
+mongo --port 27001
+rs.initiate({"_id" : "RScfg", configsvr: true, members : [{"_id" : 0, host : "mongo1:27001"},{"_id" : 1, host : "mongo2:27001"},{"_id" : 2, host : "mongo3:27001"}]});
+use admin
+db.createUser({user: "UserClusterAdmin",pwd: "Otus$123", roles: [ "clusterAdmin" ]})
+--Владелец всех БД
+db.createUser({user: "UserdbOwner",pwd: "Otus$123", roles: [ { role: "dbOwner", db: "*" } ]})
+-- Супер ROOT
+db.createUser({user: "UserRoot",pwd: "Otus$123", roles: [ "root" ]})
+
+
+-- Выключаем конфиг сервера
+for i in {1..3}; do gcloud compute ssh mongo$i --command="hostname; ps -aef | grep mongo | grep -v grep | awk {'print \$2'}| sudo xargs kill -9"; done;
+
+-- запускаем с аутентификацией - НЕ СРАБОТАЕТ!!!
+-- for i in {1..3}; do gcloud compute ssh mongo$i --command='hostname; mongod --auth --configsvr --bind_ip localhost,$(hostname) --dbpath /home/mongo/dbc1 --port 27001 --replSet RScfg --fork --logpath /home/mongo/dbc1/dbc1.log --pidfilepath /home/mongo/dbc1/dbc1.pid' & done;
+-- BadValue: security.keyFile is required when authorization is enabled with replica sets
+-- создадим каталоги mongo-security
+for i in {1..4}; do gcloud compute ssh mongo$i --command='sudo mkdir /home/mongo/mongo-security && sudo chmod 777 /home/mongo/mongo-security' & done;
+
+-- генерируем кей файл на 1 инстансе
+openssl rand -base64 756 > /home/mongo/mongo-security/keyfile
+chmod 400 /home/mongo/mongo-security/keyfile
+
+-- поделимся ключом с ноутбука c остальными нодами
+scp aeugene@34.72.223.13:/home/mongo/mongo-security/keyfile /mnt/c/download/keyfile
+scp /mnt/c/download/keyfile aeugene@34.136.22.211:/home/mongo/mongo-security/keyfile
+scp /mnt/c/download/keyfile aeugene@35.188.9.28:/home/mongo/mongo-security/keyfile
+scp /mnt/c/download/keyfile aeugene@34.70.210.166:/home/mongo/mongo-security/keyfile
+for i in {2..4}; do gcloud compute ssh mongo$i --command='chmod 400 /home/mongo/mongo-security/keyfile' & done;
+
+-- запускаем с аутентификацией И КЛЮЧОМ
+for i in {1..3}; do gcloud compute ssh mongo$i --command='hostname; mongod --auth --keyFile /home/mongo/mongo-security/keyfile --configsvr --bind_ip localhost,$(hostname) --dbpath /home/mongo/dbc1 --port 27001 --replSet RScfg --fork --logpath /home/mongo/dbc1/dbc1.log --pidfilepath /home/mongo/dbc1/dbc1.pid' & done;
+
+-- не забываем экранировать спецсимволы
+-- mongo --port 27001 -u "UserClusterAdmin" -p Otus$123 --authenticationDatabase "admin"
+mongo --port 27001 -u "UserClusterAdmin" -p Otus\$123 --authenticationDatabase "admin"
+
+rs.config()
+rs.status()
+
+
+
+-- создадим 3 репклики на 3 ВМ по 1 на каждой -- БЕЗ авторизации
+for i in {1..3}; do gcloud compute ssh mongo$i --command='mongod --shardsvr --dbpath /home/mongo/db1 --bind_ip localhost,$(hostname) --port 27011 --replSet RS1 --fork --logpath /home/mongo/db1/dbrs1.log --pidfilepath /home/mongo/db1/dbrs1.pid;'; done
+for i in {1..3}; do gcloud compute ssh mongo$i --command='mongod --shardsvr --dbpath /home/mongo/db2 --bind_ip localhost,$(hostname) --port 27021 --replSet RS2 --fork --logpath /home/mongo/db2/dbrs2.log --pidfilepath /home/mongo/db2/dbrs2.pid;'; done
+for i in {1..3}; do gcloud compute ssh mongo$i --command='mongod --shardsvr --dbpath /home/mongo/db3 --bind_ip localhost,$(hostname) --port 27031 --replSet RS3 --fork --logpath /home/mongo/db3/dbrs3.log --pidfilepath /home/mongo/db3/dbrs3.pid;'; done
+
+
+-- создадим реплкасеты на МАСТЕРАХ!!! + приорити
+mongo --host mongo1 --port 27011
+rs.initiate({"_id" : "RS1", members : [{"_id" : 0, priority : 3, host : "mongo1:27011"},{"_id" : 1, host : "mongo2:27011"},{"_id" : 2, host : "mongo3:27011"}]});
+use admin
+db.createUser({user: "UserDBAdmin",pwd: "Otus$123", roles: [ { role: "dbAdmin", db: "*" } ]})
+db.createUser({user: "UserDBRoot",pwd: "Otus$123", roles: [ "root" ]})
+
+mongo --host mongo2 --port 27021
+rs.initiate({"_id" : "RS2", members : [{"_id" : 0, host : "mongo1:27021"},{"_id" : 1, priority : 3, host : "mongo2:27021"},{"_id" : 2, host : "mongo3:27021"}]});
+use admin
+db.createUser({user: "UserDBAdmin",pwd: "Otus$123", roles: [ { role: "dbAdmin", db: "*" } ]})
+db.createUser({user: "UserDBRoot",pwd: "Otus$123", roles: [ "root" ]})
+
+mongo --host mongo3 --port 27031
+rs.initiate({"_id" : "RS3", members : [{"_id" : 0, host : "mongo1:27031"},{"_id" : 1, host : "mongo2:27031"},{"_id" : 2, priority : 3, host : "mongo3:27031"}]});
+use admin
+db.createUser({user: "UserDBAdmin",pwd: "Otus$123", roles: [ { role: "dbAdmin", db: "*" } ]})
+db.createUser({user: "UserDBRoot",pwd: "Otus$123", roles: [ "root" ]})
+
+-- убиваем реплики с данными
+for i in {1..3}; do gcloud compute ssh mongo$i --command="hostname; ps -aef | grep shardsvr | grep -v grep | awk {'print \$2'}| sudo xargs kill -9"; done
+
+-- запускаем репклики -- С авторизацией И КЛЮЧОМ!!!
+for i in {1..3}; do gcloud compute ssh mongo$i --command='mongod --auth --keyFile /home/mongo/mongo-security/keyfile --shardsvr --dbpath /home/mongo/db1 --bind_ip localhost,$(hostname) --port 27011 --replSet RS1 --fork --logpath /home/mongo/db1/dbrs1.log --pidfilepath /home/mongo/db1/dbrs1.pid;'; done
+for i in {1..3}; do gcloud compute ssh mongo$i --command='mongod --auth --keyFile /home/mongo/mongo-security/keyfile --shardsvr --dbpath /home/mongo/db2 --bind_ip localhost,$(hostname) --port 27021 --replSet RS2 --fork --logpath /home/mongo/db2/dbrs2.log --pidfilepath /home/mongo/db2/dbrs2.pid;'; done
+for i in {1..3}; do gcloud compute ssh mongo$i --command='mongod --auth --keyFile /home/mongo/mongo-security/keyfile --shardsvr --dbpath /home/mongo/db3 --bind_ip localhost,$(hostname) --port 27031 --replSet RS3 --fork --logpath /home/mongo/db3/dbrs3.log --pidfilepath /home/mongo/db3/dbrs3.pid;'; done
+
+
+-- создаем два mongoS c ключем
+for i in 3 4; do gcloud compute ssh mongo$i --command='sudo mkdir -p /home/mongo/dbms && sudo chmod 777 /home/mongo/dbms'; done
+for i in 3 4; do gcloud compute ssh mongo$i --command='mongos --keyFile /home/mongo/mongo-security/keyfile --configdb RScfg/mongo1:27001,mongo2:27001,mongo3:27001 --bind_ip_all --port 27000 --fork --logpath /home/mongo/dbms/dbs.log --pidfilepath /home/mongo/dbms/dbs.pid'; done
+
+!!! собрали шардированный реплицированный кластер с аутентификацией!!!
+
+gcloud compute ssh mongo3
+
+mongo --port 27000 --host mongo4 -u "UserRoot" -p Otus\$123 --authenticationDatabase "admin"
+db.a.insert({"a":1})
+
+-- а вот шарды то и забыли)
+-- https://docs.mongodb.com/manual/reference/command/addShard/
+-- общая рекомендация из БД admin добавлять
+use admin
+sh.addShard("RS1/mongo1:27011,mongo2:27011,mongo3:27011")
+sh.addShard("RS2/mongo1:27021,mongo2:27021,mongo3:27021")
+sh.addShard("RS3/mongo1:27031,mongo2:27031,mongo3:27031")
+sh.status()
+
+-- Для того чтобы реплика была доступна на чтение:
+rs.secondaryOk(true)
+
+-- пример конфига для запуска сервиса
+cat mongod_1.service
+
+-- пример конфига для запуска демона монго
+cat mongod.conf

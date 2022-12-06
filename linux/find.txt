@@ -5,3 +5,5 @@ find ./ -type f -printf "%f\n"
 //find and exec
 find ./ -exec ls -al {} \;
 //executes commands: ls -al filename;
+
+sudo find ./ rm {} \;

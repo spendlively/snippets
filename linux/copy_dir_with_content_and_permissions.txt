@@ -1,0 +1,6 @@
+
+//cp
+sudo cp -rpa /home/from /media/backup/to
+
+//rsync
+sudo rsync -aux /home/from/ /media/backup/to

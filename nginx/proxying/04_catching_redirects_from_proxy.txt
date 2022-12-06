@@ -1,0 +1,20 @@
+
+//Catching redirects from proxy
+ - 1. we proxy from somesite.local to www.somesite.ru
+ - 2. www.somesite.ru returns redirect to https://www.somesite.ru/url1
+ - 3. changing https://www.somesite.ru/url1 to http://somesite.local/url2 on fly
+ - 4. sender gets redirect to http://somesite.local/url2
+
+server {
+    listen 80;
+    server_name somesite.local www.somesite.local;
+    location / {
+        proxy_pass https://www.somesite.ru;
+        proxy_set_header   Host             www.somesite.ru;
+        proxy_set_header   X-Real-IP        $remote_addr;
+        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+
+        proxy_redirect https://www.somesite.ru/url1 http://somesite.local/url2;
+        proxy_redirect https://www.somesite.ru/ http://somesite.local/;
+    }
+}

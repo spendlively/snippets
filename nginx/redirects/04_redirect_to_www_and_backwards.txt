@@ -1,0 +1,25 @@
+
+//1. From http:// to http://www.
+server {
+    server_name domain.ru;
+    return 301 http://www.$host$request_uri;
+}
+
+//2. From http://www. to http://
+server {
+    server_name www.domain.ru;
+    return 301 $scheme://domain.ru$request_uri;
+}
+
+//3. From any domain with www to any domain without www
+server {
+    server_name "~^www\.(.*)$";
+    return 301 $scheme://$1$request_uri;
+}
+
+//4. With if (from any domain with www to any domain without www)
+server {
+    if ($host ~ "^www\.(.*)$") {
+            return 301 $scheme://$1$request_uri;
+    }
+}

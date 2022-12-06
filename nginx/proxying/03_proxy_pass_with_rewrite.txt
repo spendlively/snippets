@@ -1,0 +1,20 @@
+
+//1. From /page1/... to $scheme://10.10.10.10/ without /page1/
+server {
+    location ~ ^/page1/(.*)$ {
+        proxy_pass $scheme://10.10.10.10/$1;
+    }
+}
+
+
+//2. From www.somesite.ru/page to https://www.site.ru
+server {
+    server_name www.somesite.ru;
+    location /page {
+        rewrite /page/(.*) /$1 break;
+        proxy_pass https://www.site.ru;
+        proxy_set_header   Host             www.site.ru;
+        proxy_set_header   X-Real-IP        $remote_addr;
+        proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+    }
+}

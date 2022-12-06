@@ -1,0 +1,31 @@
+
+//1. For every url
+server {
+    listen 80;
+    server_name domain.ru www.domain.ru;
+    return 301 https://$host$request_uri;
+}
+
+//2. For every url EXCEPT /page.html
+server {
+    listen 80;
+    server_name domain.ru www.domain.ru;
+    if ($uri !~ /page.html){
+        return 301 https://$host$request_uri;
+    }
+}
+
+//3. Http and https in the same config
+server {
+    listen 80;
+    listen 443 ssl;
+    server_name  domain.ru www.domain.ru;
+
+    if ($scheme = 'http') {
+        return 301 https://$host$request_uri;
+    }
+
+    ssl_certificate     /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/cert.key;
+}
+

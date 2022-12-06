@@ -1,0 +1,4 @@
+
+//To get what type of initialisation system is used
+sudo stat /proc/1/exe
+/sbin/init --version

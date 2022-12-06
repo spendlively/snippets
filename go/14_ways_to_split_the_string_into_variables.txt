@@ -1,0 +1,24 @@
+
+//Find two numbers WITH regexp
+r, _ := regexp.Compile(`([0-9]+) ([0-9]+)$`)
+parts := r.FindStringSubmatch("1 2")
+//["1 2", "1", "2"]
+
+//Split string by separator WITHOUT regexp
+parts = strings.SplitN("75 22 I'm fine. Thank you.", " ", 3)
+//["75", "22", "I'm fine. Thank you."]
+
+//Split string by separator WITH regexp
+a := regexp.MustCompile(" ")
+parts = a.Split("75 22 I'm fine. Thank you.", 3)
+//["75", "22", "I'm fine. Thank you."]
+
+//Find two strings WITH REGEXP by particular pattern
+r, _ = regexp.Compile(`([0-9]+) ([0-9]+) ([^$]+)$`)
+parts = r.FindStringSubmatch("75 22 I'm fine. Thank you.")
+//["75 22 I'm fine. Thank you.", "75", "22", "I'm fine. Thank you."]
+
+//Split by whitespace and newline
+s := strings.Fields(" a \t b \n")
+fmt.Fprintln(out, s)
+//["a" "b"]

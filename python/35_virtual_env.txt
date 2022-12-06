@@ -15,6 +15,7 @@ venv/bin/python3 -m pip show scikit-image
 venv/bin/python3 -m pip install -U psd-tools
 venv/bin/python3 -m pip install -U psd-tools==1.9.16
 venv/bin/python3 -m pip install --force-reinstall psd-tools==1.9.16
+venv/bin/python3 -m pip install -r requirements.txt
 
 
 ////////////////////////////////////////////////

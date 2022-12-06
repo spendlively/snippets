@@ -1,0 +1,7 @@
+
+//from index.php (index.html) to /
+server {
+    if ($request_uri ~ "^(.*)index\.(?:php|html)") {
+            return 301 $1;
+    }
+}

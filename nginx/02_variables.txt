@@ -1,0 +1,15 @@
+
+//Алфавитный указатель переменных
+http://nginx.org/ru/docs/varindex.html
+
+//curl -H "nodename: 1" http://localhost/ ;
+$http_nodename
+
+//?param=1
+$arg_param
+
+//http://static.io/hello.htm?id=1
+$scheme://$host$uri$is_args$args;
+
+//http://static.io/hello.htm?id=1#/favor/goods
+$scheme://$host$request_uri;

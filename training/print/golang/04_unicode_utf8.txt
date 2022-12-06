@@ -1,0 +1,76 @@
+
+//1. Check if string has valid UTF-8-encoded runes only
+utf8.ValidString("Hello, 世界") //true
+utf8.ValidString(string([]byte{0xff, 0xfe, 0xfd})) //false
+
+//2. Check if rune is a valid UTF-8-encoded rune
+utf8.ValidRune('a') //true
+utf8.ValidRune(rune(0xfffffff)) //false
+
+//3. Check if slice of bytes has valid UTF-8-encoded runes only
+utf8.Valid([]byte("Hello, 世界")) //true
+utf8.Valid([]byte{0xff, 0xfe, 0xfd}) //false
+
+//4. Checks whether the byte could be the first byte of rune
+for _, v := range []byte("a界") {
+    fmt.Print(utf8.RuneStart(v)) //true true false false
+}
+
+//5. Returns length of rune in bytes
+utf8.RuneLen('a') //1
+utf8.RuneLen('界') //3
+
+//6. Returns string length in runes
+utf8.RuneCountInString("Hello, 世界") //runes = 9
+len("Hello, 世界") //bytes = 13
+
+//7. Returns slice length in runes
+utf8.RuneCount([]byte("Hello, 世界")) //9
+len([]byte("Hello, 世界")) //13
+
+//8. Checks is slice begins with a full UTF-8 encoding of a rune
+buf := []byte{228, 184, 150} // 世
+fmt.Println(utf8.FullRune(buf)) //true
+fmt.Println(utf8.FullRune(buf[:2])) //false
+
+//9. Checks is string begins with a full UTF-8 encoding of a rune
+str := "世"
+fmt.Println(utf8.FullRuneInString(str))
+fmt.Println(utf8.FullRuneInString(str[:2]))
+
+//10. Convert rune into bytes and put them into bytes slice
+buf := make([]byte, 3)
+n := utf8.EncodeRune(buf, '世')
+fmt.Println(buf, n) //[228 184 150] 3
+
+//11. Convert string into runes
+str := "Hello, мир"
+for len(str) > 0 {
+	r, size := utf8.DecodeRuneInString(str)
+	fmt.Printf("%c(%v) ", r, size) //H(1) e(1) l(1) l(1) o(1) ,(1)  (1) м(2) и(2) р(2)
+	str = str[size:]
+}
+
+//12. Convert string into runes in different direction
+str := "Hello, мир"
+for len(str) > 0 {
+	r, size := utf8.DecodeLastRuneInString(str)
+	fmt.Printf("%c(%v) ", r, size) //р(2) и(2) м(2)  (1) ,(1) o(1) l(1) l(1) e(1) H(1)
+	str = str[:len(str)-size]
+}
+
+//13. Convert bytes slice into runes
+b := []byte("Hello, мир")
+for len(b) > 0 {
+	r, size := utf8.DecodeRune(b)
+	fmt.Printf("%c(%v) ", r, size) //H(1) e(1) l(1) l(1) o(1) ,(1)  (1) м(2) и(2) р(2)
+	b = b[size:]
+}
+
+//14. Convert bytes slice into runes in different direction
+b := []byte("Hello, мир")
+for len(b) > 0 {
+	r, size := utf8.DecodeLastRune(b)
+	fmt.Printf("%c(%v) ", r, size) //р(2) и(2) м(2)  (1) ,(1) o(1) l(1) l(1) e(1) H(1)
+	b = b[:len(b)-size]
+}

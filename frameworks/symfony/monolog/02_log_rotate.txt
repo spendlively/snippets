@@ -1,0 +1,16 @@
+
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            action_level: error
+            handler: nested
+            excluded_http_codes: [404, 405]
+        nested:
+            # Rotating logs: step 1 of 2: change handler: stream -> rotating_file
+            type: rotating_file
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+            # Rotating logs: step 2 of 2: adjusting number of files
+            max_files:  7
+

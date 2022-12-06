@@ -1,0 +1,18 @@
+
+//1. Из коробки
+https://docs.mongodb.com/manual/installation/
+
+//2. Docker
+https://phoenixnap.com/kb/docker-mongodb
+
+//3. Kubernetes
+https://www.mongodb.com/blog/post/runningmongodb-ops-manager-in-kubernetes
+
+//4. Скрипт от Алексея Цикунова
+https://github.com/erlong15/mongo_k8s_deploy
+
+//5. GUI MongoDB Compass
+https://www.mongodb.com/try/download/compass
+
+//6. Документация на русском
+https://cloud.yandex.ru/docs/managed-mongodb/tutorials/sharding

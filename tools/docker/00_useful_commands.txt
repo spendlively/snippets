@@ -1,0 +1,4 @@
+
+//Getting original dockerfile's CMD from docker image
+docker history --no-trunc <IMAGE_ID>
+

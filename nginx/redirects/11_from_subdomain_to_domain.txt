@@ -1,0 +1,6 @@
+
+//1. From domain and all subdomains
+server {
+    server_name domain domain.*;
+    return 301 https://$host$request_uri;
+}

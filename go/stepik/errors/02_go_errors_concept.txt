@@ -1,0 +1,47 @@
+
+//Что находится внутри аргумента, переданного через интерфейс
+ - Динамический тип (tab) – это информация о типе, реализующем интерфейс
+ - Значение (data) – это значение конкретного экземпляра типа, реализующего данный интерфейс (может быть или не быть указателем)
+
+//Интерфейс = nil ТОЛЬКО когда оба его внутренних поля являются nil
+var b *Book
+var s fmt.Stringer = b
+if s != nil {
+    fmt.Println("value: ", s) //value:  <nil>
+}
+
+//Реализация интерфейса и point receiver
+Если методы, реализующие интерфейс, имеют point receiver,
+тогда интерфейс реализует нет тип, а УКАЗАТЕЛЬ на тип!!!
+
+/////////////////////////////////
+//type assertion vs type switch//
+/////////////////////////////////
+//1. type assertion
+//Прямое приведение интерфейса к типу (type assertion).
+//Попытка явного приведение типа "интерфейс io.Writer" к типу "MyWriter"
+var w io.Writer
+w = MyWriter{Value: "some value"}
+
+m := w.(MyWriter) // <- !
+fmt.Println(m.Value) // some value
+
+_, ok := w.(io.Reader) // <- !
+fmt.Println(ok) // false
+
+//2. type switch
+//switch по типу интерфейса (type switch).
+//Подбор первого подходящего типа для переменной иначе default
+var w io.Writer
+w = MyStructWriter{Value: "some value"}
+
+switch m := w.(type) { // <- !
+case MyStructWriter:
+    fmt.Println(m.Value) // some value
+
+case *net.UDPConn:
+    fmt.Println(`there was supposed to be a joke, but it won't reach you`)
+
+default:
+    fmt.Printf("have no idea what it is: %T\n", m)
+}

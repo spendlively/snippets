@@ -1,0 +1,9 @@
+
+//MySQL и MongoDB — когда и что лучше использовать
+https://habr.com/ru/post/322532/
+
+//Should I Use MongoDB or PostgreSQL?
+https://medium.com/geekculture/should-i-use-mongodb-or-postgresql-ba2c1bb8b768
+
+
+

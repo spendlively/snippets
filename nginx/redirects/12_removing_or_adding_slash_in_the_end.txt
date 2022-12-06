@@ -1,0 +1,16 @@
+
+// 1. Removing / from the end
+server {
+    if (!-f $request_filename ) {
+        rewrite ^/(.*)/$ /$1 permanent;
+    }
+}
+
+
+//2. Adding / in the end
+server {
+    if (!-f $request_filename ) {
+        rewrite ^(.*[^/])$ $1/ permanent;
+    }
+}
+

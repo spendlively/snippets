@@ -1,0 +1,57 @@
+
+/////////////////////////
+//1. Symbol description//
+/////////////////////////
+//1. =
+ - полное строковое совпадение, если найдено, проверка заканчивается
+//2. ^~
+ - приоритетное строковое значение. в отличии от = требуется совпадение только начала
+ - полностью отключит регулярные выражения для секции server, если нет более точного location без ^~
+//3. /download/
+ - ищется максимальное совпадение, смотрится только с начала пути
+ - если нужно совпадение вида /*/download/, то это уже будет п.4-5
+ - такую запись можно читать как /download/*
+ - на этом проверка НЕ ЗАКАНЧИВАЕТСЯ!
+//4. ~
+ - регулярные выражения, в порядке определения в конфиге
+ - при совпадении — выполняется этот regex, проверка заканчивается
+ - с учётом регистра
+//5. ~*
+ - то же что и ~ но БЕЗ УЧЁТА РЕГИСТРА
+//6. ( )
+ – all the values inside this regular expression will be considered as keywords in the URL
+//7. |
+ - this is the OR operator. i.e png, or gif, or ico, or jpg, or jpeg keyword in the URL will be considered.
+//8. $
+ - at the end means that the specified keyword should be at the end of the URL.
+//9. jpe?g
+ - jpg|jpeg
+
+
+
+///////////////
+//2. Examples//
+///////////////
+
+location / {}
+location /images/ {}
+location = /exact_images {}
+location ~ \.(gif|jpg|png)$ {}
+location ~* .(png|ico|gif|jpg|jpeg|css|js)$ {}
+location ~ .(png|gif|ico|jpe?g)$
+location ^~ /images {}
+location ~ /images {}
+location ~* /images {}
+location ~* /myapp/.+\.php$ {}
+
+location ~ ^/a/(?[a-zA-Z]+) {
+   if ($myvar = "sth") { ... }
+}
+
+location / {
+    try_files $uri $uri/ @custom;
+}
+location @custom {
+    rewrite ^/(.+)$ /index.php?_route_=$1 last;
+}
+
