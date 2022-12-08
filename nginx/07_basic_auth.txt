@@ -1,0 +1,26 @@
+
+//////////////////////////////////
+//1. Creating login and password//
+//////////////////////////////////
+
+//Using OpenSSL
+sudo sh -c "echo -n 'admin:' >> /etc/nginx/.htpasswd"
+sudo sh -c "openssl passwd -apr1 >> /etc/nginx/.htpasswd"
+
+//OR
+//Using Apache Utilities
+sudo apt-get update
+sudo apt-get install apache2-utils
+sudo htpasswd -c /etc/nginx/.htpasswd admin
+
+////////////////////////
+//2. Configuring nginx//
+////////////////////////
+server {
+    auth_basic "Restricted Content";
+    auth_basic_user_file /etc/nginx/.htpasswd;
+
+    location /public/ {
+        auth_basic off;
+    }
+}
