@@ -1,0 +1,86 @@
+//CURL
+//Инфа
+curl --help
+curl --manual
+
+//Verbose
+curl -v
+
+//Get
+curl http://ya.ru
+
+//Аутентификация
+curl -c /tmp/ismsCookie 'http://192.168.101.63/auth/login/check' --data 'username=administrator&password1=passme' --compressed
+//Запрос к API
+curl -b /tmp/ismsCookie -L http://192.168.101.63/api/v1.0/json/profile/read/id/1/
+
+//Отправка формы
+//<form method="POST" action="handler.php">
+//<input type=text name="birthyear">
+//<input type=submit name=press value=" OK ">
+//</form>
+//GET-ом
+curl "http://ya.ru/handler.php?birthyear=1905&press=OK"
+//POST-ом
+curl -d "birthyear=1905&press=OK" http://ya.ru/handler.php
+
+//Загрузка файлов с помощью POST
+//<form method="POST" enctype='multipart/form-data' action="handler.php">
+//<input type=file name=upload>
+//<input type=submit name=press value="OK">
+//</form>
+curl -F upload=@localfilename -F press=OK [URL]
+
+//Отправка произвольных заголовков
+curl \
+    'http://www.voicerss.org/controls/speech.ashx?hl=en-us&src={$string}&c=mp3' \
+    -H 'Accept-Encoding: gzip,deflate,sdch' \
+    -H 'Accept-Language: en-US,en;q=0.8,ru;q=0.6' \
+    -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36' \
+    -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' \
+    -H 'Cache-Control: max-age=0' -H 'Cookie: ys=mailchrome.2.8.0' \
+    -H 'Connection: keep-alive' \
+    --compressed \
+    > {$fullPath}.mp3
+
+//Отладка
+- Используйте ключ --trace-ascii для сохранения подробного отчета запросов, чтобы затем подробно изучить их и разобраться в проблеме.
+- Убедитесь, что вы проверяете на cookies и используете их при необходимости (ключ чтения -b и сохранения -c)
+- Укажите в поле 'user-agent' один из последних популярных браузеров
+- Заполните поле 'referer' как это делает браузер
+- Если вы используете POST-запросы, убедитесь, что все поля передаются в том же порядке, что и браузер (см. выше, пункт 4.5)
+
+//HTTPS
+curl https://that.secure.server.com
+
+//Сертификаты
+curl -E mycert.pem https://that.secure.server.com
+-E, --cert <certificate[:password]>
+
+//Cookies
+curl -b "name=Daniel" www.cookiesite.com
+-b, --cookie <name=data>
+
+curl -D headers_and_cookies www.cookiesite.com
+-D, --dump-header <file>
+
+//PUT
+curl -T uploadfile www.uploadhttp.com/receive.cgi
+-T, --upload-file <file>
+
+//Аутентификация
+curl -u name:password www.secrets.com
+curl -U proxyuser:proxypassword curl.haxx.se
+
+//Referer
+curl -e http://curl.haxx.se daniel.haxx.se
+-e, --referer <URL>
+
+//User Agent
+curl -A "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)" [URL]
+curl -A "Mozilla/4.73 [en] (X11; U; Linux 2.2.15 i686)" [URL]
+-A, --user-agent <agent string>
+
+//Перенаправления
+curl -L www.sitethatredirects.com
+-L, --location
