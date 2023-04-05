@@ -1,0 +1,87 @@
+
+//tcp-порты по умолчанию
+ - 9200 - для crud-операций
+ - 9300 - для внутр. работы (репликаций и пр)
+
+///////////////////////////
+//Мониторинг и статистика//
+///////////////////////////
+GET /_cluster/health
+GET /_cluster/stats
+GET /_nodes/stats
+
+
+
+//////////////
+//Index (db)//
+//////////////
+//1.1 CREATE
+PUT /mydb
+
+//1.2 CREATE (Создание индекса с конкретным mapping-ом)
+PUT /mydb
+{
+  "mappings": {
+    "title": { "type": "text" },
+    "sku": { "type": "text" },
+    "category": { "type": "keyword" },
+    "price": { "type": "short" }
+  }
+}
+
+//2. GET типы полей
+GET /mydb/_mapping
+
+//3. DELETE
+DELETE /mydb
+
+
+
+/////////////
+//Documents//
+/////////////
+//1.1 CREATE (with random id)
+POST /mydb/_doc
+{...}
+//1.2 CREATE (with passing id)
+POST /mydb/_create/<_id>
+{...}
+
+//2.1 READ (возвращает мета-данные)
+GET /mydb/_doc/<_id>
+//2.2 READ (возвращает только исходный JSON)
+GET /mydb/_source/<_id>
+
+//3. UPDATE
+POST /mydb/_update/<_id>
+{
+    "doc": {
+        "price": 2500
+    }
+}
+//— после обновления документ будет переиндексирован
+//— можно обновить только часть полей документа
+
+
+//4. DELETE
+DELETE /mydb/_doc/<_id>
+
+
+//5. Массовый CRUD документов
+POST /_bulk
+{ "create" : { "_index" : "mydb", "_id": "342-001" } }
+{ …данные… }
+{ "update" : { "_index" : "mydb", "_id": "342-001" } }
+{ …данные… }
+{ "delete" : { "_index" : "mydb", "_id": "342-001" } }
+//— в запросе чередуются команды/данные
+//— на стороне ES есть доп.оптимизации для ускорения обработки
+//— кол-во строк в одном запросе подбирается опытным путём
+
+//с помощью curl
+curl \
+--request POST 'http://107.21.153.46:9200/_bulk' \
+--header 'Content-Type: application/json' \
+--data-binary '@bulk.json'
+
+

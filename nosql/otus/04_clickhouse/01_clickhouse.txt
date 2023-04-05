@@ -1,0 +1,125 @@
+
+//////////////
+//Clickhouse//
+//////////////
+//Когда нужен clickhouse
+ - столбцовая субд
+ - Данных очень много – скорость их обработки штатными средствами не устраивает
+ - Нужно получать агрегированную информацию по этим данным (olap)
+ - Нужны оперативные и исторические данные – действительно Online
+ - Данные нужны на диске
+ - Большие аналитические запросы
+ - Хорошо работает с большой аналитической базой, хуже с джойнами
+ - Хорошая замена для ELK стека
+ - строить месячные отчеты по широкой таблице, при этом самих данных очень много
+ - для ML
+
+//Почему ClickHouse так быстро работает
+ - https://clickhouse.com/docs/ru/faq/general/why-clickhouse-is-so-fast
+
+//Сравнение производительности clickhouse с другими субд
+ - https://benchmark.clickhouse.com/#eyJzeXN0ZW0iOnsiQXRoZW5hIChwYXJ0aXRpb25lZCkiOmZhbHNlLCJBdGhlbmEgKHNpbmdsZSkiOmZhbHNlLCJBdXJvcmEgZm9yIE15U1FMIjpmYWxzZSwiQXVyb3JhIGZvciBQb3N0Z3JlU1FMIjpmYWxzZSwiQnl0ZUhvdXNlIjpmYWxzZSwiQ2l0dXMiOmZhbHNlLCJjbGlja2hvdXNlLWxvY2FsIChwYXJ0aXRpb25lZCkiOmZhbHNlLCJjbGlja2hvdXNlLWxvY2FsIChzaW5nbGUpIjpmYWxzZSwiQ2xpY2tIb3VzZSI6dHJ1ZSwiQ2xpY2tIb3VzZSAodHVuZWQpIjpmYWxzZSwiQ2xpY2tIb3VzZSAoenN0ZCkiOmZhbHNlLCJDbGlja0hvdXNlIENsb3VkIjpmYWxzZSwiQ3JhdGVEQiI6ZmFsc2UsIkRhdGFiZW5kIjpmYWxzZSwiZGF0YWZ1c2lvbiI6ZmFsc2UsIkFwYWNoZSBEb3JpcyI6ZmFsc2UsIkRydWlkIjpmYWxzZSwiRHVja0RCIChQYXJxdWV0KSI6ZmFsc2UsIkR1Y2tEQiI6ZmFsc2UsIkVsYXN0aWNzZWFyY2giOmZhbHNlLCJFbGFzdGljc2VhcmNoICh0dW5lZCkiOmZhbHNlLCJHcmVlbnBsdW0iOmZhbHNlLCJIZWF2eUFJIjpmYWxzZSwiSHlkcmEiOmZhbHNlLCJJbmZvYnJpZ2h0IjpmYWxzZSwiTWFyaWFEQiBDb2x1bW5TdG9yZSI6ZmFsc2UsIk1hcmlhREIiOmZhbHNlLCJNb25ldERCIjpmYWxzZSwiTW9uZ29EQiI6ZmFsc2UsIk15U1FMIChNeUlTQU0pIjpmYWxzZSwiTXlTUUwiOnRydWUsIlBpbm90IjpmYWxzZSwiUG9zdGdyZVNRTCI6dHJ1ZSwiUXVlc3REQiAocGFydGl0aW9uZWQpIjpmYWxzZSwiUXVlc3REQiI6ZmFsc2UsIlJlZHNoaWZ0IjpmYWxzZSwiU2VsZWN0REIiOmZhbHNlLCJTaW5nbGVTdG9yZSI6ZmFsc2UsIlNub3dmbGFrZSI6ZmFsc2UsIlNRTGl0ZSI6ZmFsc2UsIlN0YXJSb2NrcyAodHVuZWQpIjpmYWxzZSwiU3RhclJvY2tzIjpmYWxzZSwiVGltZXNjYWxlREIgKGNvbXByZXNzaW9uKSI6ZmFsc2UsIlRpbWVzY2FsZURCIjpmYWxzZX0sInR5cGUiOnsic3RhdGVsZXNzIjp0cnVlLCJtYW5hZ2VkIjp0cnVlLCJKYXZhIjp0cnVlLCJjb2x1bW4tb3JpZW50ZWQiOnRydWUsIkMrKyI6dHJ1ZSwiTXlTUUwgY29tcGF0aWJsZSI6dHJ1ZSwicm93LW9yaWVudGVkIjp0cnVlLCJDIjp0cnVlLCJQb3N0Z3JlU1FMIGNvbXBhdGlibGUiOnRydWUsIkNsaWNrSG91c2UgZGVyaXZhdGl2ZSI6dHJ1ZSwiZW1iZWRkZWQiOnRydWUsIlJ1c3QiOnRydWUsInNlYXJjaCI6dHJ1ZSwiZG9jdW1lbnQiOnRydWUsInRpbWUtc2VyaWVzIjp0cnVlfSwibWFjaGluZSI6eyJzZXJ2ZXJsZXNzIjp0cnVlLCIxNmFjdSI6dHJ1ZSwiTCI6dHJ1ZSwiTSI6dHJ1ZSwiUyI6dHJ1ZSwiWFMiOnRydWUsImM2YS40eGxhcmdlLCA1MDBnYiBncDIiOnRydWUsImM1LjR4bGFyZ2UsIDUwMGdiIGdwMiI6dHJ1ZSwiYzZhLm1ldGFsLCA1MDBnYiBncDIiOnRydWUsIjE2IHRocmVhZHMiOnRydWUsIjIwIHRocmVhZHMiOnRydWUsIjI0IHRocmVhZHMiOnRydWUsIjI4IHRocmVhZHMiOnRydWUsIjMwIHRocmVhZHMiOnRydWUsIjQ4IHRocmVhZHMiOnRydWUsIjYwIHRocmVhZHMiOnRydWUsIm01ZC4yNHhsYXJnZSI6dHJ1ZSwiZjE2cyB2MiI6dHJ1ZSwiYzZhLjR4bGFyZ2UsIDE1MDBnYiBncDIiOnRydWUsInJhMy4xNnhsYXJnZSI6dHJ1ZSwicmEzLjR4bGFyZ2UiOnRydWUsInJhMy54bHBsdXMiOnRydWUsIlMyIjp0cnVlLCJTMjQiOnRydWUsIjJYTCI6dHJ1ZSwiM1hMIjp0cnVlLCI0WEwiOnRydWUsIlhMIjp0cnVlfSwiY2x1c3Rlcl9zaXplIjp7IjEiOnRydWUsIjIiOnRydWUsIjQiOnRydWUsIjgiOnRydWUsIjEyIjp0cnVlLCIxNiI6dHJ1ZSwiMzIiOnRydWUsIjY0Ijp0cnVlLCIxMjgiOnRydWUsInNlcnZlcmxlc3MiOnRydWUsInVuZGVmaW5lZCI6dHJ1ZX0sIm1ldHJpYyI6ImhvdCIsInF1ZXJpZXMiOlt0cnVlLHRydWUsdHJ1ZSx0cnVlLHRydWUsdHJ1ZSx0cnVlLHRydWUsdHJ1ZSx0cnVlLHRydWUsdHJ1ZSx0cnVlLHRydWUsdHJ1ZSx0cnVlLHRydWUsdHJ1ZSx0cnVlLHRydWUsdHJ1ZSx0cnVlLHRydWUsdHJ1ZSx0cnVlLHRydWUsdHJ1ZSx0cnVlLHRydWUsdHJ1ZSx0cnVlLHRydWUsdHJ1ZSx0cnVlLHRydWUsdHJ1ZSx0cnVlLHRydWUsdHJ1ZSx0cnVlLHRydWUsdHJ1ZSx0cnVlXX0=
+
+//Плюсы
+ - Жутко быстрые OLAP запросы
+ - Данные хранятся на диске
+ - написан на С++
+ - поддерживает SQL
+ - Кластеризация/репликация (не все так просто)
+
+//Минусы
+ - Предназначен только для добавления данных
+ - Нет транзакций
+ - ОЧЕНЬ Медленные Update & Delete
+ - Медленные одиночные Insert & Select - лучше заливать по 100к - 1м записей
+ - не подходит для oltp нагрузки
+
+///////////////////
+//Хранение данных//
+///////////////////
+//РСУБД
+id  name    title   desc
+1   name1   title1  desc1
+2   name2   title3  desc2
+3   name3   title3  desc3
+
+//Clickhouse
+id      1       2       3
+name    name1   name2   name3
+title   title1  title2  title3
+desc    desc1   desc2   desc3
+//Каждое поле - набор файлов
+
+
+//Плюсы такого хранения
+ - данные в одном полу становятся одного типа
+
+//Создание бд
+ - с помощью sql
+ - при создании можно указать на каком кластере бд будет лежать (ON CLUSTER cluster)
+ - указываем engine (Postgresql, mysql, MaterializedPostgresql...)
+ - https://clickhouse.com/docs/en/engines/database-engines/postgresql/
+
+//MaterializedPostgresql
+ - пишем запрос к Postgresql
+ - вытаскиваем данные
+ - храним их в clickhouse
+
+//Типы данных
+ - типы данных в clickhouse не совпадают с типами других баз
+ - https://clickhouse.com/docs/en/engines/database-engines/postgresql/#data_types-support
+
+//Создание таблицы
+ - указывается engine
+    - 2 встроенных engines
+    - MergeTree
+    - Log
+ - обязательно указывается order by
+    - по order by данные физически будут уложены на диск
+    - можно сделать alter table ... modify order by - чтобы данные физически переупорядочить
+ - можно указать partition
+ - можно указать кодеки сжатия для каждого поля (можно потом перекодировать)
+ - можно настроить гибридное хранилище
+    - можно установить ttl по достижению которого данные можно отправлять на s3 хранилище
+
+//Движки таблиц
+//CH это MergeTree
+ - ReplacingMergeTree
+ - SummingMergeTree
+ - AggregatingMergeTree
+ - CollapsingMergeTree
+ - https://clickhouse.com/docs/ru/engines/table-engines/
+
+
+//Как работает вставка данных
+ - на каждую вставку создается свой парт
+ - внутри парта для каждой колонки как минимум 1 файл
+ - парты мерджатся в фоне
+ - частые мелкие вставки - плохо!
+ - парт - Внутри каждого парта файл с данными и файл с засечками
+
+//Как вставлять данные
+ - вставка больших кусков данных за раз (1 млн строк)
+ - чем реже - тем лучше (хотя бы раз в секунду)
+ - не лить по одной записи
+ - Как достигнуть
+    - на стороне приложения
+    - open source решения (kittenhouse, clickhouse-bulk, ...)
+    - kafka engine - копить на стороне кафки
+    - buffer table
+    - http-chunk (осторожно) и можно придумать еще!
+
+//Clickhouse + kafka
+ - Clickhouse умеет работать с kafka автоматически из коробки
+ - https://clickhouse.com/docs/ru/engines/table-engines/integrations/kafka/
+
+//Clickhouse + grafana
+//Clickhouse + DataGrip
+
+//Бэкапы
+//1. ручное копирование файлов с фс
+//2. для работы с партами
+https://github.com/AlexAkulov/clickhouse-backup
+//3. сохранение бэкапа в новый кластер
+https://clickhouse.com/docs/ru/operations/utilities/clickhouse-copier/
+

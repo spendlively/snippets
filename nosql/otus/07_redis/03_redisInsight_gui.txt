@@ -1,0 +1,6 @@
+
+//RedisInsight
+ - официальный бесплатный GUI для работы с Redis
+ - отлично подходит для образовательных целей
+ - работает в браузере
+ - https://redis.com/redis-enterprise/redis-insight/

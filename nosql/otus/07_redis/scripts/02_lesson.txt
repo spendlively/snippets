@@ -1,0 +1,623 @@
+IP для занятия:
+
+- 5.53.124.10
+- 188.68.223.76
+- 188.68.223.64
+
+Переменная окружения:
+
+export REDISCLI_AUTH=1q2w3e4r5t
+
+
+
+
+Краткое содержание предыдущих серий
+-----------------------------------
+
+redis-cli
+
+FLUSHDB
+
+SET user:1:name "Dmitry"
+GET user:1:name
+
+KEYS *
+
+---
+
+SET cache:api "{a: 100, b: true}" EX 15
+TTL cache:api
+TTL cache:api
+GET cache:api
+
+
+
+
+
+
+
+
+
+Настройка безопасности
+----------------------
+
+redis-cli -h 127.0.0.1 -p 6379 PING
+
+---
+
+docker exec \
+  -it otus-redis-7 \
+  redis-cli \
+  -h 5.53.124.10 \
+  -p 6379 \
+  PING
+
+---
+
+vim /etc/redis/redis.conf
+
+systemctl restart redis
+
+---
+
+redis-cli -h 127.0.0.1 -p 6379 PING
+
+---
+
+docker exec \
+  -it otus-redis-7 \
+  redis-cli \
+  -h 5.53.124.10 \
+  -p 6379 \
+  PING
+
+---
+
+vim /etc/redis/redis.conf
+
+redis-cli
+
+---
+
+ACL WHOAMI
+
+ACL LIST
+
+ACL SETUSER dmitry on >123456 ~cached:* +get
+
+ACL LIST
+
+---
+
+SET counter 10
+SET cached:counter 20
+
+AUTH dmitry 123456
+
+GET counter
+GET cached:counter
+SET cached:counter 25
+
+---
+
+ACL SETUSER default on >1q2w3e4r5t
+
+---
+
+docker exec \
+  -it otus-redis-7 \
+  redis-cli \
+  -h 5.53.124.10 \
+  -p 6379 \
+  -a 1q2w3e4r5t \
+  PING
+
+
+
+
+Настройка безопасности (ACL)
+----------------------------
+
+export REDISCLI_AUTH=1q2w3e4r5t
+
+vim /etc/redis/redis.conf
+
+systemctl restart redis
+
+
+
+
+
+
+
+
+
+
+
+Журналирование
+--------------
+
+vim /etc/redis/redis.conf
+
+vim /var/log/redis/redis-server.log
+
+Отслеживание всех запросов
+--------------------------
+
+MONITOR
+
+---
+
+docker exec \
+  -e REDISCLI_AUTH=1q2w3e4r5t \
+  -it otus-redis-7 \
+  redis-cli \
+  -h 5.53.124.10 \
+  -p 6379
+
+SET test:1 10
+INCR test:1
+
+
+
+
+Отслеживание медленных запросов
+-------------------------------
+
+vim /etc/redis/redis.conf
+
+systemctl restart redis
+
+---
+
+SLOWLOG GET
+
+---
+
+vim /etc/redis/redis.conf
+
+systemctl restart redis
+
+
+
+
+Статистика Redis
+----------------
+
+INFO
+
+INFO STATS
+
+---
+
+SET a 10
+GET a
+GET a
+GET abc
+
+---
+
+INFO STATS
+
+
+
+
+
+
+
+
+Конфигурация Redis
+------------------
+
+CONFIG GET *
+CONFIG GET slowlog-log-slower-than
+CONFIG SET slowlog-log-slower-than 5000
+CONFIG REWRITE
+
+---
+
+vim /etc/redis/redis.conf
+
+enable-debug-command local
+
+---
+
+systemctl restart redis
+
+
+
+
+
+
+
+
+
+
+
+
+Инструменты для анализа Redis
+-----------------------------
+
+redis-benchmark -a 1q2w3e4r5t -q
+
+---
+
+redis-cli FLUSHDB
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Действия при переполнении памяти
+--------------------------------
+
+SET counter 10
+
+---
+
+KEYS *
+DEBUG OBJECT counter
+
+---
+
+GET counter
+DEBUG OBJECT counter
+
+---
+
+CONFIG GET hz
+
+INFO STATS
+
+
+
+
+
+
+Создание слепка RDB
+-------------------
+
+SET twenty 20
+SET twenty-one 021
+SAVE
+BGSAVE
+
+---
+
+vim /etc/redis/redis.conf
+
+cd /var/lib/redis
+vim -b dump.rdb
+:%!xxd
+
+
+
+
+
+
+
+
+
+
+Как Redis создаёт слепок RDB
+----------------------------
+
+INFO STATS
+
+INFO PERSISTENCE
+
+
+
+
+
+
+
+
+
+
+
+Конфигурация AOF
+----------------
+
+vim /etc/redis/redis.conf
+
+---
+
+systemctl restart redis
+cd /var/lib/redis/
+ls
+
+---
+
+cd appendonlydir
+ls -l
+
+---
+
+SET counter 10
+INCR counter
+INCR counter
+INCR counter
+INCR counter
+INCR counter
+
+---
+
+vim appendonly.aof.1.incr.aof
+
+---
+
+redis-cli BGREWRITEAOF
+ls -l
+
+---
+
+vim /etc/redis/redis.conf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Настраиваем репликацию
+----------------------
+
+redis-cli INFO REPLICATION
+redis-cli GET counter
+
+---
+
+redis-cli INFO REPLICATION
+redis-cli GET counter
+
+---
+
+vim /etc/redis/redis.conf
+
+replicaof 5.53.124.10 6379
+masterauth 1q2w3e4r5t
+
+---
+
+systemctl restart redis
+
+---
+
+redis-cli INFO REPLICATION
+redis-cli GET counter
+
+---
+
+redis-cli MONITOR
+
+---
+
+SET c 100
+INCR counter
+
+---
+
+SET cache "json" EX 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Способ 2. Redis Sentinel
+------------------------
+
+CONFIG GET min-replicas-to-write
+
+---
+
+CONFIG SET min-replicas-to-write 3
+SET abc 100
+
+---
+
+CONFIG SET min-replicas-to-write 2
+SET abc 100
+
+---
+
+CONFIG SET min-replicas-to-write 0
+
+Настраиваем Sentinel
+--------------------
+
+vim /etc/redis/sentinel.conf
+
+---
+
+daemonize yes
+logfile "/var/log/redis/sentinel.log"
+sentinel monitor mymaster 5.53.124.10 6379 2
+sentinel auth-pass mymaster 1q2w3e4r5t
+sentinel down-after-milliseconds mymaster 5000
+
+---
+
+vim /etc/redis/sentinel.conf
+
+cat /etc/redis/sentinel.conf
+
+
+
+Устанавливаем нужные права
+--------------------------
+
+chown redis:redis /etc/redis/sentinel.conf
+touch /var/log/redis/sentinel.log
+chown redis:redis /var/log/redis/sentinel.log
+chmod 640 /etc/redis/sentinel.conf
+chmod 660 /var/log/redis/sentinel.log
+
+
+
+
+
+Запускаем Sentinel
+------------------
+
+ps aux | grep redis
+
+---
+
+/usr/bin/redis-server /etc/redis/sentinel.conf --sentinel
+ps aux | grep redis
+
+---
+
+tail /var/log/redis/sentinel.log
+
+---
+
+redis-cli -p 26379
+
+
+
+
+
+
+
+
+
+
+
+
+
+Основные команды Redis Sentinel
+-------------------------------
+
+SENTINEL MASTERS
+
+SENTINEL SENTINELS mymaster
+
+
+
+
+
+
+
+
+
+
+Использование Redis Sentinel на клиенте
+---------------------------------------
+
+    static {
+        Set<String> sentinels = new HashSet<>();
+        sentinels.add("5.53.124.10:26379");
+        sentinels.add("188.68.223.76:26379");
+        sentinels.add("188.68.223.64:26379");
+
+        JedisSentinelPool pool = new JedisSentinelPool("mymaster", sentinels);
+        jedis = pool.getResource();
+        jedis.auth("1q2w3e4r5t");
+    }
+
+   public static void main(String[] args)
+            throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException {
+       jedis.set("test", "20");
+       var result = jedis.get("test");
+       System.out.println(result);
+    }
+
+
+
+
+
+
+
+
+
+
+
+Сценарий отказа: недоступность master
+-------------------------------------
+
+tail -f /var/log/redis/sentinel.log
+
+---
+
+systemctl stop redis
+
+---
+
+redis-cli INFO REPLICATION
+
+
+
+
+Настройка Redis Cluster
+-----------------------
+
+docker-compose up -d
+
+docker exec -it root_redis-node-0_1 bash
+
+---
+
+redis-cli -a bitnami
+
+SET a 12
+
+---
+
+SET b 14
+
+---
+
+redis-cli -a bitnami -c
+
+SET a 12
+GET a
+
+---
+
+SET {user:1}:token 12
+SET {user:1}:session 34
+SET {user:1}:somekey 100
+KEYS *
+
+---
+
+redis-cli -a bitnami --cluster call localhost:6379 KEYS "*"
+
+---
+
+redis-cli -a bitnami -c
+
+CLUSTER KEYSLOT a
+CLUSTER KEYSLOT b
+CLUSTER KEYSLOT a{test}
+CLUSTER KEYSLOT b{test}

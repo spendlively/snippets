@@ -1,0 +1,28 @@
+
+//Upload file to server via PUT method
+//With minimum number of parameters
+//curl -T file.jpg http://site.ru/upload/file.jpg
+location ~ "/upload/([0-9a-zA-Z-.]*)$" {
+    dav_methods PUT;            # allowed methods
+    alias /tmp/$1;              # save to /tmp/file.jpg
+    dav_access group:rw all:r;  # permissions for newly created files and directories
+    client_body_in_file_only on;    # save the entire client request body into a file
+    client_max_body_size 100M;      # maximum allowed size of the client request body
+}
+
+//With some extra parameters
+location ~ "/upload/([0-9a-zA-Z-.]*)$" {
+    dav_methods PUT DELETE MKCOL COPY MOVE; # allowed methods
+    client_body_temp_path /tmp;             # directory for storing temporary files
+    alias /tmp/$1;                          # save to /tmp/file.jpg
+    create_full_put_path on;                # allows creating all needed intermediate directories
+    dav_access group:rw  all:r;             # permissions for newly created files and directories
+
+    client_body_in_file_only on;            # save the entire client request body into a file
+    client_body_buffer_size 128k;           # buffer size for reading client request body
+    client_max_body_size 100M;              # maximum allowed size of the client request body
+    proxy_pass_request_headers on;          # pass the header fields to the proxied server
+    proxy_set_body $request_body_file;      # Allows redefining the request body passed to the proxied server.
+    proxy_pass http://127.0.0.1/upload;
+    proxy_redirect off;
+}

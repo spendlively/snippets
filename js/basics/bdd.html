@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <!-- подключаем стили Mocha, для отображения результатов -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.css">
+  
+  <!-- подключаем библиотеку Mocha -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.js"></script>
+
+  <!-- настраиваем Mocha: предстоит BDD-тестирование -->
+  <script>
+    mocha.setup('bdd');
+  </script>
+
+  <!-- подключаем chai -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/2.0.0/chai.js"></script>
+</head>
+
+<body>
+
+  <!-- Что тестируем	 -->
+  <script>
+    function pow(x, n) {
+
+		for(var i = 1, res = x; i < n; i++){
+      		res *= x;
+      	}
+		return res;
+    }
+
+  </script>
+
+  <!-- Тесты -->
+  <script src="mocha_chai.js"></script>
+
+  <!-- Вывод результатов -->
+  <div id="mocha"></div>
+
+  <!-- Запуск -->
+  <script>
+    mocha.run();
+  </script>
+</body>
+
+</html>

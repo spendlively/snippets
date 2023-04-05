@@ -1,0 +1,132 @@
+
+//Основной инструмент поиска — Query DSL
+
+//1. Поиск всех документов (вернет 10 штук)
+GET /mydb/_search
+{
+    "query": {
+        "match_all": { }
+    }
+}
+
+
+//2. Поиск, где title включает слова "красное" и "вино" (в любом порядке)
+//без учета регистра
+//запрос бьется на отдельные слова
+GET /mydb/_search
+{
+    "query": {
+        "match": {
+            "title": "красное вино"
+        }
+    }
+}
+
+
+//3. Поиск по точному совпадению
+GET /mydb/_search
+{
+    "query": {
+        "term": {
+            "category.keyword": "Портвейн"
+        }
+    }
+}
+— запросы по умолчанию регистрозависимые
+— если тип поля был выведен автоматически как text,
+нужно использовать <field>.keyword
+
+
+//4. Поиск по диапазону
+{
+  "query": {
+    "range": {
+      "price": {
+        "gte": 1200,
+        "lt": 1300
+      }
+    }
+  }
+}
+— операции gt / gte / lt / lte комбинируются через AND
+
+
+//5. Составные запросы
+GET /mydb/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "title": "красное"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "price": {
+              "gte": 9950
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+//Критерии
+ - must - Обязательно - Влияют на score
+ - must not - Обязательно - Влияют на score
+ - filter - Обязательно - Не влияют на score
+ - should - Желательно - Влияют на score
+
+
+//6. Агрегация данных
+//Запрос мин volume и макс цены
+GET /mydb/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "aggs": {
+    "min_volume": {
+      "min": {
+        "field": "volume"
+      }
+    },
+    "max_price": {
+      "max": {
+        "field": "price"
+      }
+    }
+  }
+}
+
+
+//7. выборка конкретных полей
+GET /mydb/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "_source": false,
+  "fields": [
+    "price"
+  ]
+}
+
+
+//8. выборка только результатов вычислений
+GET /mydb/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "size": 0,
+  "aggs": {
+    "min_volume": {
+      "min": { "field": "volume" }
+    }
+  }
+}

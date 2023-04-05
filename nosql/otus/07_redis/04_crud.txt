@@ -1,0 +1,221 @@
+
+////////
+//Доки//
+////////
+https://redis.io/commands/
+
+
+
+//////
+//БД//
+//////
+//Очистить бд
+FLUSHDB
+
+
+
+/////////
+//Ключи//
+/////////
+//Вывести список всех ключей
+KEYS *
+
+//Вывести список ключей по шаблону
+KEYS user*
+
+
+
+//////////
+//Строки//
+//////////
+//Записать значение
+SET user:1:name "Dmitry"
+
+//Получить значение
+GET user:1:name
+
+
+
+
+/////////
+//Числа//
+/////////
+//Записать число
+SET upload:counter 10
+
+//Инкремент числа
+INCR upload:counter
+
+
+
+///////
+//TTL//
+///////
+//Установить TTL 10 секунд
+SET cache:user:1 "json" EX 10
+
+//Узнать оставшийся TTl
+TTL cache:user:1
+-2 - ключа в памяти уже нет (или не было)
+-1 - TTL не установлен
+
+
+
+/////////
+//Опции//
+/////////
+ - EX seconds -- Set the specified expire time, in seconds.
+ - PX milliseconds -- Set the specified expire time, in milliseconds.
+ - EXAT timestamp-seconds -- Set the specified Unix time at which the key will expire, in seconds.
+ - PXAT timestamp-milliseconds -- Set the specified Unix time at which the key will expire, in milliseconds.
+ - NX -- Only set the key if it does not already exist.
+ - XX -- Only set the key if it already exist.
+ - KEEPTTL -- Retain the time to live associated with the key.
+ - GET -- Return the old string stored at key, or nil if key did not exist. An error is returned and SET aborted if the value stored at key is not a string.
+
+
+
+////////////////
+//Hash-таблица//
+////////////////
+//Хэш-таблица
+//Установить поля "name" и "age"
+HSET user:1 name "Ivan"
+HSET user:1 name "Dmitry" age 41
+
+//Получить пары «поле-значение»
+HGETALL user:1
+
+//GET вернет ошибку
+
+//Получть поле "name"...
+HGET user:1 name
+HGET user:1 age
+
+//Инкремент age
+HINCRBY user:1 age 1
+
+//Получить ключи полей
+HKEYS user:1
+
+//Получить значения полей
+HVALS user:1
+
+//Удалить поле
+HDEL user:1 age
+
+
+
+
+//////////
+//Списки//
+//////////
+//Вставка вправо/влево
+RPUSH user:1:posts post:10
+RPUSH user:1:posts post:11
+LPUSH user:1:posts post:12
+
+//Получить срез
+LRANGE user:1:posts 0 10
+
+//Обрезать список до 3 эл-тов
+LTRIM user:1:posts 0 2
+
+//Получить длину списка
+LLEN user:1:posts
+
+//Получить элемент по индексу
+LINDEX user:1:posts 0
+
+//Вытащить справа/слева и удалить
+RPOP user:1:posts
+LPOP user:1:posts
+
+//Как хранить 10 последних элементов
+//не раздувая список
+LPUSH user:1:posts post:22
+LTRIM user:1:posts 0 9
+
+
+
+/////////////
+//Множества//
+/////////////
+//Добавить элемент
+SADD users:online user:1
+SADD users:online user:2
+SADD users:online user:12
+//Дубликат: мн-во не изменится
+SADD users:online user:12
+
+//Получить мощность множества
+SCARD users:online
+
+//Получить ключи множества
+SMEMBERS users:online
+
+//Удалить элемент из множества
+SREM users:online user:2
+
+//Операции над 2мя множествами
+//Результат любой операции — новое множество
+//Разность
+SDIFF users:all users:online
+//Пересечение
+SINTER users:online users:premium
+//Объединение
+SUNION users:premium users:vip
+
+
+
+///////////////////////////
+//Упорядоченные множества//
+///////////////////////////
+//Добавить элемент
+ZADD users:rating 10 user:1
+ZADD users:rating 5 user:2
+ZADD users:rating 15 user:12
+//Дубликат: мн-во не изменится
+ZADD users:rating 15 user:12
+
+//Получить мощность множества
+ZCARD users:rating
+
+//Кол-во эл-тов в диапазоне
+ZCOUNT users:rating 5 10
+
+//Получить эл-ты в диапазоне
+ZRANGE users:rating 5 10 BYSCORE
+
+//Получить место эл-та в мн-ве
+ZRANK users:rating user:12
+
+//Удалить элемент из множества
+ZREM users:rating user:12
+
+
+
+//////////////////
+//Битовые строки//
+//////////////////
+SETBIT views:today 1 1 //0010
+SETBIT views:today 3 1 //1010
+GETBIT views:today 2 //Получение бита по индексу
+BITCOUNT views:today //Кол-во установленных битов
+SETBIT views:yesterday 0 1 //0001
+SETBIT views:yesterday 1 1 //0011
+SETBIT views:yesterday 2 1 //0111
+BITOP OR views:total    //Сюда будет записан результат
+    views:today         //1010
+    views:yesterday     //0111
+BITCOUNT views:total    //1111 (4 установленных бита)
+
+
+
+
+
+
+
+
+
+

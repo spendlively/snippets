@@ -1,0 +1,49 @@
+
+//Mapping
+ - привязка типов к полям объектов индекса
+ - ES определяет тип автоматически на основе первого insert'a
+
+
+//1. Вывести типы полей (Mapping)
+GET /mydb/_mapping
+— результат можно брать за основу для своего варианта
+
+
+//2. Создание индекса с конкретным mapping-ом
+PUT /mydb
+{
+    "mappings": {
+        "properties": {
+            "title": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "volume": {
+                "type": "float"
+            },
+            "stock": {
+                "properties": {
+                    "shop": {
+                        "type": "text",
+                        "fields": {
+                            "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                            }
+                        }
+                    },
+                    "stock": {
+                        "type": "long"
+                    }
+                }
+            }
+        }
+    }
+}
+
+//0:49:12

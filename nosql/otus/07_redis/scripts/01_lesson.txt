@@ -1,0 +1,404 @@
+Работа со строками
+------------------
+
+FLUSHDB
+
+SET user:1:name "Dmitry"
+GET user:1:name
+
+SET upload:counter 10
+INCR upload:counter
+
+SET cache:user:1 "json" EX 10
+TTL cache:user:1
+GET cache:user:1
+...
+TTL cache:user:1
+
+KEYS user*
+KEYS *
+
+
+
+
+// FLUSHDB
+$db = [];
+
+// SET user:1:name "Dmitry"
+$db['user:1:name'] = 'Dmitry';
+
+// SET upload:counter 10
+$db['upload:counter'] = 10;
+
+// INCR upload:counter
+$db['upload:counter']++;
+
+// DEL upload:counter
+unset($db['upload:counter']);
+
+
+
+
+//Проверка знаний
+---------------
+
+FLUSHDB
+
+SET user:1:name "Dmitry"
+GET user:1:name
+GET user:1
+SET user:1 "{name: Ivan}"
+GET user:1:name
+
+
+
+
+//Хэш-таблицы
+-----------
+
+FLUSHDB
+
+HSET user:1 name "Dmitry" age 41
+
+HGET user:1 name
+HGET user:1 age
+HSET user:1 name "Ivan"
+HINCRBY user:1 age 1
+
+HKEYS user:1
+HVALS user:1
+
+HDEL user:1 age
+HGETALL user:1
+
+
+
+
+
+// FLUSHDB
+$db = [];
+
+// HSET user:1 name "Dmitry"
+$db['user:1']['name'] = 'Dmitry';
+
+// HSET user:1 age 41
+$db['user:1']['age'] = 41;
+
+// HKEYS user:1
+print_r(array_keys($db['user:1']));
+
+// HVALS user:1
+print_r(array_values($db['user:1']));
+
+
+
+
+//Проверка знаний
+---------------
+
+FLUSHDB
+
+HSET user:1 name "Dmitry" age 41
+HSET user:2 name "Ivan" age 20
+HGET user:1 name
+GET user:1
+HSET user:3 name "Olga" vozrast 35
+
+
+
+
+//Проблема: хранение списков
+--------------------------
+
+Пробуем добавить несколько записей подряд
+
+---
+
+FLUSHDB
+
+HSET hash:test field_01 1
+HSET hash:test field_02 1
+HSET hash:test field_03 1
+HSET hash:test field_04 1
+HSET hash:test field_05 1
+
+HKEYS hash:test
+
+
+
+
+
+//Сравниваем с PHP
+
+---
+
+// FLUSHDB
+$db = [];
+
+// HSET hash:test field_01 1
+$db['hash:test']['field_01'] = 1;
+$db['hash:test']['field_02'] = 1;
+$db['hash:test']['field_03'] = 1;
+$db['hash:test']['field_04'] = 1;
+$db['hash:test']['field_05'] = 1;
+
+// HKEYS hash:test
+print_r(array_keys($db['hash:test']));
+
+
+
+
+//DEBUG OBJECT hash:test
+
+CONFIG GET hash-max-ziplist-entries
+CONFIG SET hash-max-ziplist-entries 10
+
+HSET hash:test field_06 1
+HSET hash:test field_07 1
+HSET hash:test field_08 1
+HSET hash:test field_09 1
+HSET hash:test field_10 1
+
+HKEYS hash:test
+
+HSET hash:test field_11 1
+
+DEBUG OBJECT hash:test
+
+
+
+
+//Работа со списками
+------------------
+
+FLUSHDB
+
+RPUSH user:1:posts post:10
+RPUSH user:1:posts post:11
+LPUSH user:1:posts post:12
+
+LRANGE user:1:posts 0 10
+
+RPOP user:1:posts
+LPOP user:1:posts
+
+
+
+
+
+Проверка знаний
+---------------
+
+FLUSHDB
+
+RPUSH user:1:posts post:1
+RPUSH user:1:posts post:2
+RPUSH user:1:posts post:2
+RPUSH user:all:posts user:1:posts
+RPOP user:all:posts
+RPOP user:all:posts
+
+
+
+
+
+Работа с множествами
+--------------------
+
+FLUSHDB
+
+SADD users:online user:1
+SADD users:online user:2
+SADD users:online user:12
+SADD users:online user:12
+
+SCARD users:online
+SMEMBERS users:online
+
+Проверка знаний
+---------------
+
+FLUSHDB
+
+SADD numbers 1
+SADD numbers "1"
+SCARD numbers
+
+
+
+
+
+
+
+Работа с упорядоченными множествами
+-----------------------------------
+
+FLUSHDB
+
+ZADD users:rating 10 Ivan
+ZADD users:rating 5  Egor
+ZADD users:rating 15 Ira
+ZADD users:rating 15 Ira
+
+ZCARD users:rating
+ZCOUNT users:rating 5 10
+ZRANGE users:rating 5 10 BYSCORE
+
+ZRANK users:rating Ira
+
+
+
+
+
+
+
+
+
+Битовые строки
+--------------
+
+SETBIT    views:2020 0 1
+SETBIT    views:2020 1 1
+SETBIT    views:2020 2 1
+SETBIT    views:2020 4 1
+BITCOUNT  views:2020
+
+SETBIT    views:2021 2 1
+BITCOUNT  views:2021
+
+
+
+
+
+
+
+
+
+BITOP OR  views:total  views:2020 views:2021
+BITCOUNT  views:total
+
+BITOP AND views:all_years  views:2020 views:2021
+BITCOUNT  views:all_years
+
+BITPOS    views:all_years 1
+
+
+
+
+
+
+
+DEL test
+SETBIT test 0 1
+STRLEN test
+
+
+
+
+
+
+Пайплайн – после
+----------------
+
+timer = new RedisTimer(jedis);
+timer.startTimeTracking();
+var pipeline = jedis.pipelined();
+for (int i = 0; i < 5_000; i++) {
+    pipeline.sadd("set:test", Integer.toString(i));
+}
+pipeline.sync();
+var time = timer.stopTimeTracking();
+System.out.println(time);
+
+
+
+Простая транзакция
+------------------
+
+FLUSHDB
+
+MULTI
+SET t1 "a"
+SET t2 10
+INCR t2
+EXEC
+
+GET t1
+GET t2
+
+
+
+
+
+
+
+
+Отмена транзакции
+-----------------
+
+FLUSHDB
+
+MULTI
+SET t1 "a"
+SET t2 10
+INCR t2
+DISCARD
+
+GET t1
+GET t2
+
+
+
+
+
+
+
+
+Транзакция с синтаксической ошибкой
+-----------------------------------
+
+FLUSHDB
+
+MULTI
+SET t1 "a"
+SETT t1
+SET t2 10
+EXEC
+
+GET t1
+GET t2
+
+
+
+
+
+
+Транзакция с логической ошибкой
+-------------------------------
+
+FLUSHDB
+
+MULTI
+SET t1 "a"
+INCR t1
+SET t2 100
+EXEC
+
+GET t1
+GET t2
+
+
+
+
+
+
+
+Watch
+-----
+
+WATCH w1
+
+SET t1 10
+MULTI
+SET t2 10
+EXEC

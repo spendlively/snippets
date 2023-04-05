@@ -1,0 +1,724 @@
+Основы ES
+---------
+
+Добавление документа в индекс
+
+POST https://localhost:9200/otus-shop/_doc
+{
+  "title": "Агдам",
+  "sku": "342-001",
+  "category": "Портвейн",
+  "price": 150,
+  "volume": 0.7,
+  "stock": [{ "shop": "Мира",   "stock": 30 },
+            { "shop": "Ленина", "stock": 0  }]
+}
+
+---
+
+Пересоздаём документы
+
+POST https://localhost:9200/otus-shop/_create/342-001
+{
+  "title": "Агдам",
+  "sku": "342-001",
+  "category": "Портвейн",
+  "price": 150,
+  "volume": 0.7,
+  "stock": [{ "shop": "Мира",   "stock": 30 },
+            { "shop": "Ленина", "stock": 0  }]
+}
+
+POST https://localhost:9200/otus-shop/_create/342-002
+{
+  "title": "Красное вино Шардонель",
+  "sku": "342-002",
+  "category": "Вино",
+  "price": 399,
+  "volume": 0.5,
+  "stock": [{ "shop": "Мира",   "stock": 10 },
+            { "shop": "Ленина", "stock": 5  }]
+}
+
+POST https://localhost:9200/otus-shop/_create/342-003
+{
+  "title": "Белое вино Маркизель",
+  "sku": "342-003",
+  "category": "Вино",
+  "price": 280,
+  "volume": 0.5,
+  "stock": [{ "shop": "Мира",   "stock": 0 },
+            { "shop": "Ленина", "stock": 0  }]
+}
+
+
+POST https://localhost:9200/otus-shop/_create/342-004
+{
+  "title": "Вино красное Шатобриель",
+  "sku": "342-004",
+  "category": "Вино",
+  "price": 1200,
+  "volume": 0.7,
+  "stock": [{ "shop": "Мира",   "stock": 0 },
+            { "shop": "Ленина", "stock": 1  }]
+}
+
+---
+
+Обновление документа
+
+POST https://localhost:9200/otus-shop/_update/342-004
+{
+  "doc": {
+    "price": 2500
+  }
+}
+
+---
+
+Массовое добавление документов
+
+curl \
+  --location \
+  --insecure \
+  --request POST 'https://localhost:9200/_bulk' \
+  --header 'Authorization: Basic ZWxhc3RpYzpuRGhnUnNzRG0xX1hORGRVT1AwVg==' \
+  --header 'Content-Type: application/json' \
+  --data-binary "@bulk.json"
+
+---
+
+Поиск по всем документам
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "query": {
+    "match_all": { }
+  }
+}
+
+---
+
+Полнотекстовый поиск
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "query": {
+    "match": {
+      "title": "красное вино"
+    }
+  }
+}
+
+---
+
+Поиск по терминам
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "query": {
+    "term": {
+      "category": "Портвейн"
+    }
+  }
+}
+
+Видим, что ничего не нашлось. Добавляем .keyword:
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "query": {
+    "term": {
+      "category.keyword": "Портвейн"
+    }
+  }
+}
+
+---
+
+Поиск по диапазону
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "query": {
+    "range": {
+      "price": {
+        "gte": 1200,
+        "lt": 1300
+      }
+    }
+  }
+}
+
+---
+
+Составные запросы
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "title": "красное"       } }
+      ],
+      "filter": [
+        { "range": { "price": { "gte": 9950 } } }
+      ]
+    }
+  }
+}
+
+---
+
+Добавляем should
+
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "title": "красное"       } }
+      ],
+      "filter": [
+        { "range": { "price": { "gte": 9950 } } }
+      ],
+      "should": [
+        { "range": { "volume": { "gt": 0.99 } } }
+      ]
+    }
+  }
+}
+
+---
+
+Агрегация данных
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "aggs": {
+    "min_volume": {
+      "min": { "field": "volume" }
+    },
+    "max_price": {
+      "max": { "field": "price"  }
+    }
+  }
+}
+
+---
+
+Выборка конкретных полей
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "_source": false,
+  "fields": [
+    "price"
+  ]
+}
+
+---
+
+Выборка только результатов вычислений
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "size": 0,
+  "aggs": {
+    "min_volume": {
+      "min": { "field": "volume" }
+    }
+  }
+}
+
+---
+
+Пересоздаём индекс
+
+PUT https://localhost:9200/otus-shop
+{
+    "mappings": {
+        "properties": {
+            "category": {
+                "type": "keyword"
+            },
+            "price": {
+                "type": "integer"
+            },
+            "sku": {
+                "type": "keyword"
+            },
+            "stock": {
+                "properties": {
+                    "shop": {
+                        "type": "keyword"
+                    },
+                    "stock": {
+                        "type": "short"
+                    }
+                }
+            },
+            "title": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "volume": {
+                "type": "float"
+            }
+        }
+    }
+}
+
+---
+
+Запускаем агрегированный запрос
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "size": 0,
+  "aggs": {
+    "min_volume": {
+      "min": { "field": "volume" }
+    }
+  }
+}
+
+---
+
+Делаем запрос для получения списка терминов
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "size": 0,
+  "aggs": {
+    "volumes": {
+      "terms" : { "field" : "volume", "size" : 10 }
+    }
+  }
+}
+
+---
+
+Пересоздаём индекс с нашим mapping
+
+PUT https://localhost:9200/otus-shop
+{
+    "mappings": {
+        "properties": {
+            "category": {
+                "type": "keyword"
+            },
+            "price": {
+                "type": "integer"
+            },
+            "sku": {
+                "type": "keyword"
+            },
+            "stock": {
+                "properties": {
+                    "shop": {
+                        "type": "keyword"
+                    },
+                    "stock": {
+                        "type": "short"
+                    }
+                }
+            },
+            "title": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "volume": {
+                "type": "float"
+            }
+        }
+    }
+}
+
+---
+
+Делаем запрос для получения списка терминов
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "size": 0,
+  "aggs": {
+    "volumes": {
+      "terms" : { "field" : "volume", "size" : 10 }
+    }
+  }
+}
+
+---
+
+Медленный поиск по диапазону
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "query": {
+    "range": {
+      "price": { "gte": 100, "lte": 200 }
+    }
+  }
+}
+
+---
+
+Профилируем запрос (добавляется "profile": true)
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "profile": true,
+  "query": {
+    "range": {
+      "price": { "gte": 100, "lte": 200 }
+    }
+  }
+}
+
+---
+
+Пробуем поиск по ключевому слову
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "profile": true,
+  "query": {
+    "term": { "category": "Вино" }
+  }
+}
+
+---
+
+Поиск по вложенным массивам
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        { "match": { "stock.shop":    "Мира"       } },
+        { "range": { "stock.stock": { "gte": 15 } } }
+      ]
+    }
+  }
+}
+
+---
+
+Пересоздаём индекс с нашим mapping
+(добавился только type: nested!)
+
+PUT https://localhost:9200/otus-shop
+{
+    "mappings": {
+        "properties": {
+            "category": {
+                "type": "keyword"
+            },
+            "price": {
+                "type": "integer"
+            },
+            "sku": {
+                "type": "keyword"
+            },
+            "stock": {
+                "type": "nested",
+                "properties": {
+                    "shop": {
+                        "type": "keyword"
+                    },
+                    "stock": {
+                        "type": "short"
+                    }
+                }
+            },
+            "title": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                    }
+                }
+            },
+            "volume": {
+                "type": "float"
+            }
+        }
+    }
+}
+
+---
+
+Поиск по вложенным массивам
+
+GET https://localhost:9200/otus-shop/_search
+{
+  "query": {
+    "nested": {
+      "path": "stock",
+      "query": {
+        "bool": {
+          "filter": [
+            { "match": { "stock.shop":    "Мира"     } },
+            { "range": { "stock.stock": { "gte": 15  } } }
+          ]
+        }
+      }
+    }
+  }
+}
+
+---
+
+Заполнение данными
+
+POST https://localhost:9200/otus-consulting/_doc
+{
+  "content": "Для создания ООО вам необходимо пройти процедуру государственной регистрации в регистрирующем органе ФНС по месту юридического адреса. На сегодняшний день все необходимые документы для открытия общества с ограниченной ответственностью можно подготовить через интернет, а при наличии электронной цифровой подписи и подать их в налоговую можно не выходя из дома."
+}
+
+POST https://localhost:9200/otus-consulting/_doc
+{
+  "content": "Если вы на этом портале в первый раз, но интересуетесь вопросами регистрации ООО и ИП, то ответы на любые вопросы по открытию ООО или ИП вы можете получить, воспользовавшись услугой бесплатной консультации по регистрации бизнеса:"
+}
+
+---
+
+Пробуем поиск
+
+GET https://localhost:9200/otus-consulting/_search
+{
+  "query": {
+    "match": {
+      "content": "ООО"
+    }
+  }
+}
+
+GET https://localhost:9200/otus-consulting/_search
+{
+  "query": {
+    "match": {
+      "content": "ИП"
+    }
+  }
+}
+
+---
+
+Пробуем поиск с морфологией
+
+GET https://localhost:9200/otus-consulting/_search
+{
+  "query": {
+    "match": {
+      "content": "консультация"
+    }
+  }
+}
+
+---
+
+Создание индекса с анализаторами
+
+PUT https://localhost:9200/otus-consulting
+{
+    "settings": {
+        "analysis": {
+            "filter": {
+                "ru_stop": {
+                    "type": "stop",
+                    "stopwords": "_russian_"
+                },
+                "ru_stemmer": {
+                    "type": "stemmer",
+                    "language": "russian"
+                }
+            },
+            "analyzer": {
+                "my_russian": {
+                    "tokenizer": "standard",
+                    "filter": [
+                        "lowercase",
+                        "ru_stop",
+                        "ru_stemmer"
+                    ]
+                }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "content": {
+                "type": "text",
+                "analyzer": "my_russian"
+            }
+        }
+    }
+}
+
+---
+
+Заполнение данными
+
+POST https://localhost:9200/otus-consulting/_doc
+{
+  "content": "Для создания ООО вам необходимо пройти процедуру государственной регистрации в регистрирующем органе ФНС по месту юридического адреса. На сегодняшний день все необходимые документы для открытия общества с ограниченной ответственностью можно подготовить через интернет, а при наличии электронной цифровой подписи и подать их в налоговую можно не выходя из дома."
+}
+
+POST https://localhost:9200/otus-consulting/_doc
+{
+  "content": "Если вы на этом портале в первый раз, но интересуетесь вопросами регистрации ООО и ИП, то ответы на любые вопросы по открытию ООО или ИП вы можете получить, воспользовавшись услугой бесплатной консультации по регистрации бизнеса:"
+}
+
+---
+
+Пробуем поиск с морфологией
+
+GET https://localhost:9200/otus-consulting/_search
+{
+  "query": {
+    "match": {
+      "content": "консультация"
+    }
+  }
+}
+
+---
+
+Ищем слово с опечаткой
+
+GET https://localhost:9200/otus-consulting/_search
+{
+  "query": {
+    "match": {
+      "content": "кансультация"
+    }
+  }
+}
+
+---
+
+Добавляем нечёткий поиск
+
+GET https://localhost:9200/otus-consulting/_search
+{
+  "query": {
+    "match": {
+      "content": {
+        "query": "кансультация",
+        "fuzziness": "auto"
+      }
+    }
+  }
+}
+
+---
+
+Ищем синоним
+
+GET https://localhost:9200/otus-consulting/_search
+{
+  "query": {
+    "match": {
+      "content": "индивидуальный предприниматель"
+    }
+  }
+}
+
+---
+
+Создание индекса с синонимами
+
+PUT https://localhost:9200/otus-consulting
+{
+    "settings": {
+        "analysis": {
+            "filter": {
+                "my_synonyms": {
+                    "type": "synonym",
+                    "synonyms": [
+                        "ИП, индивидуальный предприниматель, ПБОЮЛ"
+                    ]
+                },
+                "ru_stop": {
+                    "type": "stop",
+                    "stopwords": "_russian_"
+                },
+                "ru_stemmer": {
+                    "type": "stemmer",
+                    "language": "russian"
+                }
+            },
+            "analyzer": {
+                "my_russian": {
+                    "tokenizer": "standard",
+                    "filter": [
+                        "lowercase",
+                        "my_synonyms",
+                        "ru_stop",
+                        "ru_stemmer"
+                    ]
+                }
+            }
+        }
+    },
+    "mappings": {
+        "properties": {
+            "content": {
+                "type": "text",
+                "analyzer": "my_russian"
+            }
+        }
+    }
+}
+
+---
+
+Заполнение данными
+
+POST https://localhost:9200/otus-consulting/_doc
+{
+  "content": "Для создания ООО вам необходимо пройти процедуру государственной регистрации в регистрирующем органе ФНС по месту юридического адреса. На сегодняшний день все необходимые документы для открытия общества с ограниченной ответственностью можно подготовить через интернет, а при наличии электронной цифровой подписи и подать их в налоговую можно не выходя из дома."
+}
+
+POST https://localhost:9200/otus-consulting/_doc
+{
+  "content": "Если вы на этом портале в первый раз, но интересуетесь вопросами регистрации ООО и ИП, то ответы на любые вопросы по открытию ООО или ИП вы можете получить, воспользовавшись услугой бесплатной консультации по регистрации бизнеса:"
+}
+
+---
+
+Ищем синоним
+
+GET https://localhost:9200/otus-consulting/_search
+{
+  "query": {
+    "match": {
+      "content": "индивидуальный предприниматель"
+    }
+  }
+}

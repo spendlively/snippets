@@ -1,0 +1,5 @@
+
+docker pull redis
+docker run --name otus-redis -d redis
+docker exec -it otus-redis redis-cli
+
