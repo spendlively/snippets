@@ -1,0 +1,13 @@
+
+//Deleting file location (/tmp/3.jpeg)
+location ~ "/delete/([0-9a-zA-Z-.]*)$" {
+    dav_methods DELETE;
+    alias /tmp/$1;
+}
+
+//Query
+$.ajax({
+    type: 'DELETE',
+    url: '/delete/3.jpeg',
+    success: function (data) {}
+});

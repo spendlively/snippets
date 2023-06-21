@@ -7,7 +7,9 @@ https://golang.org/doc/manage-install#uninstalling
 sudo rm -r /usr/bin/go
 sudo rm -r /usr/local/go
 sudo rm -r /usr/lib/go-1.10/
-sudo rm -r /usr/lib/go /usr/share/go /usr/share/man/man1/go.1.gz
+sudo rm -r /usr/lib/go
+sudo rm -r /usr/share/go
+sudo rm -r /usr/share/man/man1/go.1.gz
 //also remove go paths from
 ~/.bashrc and ~/.profile
 //if you need to remove old dependencies
@@ -17,14 +19,13 @@ whereis go
 which go
 //reboot
 
-//Установка go 1.16
-https://golang.org/doc/install
-wget https://golang.org/dl/go1.16.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go1.16.linux-amd64.tar.gz
+//Установка go 1.15
+https://go.dev/doc/install
+wget https://go.dev/dl/go1.15.15.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.15.15.linux-amd64.tar.gz
 
 //Добавление пути к go в $PATH
 export PATH=$PATH:/usr/local/go/bin
-export PATH=$PATH:/home/spendlively/go/bin
 //добавить в конец файла ~/.profile
 nano ~/.profile
 source ~/.profile

@@ -1,0 +1,20 @@
+
+//Проблема
+Cloning into '/var/www/project_name/releases/69'...
+Host key verification failed.
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+
+//Решение
+ssh testing.project.url
+ssh-keygen -f "~/.ssh/known_hosts" -R "github.com"
+
+nano ~/.ssh/config
+# added into config
+Host github.com
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  LogLevel ERROR
+

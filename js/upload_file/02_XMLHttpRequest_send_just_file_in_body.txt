@@ -1,0 +1,19 @@
+
+//Upload file as image file (without multipart/form-data)
+$('#myFile').change(function (e) {
+
+    let file = $('#myFile')[0].files[0];
+    let xhr = new XMLHttpRequest();
+
+    xhr.onload = xhr.onerror = function () {
+        if (this.status === 200 || this.status === 201 || this.status === 204) {
+            console.log("success" + xhr.responseText);
+        } else {
+            console.log("error " + this.status);
+        }
+    };
+
+    xhr.open("PUT", "/upload.php", true);
+    xhr.send(file);
+
+});

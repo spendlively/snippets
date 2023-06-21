@@ -1,0 +1,44 @@
+
+////////////
+//Database//
+////////////
+//CREATE
+create database dbname
+    with owner = postgres
+    encoding = 'UTF8'
+    connection limit = -1;
+
+//READ
+//UPDATE
+//DELETE
+drop database dbname
+
+//////////
+//Tables//
+//////////
+//CREATE
+create table publisher
+(
+    publisher_id integer,
+    name varchar(128) not null,
+    address text not null,
+    constraint pk_publisher_id primary key(publisher_id)
+);
+
+//READ
+//UPDATE
+//DELETE
+
+
+///////////////
+//Foreign key//
+///////////////
+//CREATE
+alter table book add column fk_publisher_id;
+alter table book add constraint fk_book_publisher foreign key(fk_publisher_id)
+    references publisher(publisher_id);
+
+
+//READ
+//UPDATE
+//DELETE

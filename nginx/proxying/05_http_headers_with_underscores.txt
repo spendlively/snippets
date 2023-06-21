@@ -1,0 +1,4 @@
+
+underscores_in_headers on;
+//or
+ignore_invalid_headers off;

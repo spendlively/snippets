@@ -1,1 +1,10 @@
 
+//Get info
+ffmpeg -i audio.mp4 -i video.mp4
+//Input #0
+//Stream #0:1(rus): Audio: ac3
+/Input #1
+//Stream #1:0(eng): Video: hevc
+
+//Merge
+ffmpeg -i audio.mp4 -i video.mp4 -c copy -map 0:1 -map 1:0 -shortest output.mp4
